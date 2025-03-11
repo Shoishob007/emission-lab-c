@@ -83,7 +83,7 @@ export default function Calculator() {
           onClick={() => setActiveTab("home")}
         >
           <HomeIcon className="h-4 w-4 mr-2" />
-          Home
+          Household
         </button>
       </div>
 

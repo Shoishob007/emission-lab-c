@@ -12,19 +12,67 @@ const CalculatorLeft = ({setCalculated}) => {
     passengers: 1,
   });
 
-  const fromAirports = [
-    { id: 1, value: "JFK", label: "New York JFK (JFK)" },
-    { id: 2, value: "LAX", label: "Los Angeles (LAX)" },
-    { id: 3, value: "SFO", label: "San Francisco (SFO)" },
-    { id: 4, value: "ORD", label: "Chicago O'Hare (ORD)" },
-  ];
+  const dummyApiResponse = {
+    result: {
+      data: [
+        {
+          airport_name: "Hazrat Shahjalal International Airport",
+          iata_code: "DAC",
+        },
+        {
+          airport_name: "Dachuan Airport",
+          iata_code: "DAX",
+        },
+        {
+          airport_name: "Fundación Airport",
+          iata_code: "FDA",
+        },
+        {
+          airport_name: "Adirondack Regional Airport",
+          iata_code: "SLK",
+        },
+        {
+          airport_name: "Los Angeles International Airport",
+          iata_code: "LAX",
+        },
+        {
+          airport_name: "New York JFK Airport",
+          iata_code: "JFK",
+        },
+        {
+          airport_name: "San Francisco International Airport",
+          iata_code: "SFO",
+        },
+        {
+          airport_name: "Chicago O'Hare International Airport",
+          iata_code: "ORD",
+        },
+        {
+          airport_name: "Dubai International Airport",
+          iata_code: "DXB",
+        },
+        {
+          airport_name: "London Heathrow Airport",
+          iata_code: "LHR",
+        },
+        {
+          airport_name: "Tokyo Haneda Airport",
+          iata_code: "HND",
+        },
+      ],
+      status: 200,
+      success: true,
+    },
+    timestamp: "2025-03-04T08:42:44.613217",
+  };
 
-  const toAirports = [
-    { id: 5, value: "DXB", label: "Dubai International (DXB)" },
-    { id: 6, value: "LHR", label: "London Heathrow (LHR)" },
-    { id: 7, value: "CDG", label: "Paris Charles de Gaulle (CDG)" },
-    { id: 8, value: "HND", label: "Tokyo Haneda (HND)" },
-  ];
+  // Format data for ComboBox
+  const fromAirports = dummyApiResponse.result.data.map((airport) => ({
+    value: airport.iata_code,
+    label: `${airport.airport_name} (${airport.iata_code})`,
+  }));
+
+  const toAirports = fromAirports;
 
   const aircraftTypes = [
     { id: 9, value: "B777", label: "B777 - Long-haul" },
@@ -41,29 +89,29 @@ const CalculatorLeft = ({setCalculated}) => {
       <div className="grid md:grid-cols-2 gap-4">
         {/* Flying From Combo Box */}
         <ComboBox
-          options={fromAirports}
-          value={flightDetails.from}
-          label="Flying From"
-          placeholder="Select airport..."
-          searchPlaceholder="Search airport..."
-          emptyText="No airport found."
-          onSelect={(value) =>
-            setFlightDetails((prev) => ({ ...prev, from: value }))
-          }
-        />
+      options={fromAirports}
+      value={flightDetails.from}
+      label="Flying From"
+      placeholder="Select airport..."
+      searchPlaceholder="Search airport..."
+      emptyText="No airport found."
+      onSelect={(value) =>
+        setFlightDetails((prev) => ({ ...prev, from: value }))
+      }
+    />
 
         {/* Flying To Combo Box */}
         <ComboBox
-          options={toAirports}
-          value={flightDetails.to}
-          label="Flying To"
-          placeholder="Select airport..."
-          searchPlaceholder="Search airport..."
-          emptyText="No airport found."
-          onSelect={(value) =>
-            setFlightDetails((prev) => ({ ...prev, to: value }))
-          }
-        />
+      options={toAirports}
+      value={flightDetails.to}
+      label="Flying To"
+      placeholder="Select airport..."
+      searchPlaceholder="Search airport..."
+      emptyText="No airport found."
+      onSelect={(value) =>
+        setFlightDetails((prev) => ({ ...prev, to: value }))
+      }
+    />
       </div>
 
       {/* Trip Details */}
