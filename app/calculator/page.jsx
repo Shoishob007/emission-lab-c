@@ -1,27 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Plane,
-  Car,
-  HomeIcon,
-  Cloud,
-  Building,
-} from "lucide-react";
-import CalculatorLeft from "../../components/CalculatorLeft";
-import CalculatorRight from "../../components/CalculatorRight";
-
+import { Plane, Car, HomeIcon, Cloud, Building } from "lucide-react";
+import CalculatorLeft from "./components/CalculatorLeft";
+import CalculatorRight from "./components/CalculatorRight";
 
 export default function Calculator() {
   const [activeTab, setActiveTab] = useState("flight");
   const [calculated, setCalculated] = useState(false);
+  const [flightDetails, setFlightDetails] = useState({
+    from: "",
+    to: "",
+    tripType: "oneWay",
+    class: "economy",
+    aircraft: "",
+    passengers: 1,
+  });
 
   const renderCalculatorContent = () => {
     switch (activeTab) {
       case "flight":
         return (
           <>
-            <CalculatorLeft setCalculated={setCalculated}/>
+            <CalculatorLeft
+              setCalculated={setCalculated}
+              flightDetails={flightDetails}
+              setFlightDetails={setFlightDetails}
+            />
           </>
         );
 
@@ -100,7 +105,11 @@ export default function Calculator() {
         </div>
 
         {/* Right Panel */}
-        <CalculatorRight calculated={calculated} activeTab={activeTab} />
+        <CalculatorRight
+          calculated={calculated}
+          activeTab={activeTab}
+          flightDetails={flightDetails}
+        />
       </div>
 
       <p className="text-center text-sm text-muted-foreground mt-8">

@@ -4,6 +4,8 @@ import { Menu, X, Plane, Home, Briefcase, FileCode, BookOpen, Phone } from 'luci
 import Link from 'next/link';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { usePathname } from "next/navigation";
+
 
 const navItems = [
   { name: 'Home', href: '/', icon: Home },
@@ -16,6 +18,12 @@ const navItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  
+const isActive = (path) => {
+  return pathname === path;
+};
 
   return (
     <nav className="w-full bg-white border-b border-border">
@@ -35,12 +43,9 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={cn(
-                    'px-3 py-2 text-sm font-medium transition-colors',
-                    item.active
-                      ? 'text-primary border-b-2 border-primary'
-                      : 'text-muted-foreground hover:text-primary'
-                  )}
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${isActive(item.href) 
+                    ? 'font-semibold text-primary border-b-2 border-primary' 
+                    : 'text-muted-foreground hover:text-primary'}`}
                 >
                   {item.name}
                 </Link>
@@ -72,12 +77,11 @@ export default function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className={cn(
-                'block px-3 py-2 rounded-md text-base font-medium',
-                item.active
-                  ? 'text-primary bg-primary/10'
-                  : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-              )}
+              className={
+                `block px-3 py-2 rounded-md text-base font-medium
+                ${isActive(item.href) 
+                  ? 'font-semibold text-primary' 
+                  : 'text-muted-foreground hover:text-primary'}`}
             >
               <div className="flex items-center">
                 <item.icon className="h-5 w-5 mr-2" />

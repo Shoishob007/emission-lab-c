@@ -37,7 +37,7 @@ export const ComboBox = ({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full justify-between"
+            className="w-full justify-between overflow-hidden"
           >
             {value ? options.find((opt) => opt.value === value)?.label : placeholder}
             <ChevronsUpDown className="opacity-50" />
