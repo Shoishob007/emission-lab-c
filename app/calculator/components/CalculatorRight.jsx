@@ -1,4 +1,4 @@
-import { Cloud, MapPin, Globe, Phone, Link } from "lucide-react";
+import { Cloud, MapPin, Globe, Phone, Link, CircleHelp } from "lucide-react";
 import React, { useState } from "react";
 import {
   Popover,
@@ -14,53 +14,53 @@ import {
 } from "@/components/ui/tooltip";
 import EmissionDisplay from "./EmissionDisplay";
 
-const CalculatorRight = ({ calculated, activeTab, flightDetails }) => {
+const CalculatorRight = ({
+  calculated,
+  activeTab,
+  flightDetails,
+  emissionData,
+  showDashboard,
+  setShowDashboard,
+}) => {
   const [fromPopoverOpen, setFromPopoverOpen] = useState(false);
   const [toPopoverOpen, setToPopoverOpen] = useState(false);
   const [fromAirportDetails, setFromAirportDetails] = useState(null);
   const [toAirportDetails, setToAirportDetails] = useState(null);
 
-  // Dummy API response
-  const fetchAirportDetails = async (iataCode, setDetails) => {
-    const dummyResponse = {
-      result: {
-        city: iataCode === "JFK" ? "New York" : "Dubai",
-        country: iataCode === "JFK" ? "United States" : "United Arab Emirates",
-        country_iso: iataCode === "JFK" ? "US" : "AE",
-        county: iataCode === "JFK" ? "New York County" : "Dubai Emirate",
-        iata: iataCode,
-        icao: iataCode === "JFK" ? "KJFK" : "OMDB",
-        id: iataCode === "JFK" ? 1 : 2,
-        latitude: iataCode === "JFK" ? 40.6413 : 25.2532,
-        location: iataCode === "JFK" ? "New York, USA" : "Dubai, UAE",
-        longitude: iataCode === "JFK" ? -73.7781 : 55.3657,
-        name:
-          iataCode === "JFK"
-            ? "John F. Kennedy International Airport"
-            : "Dubai International Airport",
-        phone: iataCode === "JFK" ? "+1 718-244-4444" : "+971 4 216 2525",
-        postal_code: iataCode === "JFK" ? "11430" : "Dubai",
-        state: iataCode === "JFK" ? "New York" : "Dubai",
-        street: "",
-        street_number: "",
-        uct: iataCode === "JFK" ? -5 : 4,
-        website:
-          iataCode === "JFK"
-            ? "https://www.jfkairport.com"
-            : "https://www.dubaiairports.ae",
-      },
-      timestamp: "2025-03-04T08:42:48.376677",
-    };
+  const fetchAirportDetails = async (iataCode) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/airAPI/airport-details`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ code: iataCode }),
+        }
+      );
 
-    setDetails(dummyResponse.result);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.result;
+    } catch (error) {
+      console.error("Error fetching airport details:", error);
+      return null;
+    }
   };
 
-  const totalEmission = 0.95;
+  const handlePopoverOpen = async (iataCode, setDetails) => {
+    const details = await fetchAirportDetails(iataCode);
+    setDetails(details);
+  };
 
+  const totalEmission = emissionData?.result?.data?.emissions.co2e_mt || 0;
   const oneWayEmission =
-    flightDetails.tripType === "oneWay" ? totalEmission : totalEmission / 2;
-
-  const emissionPerPerson = totalEmission / flightDetails.passengers;
+  emissionData?.result?.data?.round_trip === "Y" ? totalEmission / 2 : totalEmission;
+  const emissionPerPerson = totalEmission / emissionData?.result?.data?.number_of_passengers;
 
   return (
     <>
@@ -80,13 +80,11 @@ const CalculatorRight = ({ calculated, activeTab, flightDetails }) => {
           </div>
         ) : (
           <div className="space-y-4">
-            {/* Cloud Animation */}
             <EmissionDisplay totalEmission={totalEmission} />
 
-
             {/* Flight Details */}
-            <div className="flex flex-col space-y-4 !mt-0 sm:space-y-0 sm:space-x-4 justify-center items-center">
-              <div className="flex flex-col sm:flex-row sm:space-x-4">
+            <div className="flex flex-col space-y-4 !mt-0 sm:space-y-0 sm:space-x-4 justify-center sm:items-center">
+              <div className="flex flex-col gap-2 sm:items-center">
                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
                   <p>From:</p>
                   <Popover
@@ -96,12 +94,15 @@ const CalculatorRight = ({ calculated, activeTab, flightDetails }) => {
                     <PopoverTrigger asChild>
                       <Button
                         variant="link"
-                        className="p-0 text-sm text-muted-foreground hover:text-primary"
+                        className="p-0 h-2 text-sm text-muted-foreground hover:text-primary"
                         onClick={() =>
-                          fetchAirportDetails("JFK", setFromAirportDetails)
+                          handlePopoverOpen(
+                            emissionData?.result?.data?.iata_airport_from,
+                            setFromAirportDetails
+                          )
                         }
                       >
-                        New York JFK (JFK)
+                        {emissionData?.result?.data?.airport_from}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80 p-4">
@@ -140,7 +141,7 @@ const CalculatorRight = ({ calculated, activeTab, flightDetails }) => {
                           <div className="flex items-center space-x-2">
                             <Link className="h-5 w-5 text-primary" />
                             <a
-                              href={fromAirportDetails.website}
+                              href={fromAirportDetails?.website || "#"}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-sm text-primary hover:underline"
@@ -159,12 +160,15 @@ const CalculatorRight = ({ calculated, activeTab, flightDetails }) => {
                     <PopoverTrigger asChild>
                       <Button
                         variant="link"
-                        className="p-0 text-sm text-muted-foreground hover:text-primary"
+                        className="p-0 h-2 text-sm text-muted-foreground hover:text-primary"
                         onClick={() =>
-                          fetchAirportDetails("DXB", setToAirportDetails)
+                          handlePopoverOpen(
+                            emissionData?.result?.data?.iata_airport_to,
+                            setToAirportDetails
+                          )
                         }
                       >
-                        Dubai International (DXB)
+                        {emissionData?.result?.data?.airport_to}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80 p-4">
@@ -215,12 +219,13 @@ const CalculatorRight = ({ calculated, activeTab, flightDetails }) => {
                   </Popover>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row sm:space-x-4 !ml-0 space-y-4 sm:space-y-0">
+              <div className="flex flex-col sm:flex-row sm:space-x-4 !mt-2 !ml-0 space-y-4 sm:space-y-0">
                 <p className="text-sm text-muted-foreground">
-                  Distance Traveled: 8439 km
+                  Distance Traveled:{" "}
+                  {emissionData?.result?.data?.distance_km || 0} km
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Flight Class: Economy Class
+                  Flight Class: {flightDetails.class}
                 </p>
               </div>
             </div>
@@ -229,15 +234,15 @@ const CalculatorRight = ({ calculated, activeTab, flightDetails }) => {
             <div className="space-y-3 !mt-6 sm:mt-0">
               {/* Trip Emission */}
               <div className="flex justify-between items-center px-2 py-2 bg-muted/30 rounded-md">
-                <span className="text-sm font-medium">
+                <span className="text-xs sm:text-sm font-medium">
                   Total Emission (Trip-wise)
                 </span>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <span className="font-semibold text-sm cursor-pointer">
+                      <span className="font-semibold text-xs sm:text-sm cursor-pointer">
                         {oneWayEmission.toFixed(3)} MT ×{" "}
-                        {flightDetails.tripType === "oneWay" ? 1 : 2} ={" "}
+                        {emissionData?.result?.data?.round_trip === "Y" ? 2 : 1} ={" "}
                         {totalEmission.toFixed(3)} MT
                       </span>
                     </TooltipTrigger>
@@ -252,15 +257,15 @@ const CalculatorRight = ({ calculated, activeTab, flightDetails }) => {
 
               {/* Passenger Emission */}
               <div className="flex justify-between items-center px-2 py-2 bg-muted/30 rounded-md">
-                <span className="text-sm font-medium">
+                <span className="text-xs sm:text-sm font-medium">
                   Total Emission (Passenger-wise)
                 </span>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <span className="font-semibold text-sm cursor-pointer">
+                      <span className="font-semibold text-xs sm:text-sm cursor-pointer">
                         {emissionPerPerson.toFixed(3)} MT ×{" "}
-                        {flightDetails.passengers} = {totalEmission.toFixed(3)}{" "}
+                        { emissionData?.result?.data?.number_of_passengers} = {totalEmission.toFixed(3)}{" "}
                         MT
                       </span>
                     </TooltipTrigger>
@@ -277,19 +282,21 @@ const CalculatorRight = ({ calculated, activeTab, flightDetails }) => {
             {/* Call to Action */}
             <div className="pt-4 border-t border-border">
               <div className="flex justify-between items-center px-2 py-2 bg-muted/30 rounded-md">
-                <span className="text-sm font-medium">
+                <span className="text-xs sm:text-sm font-medium">
                   Total Emission (Net)
                 </span>
-                <span className="font-semibold text-sm cursor-pointer">
-                  {oneWayEmission.toFixed(3)} MT
+                <span className="font-semibold text-xs sm:text-sm cursor-pointer">
+                  {totalEmission.toFixed(3)} MT
                 </span>
-
               </div>
-              <p className="text-center text-sm text-muted-foreground mt-4 ">
-                Take action for a greener future
-                <br />
-                click here to have more on carbon emission optimization
-              </p>
+
+              <button
+                onClick={() => setShowDashboard((prev) => !prev)}
+                className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6"
+              >
+                <CircleHelp className="h-4 w-4 mr-2" />
+                {showDashboard ? "Hide Details" : "View Details"}
+              </button>
             </div>
           </div>
         )}
