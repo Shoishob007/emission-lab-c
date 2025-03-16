@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useCallback } from "react";
 import { debounce } from "lodash";
 import { ComboBox } from "../../../components/ui/calculator-combobox";
@@ -254,7 +255,7 @@ const CalculatorLeft = ({
               setFlightDetails((prev) => ({ ...prev, aircraft: value }))
             }
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full focus:ring-0 focus:ring-offset-0">
               <SelectValue placeholder="Select aircraft..." />
             </SelectTrigger>
             <SelectContent>
@@ -274,20 +275,9 @@ const CalculatorLeft = ({
           </label>
           <div className="flex items-center w-full rounded-md border border-input h-10 bg-background px-4 py-2 text-sm">
             <Users className="h-4 w-4 mr-4" />
-            {/* <button
-              className="rounded-full bg-muted hover:bg-muted/50"
-              onClick={() =>
-                setFlightDetails((prev) => ({
-                  ...prev,
-                  passengers: Math.max(1, prev.passengers - 1),
-                }))
-              }
-            >
-              -
-            </button> */}
             <input
               type="number"
-              className="mx-4 w-12 text-center bg-muted"
+              className="mx-4 w-12 text-center bg-transparent"
               value={flightDetails.passengers}
               onChange={(e) =>
                 setFlightDetails((prev) => ({
@@ -296,17 +286,6 @@ const CalculatorLeft = ({
                 }))
               }
             />
-            {/* <button
-              className="rounded-full bg-muted hover:bg-muted/50"
-              onClick={() =>
-                setFlightDetails((prev) => ({
-                  ...prev,
-                  passengers: prev.passengers + 1,
-                }))
-              }
-            >
-              +
-            </button> */}
           </div>
         </div>
       </div>
