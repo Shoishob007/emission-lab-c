@@ -17,7 +17,6 @@ import EmissionDisplay from "./EmissionDisplay";
 const CalculatorRight = ({
   calculated,
   activeTab,
-  flightDetails,
   emissionData,
   showDashboard,
   setShowDashboard,
@@ -26,6 +25,8 @@ const CalculatorRight = ({
   const [toPopoverOpen, setToPopoverOpen] = useState(false);
   const [fromAirportDetails, setFromAirportDetails] = useState(null);
   const [toAirportDetails, setToAirportDetails] = useState(null);
+
+  console.log("emissionData :: ", emissionData)
 
   const fetchAirportDetails = async (iataCode) => {
     try {
@@ -225,7 +226,7 @@ const CalculatorRight = ({
                   {emissionData?.result?.data?.distance_km || 0} km
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Flight Class: {flightDetails.class}
+                  Flight Class: {emissionData?.result?.data?.flight_class}
                 </p>
               </div>
             </div>
@@ -243,7 +244,7 @@ const CalculatorRight = ({
                       <span className="font-semibold text-xs sm:text-sm cursor-pointer">
                         {oneWayEmission.toFixed(3)} MT ×{" "}
                         {emissionData?.result?.data?.round_trip === "Y" ? 2 : 1} ={" "}
-                        {totalEmission.toFixed(3)} MT
+                        {totalEmission.toFixed(2)} MT
                       </span>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -265,7 +266,7 @@ const CalculatorRight = ({
                     <TooltipTrigger>
                       <span className="font-semibold text-xs sm:text-sm cursor-pointer">
                         {emissionPerPerson.toFixed(3)} MT ×{" "}
-                        { emissionData?.result?.data?.number_of_passengers} = {totalEmission.toFixed(3)}{" "}
+                        { emissionData?.result?.data?.number_of_passengers} = {totalEmission.toFixed(2)}{" "}
                         MT
                       </span>
                     </TooltipTrigger>
@@ -286,7 +287,7 @@ const CalculatorRight = ({
                   Total Emission (Net)
                 </span>
                 <span className="font-semibold text-xs sm:text-sm cursor-pointer">
-                  {totalEmission.toFixed(3)} MT
+                  {totalEmission.toFixed(2)} MT
                 </span>
               </div>
 

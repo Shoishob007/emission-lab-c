@@ -11,18 +11,21 @@ import {
   Sparkles,
   Lightbulb,
   Globe,
+  Droplet,
+  DoorClosed,
 } from "lucide-react";
 
-const CarbonImpactDashboard = ({ emissionData }) => {
-  // Sample data - would be replaced with actual calculation results
+const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
+  const totalEmissions = emissionData?.result?.data?.emissions.co2e_mt || "N/A";
+
   const carbonData = {
-    totalEmissions: 95,
-    treesRequired: 4750,
-    homeEquivalent: 11,
-    carEquivalent: 21,
-    airQualityImprovement: 15,
-    waterSaved: 760000,
-    speciesProtected: 35,
+    totalEmissions: totalEmissions,
+    treesRequired: Math.round(totalEmissions * 50),
+    homeEquivalent: Math.round(totalEmissions / 8.6),
+    carEquivalent: Math.round(totalEmissions / 4.6),
+    airQualityImprovement: Math.round(totalEmissions * 0.16),
+    waterSaved: Math.round(totalEmissions * 8000),
+    speciesProtected: Math.round(totalEmissions * 0.37),
   };
 
   return (
@@ -44,12 +47,12 @@ const CarbonImpactDashboard = ({ emissionData }) => {
         </div>
 
         {/* Main Impact Card */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8 transition-all hover:shadow-xl group">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8 sm:mb-16 transition-all hover:shadow-xl group">
           <div className="flex flex-col md:flex-row">
             <div className="bg-[url('/flight_emission_card_2.jpg')] bg-cover bg-center text-white rounded-l-xl shadow-lg overflow-hidden p-8 md:w-1/2 flex flex-col justify-center items-center relative">
               <div className="backdrop-blur-sm bg-black/30 p-6 rounded-xl">
                 <h2 className="text-5xl font-bold mb-2 animate-bounce">
-                  {carbonData.totalEmissions}
+                  {carbonData.totalEmissions.toFixed(2)}
                 </h2>
                 <p className="text-2xl font-light">
                   Metric Tons CO<sub>2</sub>
@@ -66,7 +69,7 @@ const CarbonImpactDashboard = ({ emissionData }) => {
             <div className="p-8 md:w-1/2">
               <h3 className="text-xl font-semibold mb-3 text-gray-700 flex items-center">
                 <Globe className="w-6 h-6 mr-2 text-primary" />
-                Understanding Your Carbon Impact
+                Understanding Your Carbon Footprint Offset
               </h3>
               <p className="text-gray-600 mb-4">
                 Carbon offsetting means balancing your emissions by funding
@@ -83,12 +86,14 @@ const CarbonImpactDashboard = ({ emissionData }) => {
                   <div>
                     <p className="text-sm text-gray-500">Equivalent to</p>
                     <p className="font-semibold">
-                      Preventing {carbonData.carEquivalent} cars from emitting
+                      Preventing {carbonData.carEquivalent} car(s) from emitting
                       CO₂ for a year
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
                       That&apos;s like taking{" "}
-                      <span className="font-bold">21 cars off the road</span>{" "}
+                      <span className="font-bold">
+                        {carbonData.carEquivalent} car(s) off the road
+                      </span>{" "}
                       for a year!
                     </p>
                   </div>
@@ -102,12 +107,14 @@ const CarbonImpactDashboard = ({ emissionData }) => {
                       Saves as much CO₂ as
                     </p>
                     <p className="font-semibold">
-                      {carbonData.homeEquivalent} homes emit in a year
+                      {carbonData.homeEquivalent} home(s) emit in a year
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
                       Enough to power{" "}
-                      <span className="font-bold">11 homes</span> with clean
-                      energy!
+                      <span className="font-bold">
+                        {carbonData.homeEquivalent} home(s)
+                      </span>{" "}
+                      with clean energy!
                     </p>
                   </div>
                 </div>
@@ -129,9 +136,9 @@ const CarbonImpactDashboard = ({ emissionData }) => {
           </span>
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 sm:mb-16">
           {/* Trees Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform hover:-translate-y-1 cursor-pointer">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform ">
             <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden">
               <div className="absolute inset-0 opacity-20">
                 {[...Array(12)].map((_, i) => (
@@ -166,19 +173,11 @@ const CarbonImpactDashboard = ({ emissionData }) => {
                 to restore ecosystems and biodiversity while creating natural
                 carbon sinks.
               </p>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <Check className="w-4 h-4 text-primary mr-1" />
-                  <span className="text-xs text-gray-600">
-                    22kg CO₂/year per tree
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
 
           {/* Air Quality Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform hover:-translate-y-1 cursor-pointer">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform ">
             <div className="h-20 bg-gradient-to-r from-blue-400 to-blue-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(8)].map((_, i) => (
@@ -216,7 +215,7 @@ const CarbonImpactDashboard = ({ emissionData }) => {
           </div>
 
           {/* Wildlife Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform hover:-translate-y-1 cursor-pointer">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform ">
             <div className="h-20 bg-gradient-to-r from-amber-400 to-amber-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(12)].map((_, i) => (
@@ -255,6 +254,44 @@ const CarbonImpactDashboard = ({ emissionData }) => {
               </p>
             </div>
           </div>
+
+          {/* Water Saved Card */}
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform ">
+            <div className="h-20 bg-gradient-to-r from-cyan-400 to-cyan-600 relative overflow-hidden">
+              <div className="absolute inset-0 flex justify-center items-center opacity-20">
+                {[...Array(12)].map((_, i) => (
+                  <Droplet
+                    key={i}
+                    className="absolute"
+                    style={{
+                      top: `${Math.random() * 100}%`,
+                      left: `${Math.random() * 100}%`,
+                      transform: `scale(${0.5 + Math.random() * 0.5})`,
+                      opacity: 0.3 + Math.random() * 0.7,
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="h-20 bg-gradient-to-r from-cyan-400 to-cyan-600 relative overflow-hidden flex justify-center items-center">
+                <h3 className="font-semibold text-white flex items-center">
+                  <Droplet className="h-5 w-5 mr-2" />
+                  Water Saved
+                </h3>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="flex items-baseline mb-2">
+                <span className="text-4xl font-bold text-gray-800">
+                  {carbonData.waterSaved.toLocaleString()}
+                </span>
+                <span className="ml-2 text-gray-600">liters</span>
+              </div>
+              <p className="text-sm text-gray-600 mb-4">
+                Carbon offset projects help save water by promoting sustainable
+                practices and reducing water-intensive activities.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Call to Action */}
@@ -274,6 +311,13 @@ const CarbonImpactDashboard = ({ emissionData }) => {
               <button className="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center">
                 <ArrowUp className="h-5 w-5 mr-2" />
                 Offset Now
+              </button>
+              <button
+                onClick={() => setShowDashboard((prev) => !prev)}
+                className="bg-black/30 text-white px-6 py-3 border border-gray-100 rounded-lg font-semibold hover:bg-black/50 transition-colors flex items-center justify-center"
+              >
+                <DoorClosed className="h-5 w-5 mr-2" />
+                Not Interested
               </button>
             </div>
           </div>
