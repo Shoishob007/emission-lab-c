@@ -1,26 +1,25 @@
 import React from "react";
 import {
-  Check,
   Zap,
   Home,
   TreePine,
   Cloud,
   Leaf,
   ArrowUp,
-  Info,
   Sparkles,
-  Lightbulb,
   Globe,
   Droplet,
   DoorClosed,
+  Car,
+  Clock,
 } from "lucide-react";
 
 const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
-  const totalEmissions = emissionData?.result?.data?.emissions.co2e_mt || "N/A";
+  const totalEmissions = emissionData?.result?.data?.emissions.co2e_mt|| emissionData?.result?.data?.co2e_mt || "N/A";
 
   const carbonData = {
     totalEmissions: totalEmissions,
-    treesRequired: Math.round(totalEmissions * 50),
+    treesRequired: Math.round(totalEmissions * 20),
     homeEquivalent: Math.round(totalEmissions / 8.6),
     carEquivalent: Math.round(totalEmissions / 4.6),
     airQualityImprovement: Math.round(totalEmissions * 0.16),
@@ -51,8 +50,8 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
           <div className="flex flex-col md:flex-row">
             <div className="bg-[url('/flight_emission_card_2.jpg')] bg-cover bg-center text-white rounded-l-xl shadow-lg overflow-hidden p-8 md:w-1/2 flex flex-col justify-center items-center relative">
               <div className="backdrop-blur-sm bg-black/30 p-6 rounded-xl">
-                <h2 className="text-5xl font-bold mb-2 animate-bounce">
-                  {carbonData.totalEmissions.toFixed(2)}
+                <h2 className="text-5xl font-bold mb-2 animate-bounce text-center">
+                  {carbonData?.totalEmissions?.toFixed(2)}
                 </h2>
                 <p className="text-2xl font-light">
                   Metric Tons CO<sub>2</sub>
@@ -63,7 +62,6 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                   </p>
                 </div>
               </div>
-              <Lightbulb className="absolute bottom-4 right-4 text-yellow-300 w-8 h-8 opacity-80 group-hover:opacity-100 transition-opacity" />
             </div>
 
             <div className="p-8 md:w-1/2">
@@ -79,9 +77,10 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                 agriculture.
               </p>
               <div className="space-y-4">
-                <div className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-green-50 transition-colors cursor-pointer">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 shrink-0">
-                    <Zap className="h-6 w-6 text-primary" />
+                <div className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-primary/10 transition-colors cursor-pointer">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4 shrink-0">
+                    {/* <Zap className="h-6 w-6 text-primary" /> */}
+                    <Car className="h-6 w-6 text-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Equivalent to</p>
@@ -98,9 +97,9 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4 shrink-0">
-                    <Home className="h-6 w-6 text-blue-600" />
+                <div className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-primary/10 transition-colors cursor-pointer">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4 shrink-0">
+                    <Home className="h-6 w-6 text-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">
@@ -316,8 +315,8 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                 onClick={() => setShowDashboard((prev) => !prev)}
                 className="bg-black/30 text-white px-6 py-3 border border-gray-100 rounded-lg font-semibold hover:bg-black/50 transition-colors flex items-center justify-center"
               >
-                <DoorClosed className="h-5 w-5 mr-2" />
-                Not Interested
+                <Clock className="h-5 w-5 mr-2" />
+                Remind Later
               </button>
             </div>
           </div>

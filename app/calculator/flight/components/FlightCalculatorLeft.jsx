@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useCallback } from "react";
 import { debounce } from "lodash";
-import { ComboBox } from "../../../components/ui/calculator-combobox";
+import { ComboBox } from "../../../../components/ui/calculator-combobox";
 import { Calculator, Users } from "lucide-react";
 import qs from "qs";
 import {
@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const CalculatorLeft = ({
+const FlightCalculatorLeft = ({
   setCalculated,
   flightDetails,
   setFlightDetails,
@@ -35,9 +35,10 @@ const CalculatorLeft = ({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      const formattedData = data.result.data.map((airport) => ({
-        value: airport.iata_code,
-        label: `${airport.airport_name} (${airport.iata_code})`,
+      console.log("Data :: ", data)
+      const formattedData = data.result.map((airport) => ({
+        value: airport.iataCode,
+        label: `${airport.locationName} (${airport.iataCode})`,
       }));
       if (fieldType === "from") {
         setFromAirports(formattedData);
@@ -51,6 +52,48 @@ const CalculatorLeft = ({
       setLoading((prev) => ({ ...prev, [fieldType]: false }));
     }
   };
+
+  // Dummy data for airports
+  // const dummyAirportData = {
+  //   result: {
+  //     data: [
+  //       { airport_name: "Hazrat Shahjalal International Airport", iata_code: "DAC" },
+  //       { airport_name: "Dachuan Airport", iata_code: "DAX" },
+  //       { airport_name: "Fundación Airport", iata_code: "FDA" },
+  //       { airport_name: "Adirondack Regional Airport", iata_code: "SLK" },
+  //     ],
+  //     status: 200,
+  //     success: true,
+  //   },
+  //   timestamp: "2025-03-04T08:42:44.613217",
+  // };
+
+  // const fetchAirports = async (keyword = "", fieldType = "from") => {
+  //   setLoading((prev) => ({ ...prev, [fieldType]: true }));
+  //   setError((prev) => ({ ...prev, [fieldType]: null }));
+
+  //   setTimeout(() => {
+  //     try {
+  //       const data = dummyAirportData;
+  //       const formattedData = data.result.data.map((airport) => ({
+  //         value: airport.iata_code,
+  //         label: `${airport.airport_name} (${airport.iata_code})`,
+  //       }));
+
+  //       if (fieldType === "from") {
+  //         setFromAirports(formattedData);
+  //       } else {
+  //         setToAirports(formattedData);
+  //       }
+  //     } catch (error) {
+  //       setError((prev) => ({ ...prev, [fieldType]: error.message }));
+  //       console.log("error :: ", error);
+  //     } finally {
+  //       setLoading((prev) => ({ ...prev, [fieldType]: false }));
+  //     }
+  //   }, 300);
+  // };
+
 
   const debouncedFromAirports = useCallback(
     debounce((keyword) => {
@@ -77,7 +120,7 @@ const CalculatorLeft = ({
     { id: 16, value: "A220", label: "A220 - Airbus A220" },
     { id: 17, value: "CRJ9", label: "CRJ9 - Bombardier CRJ900" },
     { id: 18, value: "ERJ175", label: "ERJ175 - Embraer ERJ 175" },
-    { id: 19, value: "ATR72", label: "ATR72 - ATR 72" }
+    { id: 19, value: "ATR72", label: "ATR72 - ATR 72" },
   ];
 
   const handleCalculate = async () => {
@@ -94,7 +137,7 @@ const CalculatorLeft = ({
         aircraft_type: flightDetails.aircraft,
       };
 
-      console.log("requestData :: ",requestData)
+      console.log("requestData :: ", requestData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API}/airAPI/carbon-emission`,
@@ -116,15 +159,15 @@ const CalculatorLeft = ({
       setEmissionData(data);
       setCalculated(true);
 
-      // Reseting
-      setFlightDetails({
-        from: "",
-        to: "",
-        tripType: "oneWay",
-        class: "economy",
-        aircraft: "",
-        passengers: 1,
-      });
+      // // Reseting
+      // setFlightDetails({
+      //   from: "",
+      //   to: "",
+      //   tripType: "oneWay",
+      //   class: "economy",
+      //   aircraft: "",
+      //   passengers: 1,
+      // });
     } catch (error) {
       console.error("Error calculating emissions:", error);
       setError(error.message);
@@ -133,13 +176,79 @@ const CalculatorLeft = ({
     }
   };
 
+  // const handleCalculate = async () => {
+  //   try {
+  //     setLoading(true);
+
+  //     const requestData = {
+  //       user_id: "1adfdf",
+  //       iata_airport_from: flightDetails.from,
+  //       iata_airport_to: flightDetails.to,
+  //       number_of_passengers: flightDetails.passengers,
+  //       flight_class: mapFlightClass(flightDetails.class),
+  //       round_trip: flightDetails.tripType === "roundTrip" ? "Y" : "N",
+  //       aircraft_type: flightDetails.aircraft,
+  //     };
+
+  //     console.log("requestData :: ", requestData);
+
+  //     // Commented out the actual API call
+  //     // /*
+  //     // const response = await fetch(
+  //     //   `${process.env.NEXT_PUBLIC_API}/airAPI/carbon-emission`,
+  //     //   {
+  //     //     method: "POST",
+  //     //     headers: {
+  //     //       "Content-Type": "application/json",
+  //     //     },
+  //     //     body: JSON.stringify(requestData),
+  //     //   }
+  //     // );
+
+  //     // if (!response.ok) {
+  //     //   throw new Error(`HTTP error! status: ${response.status}`);
+  //     // }
+
+  //     // const data = await response.json();
+  //     // console.log("Data response :::: ", data);
+  //     // setEmissionData(data);
+  //     // setCalculated(true);
+  //     // */
+
+  //     // Use dummy emission data instead
+  //     const dummyEmissionData = {
+  //       result: {
+  //         data: {
+  //           emissions: {
+  //             co2e_mt: 52.345, // Example emission value in metric tons
+  //           },
+  //           distance_km: 8000, // Example distance in kilometers
+  //           flight_class: "Average", // Example flight class
+  //           round_trip: "Y", // Example trip type
+  //           number_of_passengers: flightDetails.passengers, // Passengers from state
+  //         },
+  //       },
+  //     };
+
+  //     setEmissionData(dummyEmissionData);
+  //     setCalculated(true);
+
+  //   } catch (error) {
+  //     console.error("Error calculating emissions:", error);
+  //     setError(error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+
   const mapFlightClass = (classType) => {
     switch (classType) {
       case "economy":
         return "economy";
       case "business":
         return "business";
-      case "firstClass":
+      case "first":
         return "first";
       default:
         return "economy";
@@ -148,7 +257,7 @@ const CalculatorLeft = ({
 
   return (
     <>
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {/* Flying From Combo Box */}
         <ComboBox
           options={fromAirports}
@@ -157,7 +266,11 @@ const CalculatorLeft = ({
           placeholder="Select airport..."
           searchPlaceholder="Search airport..."
           emptyText={
-            loading ? "Loading..." : error ? "Error loading airports" : "No airport found."
+            loading
+              ? "Loading..."
+              : error
+              ? "Error loading airports"
+              : "No airport found."
           }
           onSelect={(value) =>
             setFlightDetails((prev) => ({ ...prev, from: value }))
@@ -173,7 +286,11 @@ const CalculatorLeft = ({
           placeholder="Select airport..."
           searchPlaceholder="Search airport..."
           emptyText={
-            loading ? "Loading..." : error ? "Error loading airports" : "No airport found."
+            loading
+              ? "Loading..."
+              : error
+              ? "Error loading airports"
+              : "No airport found."
           }
           onSelect={(value) =>
             setFlightDetails((prev) => ({ ...prev, to: value }))
@@ -222,7 +339,7 @@ const CalculatorLeft = ({
           {[
             { id: "business", label: "Business" },
             { id: "economy", label: "Economy" },
-            { id: "firstClass", label: "First Class" },
+            { id: "first", label: "First Class" },
           ].map((classType) => (
             <label
               key={classType.id}
@@ -236,7 +353,9 @@ const CalculatorLeft = ({
                   setFlightDetails({ ...flightDetails, class: classType.id })
                 }
               />
-              <span className="ml-2 text-sm font-medium">{classType.label}</span>
+              <span className="ml-2 text-sm font-medium">
+                {classType.label}
+              </span>
             </label>
           ))}
         </div>
@@ -302,4 +421,4 @@ const CalculatorLeft = ({
   );
 };
 
-export default CalculatorLeft;
+export default FlightCalculatorLeft;
