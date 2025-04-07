@@ -88,8 +88,8 @@ const FlightCalculatorRight = ({
             <EmissionDisplay totalEmission={totalEmission} />
 
             {/* Flight Details */}
-            <div className="flex flex-col space-y-4 !mt-0 sm:space-y-0 sm:space-x-2 justify-center sm:items-center">
-              <div className="flex flex-col gap-2 sm:items-center">
+            <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-2 justify-center sm:items-center">
+              {/* <div className="flex flex-col gap-2 sm:items-center">
                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
                   <p className="font-semibold">From:</p>
                   <Popover
@@ -211,7 +211,7 @@ const FlightCalculatorRight = ({
                     </PopoverContent>
                   </Popover>
                 </div>
-              </div>
+              </div> */}
               <div className="flex flex-col sm:flex-row sm:space-x-4 !mt-2 !ml-0 space-y-4 sm:space-y-0">
                 <p className="text-sm text-muted-foreground">
                   <span className="font-semibold">Distance Traveled: </span>
@@ -227,14 +227,14 @@ const FlightCalculatorRight = ({
             {/* Emission Details */}
             <div className="!mt-6 sm:mt-0">
               {/* Trip Emission */}
-              <div className="flex justify-between items-center px-2 py-2 rounded-md">
+              {/* <div className="flex justify-between items-center px-2 py-2 rounded-md">
                 <span className="text-sm font-medium">
                   CO<sub>2</sub> emission in one-way flight
                 </span>
                 <span className="font-semibold text-sm">
                   {oneWayEmission.toFixed(3)} MT
                 </span>
-              </div>
+              </div> */}
 
               {/* Passenger Emission */}
               <div className="flex justify-between items-center px-2 py-2 rounded-md">

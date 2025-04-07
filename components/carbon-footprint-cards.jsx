@@ -41,9 +41,9 @@ const CarbonFootprintCard = ({ item, index }) => (
 
 export default function CarbonFootprintCards({ totalEmission }) {
   const carbonData = {
-    treesRequired: Math.round(totalEmission * 20),
-    homeEquivalent: Math.round(totalEmission / 8.6),
-    carEquivalent: Math.round(totalEmission / 4.6),
+    treesRequired: Math.ceil(totalEmission * 20),
+    homeEquivalent: Math.ceil(totalEmission / 8.6),
+    carEquivalent: Math.ceil(totalEmission / 4.6),
   };
 
   const carbonFootprintData = [

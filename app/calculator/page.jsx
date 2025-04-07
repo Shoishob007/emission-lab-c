@@ -1,11 +1,13 @@
 "use client";
 import React, { useRef } from "react";
 import { useEffect, useMemo, useState } from "react";
-import { Plane, Car, Ship, ShipIcon } from "lucide-react";
+import { Plane, Car, Ship, ShipIcon, Hotel, HotelIcon } from "lucide-react";
 import FlightCalculatorLeft from "./flight/components/FlightCalculatorLeft";
 import FlightCalculatorRight from "./flight/components/FlightCalculatorRight";
 import CarCalculatorLeft from "./car/components/TransportCalculatorLeft";
 import TransportCalculatorRight from "./car/components/TransportCalculatorRight";
+import HotelCalculatorLeft from "./hotel/components/HotelCalculatorLeft";
+import HotelCalculatorRight from "./hotel/components/HotelCalculatorRight";
 import CarbonImpactDashboard from "./components/CarbonEmissionDash";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableTabs } from "@/components/ui/expandable-tabs";
@@ -28,11 +30,13 @@ export default function Calculator() {
     distance: "",
     passengers: 1,
   });
-  const [shipDetails, setShipDetails] = useState({
-    shipType: "",
-    distance: "",
-    cargo: "",
-    passengers: 1,
+  const [hotelDetails, setHotelDetails] = useState({
+    country_code: "",
+    city_name: "",
+    hotel_rating: "",
+    number_of_nights: 1,
+    number_of_rooms: 1,
+
   });
   const [emissionData, setEmissionData] = useState(null);
   const [showDashboard, setShowDashboard] = useState(false);
@@ -41,7 +45,7 @@ export default function Calculator() {
     () => [
       { title: "Flight", icon: Plane, value: "flight" },
       { title: "Transport", icon: Car, value: "transport" },
-      { title: "Ship", icon: Ship, value: "ship" },
+      { title: "Hotel", icon: Hotel, value: "hotel" },
     ],
     []
   );
@@ -86,12 +90,14 @@ export default function Calculator() {
             setEmissionData={setEmissionData}
           />
         );
-      case "ship":
+      case "hotel":
         return (
-          <div className="h-[400px] flex flex-col items-center justify-center text-muted-foreground">
-            <ShipIcon className="h-16 w-16 mb-4" />
-            <p className="text-sm">Ship emissions calculator coming soon</p>
-          </div>
+          <HotelCalculatorLeft
+            setCalculated={setCalculated}
+            hotelDetails={hotelDetails}
+            setHotelDetails={setHotelDetails}
+            setEmissionData={setEmissionData}
+          />
         );
 
       default:
@@ -123,17 +129,17 @@ export default function Calculator() {
             scrollToDashboard={scrollToDashboard}
           />
         );
-      // case "ship":
-      //   return (
-      //     <ShipCalculatorRight
-      //       calculated={calculated}
-      //       activeTab={activeTab}
-      //       emissionData={emissionData}
-      //       showDashboard={showDashboard}
-      //       setShowDashboard={setShowDashboard}
-      //       scrollToDashboard={scrollToDashboard}
-      //     />
-      //   );
+      case "hotel":
+        return (
+          <HotelCalculatorRight
+            calculated={calculated}
+            activeTab={activeTab}
+            emissionData={emissionData}
+            showDashboard={showDashboard}
+            setShowDashboard={setShowDashboard}
+            scrollToDashboard={scrollToDashboard}
+          />
+        );
       default:
         return null;
     }
@@ -160,7 +166,7 @@ export default function Calculator() {
             <h2 className="text-xl font-semibold mb-6 text-center">
               {activeTab === "flight" && "Put Your Flight Details"}
               {activeTab === "transport" && "Put Your Journey Details"}
-              {activeTab === "ship" && "Put Your Ship Details"}
+              {activeTab === "hotel" && "Put Your Hotel Details"}
             </h2>
 
             <div className="space-y-6">{renderCalculatorContent()}</div>
