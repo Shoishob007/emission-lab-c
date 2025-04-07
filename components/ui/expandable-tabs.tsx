@@ -9,6 +9,7 @@ import { LucideIcon } from "lucide-react";
 interface Tab {
   title: string;
   icon: LucideIcon;
+  value: string;
   type?: never;
 }
 
@@ -16,15 +17,19 @@ interface Separator {
   type: "separator";
   title?: never;
   icon?: never;
+  value?: never;
 }
 
 type TabItem = Tab | Separator;
 
 interface ExpandableTabsProps {
   tabs: TabItem[];
+  activeTab?: string;
   className?: string;
   activeColor?: string;
   onChange?: (index: number | null) => void;
+  alwaysKeepActive?: boolean;
+  defaultActiveIndex?: number;
 }
 
 const buttonVariants = {
@@ -50,16 +55,34 @@ const transition = { delay: 0.1, type: "spring", bounce: 0, duration: 0.6 };
 
 export function ExpandableTabs({
   tabs,
+  activeTab,
   className,
   activeColor = "text-primary",
   onChange,
+  alwaysKeepActive = false,
+  defaultActiveIndex = 0,
 }: ExpandableTabsProps) {
-  const [selected, setSelected] = React.useState<number | null>(null);
+  const [selected, setSelected] = React.useState<number | null>(
+    alwaysKeepActive ? defaultActiveIndex : null
+  );
   const outsideClickRef = React.useRef(null);
 
+  React.useEffect(() => {
+    if (activeTab) {
+      const index = tabs.findIndex((tab) => "value" in tab && tab.value === activeTab);
+      setSelected(index >= 0 ? index : alwaysKeepActive ? defaultActiveIndex : null);
+    } else if (alwaysKeepActive) {
+      setSelected(defaultActiveIndex);
+    } else {
+      setSelected(null);
+    }
+  }, [activeTab, tabs, alwaysKeepActive, defaultActiveIndex]);
+
   useOnClickOutside(outsideClickRef, () => {
-    setSelected(null);
-    onChange?.(null);
+    if (!alwaysKeepActive) {
+      setSelected(null);
+      onChange?.(null);
+    }
   });
 
   const handleSelect = (index: number) => {
@@ -85,25 +108,27 @@ export function ExpandableTabs({
         }
 
         const Icon = tab.icon;
+        const isSelected = selected === index;
+
         return (
           <motion.button
             key={tab.title}
             variants={buttonVariants}
             initial={false}
             animate="animate"
-            custom={selected === index}
+            custom={isSelected}
             onClick={() => handleSelect(index)}
             transition={transition}
             className={cn(
               "relative flex items-center rounded-xl px-4 py-2 text-sm font-medium transition-colors duration-300",
-              selected === index
+              isSelected
                 ? cn("", activeColor)
                 : "text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
           >
             <Icon size={20} />
             <AnimatePresence initial={false}>
-              {selected === index && (
+              {isSelected && (
                 <motion.span
                   variants={spanVariants}
                   initial="initial"

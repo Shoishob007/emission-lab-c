@@ -14,7 +14,7 @@ const EmissionDisplay = ({ totalEmission }) => {
             <div className="flex items-center justify-center relative px-2 py-2">
               <Cloud className="h-6 w-6 text-primary mr-2" />
               <span className="text-lg font-bold text-primary ">
-                {totalEmission.toFixed(2)} MT
+                {totalEmission.toFixed(2)} Metric Ton(s)
               </span>
             </div>
           }
