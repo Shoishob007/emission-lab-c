@@ -22,6 +22,8 @@ const FlightCalculatorLeft = ({
   const [toAirports, setToAirports] = useState([]);
   const [loading, setLoading] = useState({ from: false, to: false });
   const [error, setError] = useState({ from: null, to: null });
+  const [calculating, setCalculating] = useState(false);
+
 
   const fetchAirports = async (keyword = "", fieldType = "from") => {
     setLoading((prev) => ({ ...prev, [fieldType]: true }));
@@ -35,7 +37,7 @@ const FlightCalculatorLeft = ({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Data :: ", data)
+      console.log("Data :: ", data);
       const formattedData = data.result.map((airport) => ({
         value: airport.iataCode,
         label: `${airport.locationName} (${airport.iataCode})`,
@@ -52,48 +54,6 @@ const FlightCalculatorLeft = ({
       setLoading((prev) => ({ ...prev, [fieldType]: false }));
     }
   };
-
-  // Dummy data for airports
-  // const dummyAirportData = {
-  //   result: {
-  //     data: [
-  //       { airport_name: "Hazrat Shahjalal International Airport", iata_code: "DAC" },
-  //       { airport_name: "Dachuan Airport", iata_code: "DAX" },
-  //       { airport_name: "Fundación Airport", iata_code: "FDA" },
-  //       { airport_name: "Adirondack Regional Airport", iata_code: "SLK" },
-  //     ],
-  //     status: 200,
-  //     success: true,
-  //   },
-  //   timestamp: "2025-03-04T08:42:44.613217",
-  // };
-
-  // const fetchAirports = async (keyword = "", fieldType = "from") => {
-  //   setLoading((prev) => ({ ...prev, [fieldType]: true }));
-  //   setError((prev) => ({ ...prev, [fieldType]: null }));
-
-  //   setTimeout(() => {
-  //     try {
-  //       const data = dummyAirportData;
-  //       const formattedData = data.result.data.map((airport) => ({
-  //         value: airport.iata_code,
-  //         label: `${airport.airport_name} (${airport.iata_code})`,
-  //       }));
-
-  //       if (fieldType === "from") {
-  //         setFromAirports(formattedData);
-  //       } else {
-  //         setToAirports(formattedData);
-  //       }
-  //     } catch (error) {
-  //       setError((prev) => ({ ...prev, [fieldType]: error.message }));
-  //       console.log("error :: ", error);
-  //     } finally {
-  //       setLoading((prev) => ({ ...prev, [fieldType]: false }));
-  //     }
-  //   }, 300);
-  // };
-
 
   const debouncedFromAirports = useCallback(
     debounce((keyword) => {
@@ -125,10 +85,9 @@ const FlightCalculatorLeft = ({
 
   const handleCalculate = async () => {
     try {
-      setLoading(true);
+      setCalculating(true);
 
       const requestData = {
-        user_id: "1adfdf",
         iata_airport_from: flightDetails.from,
         iata_airport_to: flightDetails.to,
         number_of_passengers: flightDetails.passengers,
@@ -158,100 +117,26 @@ const FlightCalculatorLeft = ({
       console.log("Data response :::: ", data);
       setEmissionData(data);
       setCalculated(true);
-
-      // // Reseting
-      // setFlightDetails({
-      //   from: "",
-      //   to: "",
-      //   tripType: "oneWay",
-      //   class: "economy",
-      //   aircraft: "",
-      //   passengers: 1,
-      // });
     } catch (error) {
       console.error("Error calculating emissions:", error);
       setError(error.message);
     } finally {
-      setLoading(false);
+      setCalculating(false);
     }
   };
-
-  // const handleCalculate = async () => {
-  //   try {
-  //     setLoading(true);
-
-  //     const requestData = {
-  //       user_id: "1adfdf",
-  //       iata_airport_from: flightDetails.from,
-  //       iata_airport_to: flightDetails.to,
-  //       number_of_passengers: flightDetails.passengers,
-  //       flight_class: mapFlightClass(flightDetails.class),
-  //       round_trip: flightDetails.tripType === "roundTrip" ? "Y" : "N",
-  //       aircraft_type: flightDetails.aircraft,
-  //     };
-
-  //     console.log("requestData :: ", requestData);
-
-  //     // Commented out the actual API call
-  //     // /*
-  //     // const response = await fetch(
-  //     //   `${process.env.NEXT_PUBLIC_API}/airAPI/carbon-emission`,
-  //     //   {
-  //     //     method: "POST",
-  //     //     headers: {
-  //     //       "Content-Type": "application/json",
-  //     //     },
-  //     //     body: JSON.stringify(requestData),
-  //     //   }
-  //     // );
-
-  //     // if (!response.ok) {
-  //     //   throw new Error(`HTTP error! status: ${response.status}`);
-  //     // }
-
-  //     // const data = await response.json();
-  //     // console.log("Data response :::: ", data);
-  //     // setEmissionData(data);
-  //     // setCalculated(true);
-  //     // */
-
-  //     // Use dummy emission data instead
-  //     const dummyEmissionData = {
-  //       result: {
-  //         data: {
-  //           emissions: {
-  //             co2e_mt: 52.345, // Example emission value in metric tons
-  //           },
-  //           distance_km: 8000, // Example distance in kilometers
-  //           flight_class: "Average", // Example flight class
-  //           round_trip: "Y", // Example trip type
-  //           number_of_passengers: flightDetails.passengers, // Passengers from state
-  //         },
-  //       },
-  //     };
-
-  //     setEmissionData(dummyEmissionData);
-  //     setCalculated(true);
-
-  //   } catch (error) {
-  //     console.error("Error calculating emissions:", error);
-  //     setError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
 
   const mapFlightClass = (classType) => {
     switch (classType) {
       case "economy":
-        return "economy";
+        return "Economy";
+      case "premium":
+        return "Premium";
       case "business":
-        return "business";
+        return "Business";
       case "first":
-        return "first";
+        return "First";
       default:
-        return "economy";
+        return "rapid_do_not_include_in_request_key";
     }
   };
 
@@ -337,8 +222,9 @@ const FlightCalculatorLeft = ({
         </label>
         <div className="flex flex-wrap gap-2 sm:gap-3">
           {[
-            { id: "business", label: "Business" },
             { id: "economy", label: "Economy" },
+            { id: "premium", label: "Premium" },
+            { id: "business", label: "Business" },
             { id: "first", label: "First Class" },
           ].map((classType) => (
             <label
@@ -350,7 +236,7 @@ const FlightCalculatorLeft = ({
                 className="form-radio h-4 w-4 text-secondary"
                 checked={flightDetails.class === classType.id}
                 onChange={() =>
-                  setFlightDetails({ ...flightDetails, class: classType.id })
+                  setFlightDetails((prev) => ({ ...prev, class: classType.id }))
                 }
               />
               <span className="ml-2 text-sm font-medium">
@@ -414,8 +300,36 @@ const FlightCalculatorLeft = ({
         onClick={handleCalculate}
         className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6"
       >
-        <Calculator className="h-4 w-4 mr-2" />
-        Calculate
+        {calculating ? (
+          <span className="flex items-center">
+            <svg
+              className="animate-spin -ml-1 mr-3 h-4 w-4 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            Calculating...
+          </span>
+        ) : (
+          <>
+            <Calculator className="h-4 w-4 mr-2" />
+            Calculate
+          </>
+        )}
       </button>
     </>
   );

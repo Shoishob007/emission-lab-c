@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Calculator, Car, Users, ChevronDown } from "lucide-react";
+import { Calculator, Car, Users } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -34,25 +34,26 @@ const TransportCalculatorLeft = ({
 
       console.log("Sending request data:", requestData);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/transportAPI/carbon-emission-by-vehicle-type`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/transportAPI/carbon-emission-by-vehicle-type`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`API request failed with status ${response.status}`);
       }
 
       const result = await response.json();
-      console.log("Result from the api call :::: ", result)
+      console.log("Result from the api call :::: ", result);
 
-      // Update the emission data state
       setEmissionData(result);
       setCalculated(true);
-
     } catch (error) {
       console.error("Error calculating emissions:", error);
       setError(error.message || "Failed to calculate emissions");
@@ -63,7 +64,7 @@ const TransportCalculatorLeft = ({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 min-w-[350px]">
+      <div className="grid grid-cols-1 gap-4 min-w-[400px]">
         {/* Car Type Dropdown */}
         <div>
           <label className="block text-sm font-medium mb-2 text-muted-foreground">
@@ -144,21 +145,23 @@ const TransportCalculatorLeft = ({
           <label className="block text-sm font-medium mb-2 text-muted-foreground">
             Distance
           </label>
-          <div className="flex justify-between items-center w-full rounded-md border border-input h-10 bg-background px-3 py-2 text-sm">
-            <Car className="h-4 w-4 text-muted-foreground" />
-            <input
-              type="number"
-              name="distance"
-              value={transportDetails.distance}
-              onChange={(e) =>
-                setTransportDetails((prev) => ({
-                  ...prev,
-                  distance: Math.max(0, Number(e.target.value)),
-                }))
-              }
-              placeholder="Enter distance"
-              className="bg-transparent focus:outline-none"
-            />
+          <div className="flex justify-between items-center rounded-md border border-input h-10 bg-background px-3 py-2 text-sm">
+            <div className="flex items-center w-full">
+              <Car className="h-5 w-5 text-muted-foreground mr-3" />
+              <input
+                type="number"
+                name="distance"
+                value={transportDetails.distance}
+                onChange={(e) =>
+                  setTransportDetails((prev) => ({
+                    ...prev,
+                    distance: Math.max(0, Number(e.target.value)),
+                  }))
+                }
+                placeholder="Enter distance"
+                className="bg-transparent focus:outline-none w-full"
+              />
+            </div>
             <div className="flex items-center ml-2">
               <div className="h-5 w-px bg-border mx-2"></div>
               <Select value={distanceUnit} onValueChange={setDistanceUnit}>
@@ -173,10 +176,10 @@ const TransportCalculatorLeft = ({
             </div>
           </div>
           {/* {distanceUnit === "mi" && (
-            <p className="text-xs text-muted-foreground mt-1">
-              ≈ {(transportDetails.distance * 1.60934).toFixed(2)} km
-            </p>
-          )} */}
+    <p className="text-xs text-muted-foreground mt-1">
+      ≈ {(transportDetails.distance * 1.60934).toFixed(2)} km
+    </p>
+  )} */}
         </div>
 
         {/* Passengers Input */}
@@ -203,11 +206,7 @@ const TransportCalculatorLeft = ({
       </div>
 
       {/* Error message display */}
-      {error && (
-        <div className="mt-4 text-sm text-red-500">
-          {error}
-        </div>
-      )}
+      {error && <div className="mt-4 text-sm text-red-500">{error}</div>}
 
       {/* Calculate Button */}
       <button
@@ -219,9 +218,25 @@ const TransportCalculatorLeft = ({
       >
         {loading ? (
           <span className="flex items-center">
-            <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              className="animate-spin -ml-1 mr-3 h-4 w-4 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
             Calculating...
           </span>

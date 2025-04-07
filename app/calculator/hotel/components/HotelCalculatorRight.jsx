@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
 
-const TransportCalculatorRight = ({
+const HotelCalculatorRight = ({
   calculated,
   activeTab,
   emissionData,
@@ -141,4 +141,4 @@ const TransportCalculatorRight = ({
   );
 };
 
-export default TransportCalculatorRight;
+export default HotelCalculatorRight;
