@@ -36,8 +36,7 @@ export default function Calculator() {
     hotel_rating: "",
     number_of_nights: 1,
     number_of_rooms: 1,
-    cluster_name: null
-
+    cluster_name: null,
   });
   const [emissionData, setEmissionData] = useState(null);
   const [showDashboard, setShowDashboard] = useState(false);
@@ -128,6 +127,7 @@ export default function Calculator() {
             showDashboard={showDashboard}
             setShowDashboard={setShowDashboard}
             scrollToDashboard={scrollToDashboard}
+            transportDetails={transportDetails}
           />
         );
       case "hotel":
@@ -153,7 +153,7 @@ export default function Calculator() {
         <div className="mb-8">
           <ExpandableTabs
             tabs={tabs}
-            activeTabIndex={tabs.findIndex(tab => tab.value === activeTab)}
+            activeTabIndex={tabs.findIndex((tab) => tab.value === activeTab)}
             onChange={handleTabChange}
             activeColor="text-primary"
             className="border-primary-200 dark:border-primary-800 text-center justify-center w-fit mx-auto"

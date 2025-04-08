@@ -1,7 +1,8 @@
-import { Cloud, Sparkles } from "lucide-react";
+import { Cloud, Sparkles, Building2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
+import Image from "next/image";
 
 const HotelCalculatorRight = ({
   calculated,
@@ -11,7 +12,6 @@ const HotelCalculatorRight = ({
   setShowDashboard,
   scrollToDashboard,
 }) => {
-  console.log("emissionData :: ", emissionData);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
 
@@ -49,7 +49,7 @@ const HotelCalculatorRight = ({
     }, intervalTime);
   };
 
-  const totalEmission = emissionData?.result?.data?.co2e_mt|| 0;
+  const totalEmission = emissionData?.result?.data?.co2e_mt || 0;
 
   return (
     <>
@@ -71,10 +71,31 @@ const HotelCalculatorRight = ({
           <div className="">
             <EmissionDisplay totalEmission={totalEmission} />
 
-            {/* Emission Details */}
-            <div className="!mt-6 sm:mt-0">
+            {/* Hotel animation - similar style but with a hotel building */}
+            <div className="relative h-20 w-full overflow-hidden mb-8">
+              <div className="absolute inset-0">
+                <div className="hotel-track">
+                  <Image
+                    src="/hotel.png"
+                    alt="Hotel Building"
+                    width={100}
+                    height={64}
+                    objectFit="contain"
+                  />
+                </div>
+              </div>
+            </div>
 
-              {/* Passenger Emission */}
+            {/* Hotel stay details */}
+            <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-4 mb-4">
+              <p className="text-sm text-muted-foreground">
+                <span className="font-semibold">Stay Duration: </span>
+                {emissionData?.result?.data?.number_of_nights || 0} nights
+              </p>
+              <p className="text-sm text-muted-foreground">
+                <span className="font-semibold">Guests: </span>
+                {emissionData?.result?.data?.number_of_guests || 1}
+              </p>
             </div>
 
             {/* Call to Action */}
@@ -114,7 +135,7 @@ const HotelCalculatorRight = ({
 
                     <p className="text-xs text-muted-foreground">
                       {generationProgress < 30 &&
-                        "Analyzing flight emissions..."}
+                        "Analyzing hotel emissions..."}
                       {generationProgress >= 30 &&
                         generationProgress < 60 &&
                         "Calculating environmental impact..."}
@@ -138,6 +159,29 @@ const HotelCalculatorRight = ({
           </div>
         )}
       </div>
+      <style jsx>{`
+        @keyframes move {
+          0% {
+            transform: translateX(-100px);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        .hotel-track {
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: calc(100% + 64px);
+          animation: move 12s linear infinite;
+        }
+
+        .hotel-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </>
   );
 };

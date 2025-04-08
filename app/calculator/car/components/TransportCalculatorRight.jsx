@@ -1,7 +1,8 @@
-import { Cloud, Sparkles } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { Cloud, Sparkles, Car } from "lucide-react";
+import React, { useState } from "react";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
+import Image from "next/image";
 
 const TransportCalculatorRight = ({
   calculated,
@@ -10,9 +11,26 @@ const TransportCalculatorRight = ({
   showDashboard,
   setShowDashboard,
   scrollToDashboard,
+  transportDetails,
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
+
+  const getVehicleImage = () => {
+    const transportType = transportDetails?.transportType || "";
+
+    if (transportType.startsWith("sedan") || transportType === "SUV") {
+      return "/car.png";
+    } else if (transportType === "motorbike") {
+      return "/bike-pollution.png";
+    } else if (transportType.startsWith("Train")) {
+      return "/train.png";
+    } else if (transportType.startsWith("Bus")) {
+      return "/bus.png";
+    }
+
+    return "/car-pollution.png";
+  };
 
   const handleViewDashboard = () => {
     if (showDashboard) {
@@ -46,7 +64,7 @@ const TransportCalculatorRight = ({
     }, intervalTime);
   };
 
-  const totalEmission = emissionData?.result?.data?.co2e_mt|| 0;
+  const totalEmission = emissionData?.result?.data?.co2e_mt || 0;
 
   return (
     <>
@@ -68,23 +86,44 @@ const TransportCalculatorRight = ({
           <div className="">
             <EmissionDisplay totalEmission={totalEmission} />
 
-            {/* Emission Details */}
-            <div className="!mt-6 sm:mt-0">
+            {/* Vehicle animation similar to the plane in FlightCalculatorRight */}
+            <div className="relative h-20 w-full overflow-hidden mb-8">
+              <div className="absolute inset-0">
+                <div className="vehicle-track">
+                  <Image
+                    src={getVehicleImage()}
+                    alt="Moving Vehicle"
+                    width={100}
+                    height={64}
+                    objectFit="contain"
+                  />
+                </div>
+              </div>
+            </div>
 
-              {/* Passenger Emission */}
+            {/* Transport Details */}
+            <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-4 mb-4">
+              <p className="text-sm text-muted-foreground">
+                <span className="font-semibold">Vehicle Type: </span>
+                {transportDetails?.transportType || "N/A"}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                <span className="font-semibold">Distance: </span>
+                {emissionData?.result?.data?.distance_value || 0}{" "}
+                {emissionData?.result?.data?.distance_unit || "km"}
+              </p>
             </div>
 
             {/* Call to Action */}
             <div className="border-t border-border">
-              {/* <div className="flex justify-between items-center px-2 py-2 rounded-md">
+              <div className="flex justify-between items-center px-2 rounded-md">
                 <span className="text-sm font-medium">
                   Total Emission (Net)
                 </span>
                 <span className="font-semibold text-sm">
                   {totalEmission.toFixed(3)} MT
                 </span>
-              </div> */}
-
+              </div>
               <CarbonFootprintCards totalEmission={totalEmission} />
 
               {isGenerating ? (
@@ -110,7 +149,7 @@ const TransportCalculatorRight = ({
 
                     <p className="text-xs text-muted-foreground">
                       {generationProgress < 30 &&
-                        "Analyzing flight emissions..."}
+                        "Analyzing transport emissions..."}
                       {generationProgress >= 30 &&
                         generationProgress < 60 &&
                         "Calculating environmental impact..."}
@@ -134,6 +173,29 @@ const TransportCalculatorRight = ({
           </div>
         )}
       </div>
+      <style jsx>{`
+        @keyframes drive {
+          0% {
+            transform: translateX(-100px);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        .vehicle-track {
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: calc(100% + 64px);
+          animation: drive 8s linear infinite;
+        }
+
+        .vehicle-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </>
   );
 };

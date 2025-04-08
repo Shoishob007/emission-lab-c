@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -54,16 +55,14 @@ const TransportCalculatorLeft = ({
     "Bus-Coach": "Coach"
   };
 
-  // Update vehicle types and set default when category changes
+  // Updating vehicle types and setting default when category changes
   useEffect(() => {
     if (vehicleCategory) {
       setVehicleTypes(vehicleCategories[vehicleCategory].types);
       
-      // Set default transport type for the selected category
       setTransportDetails(prev => ({ 
         ...prev, 
         transportType: vehicleCategories[vehicleCategory].default,
-        // Reset fuel type when changing categories (only relevant for cars/motorcycles)
         fuelType: ["cars", "motorcycle"].includes(vehicleCategory) ? "Petrol" : undefined
       }));
     } else {

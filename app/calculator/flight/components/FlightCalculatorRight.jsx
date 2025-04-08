@@ -232,13 +232,13 @@ const FlightCalculatorRight = ({
                   {oneWayEmission.toFixed(3)} MT
                 </span>
               </div> */}
-              <div className="relative h-12 w-full overflow-hidden mb-4">
+              <div className="relative h-20 w-full overflow-hidden mb-8">
                 <div className="absolute inset-0">
                   <div className="plane-track">
                     <Image
-                      src="/aero-plane.jpg"
+                      src="/airplane.png"
                       alt="Flying Plane"
-                      width={128}
+                      width={100}
                       height={64}
                       objectFit="contain"
                     />
@@ -320,7 +320,7 @@ const FlightCalculatorRight = ({
       <style jsx>{`
         @keyframes fly {
           0% {
-            transform: translateX(-128px);
+            transform: translateX(-100px);
           }
           100% {
             transform: translateX(100%);

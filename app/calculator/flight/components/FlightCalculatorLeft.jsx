@@ -24,7 +24,6 @@ const FlightCalculatorLeft = ({
   const [error, setError] = useState({ from: null, to: null });
   const [calculating, setCalculating] = useState(false);
 
-
   const fetchAirports = async (keyword = "", fieldType = "from") => {
     setLoading((prev) => ({ ...prev, [fieldType]: true }));
     setError((prev) => ({ ...prev, [fieldType]: null }));
