@@ -19,18 +19,15 @@ const HotelCalculatorLeft = ({
   setHotelDetails,
   setEmissionData,
 }) => {
-  // State for dropdown options
   const [countries, setCountries] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [cities, setCities] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
-  
-  // Loading and error states
-  const [loading, setLoading] = useState({ country: false, city: false });
+    const [loading, setLoading] = useState({ country: false, city: false });
   const [error, setError] = useState({ country: null, city: null });
   const [calculating, setCalculating] = useState(false);
 
-  // Initialize countries list on component mount
+  // countries list on component mount
   useEffect(() => {
     const countriesData = countryList().getData();
     const formattedCountries = countriesData.map(country => ({
@@ -41,14 +38,14 @@ const HotelCalculatorLeft = ({
     setFilteredCountries(formattedCountries);
   }, []);
 
-  // Load cities when country changes
+  // cities when country changes
   useEffect(() => {
     if (hotelDetails.country_code) {
       loadCitiesForCountry(hotelDetails.country_code);
     }
   }, [hotelDetails.country_code]);
 
-  // Load cities for a specific country using country-state-city package
+  // cities for a specific country
   const loadCitiesForCountry = useCallback((countryCode) => {
     setLoading(prev => ({ ...prev, city: true }));
     setError(prev => ({ ...prev, city: null }));
@@ -82,7 +79,7 @@ const HotelCalculatorLeft = ({
     }
   }, []);
 
-  // Filter countries based on search term
+  // Filtering countries based on search
   const filterCountries = useCallback(
     debounce((keyword) => {
       setLoading(prev => ({ ...prev, country: true }));
@@ -106,7 +103,7 @@ const HotelCalculatorLeft = ({
     [countries]
   );
 
-  // Filter cities based on search term
+  // Filtering cities based on search
   const filterCities = useCallback(
     debounce((keyword) => {
       setLoading(prev => ({ ...prev, city: true }));
@@ -174,7 +171,6 @@ const HotelCalculatorLeft = ({
   return (
     <>
       <div className="grid grid-cols-1 gap-4 min-w-[400px]">
-        {/* Country Combo Box */}
         <ComboBox
           options={filteredCountries}
           value={hotelDetails.country_code}
@@ -192,14 +188,12 @@ const HotelCalculatorLeft = ({
             setHotelDetails((prev) => ({ 
               ...prev, 
               country_code: value,
-              city_name: '' // Reset city when country changes
+              city_name: ''
             }));
-            // Cities will be loaded via the useEffect
           }}
           onSearch={filterCountries}
         />
 
-        {/* City Combo Box */}
         <ComboBox
           options={filteredCities}
           value={hotelDetails.city_name}
@@ -220,7 +214,7 @@ const HotelCalculatorLeft = ({
           }
           onSearch={filterCities}
           disabled={!hotelDetails.country_code}
-          allowCustomValue={true} // Allow typing custom city names
+          allowCustomValue={true}
           onCustomValueChange={(value) => 
             setHotelDetails(prev => ({ ...prev, city_name: value }))
           }
@@ -256,7 +250,6 @@ const HotelCalculatorLeft = ({
 
       {/* Number of Nights and Rooms */}
       <div className="grid md:grid-cols-2 gap-4">
-        {/* Number of Nights */}
         <div>
           <label className="block text-sm font-medium mb-2 text-muted-foreground">
             Number of Nights
@@ -278,7 +271,6 @@ const HotelCalculatorLeft = ({
           </div>
         </div>
 
-        {/* Number of Rooms */}
         <div>
           <label className="block text-sm font-medium mb-2 text-muted-foreground">
             Number of Rooms
