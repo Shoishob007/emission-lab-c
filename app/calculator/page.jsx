@@ -36,6 +36,7 @@ export default function Calculator() {
     hotel_rating: "",
     number_of_nights: 1,
     number_of_rooms: 1,
+    cluster_name: null
 
   });
   const [emissionData, setEmissionData] = useState(null);
