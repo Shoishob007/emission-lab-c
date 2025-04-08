@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
+import Image from "next/image";
 
 const FlightCalculatorRight = ({
   calculated,
@@ -60,10 +61,6 @@ const FlightCalculatorRight = ({
   };
 
   const totalEmission = emissionData?.result?.data?.emissions.co2e_mt || 0;
-  const oneWayEmission =
-    emissionData?.result?.data?.round_trip === "Y"
-      ? totalEmission / 2
-      : totalEmission;
   const emissionPerPerson =
     totalEmission / emissionData?.result?.data?.number_of_passengers;
 
@@ -235,9 +232,22 @@ const FlightCalculatorRight = ({
                   {oneWayEmission.toFixed(3)} MT
                 </span>
               </div> */}
+              <div className="relative h-12 w-full overflow-hidden mb-4">
+                <div className="absolute inset-0">
+                  <div className="plane-track">
+                    <Image
+                      src="/aero-plane.jpg"
+                      alt="Flying Plane"
+                      width={128}
+                      height={64}
+                      objectFit="contain"
+                    />
+                  </div>
+                </div>
+              </div>
 
               {/* Passenger Emission */}
-              <div className="flex justify-between items-center px-2 py-2 rounded-md">
+              <div className="flex justify-between items-center px-2 py-2 rounded-md border-t border-border">
                 <span className="text-sm font-medium">
                   CO<sub>2</sub> emission per person
                 </span>
@@ -247,8 +257,7 @@ const FlightCalculatorRight = ({
               </div>
             </div>
 
-            {/* Call to Action */}
-            <div className="border-t border-border">
+            <div className="">
               <div className="flex justify-between items-center px-2 py-2 rounded-md">
                 <span className="text-sm font-medium">
                   Total Emission (Net)
@@ -308,6 +317,29 @@ const FlightCalculatorRight = ({
           </div>
         )}
       </div>
+      <style jsx>{`
+        @keyframes fly {
+          0% {
+            transform: translateX(-128px);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        .plane-track {
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: calc(100% + 64px);
+          animation: fly 8s linear infinite;
+        }
+
+        .plane-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </>
   );
 };

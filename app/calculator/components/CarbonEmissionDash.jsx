@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
-  const totalEmissions = emissionData?.result?.data?.emissions?.co2e_mt|| emissionData?.result?.data?.co2e_mt || "N/A";
+  const totalEmissions = emissionData?.result?.data?.emissions?.co2e_mt || emissionData?.result?.data?.co2e_mt || "N/A";
 
   const carbonData = {
     totalEmissions: totalEmissions,
@@ -30,7 +30,6 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
   return (
     <div className="bg-gradient-to-b from-gray-50 to-gray-100 p-6 font-sans">
       <div className="max-w-6xl mx-auto">
-        {/* Fun and Professional Title */}
         <div className="relative text-center mb-8">
           <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-emerald-800 inline-block animate-float">
             All About Your Carbon Footprint
@@ -45,7 +44,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
           </p>
         </div>
 
-        {/* Main Impact Card */}
+        {/* Main impact Card */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8 sm:mb-16 transition-all hover:shadow-xl group">
           <div className="flex flex-col md:flex-row">
             <div className="bg-[url('/flight_emission_card_2.jpg')] bg-cover bg-center text-white rounded-l-xl shadow-lg overflow-hidden p-8 md:w-1/2 flex flex-col justify-center items-center relative">
@@ -67,57 +66,18 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
             <div className="p-8 md:w-1/2">
               <h3 className="text-xl font-semibold mb-3 text-gray-700 flex items-center">
                 <Globe className="w-6 h-6 mr-2 text-primary" />
-                Understanding Carbon Footprint Offset
+                Understanding Your Carbon Footprint
               </h3>
               <p className="text-gray-600 mb-4">
-                Carbon offsetting means balancing your emissions by funding
-                projects that reduce or remove an equivalent amount of
-                greenhouse gases. These initiatives can range from reforestation
-                and renewable energy to methane capture and sustainable
-                agriculture. For instance, your current footprint offsetting is:
+                Your current carbon footprint is {carbonData.totalEmissions.toFixed(2)} metric tons of CO₂. This amount of carbon dioxide contributes significantly to climate change and has a negative impact on the environment, including global warming, extreme weather events, and loss of biodiversity.
               </p>
-              <div className="space-y-4">
-                <div className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-primary/10 transition-colors cursor-pointer">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4 shrink-0">
-                    {/* <Zap className="h-6 w-6 text-primary" /> */}
-                    <Car className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Equivalent to</p>
-                    <p className="font-semibold">
-                      Preventing {carbonData.carEquivalent} car(s) from emitting
-                      CO₂ for a year
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      That&apos;s like taking{" "}
-                      <span className="font-bold">
-                        {carbonData.carEquivalent} car(s) off the road
-                      </span>{" "}
-                      for a year!
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-primary/10 transition-colors cursor-pointer">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4 shrink-0">
-                    <Home className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">
-                      Saves as much CO₂ as
-                    </p>
-                    <p className="font-semibold">
-                      {carbonData.homeEquivalent} home(s) emit in a year
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Enough to power{" "}
-                      <span className="font-bold">
-                        {carbonData.homeEquivalent} home(s)
-                      </span>{" "}
-                      with clean energy!
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-700 flex items-center">
+                <Globe className="w-6 h-6 mr-2 text-primary" />
+                Mitigating Through Carbon Offsetting
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Carbon offsetting means balancing your emissions by funding projects that reduce or remove an equivalent amount of greenhouse gases. These initiatives can range from reforestation and renewable energy to methane capture and sustainable agriculture. By offsetting your carbon footprint, you contribute to environmental projects that create tangible benefits, such as:
+              </p>
             </div>
           </div>
         </div>
@@ -128,14 +88,13 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
           Your Positive Impact Through Offsetting
         </h2>
         <p className="text-gray-600 mb-6 max-w-3xl mx-auto text-center">
-          When you offset your carbon footprint, you contribute to environmental
-          projects that create tangible benefits.{" "}
+          When you offset your carbon footprint, you contribute to environmental projects that create tangible benefits.{" "}
           <span className="text-primary font-semibold">
             Here&apos;s how your contribution makes a difference:
           </span>
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 sm:mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-8 sm:mb-16">
           {/* Trees Card */}
           <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform ">
             <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden">
@@ -177,7 +136,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
 
           {/* Air Quality Card */}
           <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform ">
-            <div className="h-20 bg-gradient-to-r from-blue-400 to-blue-600 relative overflow-hidden">
+            <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(8)].map((_, i) => (
                   <Cloud
@@ -192,7 +151,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                   />
                 ))}
               </div>
-              <div className="h-20 bg-gradient-to-r from-blue-400 to-blue-600 relative overflow-hidden flex justify-center items-center">
+              <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
                   <Cloud className="h-5 w-5 mr-2" />
                   Air Quality Improvement
@@ -215,7 +174,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
 
           {/* Wildlife Card */}
           <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform ">
-            <div className="h-20 bg-gradient-to-r from-amber-400 to-amber-600 relative overflow-hidden">
+            <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(12)].map((_, i) => (
                   <Leaf
@@ -232,7 +191,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                   />
                 ))}
               </div>
-              <div className="h-20 bg-gradient-to-r from-amber-400 to-amber-600 relative overflow-hidden flex justify-center items-center">
+              <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
                   <Leaf className="h-5 w-5 mr-2" />
                   Biodiversity Protected
@@ -256,7 +215,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
 
           {/* Water Saved Card */}
           <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform ">
-            <div className="h-20 bg-gradient-to-r from-cyan-400 to-cyan-600 relative overflow-hidden">
+            <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(12)].map((_, i) => (
                   <Droplet
@@ -271,7 +230,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                   />
                 ))}
               </div>
-              <div className="h-20 bg-gradient-to-r from-cyan-400 to-cyan-600 relative overflow-hidden flex justify-center items-center">
+              <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
                   <Droplet className="h-5 w-5 mr-2" />
                   Water Saved
@@ -288,6 +247,80 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               <p className="text-sm text-gray-600 mb-4">
                 Carbon offset projects help save water by promoting sustainable
                 practices and reducing water-intensive activities.
+              </p>
+            </div>
+          </div>
+
+          {/* Car Emissions Card */}
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform">
+            <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden">
+              <div className="absolute inset-0 flex justify-center items-center opacity-20">
+                {[...Array(8)].map((_, i) => (
+                  <Car
+                    key={i}
+                    className="absolute"
+                    style={{
+                      top: `${Math.random() * 100}%`,
+                      left: `${Math.random() * 100}%`,
+                      transform: `scale(${0.5 + Math.random()})`,
+                      opacity: 0.3 + Math.random() * 0.7,
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden flex justify-center items-center">
+                <h3 className="font-semibold text-white flex items-center">
+                  <Car className="h-5 w-5 mr-2" />
+                  Car Emissions
+                </h3>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="flex items-baseline mb-2">
+                <span className="text-4xl font-bold text-gray-800">
+                  {carbonData.carEquivalent}
+                </span>
+                <span className="ml-2 text-gray-600">cars</span>
+              </div>
+              <p className="text-sm text-gray-600 mb-4">
+                Equivalent to the annual emissions from {carbonData.carEquivalent} average passenger vehicles driving 12,000 miles per year.
+              </p>
+            </div>
+          </div>
+
+          {/* Home Energy Card */}
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform">
+            <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden">
+              <div className="absolute inset-0 flex justify-center items-center opacity-20">
+                {[...Array(8)].map((_, i) => (
+                  <Home
+                    key={i}
+                    className="absolute"
+                    style={{
+                      top: `${Math.random() * 100}%`,
+                      left: `${Math.random() * 100}%`,
+                      transform: `scale(${0.5 + Math.random()})`,
+                      opacity: 0.3 + Math.random() * 0.7,
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="h-20 bg-gradient-to-r from-green-400 to-emerald-600 relative overflow-hidden flex justify-center items-center">
+                <h3 className="font-semibold text-white flex items-center">
+                  <Home className="h-5 w-5 mr-2" />
+                  Home Energy
+                </h3>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="flex items-baseline mb-2">
+                <span className="text-4xl font-bold text-gray-800">
+                  {carbonData.homeEquivalent}
+                </span>
+                <span className="ml-2 text-gray-600">homes</span>
+              </div>
+              <p className="text-sm text-gray-600 mb-4">
+                Your emissions equal the annual electricity use of {carbonData.homeEquivalent} average homes, showing the impact of energy choices.
               </p>
             </div>
           </div>
@@ -321,14 +354,6 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
             </div>
           </div>
         </div>
-
-        {/* Additional Info Section */}
-        {/* <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500">
-            Your offset contribution is verified by third-party standards
-            including Gold Standard and Verified Carbon Standard.
-          </p>
-        </div> */}
       </div>
     </div>
   );

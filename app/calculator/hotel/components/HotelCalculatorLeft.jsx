@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Calculator, Moon, Star, Bed } from "lucide-react";
 import countryList from "react-select-country-list";
-import { Country, State, City } from 'country-state-city';
+import { Country, State, City } from "country-state-city";
 
 const HotelCalculatorLeft = ({
   setCalculated,
@@ -23,14 +23,14 @@ const HotelCalculatorLeft = ({
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [cities, setCities] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
-    const [loading, setLoading] = useState({ country: false, city: false });
+  const [loading, setLoading] = useState({ country: false, city: false });
   const [error, setError] = useState({ country: null, city: null });
   const [calculating, setCalculating] = useState(false);
 
   // countries list on component mount
   useEffect(() => {
     const countriesData = countryList().getData();
-    const formattedCountries = countriesData.map(country => ({
+    const formattedCountries = countriesData.map((country) => ({
       value: country.value,
       label: `${country.label} (${country.value})`,
     }));
@@ -47,57 +47,60 @@ const HotelCalculatorLeft = ({
 
   // cities for a specific country
   const loadCitiesForCountry = useCallback((countryCode) => {
-    setLoading(prev => ({ ...prev, city: true }));
-    setError(prev => ({ ...prev, city: null }));
+    setLoading((prev) => ({ ...prev, city: true }));
+    setError((prev) => ({ ...prev, city: null }));
 
     try {
       const citiesList = City.getCitiesOfCountry(countryCode);
 
       if (citiesList && citiesList.length > 0) {
-        const formattedCities = citiesList.map(city => ({
+        const formattedCities = citiesList.map((city) => ({
           value: city.name,
-          label: city.name
+          label: city.name,
         }));
-        
+
         setCities(formattedCities);
         setFilteredCities(formattedCities);
       } else {
         setCities([]);
         setFilteredCities([]);
-        setError(prev => ({ 
-          ...prev, 
-          city: `No cities found for country code: ${countryCode}. Please type the city name manually.` 
+        setError((prev) => ({
+          ...prev,
+          city: `No cities found for country code: ${countryCode}. Please type the city name manually.`,
         }));
       }
     } catch (error) {
       console.error("Error loading cities:", error);
-      setError(prev => ({ ...prev, city: error.message || "Failed to load cities" }));
+      setError((prev) => ({
+        ...prev,
+        city: error.message || "Failed to load cities",
+      }));
       setCities([]);
       setFilteredCities([]);
     } finally {
-      setLoading(prev => ({ ...prev, city: false }));
+      setLoading((prev) => ({ ...prev, city: false }));
     }
   }, []);
 
   // Filtering countries based on search
   const filterCountries = useCallback(
     debounce((keyword) => {
-      setLoading(prev => ({ ...prev, country: true }));
-      
+      setLoading((prev) => ({ ...prev, country: true }));
+
       try {
-        if (!keyword || keyword.trim() === '') {
+        if (!keyword || keyword.trim() === "") {
           setFilteredCountries(countries);
         } else {
-          const filtered = countries.filter(country =>
+          const filtered = countries.filter((country) =>
             country.label.toLowerCase().includes(keyword.toLowerCase())
           );
           setFilteredCountries(filtered);
         }
       } catch (error) {
         console.error("Error filtering countries:", error);
-        setError(prev => ({ ...prev, country: error.message }));
+        setError((prev) => ({ ...prev, country: error.message }));
       } finally {
-        setLoading(prev => ({ ...prev, country: false }));
+        setLoading((prev) => ({ ...prev, country: false }));
       }
     }, 300),
     [countries]
@@ -106,22 +109,22 @@ const HotelCalculatorLeft = ({
   // Filtering cities based on search
   const filterCities = useCallback(
     debounce((keyword) => {
-      setLoading(prev => ({ ...prev, city: true }));
-      
+      setLoading((prev) => ({ ...prev, city: true }));
+
       try {
-        if (!keyword || keyword.trim() === '') {
+        if (!keyword || keyword.trim() === "") {
           setFilteredCities(cities);
         } else {
-          const filtered = cities.filter(city =>
+          const filtered = cities.filter((city) =>
             city.label.toLowerCase().includes(keyword.toLowerCase())
           );
           setFilteredCities(filtered);
         }
       } catch (error) {
         console.error("Error filtering cities:", error);
-        setError(prev => ({ ...prev, city: error.message }));
+        setError((prev) => ({ ...prev, city: error.message }));
       } finally {
-        setLoading(prev => ({ ...prev, city: false }));
+        setLoading((prev) => ({ ...prev, city: false }));
       }
     }, 300),
     [cities]
@@ -137,12 +140,13 @@ const HotelCalculatorLeft = ({
         hotel_rating: hotelDetails.hotel_rating,
         number_of_nights: hotelDetails.number_of_nights,
         number_of_rooms: hotelDetails.number_of_rooms,
+        cluster_name: hotelDetails.cluster_name || null,
       };
 
       console.log("requestData :: ", requestData);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/hotelAPI/carbon-emission`,
+        `${process.env.NEXT_PUBLIC_API}/hotelAPI/hotel-stay-carbon-estimate`,
         {
           method: "POST",
           headers: {
@@ -185,10 +189,10 @@ const HotelCalculatorLeft = ({
               : "No country found."
           }
           onSelect={(value) => {
-            setHotelDetails((prev) => ({ 
-              ...prev, 
+            setHotelDetails((prev) => ({
+              ...prev,
               country_code: value,
-              city_name: ''
+              city_name: "",
             }));
           }}
           onSearch={filterCountries}
@@ -215,8 +219,8 @@ const HotelCalculatorLeft = ({
           onSearch={filterCities}
           disabled={!hotelDetails.country_code}
           allowCustomValue={true}
-          onCustomValueChange={(value) => 
-            setHotelDetails(prev => ({ ...prev, city_name: value }))
+          onCustomValueChange={(value) =>
+            setHotelDetails((prev) => ({ ...prev, city_name: value }))
           }
         />
       </div>
@@ -241,7 +245,7 @@ const HotelCalculatorLeft = ({
           <SelectContent>
             {[1, 2, 3, 4, 5].map((rating) => (
               <SelectItem key={rating} value={rating.toString()}>
-                {rating} Star{rating !== 1 ? 's' : ''}
+                {rating} Star{rating !== 1 ? "s" : ""}
               </SelectItem>
             ))}
           </SelectContent>
@@ -296,7 +300,9 @@ const HotelCalculatorLeft = ({
       {/* Calculate Button */}
       <button
         onClick={handleCalculate}
-        disabled={!hotelDetails.country_code || !hotelDetails.city_name || calculating}
+        disabled={
+          !hotelDetails.country_code || !hotelDetails.city_name || calculating
+        }
         className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {calculating ? (

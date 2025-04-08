@@ -56,14 +56,14 @@ export default function CarbonFootprintCards({ totalEmission }) {
     {
       shortDescription: `Annual energy consumption of ${carbonData.homeEquivalent} homes`,
       value: carbonData.homeEquivalent,
-      color: "#2196F3",
-      icon: <Home className="w-5 h-5" style={{ color: "#2196F3" }} />,
+      color: "#06D6A0",
+      icon: <Home className="w-5 h-5" style={{ color: "#06D6A0" }} />,
     },
     {
       shortDescription: `Annual emissions from ${carbonData.carEquivalent} cars`,
       value: carbonData.carEquivalent,
-      color: "#EF476F",
-      icon: <Car className="w-5 h-5" style={{ color: "#EF476F" }} />,
+      color: "#06D6A0",
+      icon: <Car className="w-5 h-5" style={{ color: "#06D6A0" }} />,
     },
   ];
 
