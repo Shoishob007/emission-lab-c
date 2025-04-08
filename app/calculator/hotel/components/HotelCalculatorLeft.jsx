@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import { ComboBox } from "../../../../components/ui/calculator-combobox";
-import { Calculator, Users, Moon, Star, Bed } from "lucide-react";
-import qs from "qs";
 import {
   Select,
   SelectContent,
@@ -11,6 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Calculator, Moon, Star, Bed } from "lucide-react";
+import countryList from "react-select-country-list";
+import { Country, State, City } from 'country-state-city';
 
 const HotelCalculatorLeft = ({
   setCalculated,
@@ -18,79 +19,115 @@ const HotelCalculatorLeft = ({
   setHotelDetails,
   setEmissionData,
 }) => {
+  // State for dropdown options
   const [countries, setCountries] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
   const [cities, setCities] = useState([]);
+  const [filteredCities, setFilteredCities] = useState([]);
+  
+  // Loading and error states
   const [loading, setLoading] = useState({ country: false, city: false });
   const [error, setError] = useState({ country: null, city: null });
   const [calculating, setCalculating] = useState(false);
 
-  const fetchCountries = async (keyword = "") => {
-    setLoading((prev) => ({ ...prev, country: true }));
-    setError((prev) => ({ ...prev, country: null }));
-    try {
-      const query = qs.stringify({ keyword });
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/countries`
-      );
-      console.log("Response country : ", response)
+  // Initialize countries list on component mount
+  useEffect(() => {
+    const countriesData = countryList().getData();
+    const formattedCountries = countriesData.map(country => ({
+      value: country.value,
+      label: `${country.label} (${country.value})`,
+    }));
+    setCountries(formattedCountries);
+    setFilteredCountries(formattedCountries);
+  }, []);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      const formattedData = data.result.map((country) => ({
-        value: country.iso2Code,
-        label: `${country.name} (${country.iso2Code})`,
-      }));
-      setCountries(formattedData);
-    } catch (error) {
-      setError((prev) => ({ ...prev, country: error.message }));
-      console.log("error :: ", error);
-    } finally {
-      setLoading((prev) => ({ ...prev, country: false }));
+  // Load cities when country changes
+  useEffect(() => {
+    if (hotelDetails.country_code) {
+      loadCitiesForCountry(hotelDetails.country_code);
     }
-  };
+  }, [hotelDetails.country_code]);
 
-  const fetchCities = async (countryCode, keyword = "") => {
-    if (!countryCode) return;
-    
-    setLoading((prev) => ({ ...prev, city: true }));
-    setError((prev) => ({ ...prev, city: null }));
+  // Load cities for a specific country using country-state-city package
+  const loadCitiesForCountry = useCallback((countryCode) => {
+    setLoading(prev => ({ ...prev, city: true }));
+    setError(prev => ({ ...prev, city: null }));
+
     try {
-      const query = qs.stringify({ country_code: countryCode, keyword });
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/cities`
-      );
-      console.log("Response city : ", response)
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      const formattedData = data.result.map((city) => ({
-        value: city.name,
-        label: city.name,
-      }));
-      setCities(formattedData);
-    } catch (error) {
-      setError((prev) => ({ ...prev, city: error.message }));
-      console.log("error :: ", error);
-    } finally {
-      setLoading((prev) => ({ ...prev, city: false }));
-    }
-  };
+      const citiesList = City.getCitiesOfCountry(countryCode);
 
-  const debouncedCountries = useCallback(
+      if (citiesList && citiesList.length > 0) {
+        const formattedCities = citiesList.map(city => ({
+          value: city.name,
+          label: city.name
+        }));
+        
+        setCities(formattedCities);
+        setFilteredCities(formattedCities);
+      } else {
+        setCities([]);
+        setFilteredCities([]);
+        setError(prev => ({ 
+          ...prev, 
+          city: `No cities found for country code: ${countryCode}. Please type the city name manually.` 
+        }));
+      }
+    } catch (error) {
+      console.error("Error loading cities:", error);
+      setError(prev => ({ ...prev, city: error.message || "Failed to load cities" }));
+      setCities([]);
+      setFilteredCities([]);
+    } finally {
+      setLoading(prev => ({ ...prev, city: false }));
+    }
+  }, []);
+
+  // Filter countries based on search term
+  const filterCountries = useCallback(
     debounce((keyword) => {
-      fetchCountries(keyword);
+      setLoading(prev => ({ ...prev, country: true }));
+      
+      try {
+        if (!keyword || keyword.trim() === '') {
+          setFilteredCountries(countries);
+        } else {
+          const filtered = countries.filter(country =>
+            country.label.toLowerCase().includes(keyword.toLowerCase())
+          );
+          setFilteredCountries(filtered);
+        }
+      } catch (error) {
+        console.error("Error filtering countries:", error);
+        setError(prev => ({ ...prev, country: error.message }));
+      } finally {
+        setLoading(prev => ({ ...prev, country: false }));
+      }
     }, 300),
-    []
+    [countries]
   );
 
-  const debouncedCities = useCallback(
+  // Filter cities based on search term
+  const filterCities = useCallback(
     debounce((keyword) => {
-      fetchCities(hotelDetails.country_code, keyword);
+      setLoading(prev => ({ ...prev, city: true }));
+      
+      try {
+        if (!keyword || keyword.trim() === '') {
+          setFilteredCities(cities);
+        } else {
+          const filtered = cities.filter(city =>
+            city.label.toLowerCase().includes(keyword.toLowerCase())
+          );
+          setFilteredCities(filtered);
+        }
+      } catch (error) {
+        console.error("Error filtering cities:", error);
+        setError(prev => ({ ...prev, city: error.message }));
+      } finally {
+        setLoading(prev => ({ ...prev, city: false }));
+      }
     }, 300),
-    [hotelDetails.country_code]
+    [cities]
   );
 
   const handleCalculate = async () => {
@@ -128,7 +165,7 @@ const HotelCalculatorLeft = ({
       setCalculated(true);
     } catch (error) {
       console.error("Error calculating emissions:", error);
-      setError(error.message);
+      setError({ ...error, general: error.message });
     } finally {
       setCalculating(false);
     }
@@ -139,37 +176,41 @@ const HotelCalculatorLeft = ({
       <div className="grid grid-cols-1 gap-4 min-w-[400px]">
         {/* Country Combo Box */}
         <ComboBox
-          options={countries}
+          options={filteredCountries}
           value={hotelDetails.country_code}
           label="Country"
           placeholder="Select country..."
           searchPlaceholder="Search country..."
           emptyText={
             loading.country
-              ? "Loading..."
+              ? "Loading countries..."
               : error.country
-              ? "Error loading countries"
+              ? `Error: ${error.country}`
               : "No country found."
           }
           onSelect={(value) => {
-            setHotelDetails((prev) => ({ ...prev, country_code: value }));
-            setCities([]); // Clear cities when country changes
+            setHotelDetails((prev) => ({ 
+              ...prev, 
+              country_code: value,
+              city_name: '' // Reset city when country changes
+            }));
+            // Cities will be loaded via the useEffect
           }}
-          onSearch={(keyword) => debouncedCountries(keyword)}
+          onSearch={filterCountries}
         />
 
         {/* City Combo Box */}
         <ComboBox
-          options={cities}
+          options={filteredCities}
           value={hotelDetails.city_name}
           label="City"
           placeholder="Select city..."
           searchPlaceholder="Search city..."
           emptyText={
             loading.city
-              ? "Loading..."
+              ? "Loading cities..."
               : error.city
-              ? "Error loading cities"
+              ? `${error.city}`
               : !hotelDetails.country_code
               ? "Please select a country first"
               : "No city found."
@@ -177,8 +218,12 @@ const HotelCalculatorLeft = ({
           onSelect={(value) =>
             setHotelDetails((prev) => ({ ...prev, city_name: value }))
           }
-          onSearch={(keyword) => debouncedCities(keyword)}
+          onSearch={filterCities}
           disabled={!hotelDetails.country_code}
+          allowCustomValue={true} // Allow typing custom city names
+          onCustomValueChange={(value) => 
+            setHotelDetails(prev => ({ ...prev, city_name: value }))
+          }
         />
       </div>
 
@@ -259,6 +304,7 @@ const HotelCalculatorLeft = ({
       {/* Calculate Button */}
       <button
         onClick={handleCalculate}
+        disabled={!hotelDetails.country_code || !hotelDetails.city_name || calculating}
         className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {calculating ? (

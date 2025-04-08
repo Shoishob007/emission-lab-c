@@ -15,16 +15,16 @@ import {
 } from "lucide-react";
 
 const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
-  const totalEmissions = emissionData?.result?.data?.emissions.co2e_mt|| emissionData?.result?.data?.co2e_mt || "N/A";
+  const totalEmissions = emissionData?.result?.data?.emissions?.co2e_mt|| emissionData?.result?.data?.co2e_mt || "N/A";
 
   const carbonData = {
     totalEmissions: totalEmissions,
-    treesRequired: Math.round(totalEmissions * 20),
-    homeEquivalent: Math.round(totalEmissions / 8.6),
-    carEquivalent: Math.round(totalEmissions / 4.6),
-    airQualityImprovement: Math.round(totalEmissions * 0.16),
-    waterSaved: Math.round(totalEmissions * 8000),
-    speciesProtected: Math.round(totalEmissions * 0.37),
+    treesRequired: Math.ceil(totalEmissions * 20),
+    homeEquivalent: Math.ceil(totalEmissions / 8.6),
+    carEquivalent: Math.ceil(totalEmissions / 4.6),
+    airQualityImprovement: Math.ceil(totalEmissions * 0.16),
+    waterSaved: Math.ceil(totalEmissions * 8000),
+    speciesProtected: Math.ceil(totalEmissions * 0.37),
   };
 
   return (
@@ -33,7 +33,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
         {/* Fun and Professional Title */}
         <div className="relative text-center mb-8">
           <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-emerald-800 inline-block animate-float">
-            Your Flight&apos;s Carbon Footprint
+            All About Your Carbon Footprint
           </h1>
           <Sparkles className="absolute -top-4 -right-8 text-yellow-400 animate-spin-slow" />
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto text-lg">
@@ -58,7 +58,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                 </p>
                 <div className="mt-4 text-center">
                   <p className="text-sm opacity-90">
-                    Your flight&apos;s carbon footprint
+                    Your total carbon footprint
                   </p>
                 </div>
               </div>
@@ -67,14 +67,14 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
             <div className="p-8 md:w-1/2">
               <h3 className="text-xl font-semibold mb-3 text-gray-700 flex items-center">
                 <Globe className="w-6 h-6 mr-2 text-primary" />
-                Understanding Your Carbon Footprint Offset
+                Understanding Carbon Footprint Offset
               </h3>
               <p className="text-gray-600 mb-4">
                 Carbon offsetting means balancing your emissions by funding
                 projects that reduce or remove an equivalent amount of
                 greenhouse gases. These initiatives can range from reforestation
                 and renewable energy to methane capture and sustainable
-                agriculture.
+                agriculture. For instance, your current footprint offsetting is:
               </p>
               <div className="space-y-4">
                 <div className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-primary/10 transition-colors cursor-pointer">
@@ -323,12 +323,12 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
         </div>
 
         {/* Additional Info Section */}
-        <div className="mt-8 text-center">
+        {/* <div className="mt-8 text-center">
           <p className="text-sm text-gray-500">
             Your offset contribution is verified by third-party standards
             including Gold Standard and Verified Carbon Standard.
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
