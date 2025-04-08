@@ -14,14 +14,13 @@ const TransportCalculatorRight = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
 
-  // Function to handle dashboard view with loading state
   const handleViewDashboard = () => {
     if (showDashboard) {
       setShowDashboard(false);
       return;
     }
 
-    // Start the generation process
+    // Starting the generation process
     setIsGenerating(true);
     setGenerationProgress(0);
 
@@ -33,7 +32,6 @@ const TransportCalculatorRight = ({
 
     const progressInterval = setInterval(() => {
       currentStep++;
-      // progress percentage
       const progress = Math.min((currentStep / steps) * 100, 100);
       setGenerationProgress(progress);
 
@@ -78,14 +76,14 @@ const TransportCalculatorRight = ({
 
             {/* Call to Action */}
             <div className="border-t border-border">
-              <div className="flex justify-between items-center px-2 py-2 rounded-md">
+              {/* <div className="flex justify-between items-center px-2 py-2 rounded-md">
                 <span className="text-sm font-medium">
                   Total Emission (Net)
                 </span>
                 <span className="font-semibold text-sm">
                   {totalEmission.toFixed(3)} MT
                 </span>
-              </div>
+              </div> */}
 
               <CarbonFootprintCards totalEmission={totalEmission} />
 
@@ -103,7 +101,6 @@ const TransportCalculatorRight = ({
                       </p>
                     </div>
 
-                    {/* Progress Bar */}
                     <div className="w-full bg-gray-200 rounded-full h-2.5 mb-2">
                       <div
                         className="bg-primary h-2.5 rounded-full transition-all duration-300 ease-out"

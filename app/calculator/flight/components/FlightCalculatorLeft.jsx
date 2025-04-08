@@ -88,6 +88,7 @@ const FlightCalculatorLeft = ({
       setCalculating(true);
 
       const requestData = {
+        user_id: "1adfdf",
         iata_airport_from: flightDetails.from,
         iata_airport_to: flightDetails.to,
         number_of_passengers: flightDetails.passengers,

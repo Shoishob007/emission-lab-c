@@ -11,6 +11,7 @@ const HotelCalculatorRight = ({
   setShowDashboard,
   scrollToDashboard,
 }) => {
+  console.log("emissionData :: ", emissionData);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
 
@@ -57,12 +58,12 @@ const HotelCalculatorRight = ({
           Your Carbon Footprint
         </h2>
 
-        {!calculated || activeTab !== "transport" ? (
+        {!calculated || activeTab !== "hotel" ? (
           <div className="h-[400px] flex flex-col items-center justify-center text-muted-foreground">
             <Cloud className="h-16 w-16 mb-4" />
             <p className="text-sm">
-              {activeTab === "transport"
-                ? "Enter transport details to calculate emissions"
+              {activeTab === "hotel"
+                ? "Enter hotel details to calculate emissions"
                 : "Enter details to calculate emissions"}
             </p>
           </div>
