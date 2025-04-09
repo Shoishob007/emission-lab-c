@@ -209,20 +209,10 @@ const FlightCalculatorRight = ({
                   </Popover>
                 </div>
               </div> */}
-              <div className="flex flex-col sm:flex-row sm:space-x-4 !mt-2 !ml-0 space-y-4 sm:space-y-0">
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-semibold">Distance Traveled: </span>
-                  {emissionData?.result?.data?.distance_km || 0} km
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-semibold">Flight Class:</span>{" "}
-                  {emissionData?.result?.data?.flight_class}
-                </p>
-              </div>
             </div>
 
             {/* Emission Details */}
-            <div className="!mt-6 sm:mt-0">
+            <div className="mt-6 sm:mt-0">
               {/* Trip Emission */}
               {/* <div className="flex justify-between items-center px-2 py-2 rounded-md">
                 <span className="text-sm font-medium">
@@ -245,6 +235,18 @@ const FlightCalculatorRight = ({
                   </div>
                 </div>
               </div>
+
+              {/* Flight Details */}
+            <div className="flex flex-col sm:flex-row sm:space-x-4 justify-center items-center mb-3">
+              <p className="text-sm text-muted-foreground">
+                <span className="font-semibold">Distance Traveled: </span>
+                {emissionData?.result?.data?.distance_km || 0} km
+              </p>
+              <p className="text-sm text-muted-foreground">
+                <span className="font-semibold">Flight Class:</span>{" "}
+                {emissionData?.result?.data?.flight_class}
+              </p>
+            </div>
 
               {/* Passenger Emission */}
               <div className="flex justify-between items-center px-2 py-2 rounded-md border-t border-border">
