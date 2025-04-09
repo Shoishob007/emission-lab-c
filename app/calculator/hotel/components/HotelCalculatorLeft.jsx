@@ -297,6 +297,9 @@ const HotelCalculatorLeft = ({
         </div>
       </div>
 
+      {/* Error message */}
+      {error && <div className="text-sm text-red-500">{error}</div>}
+
       {/* Calculate Button */}
       <button
         onClick={handleCalculate}

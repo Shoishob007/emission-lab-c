@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { Calculator, Car, Train, Bus, Bike, Users } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Select,
   SelectContent,
@@ -20,50 +21,88 @@ const TransportCalculatorLeft = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [distanceUnit, setDistanceUnit] = useState("km");
-  const [vehicleCategory, setVehicleCategory] = useState("cars"); // Set cars as default
+  const [vehicleCategory, setVehicleCategory] = useState("cars");
   const [vehicleTypes, setVehicleTypes] = useState([]);
 
-  // Vehicle categories and their corresponding types with default values
-  const vehicleCategories = {
+  // Vehicle categories with icons
+  const vehicleCategories = [
+    { value: "cars", icon: Car, label: "Cars" },
+    { value: "motorcycle", icon: Bike, label: "Motorcycle" },
+    { value: "bus", icon: Bus, label: "Bus" },
+    { value: "train", icon: Train, label: "Train" },
+  ];
+
+  // Vehicle types configuration
+  const vehicleTypeConfig = {
     cars: {
       types: ["sedan", "SUV"],
-      default: "sedan"
+      default: "sedan",
     },
     motorcycle: {
       types: ["motorbike"],
-      default: "motorbike"
-    },
-    train: {
-      types: ["Train-National", "Train-Local", "Train-Tram"],
-      default: "Train-National"
+      default: "motorbike",
     },
     bus: {
       types: ["Bus-LocalAverage", "Bus-Coach"],
-      default: "Bus-LocalAverage"
+      default: "Bus-LocalAverage",
+    },
+    train: {
+      types: ["Train-National", "Train-Local"],
+      default: "Train-National",
     },
   };
 
-  // Display names for vehicle types
+  // Displaying vehicle types
   const vehicleTypeLabels = {
-    "sedan": "Sedan",
-    "SUV": "SUV",
-    "motorbike": "Motorbike",
+    sedan: "Sedan",
+    SUV: "SUV",
+    motorbike: "Motorbike",
+    "Bus-LocalAverage": "Local Bus",
+    "Bus-Coach": "Coach",
     "Train-National": "National Train",
     "Train-Local": "Local Train",
-    "Train-Tram": "Tram",
-    "Bus-LocalAverage": "Local Bus",
-    "Bus-Coach": "Coach"
   };
+
+  // Animation variants
+  const buttonVariants = {
+    initial: {
+      gap: 0,
+      paddingLeft: ".5rem",
+      paddingRight: ".5rem",
+    },
+    animate: (isSelected) => ({
+      gap: ".5rem",
+      paddingLeft: ".5rem",
+      paddingRight: ".5rem",
+    }),
+  };
+
+  const spanVariants = {
+    initial: { width: 0, opacity: 0 },
+    animate: { width: "auto", opacity: 1 },
+    exit: { width: 0, opacity: 0 },
+  };
+
+  const transition = { delay: 0.1, type: "spring", bounce: 0, duration: 0.5 };
 
   // Updating vehicle types and setting default when category changes
   useEffect(() => {
     if (vehicleCategory) {
-      setVehicleTypes(vehicleCategories[vehicleCategory].types);
-      
-      setTransportDetails(prev => ({ 
-        ...prev, 
-        transportType: vehicleCategories[vehicleCategory].default,
-        fuelType: ["cars", "motorcycle"].includes(vehicleCategory) ? "Petrol" : undefined
+      setVehicleTypes(vehicleTypeConfig[vehicleCategory].types);
+
+      let defaultFuelType;
+      if (vehicleCategory === "motorcycle") {
+        defaultFuelType = "Petrol";
+      } else if (vehicleCategory === "bus") {
+        defaultFuelType = "Diesel";
+      } else if (vehicleCategory === "cars") {
+        defaultFuelType = "Petrol";
+      }
+
+      setTransportDetails((prev) => ({
+        ...prev,
+        transportType: vehicleTypeConfig[vehicleCategory].default,
+        fuelType: defaultFuelType,
       }));
     } else {
       setVehicleTypes([]);
@@ -77,7 +116,8 @@ const TransportCalculatorLeft = ({
 
       const requestData = {
         vehicle_type: transportDetails.transportType,
-        fuel_type: transportDetails.fuelType,
+        fuel_type:
+          vehicleCategory === "train" ? "Diesel" : transportDetails.fuelType,
         distance_value: transportDetails.distance,
         distance_unit: distanceUnit,
       };
@@ -109,46 +149,52 @@ const TransportCalculatorLeft = ({
   };
 
   return (
-    <div className="space-y-4 min-w-[400px]">
+    <div className="space-y-4 min-w-[450px]">
       {/* Category Selection */}
       <div>
-        <label className="block text-sm font-semibold mb-2 text-muted-foreground">
+        {/* <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Vehicle Category
-        </label>
-        <Select
-          value={vehicleCategory}
-          onValueChange={setVehicleCategory}
-        >
-          <SelectTrigger className="w-full focus:ring-0 focus:ring-offset-0">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="cars">
-              <div className="flex items-center">
-                <Car className="h-4 w-4 mr-2" />
-                <span>Cars</span>
-              </div>
-            </SelectItem>
-            <SelectItem value="motorcycle">
-              <div className="flex items-center">
-                <Bike className="h-4 w-4 mr-2" />
-                <span>Motorcycle</span>
-              </div>
-            </SelectItem>
-            <SelectItem value="train">
-              <div className="flex items-center">
-                <Train className="h-4 w-4 mr-2" />
-                <span>Train</span>
-              </div>
-            </SelectItem>
-            <SelectItem value="bus">
-              <div className="flex items-center">
-                <Bus className="h-4 w-4 mr-2" />
-                <span>Bus</span>
-              </div>
-            </SelectItem>
-          </SelectContent>
-        </Select>
+        </label> */}
+        <div className="flex items-center justify-evenly gap-2 rounded-2xl p-1">
+          {vehicleCategories.map((category) => {
+            const Icon = category.icon;
+            const isSelected = vehicleCategory === category.value;
+
+            return (
+              <motion.button
+                key={category.value}
+                variants={buttonVariants}
+                initial={false}
+                animate="animate"
+                custom={isSelected}
+                onClick={() => setVehicleCategory(category.value)}
+                transition={transition}
+                className={cn(
+                  "relative flex items-center rounded-xl px-2 py-2 text-sm transition-all duration-300",
+                  isSelected
+                    ? "text-primary scale-125 font-medium"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                )}
+              >
+                <Icon size={20} />
+                <AnimatePresence initial={false}>
+                  {isSelected && (
+                    <motion.span
+                      variants={spanVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={transition}
+                      className="overflow-hidden"
+                    >
+                      {category.label}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Vehicle Type Selection */}
@@ -177,49 +223,49 @@ const TransportCalculatorLeft = ({
         </div>
       )}
 
-      {/* Fuel Type - Only for cars and motorcycles */}
-      {(
+      {(vehicleCategory === "cars" ||
+        vehicleCategory === "motorcycle" ||
+        vehicleCategory === "bus") && (
         <div className="mt-4">
           <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Fuel Type
           </label>
           <div className="flex space-x-4">
-            <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
-              <input
-                type="radio"
-                className="form-radio h-4 w-4 text-secondary"
-                checked={transportDetails.fuelType === "Petrol"}
-                onChange={() =>
-                  setTransportDetails((prev) => ({ ...prev, fuelType: "Petrol" }))
-                }
-              />
-              <span className="ml-2 text-sm font-medium">Petrol</span>
-            </label>
-            <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
-              <input
-                type="radio"
-                className="form-radio h-4 w-4 text-secondary"
-                checked={transportDetails.fuelType === "Diesel"}
-                onChange={() =>
-                  setTransportDetails((prev) => ({ ...prev, fuelType: "Diesel" }))
-                }
-              />
-              <span className="ml-2 text-sm font-medium">Diesel</span>
-            </label>
-            <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
-              <input
-                type="radio"
-                className="form-radio h-4 w-4 text-secondary"
-                checked={transportDetails.fuelType === "Unknown"}
-                onChange={() =>
-                  setTransportDetails((prev) => ({
-                    ...prev,
-                    fuelType: "Unknown",
-                  }))
-                }
-              />
-              <span className="ml-2 text-sm font-medium">Other</span>
-            </label>
+            {(vehicleCategory === "cars" ||
+              vehicleCategory === "motorcycle") && (
+              <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
+                <input
+                  type="radio"
+                  className="form-radio h-4 w-4 text-secondary"
+                  checked={transportDetails.fuelType === "Petrol"}
+                  onChange={() =>
+                    setTransportDetails((prev) => ({
+                      ...prev,
+                      fuelType: "Petrol",
+                    }))
+                  }
+                />
+                <span className="ml-2 text-sm font-medium">Petrol</span>
+              </label>
+            )}
+
+            {/* Diesel - Only for cars and buses */}
+            {(vehicleCategory === "cars" || vehicleCategory === "bus") && (
+              <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
+                <input
+                  type="radio"
+                  className="form-radio h-4 w-4 text-secondary"
+                  checked={transportDetails.fuelType === "Diesel"}
+                  onChange={() =>
+                    setTransportDetails((prev) => ({
+                      ...prev,
+                      fuelType: "Diesel",
+                    }))
+                  }
+                />
+                <span className="ml-2 text-sm font-medium">Diesel</span>
+              </label>
+            )}
           </div>
         </div>
       )}
@@ -292,7 +338,7 @@ const TransportCalculatorLeft = ({
       <button
         onClick={handleCalculate}
         disabled={loading}
-        className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 ${
+        className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium !mt-6 ${
           loading ? "opacity-70 cursor-not-allowed" : "hover:bg-primary/90"
         }`}
       >
@@ -332,3 +378,7 @@ const TransportCalculatorLeft = ({
 };
 
 export default TransportCalculatorLeft;
+
+function cn(...inputs) {
+  return inputs.filter(Boolean).join(" ");
+}
