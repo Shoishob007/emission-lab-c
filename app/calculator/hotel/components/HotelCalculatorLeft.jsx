@@ -24,7 +24,7 @@ const HotelCalculatorLeft = ({
   const [cities, setCities] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
   const [loading, setLoading] = useState({ country: false, city: false });
-  const [error, setError] = useState({ country: null, city: null });
+  const [error, setError] = useState({ country: null, city: null, general: null });
   const [calculating, setCalculating] = useState(false);
 
   // countries list on component mount
@@ -166,7 +166,7 @@ const HotelCalculatorLeft = ({
       setCalculated(true);
     } catch (error) {
       console.error("Error calculating emissions:", error);
-      setError({ ...error, general: error.message });
+      setError(prev => ({ ...prev, general: error.message }));
     } finally {
       setCalculating(false);
     }
@@ -174,7 +174,7 @@ const HotelCalculatorLeft = ({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 min-w-[400px]">
+      <div className="grid grid-cols-1 gap-4 min-w-[450px]">
         <ComboBox
           options={filteredCountries}
           value={hotelDetails.country_code}
@@ -253,7 +253,7 @@ const HotelCalculatorLeft = ({
       </div>
 
       {/* Number of Nights and Rooms */}
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <div>
           <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Number of Nights
@@ -298,7 +298,7 @@ const HotelCalculatorLeft = ({
       </div>
 
       {/* Error message */}
-      {error && <div className="text-sm text-red-500">{error}</div>}
+      {error.general && <div className="text-sm text-red-500">{error.general}</div>}
 
       {/* Calculate Button */}
       <button
