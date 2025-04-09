@@ -260,14 +260,6 @@ const FlightCalculatorRight = ({
             </div>
 
             <div className="">
-              <div className="flex justify-between items-center px-2 py-2 rounded-md">
-                <span className="text-sm font-medium">
-                  Total Emission (Net)
-                </span>
-                <span className="font-semibold text-sm">
-                  {totalEmission.toFixed(3)} MT
-                </span>
-              </div>
 
               <CarbonFootprintCards totalEmission={totalEmission} />
 
