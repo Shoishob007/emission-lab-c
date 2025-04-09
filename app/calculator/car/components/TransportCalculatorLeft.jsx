@@ -155,7 +155,7 @@ const TransportCalculatorLeft = ({
         {/* <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Vehicle Category
         </label> */}
-        <div className="flex items-center justify-evenly gap-2 rounded-2xl p-1">
+        <div className="flex items-center justify-evenly gap-2 rounded-2xl px-1 py-3">
           {vehicleCategories.map((category) => {
             const Icon = category.icon;
             const isSelected = vehicleCategory === category.value;

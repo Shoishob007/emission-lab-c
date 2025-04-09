@@ -249,17 +249,17 @@ const FlightCalculatorRight = ({
             </div>
 
               {/* Passenger Emission */}
-              <div className="flex justify-between items-center px-2 py-2 rounded-md border-t border-border">
+              {/* <div className="flex justify-between items-center px-2 py-2 rounded-md border-t border-border">
                 <span className="text-sm font-medium">
                   CO<sub>2</sub> emission per person
                 </span>
                 <span className="font-semibold text-sm">
                   {emissionPerPerson.toFixed(3)} MT
                 </span>
-              </div>
+              </div> */}
             </div>
 
-            <div className="">
+            <div className="border-t border-border">
 
               <CarbonFootprintCards totalEmission={totalEmission} />
 
