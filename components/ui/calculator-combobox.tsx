@@ -38,7 +38,7 @@ export const ComboBox = ({
 
   return (
     <div>
-      <label className="block text-sm font-medium mb-2 text-muted-foreground">
+      <label className="block text-sm font-semibold mb-2 text-muted-foreground ">
         {label}
       </label>
       <Popover open={open} onOpenChange={setOpen}>
@@ -62,7 +62,7 @@ export const ComboBox = ({
             />
             <CommandList className="max-h-[200px] overflow-auto">
               {inputValue.trim() === '' ? (
-                <CommandEmpty>Type to search airports...</CommandEmpty>
+                <CommandEmpty>Type to search...</CommandEmpty>
               ) : options.length > 0 ? (
                 <CommandGroup>
                   {options.map((option) => (

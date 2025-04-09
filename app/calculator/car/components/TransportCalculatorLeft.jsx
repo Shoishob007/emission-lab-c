@@ -112,7 +112,7 @@ const TransportCalculatorLeft = ({
     <div className="space-y-4 min-w-[400px]">
       {/* Category Selection */}
       <div>
-        <label className="block text-sm font-medium mb-2 text-muted-foreground">
+        <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Vehicle Category
         </label>
         <Select
@@ -154,7 +154,7 @@ const TransportCalculatorLeft = ({
       {/* Vehicle Type Selection */}
       {vehicleCategory && (
         <div>
-          <label className="block text-sm font-medium mb-2 text-muted-foreground">
+          <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Vehicle Type
           </label>
           <Select
@@ -180,7 +180,7 @@ const TransportCalculatorLeft = ({
       {/* Fuel Type - Only for cars and motorcycles */}
       {(
         <div className="mt-4">
-          <label className="block text-sm font-medium mb-2 text-muted-foreground">
+          <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Fuel Type
           </label>
           <div className="flex space-x-4">
@@ -226,7 +226,7 @@ const TransportCalculatorLeft = ({
 
       {/* Distance Input */}
       <div>
-        <label className="block text-sm font-medium mb-2 text-muted-foreground">
+        <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Distance
         </label>
         <div className="flex justify-between items-center rounded-md border border-input h-10 bg-background px-3 py-2 text-sm">
@@ -263,7 +263,7 @@ const TransportCalculatorLeft = ({
 
       {/* Passengers Input */}
       <div>
-        <label className="block text-sm font-medium mb-2 text-muted-foreground">
+        <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Total Passengers
         </label>
         <div className="flex justify-between items-center rounded-md border border-input h-10 bg-background px-3 py-2 text-sm">

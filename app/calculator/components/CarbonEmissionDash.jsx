@@ -308,7 +308,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
 
           {/* Wildlife Card */}
           <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform ">
-            <div className="h-20 bg-gradient-to-r from-blue-400 to-blue-600 relative overflow-hidden">
+            <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(12)].map((_, i) => (
                   <Leaf
@@ -325,7 +325,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                   />
                 ))}
               </div>
-              <div className="h-20 bg-gradient-to-r from-blue-400 to-blue-600 relative overflow-hidden flex justify-center items-center">
+              <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
                   <Leaf className="h-8 w-8 mr-4" />
                   Biodiversity Protected

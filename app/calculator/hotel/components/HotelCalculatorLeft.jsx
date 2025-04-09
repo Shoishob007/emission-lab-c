@@ -227,7 +227,7 @@ const HotelCalculatorLeft = ({
 
       {/* Hotel Rating */}
       <div>
-        <label className="block text-sm font-medium mb-2 text-muted-foreground">
+        <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Hotel Rating
         </label>
         <Select
@@ -255,14 +255,14 @@ const HotelCalculatorLeft = ({
       {/* Number of Nights and Rooms */}
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-2 text-muted-foreground">
+          <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Number of Nights
           </label>
           <div className="flex items-center w-full rounded-md border border-input h-10 bg-background px-4 py-2 text-sm">
             <Moon className="h-4 w-4 mr-4" />
             <input
               type="number"
-              className="mx-4 w-12 text-center bg-transparent"
+              className="bg-transparent w-full focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               value={hotelDetails.number_of_nights}
               min="1"
               onChange={(e) =>
@@ -276,14 +276,14 @@ const HotelCalculatorLeft = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2 text-muted-foreground">
+          <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Number of Rooms
           </label>
           <div className="flex items-center w-full rounded-md border border-input h-10 bg-background px-4 py-2 text-sm">
             <Bed className="h-4 w-4 mr-4" />
             <input
               type="number"
-              className="mx-4 w-12 text-center bg-transparent"
+              className="bg-transparent w-full focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               value={hotelDetails.number_of_rooms}
               min="1"
               onChange={(e) =>
@@ -300,9 +300,6 @@ const HotelCalculatorLeft = ({
       {/* Calculate Button */}
       <button
         onClick={handleCalculate}
-        disabled={
-          !hotelDetails.country_code || !hotelDetails.city_name || calculating
-        }
         className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {calculating ? (

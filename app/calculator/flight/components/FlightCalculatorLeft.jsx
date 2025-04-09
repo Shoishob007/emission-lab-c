@@ -186,7 +186,7 @@ const FlightCalculatorLeft = ({
 
       {/* Trip Details */}
       <div>
-        <label className="block text-sm font-medium mb-2 text-muted-foreground">
+        <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Trip Details
         </label>
         <div className="flex space-x-4">
@@ -217,7 +217,7 @@ const FlightCalculatorLeft = ({
 
       {/* Class Details */}
       <div>
-        <label className="block text-sm font-medium mb-2 text-muted-foreground">
+        <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Class Details
         </label>
         <div className="flex flex-wrap gap-2 sm:gap-3">
@@ -229,7 +229,7 @@ const FlightCalculatorLeft = ({
           ].map((classType) => (
             <label
               key={classType.id}
-              className="flex items-center px-4 py-2 rounded-md cursor-pointer"
+              className="flex items-center px-2 py-2 rounded-md cursor-pointer"
             >
               <input
                 type="radio"
@@ -251,7 +251,7 @@ const FlightCalculatorLeft = ({
       <div className="grid md:grid-cols-2 gap-4">
         {/* Aircraft Type */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-muted-foreground">
+          <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Aircraft Type
           </label>
           <Select
@@ -275,14 +275,14 @@ const FlightCalculatorLeft = ({
 
         {/* Passengers Input */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-muted-foreground">
+          <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Total Passengers
           </label>
           <div className="flex items-center w-full rounded-md border border-input h-10 bg-background px-4 py-2 text-sm">
             <Users className="h-4 w-4 mr-4" />
             <input
               type="number"
-              className="mx-4 w-12 text-center bg-transparent"
+              className="bg-transparent w-full focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               value={flightDetails.passengers}
               onChange={(e) =>
                 setFlightDetails((prev) => ({
