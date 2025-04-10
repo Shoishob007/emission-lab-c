@@ -61,8 +61,6 @@ const FlightCalculatorRight = ({
   };
 
   const totalEmission = emissionData?.result?.data?.emissions.co2e_mt || 0;
-  const emissionPerPerson =
-    totalEmission / emissionData?.result?.data?.number_of_passengers;
 
   return (
     <>
@@ -213,15 +211,6 @@ const FlightCalculatorRight = ({
 
             {/* Emission Details */}
             <div className="mt-6 sm:mt-0">
-              {/* Trip Emission */}
-              {/* <div className="flex justify-between items-center px-2 py-2 rounded-md">
-                <span className="text-sm font-medium">
-                  CO<sub>2</sub> emission in one-way flight
-                </span>
-                <span className="font-semibold text-sm">
-                  {oneWayEmission.toFixed(3)} MT
-                </span>
-              </div> */}
               <div className="relative h-20 w-full overflow-hidden mb-8">
                 <div className="absolute inset-0">
                   <div className="plane-track">
@@ -247,16 +236,6 @@ const FlightCalculatorRight = ({
                 {emissionData?.result?.data?.flight_class}
               </p>
             </div>
-
-              {/* Passenger Emission */}
-              {/* <div className="flex justify-between items-center px-2 py-2 rounded-md border-t border-border">
-                <span className="text-sm font-medium">
-                  CO<sub>2</sub> emission per person
-                </span>
-                <span className="font-semibold text-sm">
-                  {emissionPerPerson.toFixed(3)} MT
-                </span>
-              </div> */}
             </div>
 
             <div className="border-t border-border">

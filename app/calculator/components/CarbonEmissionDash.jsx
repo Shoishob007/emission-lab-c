@@ -10,11 +10,37 @@ import {
   Droplet,
   Car,
   Clock,
-  HeartHandshake,
   Users,
+  Footprints,
+  Trees,
+  Shell,
+  Wind,
+  CircleHelp
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import Link from "next/link";
 
 const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
+  const resources = [
+    { name: "EPA Greenhouse Gas Equivalencies Calculator", url: "https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator" },
+    { name: "USDA Forest Service Carbon Sequestration Rates", url: "https://www.fs.usda.gov/ccrc/tools/carbon-calculator" },
+    { name: "World Health Organization Air Quality Guidelines", url: "https://www.who.int/publications/i/item/9789240034228" },
+    { name: "United Nations Environment Programme Biodiversity Reports", url: "https://www.unep.org/resources" },
+    { name: "International Energy Agency Water-Energy Nexus Data", url: "https://www.iea.org/topics/water-energy-nexus" },
+    { name: "Verified Carbon Standard Methodology Documents", url: "https://verra.org/methodologies/" },
+    { name: "Clean Development Mechanism Project Reports", url: "https://cdm.unfccc.int/" },
+    { name: "IPCC Emission Factor Database", url: "https://www.ipcc-nggip.iges.or.jp/EFDB/main.php" },
+  ];
   const totalEmissions =
     emissionData?.result?.data?.emissions?.co2e_mt ||
     emissionData?.result?.data?.co2e_mt ||
@@ -37,7 +63,40 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
           <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-emerald-800 inline-block animate-float">
             All About Your Carbon Footprint
           </h1>
-          <Sparkles className="absolute -top-4 -right-8 text-yellow-400 animate-spin-slow" />
+          <TooltipProvider>
+        <Popover>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <button className="absolute -top-4 -right-8 text-gray-800 hover:text-primary transition-colors">
+                  <CircleHelp className="h-6 w-6" />
+                </button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Click to view the resources</p>
+            </TooltipContent>
+          </Tooltip>
+          
+          <PopoverContent className="w-80 p-4" align="end">
+            <h3 className="font-bold text-lg mb-3 text-primary">Carbon Footprint Resources</h3>
+            <ul className="space-y-2">
+              {resources.map((resource, index) => (
+                <li key={index}>
+                  <Link 
+                    href={resource.url} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-700 hover:text-primary hover:underline transition-colors"
+                  >
+                    {resource.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </PopoverContent>
+        </Popover>
+      </TooltipProvider>
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto text-lg">
             Understanding your environmental impact is the first step toward
             meaningful climate action.{" "}
@@ -48,10 +107,10 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
         </div>
 
         {/* Main impact Card */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8 sm:mb-16 transition-all hover:shadow-xl group">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8 sm:mb-16 transition-all group">
           <div className="flex flex-col md:flex-row">
-            <div className="bg-[url('/flight_emission_card_2.jpg')] bg-cover bg-center text-white rounded-l-xl shadow-lg overflow-hidden p-8 md:w-1/2 flex flex-col justify-center items-center relative">
-              <div className="backdrop-blur-sm bg-black/30 p-6 rounded-xl">
+            <div className="bg-[url('/co2-emission-bg.png')] bg-cover bg-center text-white rounded-l-xl shadow-lg overflow-hidden p-8 md:w-1/2 flex flex-col justify-center items-center relative">
+              <div className="backdrop-blur-sm bg-black/40 p-6 rounded-xl">
                 <h2 className="text-5xl font-bold mb-2 animate-bounce text-center">
                   {carbonData?.totalEmissions?.toFixed(2)}
                 </h2>
@@ -90,7 +149,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                 projects that reduce or remove an equivalent amount of
                 greenhouse gases. These initiatives can range from reforestation
                 and renewable energy to methane capture and sustainable
-                agriculture. By offsetting your carbon footprint, you contribute
+                energy solution for communal use. By offsetting your carbon footprint, you contribute
                 to environmental projects that create tangible benefits. In the
                 cards below, it explains how your contribution makes a
                 difference!
@@ -101,16 +160,16 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
 
         {/* Emissions Section */}
         <h2 className="text-2xl font-bold mb-4 text-gray-600 flex items-center justify-center">
-          <Cloud className="w-6 h-6 mr-2 text-red-500" />
+          <Footprints className="w-10 h-10 mr-2 text-red-500" />
           Your Emissions Footprint
         </h2>
         <p className="text-gray-600 mb-6 max-w-3xl mx-auto text-center">
-          These are the primary sources contributing to your carbon emissions.
+          These are some of the numeric values compared equivalenly to your footprint.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
           {/* Home Energy Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform w-full">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
             <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(8)].map((_, i) => (
@@ -128,7 +187,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </div>
               <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
-                  <Home className="h-10 w-10 mr-4" />
+                  <Home className="w-8 h-8 mr-4" />
                   Home Energy
                 </h3>
               </div>
@@ -141,8 +200,8 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                 <span className="ml-2 text-gray-600">homes</span>
               </div>
               <p className="text-sm text-gray-600 mb-4">
-                Your energy usage equals powering {carbonData.homeEquivalent}{" "}
-                average American homes for a year. Residential emissions
+                Your footprint equals to emission of {carbonData.homeEquivalent}{" "}
+                average home throughout a year. Residential emissions
                 primarily come from electricity (60%), heating (25%), and
                 appliances (15%). This includes all the lights, devices, and
                 climate control systems running in your living space.
@@ -151,7 +210,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
           </div>
 
           {/* Car Emissions Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform w-full">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
             <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(8)].map((_, i) => (
@@ -169,7 +228,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </div>
               <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
-                  <Car className="h-10 w-10 mr-4" />
+                  <Car className="w-8 h-8 mr-4" />
                   Transportation
                 </h3>
               </div>
@@ -182,9 +241,9 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                 <span className="ml-2 text-gray-600">cars</span>
               </div>
               <p className="text-sm text-gray-600 mb-4">
-                Your travel emissions match {carbonData.carEquivalent} vehicles
-                driving the average American annual mileage. Transportation
-                emissions account for nearly 30% of US greenhouse gases, with
+                Your total emissions match {carbonData.carEquivalent} vehicles
+                driving the average annual mileage. Transportation
+                emissions account for nearly 30% of greenhouse gases, with
                 passenger vehicles being the largest contributor in this
                 category.
               </p>
@@ -194,16 +253,16 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
 
         {/* Offset Section */}
         <h2 className="text-2xl font-bold mb-4 text-gray-600 flex items-center justify-center">
-          <TreePine className="w-6 h-6 mr-2 text-green-500" />
+          <Trees className="w-10 h-10 mr-2 text-green-500" />
           Carbon Offset Solutions
         </h2>
         <p className="text-gray-600 mb-6 max-w-3xl mx-auto text-center">
           Verified projects that effectively neutralize your carbon footprint.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
           {/* Trees Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform w-full">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
             <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(12)].map((_, i) => (
@@ -221,7 +280,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </div>
               <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
-                  <TreePine className="h-10 w-10 mr-4" />
+                  <TreePine className="w-8 h-8 mr-4" />
                   Reforestation
                 </h3>
               </div>
@@ -244,7 +303,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
           </div>
 
           {/* Community Projects Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform w-full">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
             <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(12)].map((_, i) => (
@@ -262,7 +321,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </div>
               <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
-                  <Users className="h-10 w-10 mr-4" />
+                  <Users className="w-8 h-8 mr-4" />
                   Community Projects
                 </h3>
               </div>
@@ -283,52 +342,11 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </p>
             </div>
           </div>
-
-          {/* Conservation Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform w-full">
-            <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
-              <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                {[...Array(12)].map((_, i) => (
-                  <HeartHandshake
-                    key={i}
-                    className="absolute"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      transform: `scale(${0.5 + Math.random() * 0.5})`,
-                      opacity: 0.3 + Math.random() * 0.7,
-                    }}
-                  />
-                ))}
-              </div>
-              <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden flex justify-center items-center">
-                <h3 className="font-semibold text-white flex items-center">
-                  <HeartHandshake className="h-10 w-10 mr-4" />
-                  Conservation
-                </h3>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="flex items-baseline mb-2">
-                <span className="text-4xl font-bold text-gray-800">
-                  {Math.ceil(carbonData.totalEmissions * 5)}
-                </span>
-                <span className="ml-2 text-gray-600">acres</span>
-              </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Protects {Math.ceil(carbonData.totalEmissions * 5)} acres of
-                threatened forests annually through community-based
-                conservation. These projects prevent deforestation while
-                creating sustainable livelihoods, storing carbon in existing
-                trees rather than just planting new ones.
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Environmental Impact Section */}
         <h2 className="text-2xl font-bold mb-4 text-gray-600 flex items-center justify-center">
-          <Leaf className="w-6 h-6 mr-2 text-blue-500" />
+          <Leaf className="w-10 h-10 mr-2 text-blue-500" />
           Positive Environmental Impact
         </h2>
         <p className="text-gray-600 mb-6 max-w-3xl mx-auto text-center">
@@ -337,7 +355,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8 max-w-6xl mx-auto">
           {/* Air Quality Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform w-full">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
             <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(8)].map((_, i) => (
@@ -355,7 +373,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </div>
               <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
-                  <Cloud className="h-10 w-10 mr-4" />
+                  <Wind className="w-8 h-8 mr-4" />
                   Air Quality
                 </h3>
               </div>
@@ -368,7 +386,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                 <span className="ml-2 text-gray-600">improvement</span>
               </div>
               <p className="text-sm text-gray-600 mb-4">
-                Offset projects reduce particulate pollution by{" "}
+                Offset projects may reduce particulate pollution by{" "}
                 {carbonData.airQualityImprovement}% in local areas, preventing
                 respiratory illnesses. Cleaner air leads to fewer asthma cases
                 and cardiovascular diseases, with health benefits valued at
@@ -378,7 +396,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
           </div>
 
           {/* Water Saved Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform w-full">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
             <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(12)].map((_, i) => (
@@ -396,7 +414,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </div>
               <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
-                  <Droplet className="h-10 w-10 mr-4" />
+                  <Droplet className="w-8 h-8 mr-4" />
                   Water Saved
                 </h3>
               </div>
@@ -419,7 +437,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
           </div>
 
           {/* Biodiversity Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform w-full">
+          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
             <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
               <div className="absolute inset-0 flex justify-center items-center opacity-20">
                 {[...Array(12)].map((_, i) => (
@@ -439,7 +457,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </div>
               <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden flex justify-center items-center">
                 <h3 className="font-semibold text-white flex items-center">
-                  <Leaf className="h-10 w-10 mr-4" />
+                  <Shell className="w-8 h-8 mr-4" />
                   Biodiversity
                 </h3>
               </div>
@@ -466,7 +484,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
         <div className="bg-[url('/CTA_bg_1.jpg')] bg-cover bg-center text-white rounded-xl shadow-lg overflow-hidden backdrop-blur-md p-8">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-2xl font-bold mb-4">
-              Make a Lasting Difference Today
+              Make a Difference Today
             </h2>
             <p className="mb-6 opacity-90">
               Carbon offsetting does more than neutralize your emissions—it
@@ -477,15 +495,15 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center">
-                <ArrowUp className="h-10 w-10 mr-4" />
+                <ArrowUp className="h-5 w-5 mr-2" />
                 Offset Now
               </button>
               <button
                 onClick={() => setShowDashboard((prev) => !prev)}
                 className="bg-black/30 text-white px-6 py-3 border border-gray-100 rounded-lg font-semibold hover:bg-black/50 transition-colors flex items-center justify-center"
               >
-                <Clock className="h-10 w-10 mr-4" />
-                Remind Later
+                <Clock className="h-5 w-5 mr-2" />
+                Remind Me Later
               </button>
             </div>
           </div>

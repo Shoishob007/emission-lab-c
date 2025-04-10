@@ -4,7 +4,7 @@ import { MovingBorder } from "../../../components/moving-border";
 const EmissionDisplay = ({ totalEmission }) => {
   return (
     <div className="flex justify-center p-4">
-      <div className="relative flex items-center justify-center bg-green-50 rounded-full p-2">
+      <div className="relative flex items-center justify-center bg-green-50 rounded-full">
         <div className="absolute inset-0 rounded-full bg-green-200 blur-xl" />
 
         <div className="absolute inset-0 rounded-full border-8 border-white/50" />
