@@ -236,7 +236,7 @@ const TransportCalculatorLeft = ({
               <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
                 <input
                   type="radio"
-                  className="form-radio h-4 w-4 text-secondary"
+                  className="h-4 w-4 border-gray-300 text-primary focus:ring-primary cursor-pointer rounded-full border checked:border-primary checked:after:content-[''] checked:after:block checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:bg-primary checked:after:m-1"
                   checked={transportDetails.fuelType === "Petrol"}
                   onChange={() =>
                     setTransportDetails((prev) => ({
@@ -254,7 +254,7 @@ const TransportCalculatorLeft = ({
               <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
                 <input
                   type="radio"
-                  className="form-radio h-4 w-4 text-secondary"
+                  className="h-4 w-4 border-gray-300 text-primary focus:ring-primary cursor-pointer rounded-full border checked:border-primary checked:after:content-[''] checked:after:block checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:bg-primary checked:after:m-1"
                   checked={transportDetails.fuelType === "Diesel"}
                   onChange={() =>
                     setTransportDetails((prev) => ({

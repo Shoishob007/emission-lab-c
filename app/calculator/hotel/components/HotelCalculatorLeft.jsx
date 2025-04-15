@@ -2,16 +2,9 @@
 import { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import { ComboBox } from "../../../../components/ui/calculator-combobox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Calculator, Moon, Star, Bed } from "lucide-react";
+import { Calculator, Moon, Bed } from "lucide-react";
 import countryList from "react-select-country-list";
-import { Country, State, City } from "country-state-city";
+import { City } from "country-state-city";
 
 const HotelCalculatorLeft = ({
   setCalculated,
@@ -24,7 +17,11 @@ const HotelCalculatorLeft = ({
   const [cities, setCities] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
   const [loading, setLoading] = useState({ country: false, city: false });
-  const [error, setError] = useState({ country: null, city: null, general: null });
+  const [error, setError] = useState({
+    country: null,
+    city: null,
+    general: null,
+  });
   const [calculating, setCalculating] = useState(false);
 
   // countries list on component mount
@@ -166,7 +163,7 @@ const HotelCalculatorLeft = ({
       setCalculated(true);
     } catch (error) {
       console.error("Error calculating emissions:", error);
-      setError(prev => ({ ...prev, general: error.message }));
+      setError((prev) => ({ ...prev, general: error.message }));
     } finally {
       setCalculating(false);
     }
@@ -230,26 +227,28 @@ const HotelCalculatorLeft = ({
         <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Hotel Rating
         </label>
-        <Select
-          value={hotelDetails.hotel_rating}
-          onValueChange={(value) =>
-            setHotelDetails((prev) => ({ ...prev, hotel_rating: value }))
-          }
-        >
-          <SelectTrigger className="w-full focus:ring-0 focus:ring-offset-0">
-            <div className="flex items-center">
-              <Star className="h-4 w-4 mr-2" />
-              <SelectValue placeholder="Select hotel rating..." />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <SelectItem key={rating} value={rating.toString()}>
+        <div className="flex flex-wrap gap-4">
+          {[1, 2, 3, 4, 5].map((rating) => (
+            <label key={rating} className="flex items-center cursor-pointer">
+              <input
+                type="radio"
+                className="h-4 w-4 border-gray-300 text-primary focus:ring-primary cursor-pointer rounded-full border checked:border-primary checked:after:content-[''] checked:after:block checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:bg-primary checked:after:m-1"
+                checked={hotelDetails.hotel_rating === rating.toString()}
+                onChange={() =>
+                  setHotelDetails((prev) => ({
+                    ...prev,
+                    hotel_rating: rating.toString(),
+                  }))
+                }
+                value={rating.toString()}
+              />
+              <span className="ml-2 flex items-center text-sm font-medium">
+                {/* <Star className="h-4 w-4 mr-1" /> */}
                 {rating} Star{rating !== 1 ? "s" : ""}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+              </span>
+            </label>
+          ))}
+        </div>
       </div>
 
       {/* Number of Nights and Rooms */}
@@ -298,7 +297,9 @@ const HotelCalculatorLeft = ({
       </div>
 
       {/* Error message */}
-      {error.general && <div className="text-sm text-red-500">{error.general}</div>}
+      {error.general && (
+        <div className="text-sm text-red-500">{error.general}</div>
+      )}
 
       {/* Calculate Button */}
       <button
