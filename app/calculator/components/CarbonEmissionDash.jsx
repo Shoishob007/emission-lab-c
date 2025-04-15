@@ -15,7 +15,8 @@ import {
   Trees,
   Shell,
   Wind,
-  CircleHelp
+  CircleHelp,
+  Info,
 } from "lucide-react";
 import {
   Tooltip,
@@ -32,14 +33,38 @@ import Link from "next/link";
 
 const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
   const resources = [
-    { name: "EPA Greenhouse Gas Equivalencies Calculator", url: "https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator" },
-    { name: "USDA Forest Service Carbon Sequestration Rates", url: "https://www.fs.usda.gov/ccrc/tools/carbon-calculator" },
-    { name: "World Health Organization Air Quality Guidelines", url: "https://www.who.int/publications/i/item/9789240034228" },
-    { name: "United Nations Environment Programme Biodiversity Reports", url: "https://www.unep.org/resources" },
-    { name: "International Energy Agency Water-Energy Nexus Data", url: "https://www.iea.org/topics/water-energy-nexus" },
-    { name: "Verified Carbon Standard Methodology Documents", url: "https://verra.org/methodologies/" },
-    { name: "Clean Development Mechanism Project Reports", url: "https://cdm.unfccc.int/" },
-    { name: "IPCC Emission Factor Database", url: "https://www.ipcc-nggip.iges.or.jp/EFDB/main.php" },
+    {
+      name: "EPA Greenhouse Gas Equivalencies Calculator",
+      url: "https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator",
+    },
+    {
+      name: "USDA Forest Service Carbon Sequestration Rates",
+      url: "https://www.fs.usda.gov/ccrc/tools/carbon-calculator",
+    },
+    {
+      name: "World Health Organization Air Quality Guidelines",
+      url: "https://www.who.int/publications/i/item/9789240034228",
+    },
+    {
+      name: "United Nations Environment Programme Biodiversity Reports",
+      url: "https://www.unep.org/resources",
+    },
+    {
+      name: "International Energy Agency Water-Energy Nexus Data",
+      url: "https://www.iea.org/topics/water-energy-nexus",
+    },
+    {
+      name: "Verified Carbon Standard Methodology Documents",
+      url: "https://verra.org/methodologies/",
+    },
+    {
+      name: "Clean Development Mechanism Project Reports",
+      url: "https://cdm.unfccc.int/",
+    },
+    {
+      name: "IPCC Emission Factor Database",
+      url: "https://www.ipcc-nggip.iges.or.jp/EFDB/main.php",
+    },
   ];
   const totalEmissions =
     emissionData?.result?.data?.emissions?.co2e_mt ||
@@ -64,39 +89,41 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
             All About Your Carbon Footprint
           </h1>
           <TooltipProvider>
-        <Popover>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <PopoverTrigger asChild>
-                <button className="absolute -top-4 -right-8 text-gray-800 hover:text-primary transition-colors">
-                  <CircleHelp className="h-6 w-6" />
-                </button>
-              </PopoverTrigger>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Click to view the resources</p>
-            </TooltipContent>
-          </Tooltip>
-          
-          <PopoverContent className="w-80 p-4" align="end">
-            <h3 className="font-bold text-lg mb-3 text-primary">Carbon Footprint Resources</h3>
-            <ul className="space-y-2">
-              {resources.map((resource, index) => (
-                <li key={index}>
-                  <Link 
-                    href={resource.url} 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-700 hover:text-primary hover:underline transition-colors"
-                  >
-                    {resource.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </PopoverContent>
-        </Popover>
-      </TooltipProvider>
+            <Popover>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <PopoverTrigger asChild>
+                    <button className="absolute -top-4 -right-8 text-gray-800 hover:text-primary transition-colors">
+                      <Info className="h-6 w-6" />
+                    </button>
+                  </PopoverTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Click to view the resources</p>
+                </TooltipContent>
+              </Tooltip>
+
+              <PopoverContent className="w-80 sm:w-96 p-4" align="end">
+                <h3 className="font-bold text-base mb-3 text-primary">
+                  Carbon Footprint Resources
+                </h3>
+                <ul className="space-y-1">
+                  {resources.map((resource, index) => (
+                    <li key={index}>
+                      <Link
+                        href={resource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-gray-700 hover:text-primary hover:underline transition-colors"
+                      >
+                        {resource.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </PopoverContent>
+            </Popover>
+          </TooltipProvider>
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto text-lg">
             Understanding your environmental impact is the first step toward
             meaningful climate action.{" "}
@@ -148,11 +175,11 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                 Carbon offsetting means balancing your emissions by funding
                 projects that reduce or remove an equivalent amount of
                 greenhouse gases. These initiatives can range from reforestation
-                and renewable energy to methane capture and sustainable
-                energy solution for communal use. By offsetting your carbon footprint, you contribute
-                to environmental projects that create tangible benefits. In the
-                cards below, it explains how your contribution makes a
-                difference!
+                and renewable energy to methane capture and sustainable energy
+                solution for communal use. By offsetting your carbon footprint,
+                you contribute to environmental projects that create tangible
+                benefits. In the cards below, it explains how your contribution
+                makes a difference!
               </p>
             </div>
           </div>
@@ -164,7 +191,8 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
           Your Emissions Footprint
         </h2>
         <p className="text-gray-600 mb-6 max-w-3xl mx-auto text-center">
-          These are some of the numeric values compared equivalenly to your footprint.
+          These are some of the numeric values compared equivalenly to your
+          footprint.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
@@ -201,10 +229,10 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </div>
               <p className="text-sm text-gray-600 mb-4">
                 Your footprint equals to emission of {carbonData.homeEquivalent}{" "}
-                average home throughout a year. Residential emissions
-                primarily come from electricity (60%), heating (25%), and
-                appliances (15%). This includes all the lights, devices, and
-                climate control systems running in your living space.
+                average home throughout a year. Residential emissions primarily
+                come from electricity (60%), heating (25%), and appliances
+                (15%). This includes all the lights, devices, and climate
+                control systems running in your living space.
               </p>
             </div>
           </div>
@@ -242,10 +270,9 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               </div>
               <p className="text-sm text-gray-600 mb-4">
                 Your total emissions match {carbonData.carEquivalent} vehicles
-                driving the average annual mileage. Transportation
-                emissions account for nearly 30% of greenhouse gases, with
-                passenger vehicles being the largest contributor in this
-                category.
+                driving the average annual mileage. Transportation emissions
+                account for nearly 30% of greenhouse gases, with passenger
+                vehicles being the largest contributor in this category.
               </p>
             </div>
           </div>
@@ -483,9 +510,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
         {/* Call to Action */}
         <div className="bg-[url('/CTA_bg_1.jpg')] bg-cover bg-center text-white rounded-xl shadow-lg overflow-hidden backdrop-blur-md p-8">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Make a Difference Today
-            </h2>
+            <h2 className="text-2xl font-bold mb-4">Make a Difference Today</h2>
             <p className="mb-6 opacity-90">
               Carbon offsetting does more than neutralize your emissions—it
               helps drive the global transition to a low-carbon future. Your
