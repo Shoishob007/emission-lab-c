@@ -22,7 +22,10 @@ export default function Navbar() {
 
   
 const isActive = (path) => {
-  return pathname === path;
+  if (path === '/') {
+    return pathname === '/';
+  }
+  return pathname.startsWith(path);
 };
 
   return (

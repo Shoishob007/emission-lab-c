@@ -10,14 +10,33 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PopularDestinations } from "./components/PopularDestinations";
 import { SearchByDestination } from "./components/SearchByDestination";
 import { TopCountries } from "./components/TopCountries";
+import { useRouter } from "next/navigation";
 
 function FlightSearchDemo() {
+  const router = useRouter();
   const [tripType, setTripType] = useState("roundTrip");
   const [passengers, setPassengers] = useState(1);
   const [destination, setDestination] = useState("");
+  const [origin, setOrigin] = useState("");
+  const [departDate, setDepartDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
 
   const handleDestinationSelect = (dest) => {
     setDestination(dest);
+  };
+
+  const handleSearch = () => {
+    const params = new URLSearchParams({
+      tripType,
+      origin,
+      destination,
+      depart: departDate,
+      return: returnDate,
+      adult: passengers.toString(),
+      class: "Economy"
+    });
+
+    router.push(`/business/flight/flight-search?${params.toString()}`);
   };
 
   return (
@@ -127,6 +146,7 @@ function FlightSearchDemo() {
             <Button
               size="lg"
               className="bg-primary hover:bg-secondary h-12 px-8 text-base"
+              onClick={handleSearch}
             >
               Search Flights
             </Button>
@@ -141,22 +161,22 @@ function FlightSearchDemo() {
             <h2 className="text-3xl font-bold">
               Popular Flight Destinations from BD
             </h2>
-            <p className="text-sm text-center max-w-2xl">
+            <p className="text-sm text-center max-w-3xl">
               Expand your travel horizons with new facets! Diversify your
               journey to explore local destinations or global marvels around
               Asia, Europe, America, Canada or anywhere
             </p>
 
-            <TabsList className="p-1 bg-gray-100 rounded-sm">
+            <TabsList className="p-1 bg-gray-100">
               <TabsTrigger
                 value="domestic"
-                className="px-6 data-[state=active]:bg-secondary data-[state=active]:text-white"
+                className="px-6 data-[state=active]:bg-secondary bg-white data-[state=active]:text-white rounded-r-none"
               >
                 Domestic
               </TabsTrigger>
               <TabsTrigger
                 value="international"
-                className="px-6 data-[state=active]:bg-secondary data-[state=active]:text-white"
+                className="px-6 data-[state=active]:bg-secondary bg-white data-[state=active]:text-white rounded-l-none"
               >
                 International
               </TabsTrigger>
@@ -182,9 +202,9 @@ function FlightSearchDemo() {
         <h2 className="text-3xl font-bold mb-4 items-center text-center">
           Search Cheapest Flight By Destination
         </h2>
-        <p className="text-sm text-center mb-4 max-w-2xl mx-auto">
+        <p className="text-sm text-center mb-4 max-w-3xl mx-auto">
           Effortlessly find cheap flight and air tickets to various destinations
-          on ShareTrip. Explore routes, book online air tickets, and plan your
+          on Emission Lab. Explore routes, book online air tickets, and plan your
           next travel adventure.
         </p>
         <SearchByDestination onSelect={handleDestinationSelect} />
@@ -192,7 +212,12 @@ function FlightSearchDemo() {
 
       {/* Flights to Top Countries */}
       <div className="container mx-auto px-4 mb-16 max-w-6xl items-center text-center">
-        <h2 className="text-3xl font-bold mb-8">Flights to Top Countries</h2>
+        <h2 className="text-3xl font-bold mb-4">Flights to Top Countries</h2>
+        <p className="text-sm text-center mb-4 max-w-3xl mx-auto">
+          Effortlessly find cheap flight and air tickets to various destinations
+          on Emission Lab. Explore routes, book online air tickets, and plan your
+          next travel adventure.
+        </p>
         <TopCountries onSelect={handleDestinationSelect} />
       </div>
     </div>
