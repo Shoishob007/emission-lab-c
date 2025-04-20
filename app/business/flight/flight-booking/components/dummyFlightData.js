@@ -34,7 +34,7 @@ export const flightDetails = {
     },
     score: 8.7,
     emissions: "Low CO2 emissions",
-    emissionsValue: "132kg",
+    emissionsValue: "13200kg",
 };
 
 
@@ -78,18 +78,26 @@ export const availableCoupons = [
 ];
 
 export const paymentMethods = [
-    { id: "visa", name: "Visa", image: "/payment/visa.png" },
-    { id: "mastercard", name: "Mastercard", image: "/payment/mastercard.png" },
-    { id: "amex", name: "American Express", image: "/payment/amex.png" },
-    { id: "bkash", name: "bKash", image: "/payment/bkash.png" },
-    { id: "nagad", name: "Nagad", image: "/payment/nagad.png" },
-    { id: "rocket", name: "Rocket", image: "/payment/rocket.png" },
-    { id: "ucb", name: "UCB", image: "/payment/ucb.png" },
-    { id: "dbbl", name: "DBBL", image: "/payment/dbbl.png" },
-    { id: "city", name: "City Bank", image: "/payment/city.png" },
-    { id: "ebl", name: "EBL", image: "/payment/ebl.png" },
-    { id: "ibbl", name: "IBBL", image: "/payment/ibbl.png" },
-    { id: "brac", name: "BRAC Bank", image: "/payment/brac.png" },
+    { id: "visa", name: "Visa", image: "/bank-logos/visa.svg" },
+    { id: "mastercard", name: "Mastercard", image: "/bank-logos/mastercard.svg" },
+    { id: "amex", name: "American Express", image: "/bank-logos/American_Express.svg" },
+    { id: "bkash", name: "bKash", image: "/bank-logos/Bkash.svg" },
+    { id: "nagad", name: "Nagad", image: "/bank-logos/Nagad.svg" },
+    { id: "rocket", name: "Rocket", image: "/bank-logos/rocket.png" },
+    { id: "ucb", name: "UCB", image: "/bank-logos/ucb-bank.png" },
+    { id: "dbbl", name: "DBBL", image: "/bank-logos/dutch-bangla-bank.png" },
+    { id: "city", name: "City Bank", image: "/bank-logos/city-bank.png" },
+    { id: "ebl", name: "EBL", image: "/bank-logos/ebl.png" },
+    { id: "ibbl", name: "IBBL", image: "/bank-logos/islami-bank.png" },
+    { id: "brac", name: "BRAC Bank", image: "/bank-logos/Brac-Bank.svg" },
+    { id: "mtb", name: "MTB", image: "/bank-logos/MTB.svg" },
+    { id: "southeast", name: "South East Bank", image: "/bank-logos/southeast.png" },
+    { id: "scb", name: "Standard Chatered Bank", image: "/bank-logos/SCB.png" },
+    { id: "prime", name: "Prime Bank", image: "/bank-logos/Prime-bank.png" },
+    { id: "lanka-bangla", name: "Lanka Bangla Bank", image: "/bank-logos/lanka-bangla.svg" },
+    { id: "ab", name: "AB Bank", image: "/bank-logos/ab.png" },
+
+    
 ];
 
 export const wheelchairOptions = [

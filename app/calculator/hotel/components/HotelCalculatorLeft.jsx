@@ -301,7 +301,7 @@ const HotelCalculatorLeft = ({
         <div className="text-sm text-red-500">{error.general}</div>
       )}
 
-      {/* Calculate Button */}
+      {/* Calculating */}
       <button
         onClick={handleCalculate}
         className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 disabled:opacity-50 disabled:cursor-not-allowed"

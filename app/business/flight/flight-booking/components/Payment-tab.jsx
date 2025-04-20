@@ -59,7 +59,7 @@ const Payment = ({
                       <div className="w-4 h-4 rounded-full bg-blue-500"></div>
                     ) : null}
                   </div>
-                  <span className="font-medium">I want to redeem vouCash</span>
+                  <span className="font-medium">I want to redeem cash</span>
                 </div>
                 <p className="ml-8 text-xs text-gray-500">
                   Mobile banking, cards, etc
@@ -181,19 +181,22 @@ const Payment = ({
                 is applicable only for these payment methods:
               </p>
               <div className="grid grid-cols-6 gap-3">
-                {paymentMethods.slice(0, 12).map((method) => (
+                {paymentMethods.slice(0, 18).map((method) => (
                   <div
                     key={method.id}
-                    className={`p-2 border rounded-md flex items-center justify-center cursor-pointer ${
-                      selectedPayment === method.id ? "border-blue-500" : ""
+                    className={`aspect-square border rounded-md flex items-center justify-center cursor-pointer transition ${
+                      selectedPayment === method.id
+                        ? "border-blue-500"
+                        : "border-gray-200"
                     }`}
                     onClick={() => setSelectedPayment(method.id)}
                   >
                     <Image
                       src={method.image}
                       alt={method.name}
-                      width={40}
-                      height={30}
+                      width={90}
+                      height={60}
+                      className="object-contain"
                     />
                   </div>
                 ))}
@@ -203,24 +206,6 @@ const Payment = ({
                 Coupon is applied currently. Please be informed that selecting a
                 different method will cancel this coupon.
               </p>
-
-              <div className="mt-6 grid grid-cols-6 gap-2">
-                {paymentMethods.slice(0, 12).map((method) => (
-                  <div key={`eligible-${method.id}`} className="relative">
-                    <div className="p-2 border rounded-md flex items-center justify-center">
-                      <Image
-                        src={method.image}
-                        alt={method.name}
-                        width={40}
-                        height={30}
-                      />
-                    </div>
-                    <div className="absolute -top-1 -left-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-3 h-3 text-white" />
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
 
