@@ -49,14 +49,16 @@ export default function FlightBooking() {
             </div>
             <div className="h-1 flex-1 mx-4 bg-gray-200 ">
               <div
-                className={`h-full bg-blue-500 ${
-                  activeStep === "traveler"
-                    ? "w-0"
-                    : activeStep === "payment"
-                    ? "w-2/3"
-                    : "w-full"
-                }`}
-              ></div>
+                className="h-full bg-blue-500 transition-all duration-300"
+                style={{
+                  width:
+                    activeStep === "traveler"
+                      ? "0%"
+                      : activeStep === "payment"
+                      ? "120%"
+                      : "w-full",
+                }}
+              />
             </div>
             <div className="flex items-center">
               <div

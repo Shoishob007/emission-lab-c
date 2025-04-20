@@ -9,6 +9,16 @@ import {
   BadgePercent,
   Leaf,
   HelpCircle,
+  Home,
+  Car,
+  TreePine,
+  Users,
+  Droplet,
+  Shell,
+  Wind,
+  CheckCircle,
+  Flame,
+  AlertCircle,
 } from "lucide-react";
 import Image from "next/image";
 import {
@@ -19,6 +29,22 @@ import {
 } from "@/components/ui/tooltip";
 import { flightDetails } from "./dummyFlightData";
 
+const getEmissionsInMetricTons = (emissionsValue) => {
+  if (!emissionsValue) return 0;
+  const numericValue = parseFloat(emissionsValue.replace(/[^0-9.]/g, ""));
+  return numericValue / 1000;
+};
+
+const getEmissionCategory = (emissionsValue) => {
+  if (!emissionsValue) return { category: "unknown", color: "gray" };
+
+  const numericValue = parseFloat(emissionsValue.replace(/[^0-9.]/g, ""));
+
+  if (numericValue < 100) return { category: "Low", color: "green-500" };
+  if (numericValue < 200) return { category: "Moderate", color: "yellow-500" };
+  return { category: "High", color: "red-500" };
+};
+
 const SidebarBooking = ({
   showEmissionsDetails,
   setShowEmissionsDetails,
@@ -26,6 +52,22 @@ const SidebarBooking = ({
 }) => {
   const formatCurrency = (amount, currency = "BDT") => {
     return `${amount.toLocaleString()} ${currency}`;
+  };
+
+  const emissionsInTons = getEmissionsInMetricTons(
+    flightDetails.emissionsValue
+  );
+  const emissionCategory = getEmissionCategory(flightDetails.emissionsValue);
+
+  // Calculate carbon data metrics
+  const carbonData = {
+    totalEmissions: emissionsInTons,
+    treesRequired: Math.ceil(emissionsInTons * 20),
+    homeEquivalent: Math.ceil(emissionsInTons / 8.6),
+    carEquivalent: Math.ceil(emissionsInTons / 4.6),
+    airQualityImprovement: Math.ceil(emissionsInTons * 0.16),
+    waterSaved: Math.ceil(emissionsInTons * 8000),
+    speciesProtected: Math.ceil(emissionsInTons * 0.37),
   };
 
   return (
@@ -82,7 +124,6 @@ const SidebarBooking = ({
             {/* Flight Details */}
             <div>
               <div className="relative">
-                {/* Departure */}
                 <div className="flex items-start gap-4">
                   <div className="relative">
                     <div className="w-4 h-4 rounded-full bg-blue-500"></div>
@@ -107,7 +148,6 @@ const SidebarBooking = ({
                   </div>
                 </div>
 
-                {/* Transit */}
                 {flightDetails.stops.count > 0 && (
                   <div className="flex items-start gap-4 mt-4">
                     <div className="relative">
@@ -128,7 +168,6 @@ const SidebarBooking = ({
                   </div>
                 )}
 
-                {/* Arrival */}
                 <div className="flex items-start gap-4 mt-4">
                   <div className="relative">
                     <div className="w-4 h-4 rounded-full bg-green-500"></div>
@@ -153,7 +192,7 @@ const SidebarBooking = ({
                 </div>
               </div>
 
-              {/* Journey Duration */}
+              {/* duration */}
               <div className="mt-4 bg-gray-50 p-3 rounded-md">
                 <div className="flex items-center justify-between">
                   <p className="text-sm">Total duration</p>
@@ -164,53 +203,194 @@ const SidebarBooking = ({
               </div>
 
               {/* CO2 Emissions */}
-              <div className="mt-3 flex items-center justify-between">
-                <div className="flex items-center gap-1 text-green-600">
-                  <Leaf className="h-4 w-4" />
-                  <span className="text-sm font-medium">
-                    {flightDetails.emissions}
-                  </span>
+              <div className="mt-3">
+                <div className="flex items-center justify-between">
+                  <div
+                    className={`flex items-center gap-1 text-${emissionCategory.color}`}
+                  >
+                    {emissionCategory.category === "Low" && (
+                      <CheckCircle className="h-4 w-4 mr-1" />
+                    )}{" "}
+                    {emissionCategory.category === "Moderate" && (
+                      <AlertCircle className="h-4 w-4 mr-1" />
+                    )}
+                    {emissionCategory.category === "High" && (
+                      <Flame className="h-4 w-4 mr-1" />
+                    )}
+                    <span
+                      className={`text-sm font-medium text-${emissionCategory.color}`}
+                    >
+                      {emissionCategory.category} CO2 emissions (
+                      {flightDetails.emissionsValue})
+                    </span>
+                  </div>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 px-2 text-blue-500"
+                          onClick={() =>
+                            setShowEmissionsDetails(!showEmissionsDetails)
+                          }
+                        >
+                          Details
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="text-xs">
+                          See environmental impact details
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-6 px-2 text-blue-500"
-                        onClick={() =>
-                          setShowEmissionsDetails(!showEmissionsDetails)
-                        }
-                      >
-                        Details
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="text-xs">
-                        CO2 Emissions: {flightDetails.emissionsValue}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
 
-              {showEmissionsDetails && (
-                <div className="mt-2 bg-green-50 p-3 rounded-md">
-                  <h5 className="text-sm font-medium text-green-700 mb-1">
-                    CO2 Emissions Details
-                  </h5>
-                  <p className="text-xs text-green-600">
-                    This flight produces {flightDetails.emissionsValue} of CO2
-                    per passenger, which is lower than the average for this
-                    route.
-                  </p>
-                </div>
-              )}
+                {showEmissionsDetails && (
+                  <div
+                    className={`mt-2 bg-${emissionCategory.color}/10 p-4 rounded-md space-y-4`}
+                  >
+                    <div>
+                      <h5
+                        className={`text-sm font-medium mb-2 flex items-center`}
+                      >
+                        <Leaf className="h-4 w-4 mr-1" />
+                        Environmental Impact
+                      </h5>
+                      <p className="text-sm text-gray-700 mb-3">
+                        This flight produces {flightDetails.emissionsValue} of
+                        CO<sub>2</sub>, which is{" "}
+                        {emissionCategory.category.toLowerCase()} compared to
+                        the average for this route.
+                      </p>
+
+                      {/* impact metrics*/}
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between border-b border-gray-200 pb-1">
+                          <div className="flex items-center gap-2">
+                            <Home className="h-4 w-4 text-red-500" />
+                            <span className="text-sm text-gray-600">
+                              Home Energy Equiv.
+                            </span>
+                          </div>
+                          <p className="text-sm font-semibold">
+                            {carbonData.homeEquivalent} homes
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between border-b border-gray-200 pb-1">
+                          <div className="flex items-center gap-2">
+                            <Car className="h-4 w-4 text-red-500" />
+                            <span className="text-sm text-gray-600">
+                              Car Equivalent
+                            </span>
+                          </div>
+                          <p className="text-sm font-semibold">
+                            {carbonData.carEquivalent} cars
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between border-b border-gray-200 pb-1">
+                          <div className="flex items-center gap-2">
+                            <TreePine className="h-4 w-4 text-green-500" />
+                            <span className="text-sm text-gray-600">
+                              Trees Needed
+                            </span>
+                          </div>
+                          <p className={`text-sm font-semibold`}>
+                            {carbonData.treesRequired}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Droplet className="h-4 w-4 text-blue-500" />
+                            <span className="text-sm text-gray-600">
+                              Water Impact
+                            </span>
+                          </div>
+                          <p className="text-sm font-semibold">
+                            {(carbonData.waterSaved / 1000).toFixed(1)}k L
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Wind className="h-4 w-4 text-blue-500" />
+                            <span className="text-sm text-gray-600">
+                              Air Quality Improvement
+                            </span>
+                          </div>
+                          <p className="text-sm font-semibold">
+                            {carbonData.airQualityImprovement.toFixed(1)}%
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Shell className="h-4 w-4 text-blue-500" />
+                            <span className="text-sm text-gray-600">
+                              Species Protected
+                            </span>
+                          </div>
+                          <p className="text-sm font-semibold">
+                            {carbonData.speciesProtected}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* offset options*/}
+                    <div>
+                      <h5
+                        className={`text-sm font-medium mb-2 flex items-center`}
+                      >
+                        <Users className="h-4 w-4 mr-1" />
+                        Offset Options
+                      </h5>
+
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-white/60 transition-colors">
+                          <div className="flex items-center gap-2">
+                            <TreePine className="h-4 w-4 text-green-500" />
+                            <span className="text-sm">
+                              Reforestation Project
+                            </span>
+                          </div>
+                          <p className="text-sm font-medium">
+                            {formatCurrency(Math.ceil(emissionsInTons * 500))}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-white/60 transition-colors">
+                          <div className="flex items-center gap-2">
+                            <Users className="h-4 w-4 text-blue-500" />
+                            <span className="text-sm">
+                              Community Clean Energy
+                            </span>
+                          </div>
+                          <p className="text-sm font-medium">
+                            {formatCurrency(Math.ceil(emissionsInTons * 650))}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Button
+                      size="sm"
+                      className={`w-full bg-${emissionCategory.color} hover:bg-${emissionCategory.color}/90 text-white`}
+                    >
+                      Offset Your Carbon Emission
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
 
             <Separator />
 
-            {/* Fare Details */}
+            {/* Fare */}
             <div>
               <h4 className="font-medium mb-2">Price Details</h4>
               <div className="space-y-2">
@@ -220,7 +400,7 @@ const SidebarBooking = ({
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <HelpCircle className="h-3 w-3 text-gray-400" />
+                          <HelpCircle className="h-4 w-4 text-gray-400" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p className="text-xs">
@@ -261,7 +441,7 @@ const SidebarBooking = ({
               </div>
             </div>
 
-            {/* Baggage Info */}
+            {/* Baggage */}
             <div className="bg-gray-50 p-3 rounded-md">
               <div className="flex items-center gap-2">
                 <span className="font-medium text-sm">Baggage Allowance</span>
