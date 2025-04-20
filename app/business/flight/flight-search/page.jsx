@@ -552,7 +552,7 @@ export default function FlightSearchResults() {
                                     <div className="w-3 h-3 rounded-full bg-orange-500"></div>
                                   </div>
                                 )}
-                                <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
+                                <div className="absolute -right-1 top-1/2 transform -translate-y-1/2">
                                   <Plane className="h-4 w-4 text-secondary" />
                                 </div>
                               </div>
@@ -659,6 +659,12 @@ export default function FlightSearchResults() {
                           <Button
                             size="sm"
                             className="bg-secondary hover:bg-blue-600 mt-2 px-6"
+                            onClick={() => {
+                              // a demo search ID and sequence
+                              const searchId = "DEMO" + Math.random().toString(36).substr(2, 9);
+                              const sequence = Math.floor(Math.random() * 1000);
+                              window.location.href = `/business/flight/flight-booking?searchId=${searchId}&sequence=${sequence}`;
+                            }}
                           >
                             View Deal
                           </Button>
