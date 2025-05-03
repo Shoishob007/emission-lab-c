@@ -34,7 +34,7 @@ export const flightDetails = {
     },
     score: 8.7,
     emissions: "Low CO2 emissions",
-    emissionsValue: "13200kg",
+    emissionsValue: "12000kg",
 };
 
 
