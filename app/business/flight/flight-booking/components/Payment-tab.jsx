@@ -194,8 +194,8 @@ const Payment = ({
                     <Image
                       src={method.image}
                       alt={method.name}
-                      width={90}
-                      height={60}
+                      width={80}
+                      height={50}
                       className="object-contain"
                     />
                   </div>

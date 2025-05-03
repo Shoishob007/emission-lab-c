@@ -35,13 +35,11 @@ const getEmissionsInMetricTons = (emissionsValue) => {
   return numericValue / 1000;
 };
 
-const getEmissionCategory = (emissionsValue) => {
-  if (!emissionsValue) return { category: "unknown", color: "gray" };
+const getEmissionCategory = (emissionsInTons) => {
+  if (!emissionsInTons) return { category: "unknown", color: "gray" };
 
-  const numericValue = parseFloat(emissionsValue.replace(/[^0-9.]/g, ""));
-
-  if (numericValue < 100) return { category: "Low", color: "green-500" };
-  if (numericValue < 200) return { category: "Moderate", color: "yellow-500" };
+  if (emissionsInTons < 0.1) return { category: "Low", color: "green-500" };
+  if (emissionsInTons >= 0.1 && emissionsInTons < 0.2) return { category: "Moderate", color: "yellow-500" };
   return { category: "High", color: "red-500" };
 };
 
@@ -54,10 +52,8 @@ const SidebarBooking = ({
     return `${amount.toLocaleString()} ${currency}`;
   };
 
-  const emissionsInTons = getEmissionsInMetricTons(
-    flightDetails.emissionsValue
-  );
-  const emissionCategory = getEmissionCategory(flightDetails.emissionsValue);
+  const emissionsInTons = getEmissionsInMetricTons(flightDetails.emissionsValue);
+  const emissionCategory = getEmissionCategory(emissionsInTons);
 
   // Calculate carbon data metrics
   const carbonData = {
@@ -221,7 +217,7 @@ const SidebarBooking = ({
                       className={`text-sm font-medium text-${emissionCategory.color}`}
                     >
                       {emissionCategory.category} CO2 emissions (
-                      {flightDetails.emissionsValue})
+                        {emissionsInTons.toFixed(2)} MT)
                     </span>
                   </div>
                   <TooltipProvider>
@@ -267,7 +263,7 @@ const SidebarBooking = ({
 
                       {/* impact metrics*/}
                       <div className="space-y-2">
-                        <div className="flex items-center justify-between border-b border-gray-200 pb-1">
+                        <div className="flex items-center justify-between pb-1">
                           <div className="flex items-center gap-2">
                             <Home className="h-4 w-4 text-red-500" />
                             <span className="text-sm text-gray-600">

@@ -20,9 +20,9 @@ export default function FlightBooking() {
   const [selectedPayment, setSelectedPayment] = useState("visa");
   const [showEmissionsDetails, setShowEmissionsDetails] = useState(false);
 
-  const navigateToStep = (step) => {
-    setActiveStep(step);
-  };
+  // const navigateToStep = (step) => {
+  //   setActiveStep(step);
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
