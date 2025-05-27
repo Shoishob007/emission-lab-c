@@ -28,12 +28,12 @@ function FlightSearchDemo() {
   const handleSearch = () => {
     const params = new URLSearchParams({
       tripType,
-      origin,
-      destination,
-      depart: departDate,
-      return: returnDate,
+      origin: origin || "",
+      destination: destination || "",
+      depart: departDate || "",
+      return: tripType === "roundTrip" ? returnDate : "",
       adult: passengers.toString(),
-      class: "Economy"
+      class: "Economy",
     });
 
     router.push(`/business/flight/flight-search?${params.toString()}`);
@@ -90,6 +90,8 @@ function FlightSearchDemo() {
                 <Input
                   placeholder="Departure City"
                   className="pl-10 h-12 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  value={origin}
+                  onChange={(e) => setOrigin(e.target.value)}
                 />
                 <MapPin className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
               </div>
@@ -111,8 +113,11 @@ function FlightSearchDemo() {
               <div className="relative">
                 <Input
                   type="date"
+                  value={departDate}
+                  onChange={(e) => setDepartDate(e.target.value)}
                   className="pl-10 h-12 focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
+
                 <Calendar className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
               </div>
             </div>
@@ -121,9 +126,12 @@ function FlightSearchDemo() {
               <div className="relative">
                 <Input
                   type="date"
+                  value={returnDate}
+                  onChange={(e) => setReturnDate(e.target.value)}
                   className="pl-10 h-12 focus-visible:ring-0 focus-visible:ring-offset-0"
                   disabled={tripType === "oneWay"}
                 />
+
                 <Calendar className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
               </div>
             </div>
@@ -204,8 +212,8 @@ function FlightSearchDemo() {
         </h2>
         <p className="text-sm text-center mb-4 max-w-3xl mx-auto">
           Effortlessly find cheap flight and air tickets to various destinations
-          on Emission Lab. Explore routes, book online air tickets, and plan your
-          next travel adventure.
+          on Emission Lab. Explore routes, book online air tickets, and plan
+          your next travel adventure.
         </p>
         <SearchByDestination onSelect={handleDestinationSelect} />
       </div>
@@ -215,8 +223,8 @@ function FlightSearchDemo() {
         <h2 className="text-3xl font-bold mb-4">Flights to Top Countries</h2>
         <p className="text-sm text-center mb-4 max-w-3xl mx-auto">
           Effortlessly find cheap flight and air tickets to various destinations
-          on Emission Lab. Explore routes, book online air tickets, and plan your
-          next travel adventure.
+          on Emission Lab. Explore routes, book online air tickets, and plan
+          your next travel adventure.
         </p>
         <TopCountries onSelect={handleDestinationSelect} />
       </div>

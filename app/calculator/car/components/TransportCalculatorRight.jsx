@@ -1,4 +1,4 @@
-import { Cloud, Sparkles, Car } from "lucide-react";
+import { Cloud, Sparkles, Car, ArrowUp } from "lucide-react";
 import React, { useState } from "react";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
@@ -38,11 +38,10 @@ const TransportCalculatorRight = ({
       return;
     }
 
-    // Starting the generation process
+    // AI generation process
     setIsGenerating(true);
     setGenerationProgress(0);
 
-    // Simulating AI generation process
     const totalTime = 4000;
     const intervalTime = 100;
     const steps = totalTime / intervalTime;
@@ -119,7 +118,6 @@ const TransportCalculatorRight = ({
 
               {isGenerating ? (
                 <div className="w-full mt-6">
-                  {/* AI Generation Loading State */}
                   <div className="w-full bg-primary/10 rounded-lg p-4 flex flex-col items-center">
                     <div className="flex items-center space-x-3 mb-3">
                       <div className="relative">
@@ -152,13 +150,26 @@ const TransportCalculatorRight = ({
                   </div>
                 </div>
               ) : (
-                <button
-                  onClick={handleViewDashboard}
-                  className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 hover:bg-primary/90 transition-colors"
-                >
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  {showDashboard ? "Hide Details" : "View Details"}
-                </button>
+                <div>
+                  <button
+                    onClick={handleViewDashboard}
+                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors ${
+                      showDashboard ? "mt-10" : "mt-6"
+                    }`}
+                  >
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    {showDashboard ? "Hide Details" : "View Details"}
+                  </button>
+
+                  <button
+                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors ${
+                      showDashboard ? "hidden" : ""
+                    }`}
+                  >
+                    <ArrowUp className="h-4 w-4 mr-2" />
+                    Offset Now
+                  </button>
+                </div>
               )}
             </div>
           </div>
