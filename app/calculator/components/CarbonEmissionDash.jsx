@@ -34,6 +34,10 @@ import Link from "next/link";
 const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
   const resources = [
     {
+      name: "Rapid API Services",
+      url: "https://rapidapi.com/hub",
+    },
+    {
       name: "EPA Greenhouse Gas Equivalencies Calculator",
       url: "https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator",
     },

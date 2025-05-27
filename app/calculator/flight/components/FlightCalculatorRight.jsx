@@ -1,11 +1,9 @@
-import { Cloud, MapPin, Globe, Phone, Link, Sparkles } from "lucide-react";
-import React, { useState, useEffect } from "react";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
+  Cloud,
+  Sparkles,
+  ArrowUp,
+} from "lucide-react";
+import React, { useState, useEffect } from "react";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
 import Image from "next/image";
@@ -18,26 +16,20 @@ const FlightCalculatorRight = ({
   setShowDashboard,
   scrollToDashboard,
 }) => {
-  const [fromPopoverOpen, setFromPopoverOpen] = useState(false);
-  const [toPopoverOpen, setToPopoverOpen] = useState(false);
-  const [fromAirportDetails, setFromAirportDetails] = useState(null);
-  const [toAirportDetails, setToAirportDetails] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
 
-  // Function to handle dashboard view with loading state
+  // dashboard view with loading
   const handleViewDashboard = () => {
     if (showDashboard) {
-      // If dashboard is already shown, just hide it
       setShowDashboard(false);
       return;
     }
 
-    // Start the generation process
     setIsGenerating(true);
     setGenerationProgress(0);
 
-    // Simulating AI generation process
+    // AI generation process
     const totalTime = 4000;
     const intervalTime = 100;
     const steps = totalTime / intervalTime;
@@ -61,6 +53,7 @@ const FlightCalculatorRight = ({
   };
 
   const totalEmission = emissionData?.result?.data?.emissions.co2e_mt || 0;
+  console.log("Hello :: ", emissionData?.result?.data)
 
   return (
     <>
@@ -226,20 +219,19 @@ const FlightCalculatorRight = ({
               </div>
 
               {/* Flight Details */}
-            <div className="flex flex-col sm:flex-row sm:space-x-4 justify-center items-center mb-3">
-              <p className="text-sm text-muted-foreground">
-                <span className="font-semibold">Distance Traveled: </span>
-                {emissionData?.result?.data?.distance_km || 0} km
-              </p>
-              <p className="text-sm text-muted-foreground">
-                <span className="font-semibold">Flight Class:</span>{" "}
-                {emissionData?.result?.data?.flight_class}
-              </p>
-            </div>
+              <div className="flex flex-col sm:flex-row sm:space-x-4 justify-center items-center mb-3">
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-semibold">Distance Traveled: </span>
+                  {emissionData?.result?.data?.distance_km || 0} km
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-semibold">Total Passengers:</span>{" "}
+                  {emissionData?.result?.data?.number_of_passengers}
+                </p>
+              </div>
             </div>
 
             <div className="border-t border-border">
-
               <CarbonFootprintCards totalEmission={totalEmission} />
 
               {isGenerating ? (
@@ -278,13 +270,26 @@ const FlightCalculatorRight = ({
                   </div>
                 </div>
               ) : (
-                <button
-                  onClick={handleViewDashboard}
-                  className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 hover:bg-primary/90 transition-colors"
-                >
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  {showDashboard ? "Hide Details" : "View Details"}
-                </button>
+                <div>
+                  <button
+                    onClick={handleViewDashboard}
+                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors ${
+                      showDashboard ? "mt-10" : "mt-6"
+                    }`}
+                  >
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    {showDashboard ? "Hide Details" : "View Details"}
+                  </button>
+
+                  <button
+                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors ${
+                      showDashboard ? "hidden" : ""
+                    }`}
+                  >
+                    <ArrowUp className="h-4 w-4 mr-2" />
+                    Offset Now
+                  </button>
+                </div>
               )}
             </div>
           </div>

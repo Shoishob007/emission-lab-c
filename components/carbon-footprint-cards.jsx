@@ -78,7 +78,7 @@ export default function CarbonFootprintCards({ totalEmission }) {
   ];
 
   return (
-    <section className="mt-8 mb-4">
+    <section className="mt-10">
       <div className="grid grid-cols-3 gap-0 relative items-stretch shadow-md rounded-xl">
         <div className="absolute -top-6 left-0 flex items-center gap-1">
           <div className="w-2 h-2 rounded-full bg-red-500"></div>
@@ -90,7 +90,7 @@ export default function CarbonFootprintCards({ totalEmission }) {
         <div className="absolute -top-6 right-0 flex items-center gap-1">
           <div className="w-2 h-2 rounded-full bg-green-500"></div>
           <span className="text-xs font-medium text-gray-500">
-            Offset potential
+            Offset scope
           </span>
         </div>
 
