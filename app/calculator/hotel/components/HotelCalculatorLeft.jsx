@@ -24,7 +24,7 @@ const HotelCalculatorLeft = ({
   });
   const [calculating, setCalculating] = useState(false);
 
-  // countries list on component mount
+  // countries list on mount
   useEffect(() => {
     const countriesData = countryList().getData();
     const formattedCountries = countriesData.map((country) => ({
@@ -79,7 +79,7 @@ const HotelCalculatorLeft = ({
     }
   }, []);
 
-  // Filtering countries based on search
+  // filtering countries based on search
   const filterCountries = useCallback(
     debounce((keyword) => {
       setLoading((prev) => ({ ...prev, country: true }));
@@ -140,7 +140,7 @@ const HotelCalculatorLeft = ({
         cluster_name: hotelDetails.cluster_name || null,
       };
 
-      console.log("requestData :: ", requestData);
+      // console.log("requestData :: ", requestData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API}/hotelAPI/hotel-stay-carbon-estimate`,
@@ -168,6 +168,12 @@ const HotelCalculatorLeft = ({
       setCalculating(false);
     }
   };
+
+  const isFormValid =
+    hotelDetails.country_code &&
+    hotelDetails.city_name &&
+    hotelDetails.number_of_nights > 0 &&
+    hotelDetails.number_of_rooms > 0;
 
   return (
     <>
@@ -227,7 +233,7 @@ const HotelCalculatorLeft = ({
         <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Hotel Rating
         </label>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           {[1, 2, 3, 4, 5].map((rating) => (
             <label key={rating} className="flex items-center cursor-pointer">
               <input
@@ -242,7 +248,7 @@ const HotelCalculatorLeft = ({
                 }
                 value={rating.toString()}
               />
-              <span className="ml-2 flex items-center text-sm font-medium">
+              <span className="px-4 py-2 flex items-center text-sm font-medium">
                 {/* <Star className="h-4 w-4 mr-1" /> */}
                 {rating} Star{rating !== 1 ? "s" : ""}
               </span>
@@ -304,7 +310,10 @@ const HotelCalculatorLeft = ({
       {/* Calculating */}
       <button
         onClick={handleCalculate}
-        className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={!isFormValid || calculating}
+        className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 ${
+          !isFormValid || calculating ? "opacity-80 cursor-not-allowed" : ""
+        }`}
       >
         {calculating ? (
           <span className="flex items-center">

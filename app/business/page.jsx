@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -11,6 +12,7 @@ const Business = () => {
       name: "Flight",
       icon: "✈️",
       route: "/business/flight",
+      url: "/airplane.png",
       top: 50,
       left: 50,
     },
@@ -19,6 +21,7 @@ const Business = () => {
       name: "Car",
       icon: "🚗",
       route: "/business/car",
+      url: "/car.png",
       top: 10,
       left: 35,
     },
@@ -27,6 +30,7 @@ const Business = () => {
       name: "Motorbike",
       icon: "🏍️",
       route: "/business/motorbike",
+      url: "/bike-pollution.png",
       top: 10,
       left: 65,
     },
@@ -35,6 +39,7 @@ const Business = () => {
       name: "Bus",
       icon: "🚌",
       route: "/business/bus",
+      url: "/bus.png",
       top: 50,
       left: 20,
     },
@@ -43,6 +48,7 @@ const Business = () => {
       name: "Train",
       icon: "🚆",
       route: "/business/train",
+      url: "/train.png",
       top: 50,
       left: 80,
     },
@@ -51,6 +57,8 @@ const Business = () => {
       name: "Hotel",
       icon: "🏨",
       route: "/business/hotel",
+      url: "/hotel.png",
+
       top: 90,
       left: 35,
     },
@@ -59,6 +67,7 @@ const Business = () => {
       name: "Ship",
       icon: "🚢",
       route: "/business/ship",
+      url: "/cruise.png",
       top: 90,
       left: 65,
     },
@@ -73,12 +82,12 @@ const Business = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-screen p-8 gap-4">
-      <h2 className="text-3xl font-bold">
-              Choose your travelling scope
-            </h2>
-            <p className="text-sm text-center max-w-3xl">
-              Choose your business travel mode! Whether it&apos;s a flight, car, bus, or train you have covered. Just click on the icon to explore each of the scopes.
-            </p>
+      <h2 className="text-3xl font-bold">Choose your travelling scope</h2>
+      <p className="text-sm text-center max-w-3xl">
+        Choose your business travel mode! Whether it&apos;s a flight, car, bus,
+        or train you have covered. Just click on the icon to explore each of the
+        scopes.
+      </p>
       <div className="relative w-full max-w-3xl h-96 mx-auto my-auto">
         {icons.map((icon) => {
           const isHovered = hoveredId === icon.id;
@@ -106,7 +115,13 @@ const Business = () => {
                       : "bg-white"
                   }`}
                 >
-                  <span className="text-5xl">{icon.icon}</span>
+                  <Image
+                    src={icon.url}
+                    alt={icon.name}
+                    width={72}
+                    height={72}
+                    className="object-contain"
+                  />{" "}
                 </div>
                 <p
                   className={`text-base font-semibold transition-all duration-300 ${

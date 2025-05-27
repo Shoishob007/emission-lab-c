@@ -140,10 +140,13 @@ const FlightCalculatorLeft = ({
     }
   };
 
+  const isFormValid =
+    flightDetails.from && flightDetails.to && flightDetails.aircraft;
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4">
-        {/* Flying From Combo Box */}
+        {/* Flying From */}
         <ComboBox
           options={fromAirports}
           value={flightDetails.from}
@@ -163,7 +166,7 @@ const FlightCalculatorLeft = ({
           onSearch={(keyword) => debouncedFromAirports(keyword)}
         />
 
-        {/* Flying To Combo Box */}
+        {/* Flying To */}
         <ComboBox
           options={toAirports}
           value={flightDetails.to}
@@ -193,7 +196,7 @@ const FlightCalculatorLeft = ({
           <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
             <input
               type="radio"
-              className="h-4 w-4 border-gray-300 text-primary focus:ring-primary cursor-pointer rounded-full border checked:border-primary checked:after:content-[''] checked:after:block checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:bg-primary checked:after:m-1"              
+              className="h-4 w-4 border-gray-300 text-primary focus:ring-primary cursor-pointer rounded-full border checked:border-primary checked:after:content-[''] checked:after:block checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:bg-primary checked:after:m-1"
               checked={flightDetails.tripType === "oneWay"}
               onChange={() =>
                 setFlightDetails({ ...flightDetails, tripType: "oneWay" })
@@ -229,7 +232,7 @@ const FlightCalculatorLeft = ({
           ].map((classType) => (
             <label
               key={classType.id}
-              className="flex items-center px-2 py-2 rounded-md cursor-pointer"
+              className="flex items-center px-4 py-2 rounded-md cursor-pointer"
             >
               <input
                 type="radio"
@@ -249,7 +252,6 @@ const FlightCalculatorLeft = ({
 
       {/* Aircraft Type and Passengers */}
       <div className="grid md:grid-cols-2 gap-4">
-        {/* Aircraft Type */}
         <div>
           <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Aircraft Type
@@ -295,10 +297,13 @@ const FlightCalculatorLeft = ({
         </div>
       </div>
 
-      {/* Calculate Button */}
+      {/* Calculate */}
       <button
         onClick={handleCalculate}
-        className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6"
+        disabled={!isFormValid || calculating}
+        className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 ${
+          !isFormValid || calculating ? "opacity-80 cursor-not-allowed" : ""
+        }`}
       >
         {calculating ? (
           <span className="flex items-center">

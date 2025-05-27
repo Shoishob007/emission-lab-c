@@ -1,4 +1,4 @@
-import { Cloud, Sparkles, Building2 } from "lucide-react";
+import { Cloud, Sparkles, Building2, ArrowUp } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
@@ -15,18 +15,17 @@ const HotelCalculatorRight = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
 
-  // Function to handle dashboard view with loading state
+  // handle dashboard
   const handleViewDashboard = () => {
     if (showDashboard) {
       setShowDashboard(false);
       return;
     }
 
-    // Start the generation process
+    // generation process
     setIsGenerating(true);
     setGenerationProgress(0);
 
-    // Simulating AI generation process
     const totalTime = 4000;
     const intervalTime = 100;
     const steps = totalTime / intervalTime;
@@ -50,6 +49,7 @@ const HotelCalculatorRight = ({
   };
 
   const totalEmission = emissionData?.result?.data?.co2e_mt || 0;
+  // console.log("Hello :: ", emissionData?.result?.data)
 
   return (
     <>
@@ -71,7 +71,6 @@ const HotelCalculatorRight = ({
           <div className="">
             <EmissionDisplay totalEmission={totalEmission} />
 
-            {/* Hotel animation - similar style but with a hotel building */}
             <div className="relative h-20 w-full overflow-hidden mb-8">
               <div className="absolute inset-0">
                 <div className="hotel-track">
@@ -93,19 +92,17 @@ const HotelCalculatorRight = ({
                 {emissionData?.result?.data?.number_of_nights || 0} nights
               </p>
               <p className="text-sm text-muted-foreground">
-                <span className="font-semibold">Guests: </span>
-                {emissionData?.result?.data?.number_of_guests || 1}
+                <span className="font-semibold">Accommodation Size: </span>
+                {emissionData?.result?.data?.number_of_rooms || 0} rooms
               </p>
             </div>
 
             {/* Call to Action */}
-            <div className="border-t border-border">
-
+            <div className="border-t border-border flex flex-col">
               <CarbonFootprintCards totalEmission={totalEmission} />
-
               {isGenerating ? (
                 <div className="w-full mt-6">
-                  {/* AI Generation Loading State */}
+                  {/* AI Loading State */}
                   <div className="w-full bg-primary/10 rounded-lg p-4 flex flex-col items-center">
                     <div className="flex items-center space-x-3 mb-3">
                       <div className="relative">
@@ -139,13 +136,26 @@ const HotelCalculatorRight = ({
                   </div>
                 </div>
               ) : (
-                <button
-                  onClick={handleViewDashboard}
-                  className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-6 hover:bg-primary/90 transition-colors"
-                >
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  {showDashboard ? "Hide Details" : "View Details"}
-                </button>
+                <div>
+                  <button
+                    onClick={handleViewDashboard}
+                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors ${
+                      showDashboard ? "mt-10" : "mt-6"
+                    }`}
+                  >
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    {showDashboard ? "Hide Details" : "View Details"}
+                  </button>
+
+                  <button
+                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors ${
+                      showDashboard ? "hidden" : ""
+                    }`}
+                  >
+                    <ArrowUp className="h-4 w-4 mr-2" />
+                    Offset Now
+                  </button>
+                </div>
               )}
             </div>
           </div>
