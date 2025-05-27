@@ -24,7 +24,7 @@ const TransportCalculatorLeft = ({
   const [vehicleCategory, setVehicleCategory] = useState("cars");
   const [vehicleTypes, setVehicleTypes] = useState([]);
 
-  // Vehicle categories with icons
+  // Vehicle categories
   const vehicleCategories = [
     { value: "cars", icon: Car, label: "Cars" },
     { value: "motorcycle", icon: Bike, label: "Motorcycle" },
@@ -32,7 +32,7 @@ const TransportCalculatorLeft = ({
     { value: "train", icon: Train, label: "Train" },
   ];
 
-  // Vehicle types configuration
+  // Vehicle types
   const vehicleTypeConfig = {
     cars: {
       types: ["sedan", "SUV"],
@@ -52,7 +52,6 @@ const TransportCalculatorLeft = ({
     },
   };
 
-  // Displaying vehicle types
   const vehicleTypeLabels = {
     sedan: "Sedan",
     SUV: "SUV",
@@ -63,7 +62,7 @@ const TransportCalculatorLeft = ({
     "Train-Local": "Local Train",
   };
 
-  // Animation variants
+  // animate variants
   const buttonVariants = {
     initial: {
       gap: 0,
@@ -85,7 +84,7 @@ const TransportCalculatorLeft = ({
 
   const transition = { delay: 0.1, type: "spring", bounce: 0, duration: 0.5 };
 
-  // Updating vehicle types and setting default when category changes
+  // Updating vehicle types and setting default
   useEffect(() => {
     if (vehicleCategory) {
       setVehicleTypes(vehicleTypeConfig[vehicleCategory].types);
@@ -337,9 +336,11 @@ const TransportCalculatorLeft = ({
       {/* Calculate Button */}
       <button
         onClick={handleCalculate}
-        disabled={loading}
+        disabled={!transportDetails.distance || loading}
         className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium !mt-6 ${
-          loading ? "opacity-70 cursor-not-allowed" : "hover:bg-primary/90"
+          !transportDetails.distance || loading
+            ? "opacity-80 cursor-not-allowed"
+            : "hover:bg-primary/90"
         }`}
       >
         {loading ? (
