@@ -1,6 +1,6 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
-import Navbar from '@/components/Navbar';
+import ConditionalNavbar from '@/components/ConditionalNavbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -9,13 +9,11 @@ export const metadata = {
   description: 'Calculate your carbon emissions',
 };
 
-export default function RootLayout({
-  children,
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} bg-background`}>
-        <Navbar />
+        <ConditionalNavbar />
         <main>{children}</main>
       </body>
     </html>
