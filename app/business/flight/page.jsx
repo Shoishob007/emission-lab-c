@@ -41,7 +41,7 @@ function FlightSearchDemo() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
+      {/* Hero */}
       <div
         className="relative h-[500px] bg-cover bg-center"
         style={{
@@ -162,7 +162,7 @@ function FlightSearchDemo() {
         </Card>
       </div>
 
-      {/* Popular Flight Destinations */}
+      {/* Popular Destinations */}
       <div className="container mx-auto px-10 mb-16">
         <Tabs defaultValue="domestic">
           <div className="flex flex-col gap-4 items-center justify-between">
