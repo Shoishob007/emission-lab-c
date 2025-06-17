@@ -113,11 +113,12 @@ const ServicesSection = () => {
                 Our Services
               </span>
             </div>
-            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4">
               Comprehensive Environmental Solutions for a Sustainable Future
             </h2>
           </div>
-          <button className="flex items-center px-6 py-3 rounded-md bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base shadow-lg transition-all hover:scale-105">
+          <button             className="mt-2 px-7 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
+>
             View All Services <ArrowRight className="ml-2 w-5 h-5" />
           </button>
         </div>

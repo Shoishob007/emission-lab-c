@@ -1,25 +1,25 @@
 "use client";
-import HeroSection from '@/components/HeroSection';
-import AboutSection from '@/components/AboutSection';
-import ServicesSection from '@/components/ServicesSection';
-import WhyChooseUsSection from '@/components/WhyChooseUsSection';
-import CalculatorSection from '@/components/CalculatorSection';
-import SolutionsSection from '@/components/SolutionsSection';
-import ApiSection from '@/components/ApiSection';
-import ProjectsSection from '@/components/ProjectsSection';
-import EnvironmentSection from '@/components/EnvironmentSection';
-import FactsSection from '@/components/FactsSection';
-import WhatWeDoSection from '@/components/WhatWeDoSection';
-import HowItWorksSection from '@/components/HowItWorksSection';
-import DonateSection from '@/components/DonateSection';
-import FaqSection from '@/components/FaqSection';
-import TestimonialsSection from '@/components/TestimonialsSection';
-import BlogSection from '@/components/BlogSection';
-import PricingSection from '@/components/PricingSection';
+import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
+import ServicesSection from "@/components/ServicesSection";
+import WhyChooseUsSection from "@/components/WhyChooseUsSection";
+import CalculatorSection from "@/components/CalculatorSection";
+import SolutionsSection from "@/components/SolutionsSection";
+import ApiSection from "@/components/ApiSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import FactsAndEnvironmentSection from "@/components/EnvironmentSection";
+import FactsSection from "@/components/FactsSection";
+import WhatWeDoSection from "@/components/WhatWeDoSection";
+import HowItWorksSection from "@/components/HowItWorksSection";
+import DonateSection from "@/components/DonateSection";
+import FaqSection from "@/components/FaqSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import BlogSection from "@/components/BlogSection";
+import AiSection from "@/components/AiSection";
 import FooterSection from "@/components/FooterSection";
-import { Leaf, ArrowUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useState, useEffect } from 'react';
+import { Leaf, ArrowUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 
 const HomeSection = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -40,25 +40,25 @@ const HomeSection = () => {
   return (
     <div className="min-h-screen bg-background">
       <HeroSection />
-      <AboutSection />
-      <ServicesSection />
-      <WhyChooseUsSection />
-      <CalculatorSection />
       <SolutionsSection />
+      <CalculatorSection />
+      <AiSection />
       <ApiSection />
-      <ProjectsSection />
-      <EnvironmentSection />
-      <FactsSection />
       <WhatWeDoSection />
       <HowItWorksSection />
-      <DonateSection />
-      <FaqSection />
-      <TestimonialsSection />
+      <WhyChooseUsSection />
+      <ProjectsSection />
       <BlogSection />
-      <PricingSection />
-      {/* <ContactSection /> */}
+      <FaqSection />
+      <AboutSection />
+      <ServicesSection />
+      <FactsAndEnvironmentSection />
+      {/* <FactsSection /> */}
+      {/* <DonateSection /> */}
+      <TestimonialsSection />
+      {/* <PricingSection /> */}
 
-      {/* Footer */}
+      {/* <ContactSection /> */}
       <FooterSection />
 
       {/* Scroll to Top Button */}
