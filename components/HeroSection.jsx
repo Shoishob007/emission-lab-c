@@ -56,7 +56,7 @@ const HeroSection = () => {
               </svg>
             </span>
             <span className="uppercase text-green-200 tracking-widest text-xs font-semibold">
-              Welcome to GreenX
+              Welcome to Emission Lab
             </span>
           </div>
 

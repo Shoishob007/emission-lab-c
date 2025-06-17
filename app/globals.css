@@ -164,12 +164,12 @@
   animation: shake 0.5s ease-out;
 }
 
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
+} */
 
 .logo {
   height: 6em;
@@ -354,7 +354,6 @@ html, body {
   letter-spacing: 0.01em;
 }
 
-/* Optional: for extra bold uppercase heading style */
 .font-extrabold {
   font-weight: 900 !important;
   text-transform: uppercase;

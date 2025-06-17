@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import {
@@ -41,34 +42,12 @@ export default function Navbar() {
       <div className="max-w-[1440px] py-4 mx-auto px-4 sm:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center gap-2">
-            {/* Logo Icon */}
-            <span className="inline-flex items-center justify-center rounded-full bg-[#DDF8DB] p-2">
-              {/* Custom leaf/eco icon for logo */}
-              <svg width="34" height="34" fill="none" viewBox="0 0 34 34">
-                <circle cx="17" cy="17" r="17" fill="#163820" />
-                <path
-                  d="M24.5 13.5C23.5 17.5 18.5 23.5 10.5 21C16.5 22.5 22.5 18.5 23.5 12.5"
-                  stroke="#97d34b"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M13 21C13.5 18.5 15.5 14.5 23 13"
-                  stroke="#97d34b"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-            <span
-              className="ml-2 text-2xl font-bold tracking-tight text-[#163820]"
-              style={{
-                fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
-              }}
-            >
-              EmissionLab<span className="text-[#97d34b]">.</span>
-            </span>
+          <div className="flex-shrink-0 flex items-center">
+            <img
+              src="/carbon-logo.png"
+              alt="EmissionLab Logo"
+              className="h-12 w-auto cursor-pointer"
+            />
           </div>
 
           {/* Desktop Navigation */}

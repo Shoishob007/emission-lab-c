@@ -7,6 +7,10 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata = {
   title: 'Emission Lab',
   description: 'Calculate your carbon emissions',
+  icons: {
+    icon: '/carbon-Fav.png',
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({ children }) {
