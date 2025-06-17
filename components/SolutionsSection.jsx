@@ -1,151 +1,150 @@
-import { Brain, Lightbulb, Target, ArrowRight } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+/* eslint-disable @next/next/no-img-element */
+import {
+  Target,
+  ArrowRight,
+  Calculator,
+  TreePine,
+  TrendingDown,
+} from "lucide-react";
 
-const SolutionsSection = () => {
-  const solutions = [
-    {
-      icon: <Target className="w-12 h-12 text-primary" />,
-      title: "Calculate",
-      subtitle: "Measure Your Impact",
-      description: "Comprehensive carbon footprint analysis across all areas of your life and business operations.",
-      features: ["Real-time tracking", "Detailed reporting", "Historical data"],
-      color: "primary"
-    },
-    {
-      icon: <Lightbulb className="w-12 h-12 text-secondary" />,
-      title: "Reduce",
-      subtitle: "Smart Recommendations",
-      description: "AI-powered insights and actionable recommendations to minimize your environmental impact.",
-      features: ["Personalized plans", "Progress tracking", "Expert guidance"],
-      color: "secondary"
-    },
-    {
-      icon: <Brain className="w-12 h-12 text-primary" />,
-      title: "Offset",
-      subtitle: "Verified Projects",
-      description: "Invest in certified carbon offset projects that create real environmental and social impact.",
-      features: ["Verified projects", "Transparent tracking", "Impact reports"],
-      color: "primary"
-    }
-  ];
+const solutions = [
+  {
+    icon: <Calculator className="w-9 h-9 text-[#78B943]" />,
+    hoverIcon: <Calculator className="w-9 h-9 text-black" />,
+    title: "Calculate",
+    subtitle: "Measure Your Impact",
+    description:
+      "Comprehensive carbon footprint analysis across all areas of your life and business operations.",
+    features: ["Real-time tracking", "Detailed reporting", "Historical data"],
+    color: "primary",
+  },
+  {
+    icon: <TrendingDown className="w-9 h-9 text-[#78B943]" />,
+    hoverIcon: <TrendingDown className="w-9 h-9 text-black" />,
+    title: "Reduce",
+    subtitle: "Smart Recommendations",
+    description:
+      "AI-powered insights and actionable recommendations to minimize your environmental impact.",
+    features: ["Personalized plans", "Progress tracking", "Expert guidance"],
+    color: "secondary",
+  },
+  {
+    icon: <TreePine className="w-9 h-9 text-[#78B943]" />,
+    hoverIcon: <TreePine className="w-9 h-9 text-black" />,
+    title: "Offset",
+    subtitle: "Verified Projects",
+    description:
+      "Invest in certified carbon offset projects that create real environmental and social impact.",
+    features: ["Verified projects", "Transparent tracking", "Impact reports"],
+    color: "primary",
+  },
+];
 
+export default function SolutionsSection() {
   return (
-    <section id="solutions" className="py-20 relative">
-      {/* Background */}
-      <div 
-        className="absolute inset-0 z-0"
+    <section
+      id="solutions"
+      className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden"
+      style={{
+        minHeight: "650px",
+        backgroundImage: "url('/city1-rotated.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* overlay */}
+      <div
+        className="absolute inset-0"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.04
+          pointerEvents: "none",
+          background:
+            "linear-gradient(to top right, rgba(255,255,255,0.85) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,1) 100%)",
         }}
       />
-      
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Complete <span className="text-primary">Carbon Management</span> Solutions
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            From measurement to action - our comprehensive platform guides you through every step of your sustainability journey
-          </p>
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4">
+        {/* header */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 md:gap-0 px-4">
+          <div className="text-center md:text-left max-w-2xl mx-auto md:mx-0">
+            <div className="flex items-center gap-2 mb-3 justify-center md:justify-start">
+              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+                <Target size={22} strokeWidth={2} className="text-green-500" />
+              </span>
+              <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+                Solutions
+              </span>
+            </div>
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
+              Complete <span className="text-primary">Carbon Management</span> Solutions
+            </h2>
+            <p className="text-lg text-[#767676] mt-4 max-w-xl">
+              From measurement to action - our comprehensive platform guides you
+              through every step of your sustainability journey.
+            </p>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          {solutions.map((solution, index) => (
-            <Card key={index} className="group hover:shadow-xl transition-all duration-500 hover:-translate-y-4 bg-white/90 backdrop-blur-sm border-border/50 relative overflow-hidden">
-              {/* Gradient overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${solution.color === 'primary' ? 'from-primary/5 to-primary/10' : 'from-secondary/5 to-secondary/10'} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-              
-              <CardContent className="p-8 relative z-10">
-                <div className="text-center mb-6">
-                  <div className="flex justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+        <div className="flex flex-row flex-wrap justify-center gap-7 mb-8">
+          {solutions.map((solution, idx) => (
+            <div
+              key={solution.title}
+              className={`
+                group relative rounded-3xl border-2 border-[#EAEAEA] bg-white
+                transition-all duration-500 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer
+                w-[340px] min-h-[350px] flex flex-col
+              `}
+            >
+              <div className="p-6 flex flex-col h-full">
+                <div className="mb-4 p-3 rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-300 w-fit">
+                  <span className="block group-hover:hidden">
                     {solution.icon}
-                  </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-2">
+                  </span>
+                  <span className="hidden group-hover:block">
+                    {solution.hoverIcon}
+                  </span>
+                </div>
+
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold mb-1 text-[#163820] group-hover:text-white transition-colors duration-300">
                     {solution.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground font-medium">
+                  <p className="text-sm text-[#767676] group-hover:text-white/80 font-medium transition-colors duration-300">
                     {solution.subtitle}
                   </p>
                 </div>
-                
-                <p className="text-muted-foreground leading-relaxed mb-6 text-center">
+
+                <p className="text-[#767676] group-hover:text-white/90 transition-colors duration-300 mb-4 leading-relaxed">
                   {solution.description}
                 </p>
-                
-                <ul className="space-y-2 mb-6">
-                  {solution.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center gap-2 text-sm">
-                      <div className={`w-2 h-2 rounded-full ${solution.color === 'primary' ? 'bg-primary' : 'bg-secondary'}`} />
-                      <span className="text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                
-                <Button 
-                  variant="outline" 
-                  className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300"
-                >
-                  Learn More
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
 
-        {/* AI Section */}
-        <Card className="bg-blue-gradient border-border/50 shadow-xl">
-          <CardContent className="p-12">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="flex items-center gap-3 mb-6">
-                  <Brain className="w-8 h-8 text-secondary" />
-                  <h3 className="text-3xl font-bold text-foreground">
-                    AI-Powered Sustainability
-                  </h3>
+                {/* Features list */}
+                <div className="flex-1 flex flex-col gap-2 mb-4">
+                  {solution.features.map((feature, i) => (
+                    <div key={i} className="flex items-start gap-2 text-sm">
+                      <div className="w-2 h-2 bg-[#78B943] rounded-full group-hover:bg-white transition-colors duration-300 mt-1.5" />
+                      <span className="text-[#767676] group-hover:text-white/90 transition-colors duration-300">
+                        {feature}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-                <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                  Harness the power of artificial intelligence to optimize your carbon reduction strategies. 
-                  Our advanced algorithms analyze your data to provide personalized recommendations and predict 
-                  the most effective pathways to carbon neutrality.
-                </p>
-                <div className="space-y-3 mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-secondary rounded-full" />
-                    <span className="text-muted-foreground">Machine learning optimization</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-secondary rounded-full" />
-                    <span className="text-muted-foreground">Predictive analytics</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-secondary rounded-full" />
-                    <span className="text-muted-foreground">Automated reporting</span>
-                  </div>
+
+                <div className="mt-auto flex justify-end">
+                  <span
+                    className="
+                    font-semibold text-[#FFA726] group-hover:text-white 
+                    transition-colors duration-300 flex items-center
+                  "
+                  >
+                    Learn More
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
                 </div>
-                <Button size="lg" className="bg-secondary hover:bg-secondary/90">
-                  Explore AI Features
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </div>
-              
-              <div className="relative">
-                <div className="w-full h-64 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-2xl flex items-center justify-center">
-                  <Brain className="w-24 h-24 text-secondary/60 animate-float" />
-                </div>
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-secondary/20 rounded-full animate-float-leaf" />
-                <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-primary/20 rounded-full animate-grow" />
               </div>
             </div>
-          </CardContent>
-        </Card>
+          ))}
+        </div>
       </div>
     </section>
   );
-};
-
-export default SolutionsSection;
+}
