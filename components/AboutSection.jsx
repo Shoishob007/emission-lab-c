@@ -46,7 +46,9 @@ function YearsBadge() {
           display: "block",
         }}
       >
-        Years of<br />experience
+        Years of
+        <br />
+        experience
       </span>
     </div>
   );
@@ -62,20 +64,20 @@ const AboutSection = () => {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        minHeight: "650px"
+        minHeight: "650px",
       }}
     >
-      {/* BG overlay for very low opacity */}
+      {/* BG overlay */}
       <div
         className="absolute inset-0"
         style={{
           pointerEvents: "none",
-          background: "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.8) 100%)"
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.8) 100%)",
         }}
       />
 
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center w-full max-w-[1200px] mx-auto px-4 gap-10">
-        {/* Left: Images and badge */}
         <div
           className="relative flex flex-row items-center justify-center w-full lg:w-1/2 max-w-[520px] min-w-[300px] p-4"
           style={{ minHeight: 400 }}
@@ -93,7 +95,7 @@ const AboutSection = () => {
               zIndex: 1,
               position: "relative",
               background: "#f3f3f3",
-              marginBottom: 50
+              marginBottom: 50,
             }}
           >
             <img
@@ -120,7 +122,7 @@ const AboutSection = () => {
               position: "relative",
               background: "#f3f3f3",
               marginLeft: 30,
-              marginTop: 50
+              marginTop: 50,
             }}
           >
             <img
@@ -133,7 +135,7 @@ const AboutSection = () => {
               }}
             />
           </div>
-          {/* Static Years Badge - perfectly centered between the images */}
+          {/* Static Years Badge */}
           <div
             style={{
               position: "absolute",
@@ -149,7 +151,6 @@ const AboutSection = () => {
 
         {/* Right: Content */}
         <div className="w-full lg:w-1/2 max-w-[520px] min-w-[300px] p-4 flex flex-col justify-center">
-          {/* Icon + section label */}
           <div className="flex items-center gap-2 mb-2">
             <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
               <svg
@@ -162,7 +163,13 @@ const AboutSection = () => {
                 viewBox="0 0 24 24"
               >
                 <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-                <circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="2" />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
               </svg>
             </span>
             <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
@@ -171,25 +178,40 @@ const AboutSection = () => {
           </div>
           {/* Title */}
           <h2
-            className="font-bold text-[#163820] text-xl sm:text-2xl lg:text-3xl leading-tight mb-4"
+            className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4"
             style={{
               fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
               letterSpacing: 0,
             }}
           >
-            Protecting nature nurturing a<br />sustainable future
+            Protecting nature nurturing a
+            sustainable future
           </h2>
           {/* Description */}
-          <p className="text-gray-500 text-sm md:text-base mb-6 max-w-xl">
-            We are dedicated to preserving the planet&apos;s natural beauty while practices ensure a thriving future for generations to come.
+          <p className="text-base md:text-lg text-[#767676] mb-8 leading-relaxed max-w-xl">
+            We are dedicated to preserving the planet&apos;s natural beauty
+            while practices ensure a thriving future for generations to come.
           </p>
           {/* Features CTA */}
           <div className="flex flex-col md:flex-row gap-4 mb-8">
             <div className="flex-1 flex items-center bg-white border border-gray-200 rounded-xl py-3 px-4 shadow-sm">
               <span className="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-[#DDF8DB]">
-                <svg width="18" height="18" fill="none" stroke="#78B943" strokeWidth="2" viewBox="0 0 24 24">
+                <svg
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#78B943"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
                   <circle cx="12" cy="12" r="10" />
-                  <path d="M8 12l2 2l4-4" stroke="#78B943" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path
+                    d="M8 12l2 2l4-4"
+                    stroke="#78B943"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </span>
               <span className="font-semibold text-[#163820] text-sm md:text-base">
@@ -199,13 +221,27 @@ const AboutSection = () => {
             </div>
             <div className="flex-1 flex items-center bg-white border border-gray-200 rounded-xl py-3 px-4 shadow-sm">
               <span className="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-[#DDF8DB]">
-                <svg width="18" height="18" fill="none" stroke="#78B943" strokeWidth="2" viewBox="0 0 24 24">
+                <svg
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#78B943"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
                   <circle cx="12" cy="12" r="10" />
-                  <path d="M9 12l2 2l4-4" stroke="#78B943" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path
+                    d="M9 12l2 2l4-4"
+                    stroke="#78B943"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </span>
               <span className="font-semibold text-[#163820] text-sm md:text-base">
-                Leading The Way<br className="hidden sm:block" />
+                Leading The Way
+                <br className="hidden sm:block" />
                 In Conservation
               </span>
             </div>
@@ -219,8 +255,12 @@ const AboutSection = () => {
                 className="w-10 h-10 rounded-full object-cover border-2 border-white"
               />
               <div>
-                <div className="font-bold text-[#163820] leading-tight text-sm">Arlene McCoy</div>
-                <div className="text-gray-400 text-xs font-medium">CEO &amp; founder</div>
+                <div className="font-bold text-[#163820] leading-tight text-sm">
+                  Arlene McCoy
+                </div>
+                <div className="text-gray-400 text-xs font-medium">
+                  CEO &amp; founder
+                </div>
               </div>
             </div>
             <button className="ml-2 px-5 py-2.5 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-sm flex items-center gap-2 shadow-lg transition">

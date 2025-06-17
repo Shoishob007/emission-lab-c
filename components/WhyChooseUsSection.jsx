@@ -11,7 +11,7 @@ const WhyChooseUsSection = () => {
   return (
     <section
       id="why-choose-us"
-      className="relative py-12 md:py-24 bg-white flex justify-center items-center overflow-x-hidden"
+      className="relative py-12 md:py-20 bg-white flex justify-center items-center overflow-x-hidden"
       style={{
         minHeight: "650px",
       }}
@@ -45,15 +45,14 @@ const WhyChooseUsSection = () => {
             </span>
           </div>
           <h2
-            className="font-bold text-[#163820] text-2xl sm:text-3xl lg:text-4xl xl:text-5xl leading-tight mb-5"
+            className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4"
             style={{
               fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
               letterSpacing: 0,
               lineHeight: 1.18,
             }}
           >
-            Your partner for sustainable <br className="hidden md:block" />
-            environmental solutions
+            Your partner for <span className="text-[#78B943]">sustainable environmental</span> solutions
           </h2>
           <p className="text-base md:text-lg text-[#767676] mb-8 leading-relaxed max-w-xl">
             We are committed to delivering innovative and sustainable
