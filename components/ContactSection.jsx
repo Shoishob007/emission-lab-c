@@ -1,212 +1,264 @@
-import { useState } from 'react';
-import { Mail, Phone, MapPin, Send, ArrowRight } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+/* eslint-disable @next/next/no-img-element */
+import { Settings } from "lucide-react";
+import { useState } from "react";
 
-const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: '',
-    newsletter: false
+export default function ContactSection() {
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    company: "",
+    location: "",
+    interested: "",
   });
-  const { toast } = useToast();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
-    });
-    setFormData({ name: '', email: '', company: '', message: '', newsletter: false });
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const contactInfo = [
-    {
-      icon: <Mail className="w-6 h-6 text-primary" />,
-      title: "Email Us",
-      details: "hello@ecosphere.com",
-      subtitle: "Get in touch anytime"
-    },
-    {
-      icon: <Phone className="w-6 h-6 text-secondary" />,
-      title: "Call Us",
-      details: "+1 (555) 123-4567",
-      subtitle: "Mon-Fri 9AM-6PM EST"
-    },
-    {
-      icon: <MapPin className="w-6 h-6 text-primary" />,
-      title: "Visit Us",
-      details: "San Francisco, CA",
-      subtitle: "Schedule a meeting"
-    }
-  ];
 
   return (
-    <section id="contact" className="py-20 relative">
-      {/* Background */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.03
-        }}
-      />
-      
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="text-primary">Contact</span> Us
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Ready to start your sustainability journey? Get in touch for a demo or consultation
-          </p>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-12 mb-16">
-          {/* Contact Form */}
-          <Card className="bg-white/90 backdrop-blur-sm border-border/50 shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-2xl">Send us a message</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Name *</label>
-                    <Input
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className="bg-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Email *</label>
-                    <Input
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="bg-white"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">Company</label>
-                  <Input
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    className="bg-white"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">Message *</label>
-                  <Textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    rows={4}
-                    className="bg-white"
-                  />
-                </div>
-                
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="newsletter"
-                    checked={formData.newsletter}
-                    onChange={(e) => setFormData(prev => ({ ...prev, newsletter: e.target.checked }))}
-                    className="w-4 h-4 text-primary"
-                  />
-                  <label htmlFor="newsletter" className="text-sm text-muted-foreground">
-                    Subscribe to our newsletter for sustainability tips and updates
-                  </label>
-                </div>
-                
-                <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90">
-                  Send Message
-                  <Send className="ml-2 w-5 h-5" />
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {/* Contact Information */}
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-2xl font-bold text-foreground mb-6">
-                Get in Touch
-              </h3>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                Whether you&apos;re looking to calculate your carbon footprint, implement sustainability 
-                measures, or explore our API solutions, our team is here to help you achieve your 
-                environmental goals.
-              </p>
+    <section className="w-full bg-white py-16 px-4 flex items-center justify-center font-['Montserrat','Arial','Helvetica',sans-serif']">
+      <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+        {/* Left Side */}
+        <div className="flex flex-col">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <Settings size={22} strokeWidth={2} className="text-green-500" />
+            </span>
+            <span className="uppercase text-green-400 tracking-widest text-sm font-semibold">
+              Contact Us
+            </span>
+          </div>
+          {/* Top: Hero */}
+          <div className="rounded-t-2xl rounded-b-lg bg-[#0a2d23] p-8 md:p-10 text-left mb-2">
+            <h1
+              className="text-white text-4xl font-semibold mb-5 leading-tight"
+              style={{ lineHeight: 1.1, fontWeight: 600 }}
+            >
+              Get in Touch with
+              <br />
+              <span className="text-primary">Emission Lab</span>
+            </h1>
+            <p className="text-[#eaf6e5] text-lg leading-relaxed">
+              We’d love to learn more about your company and how we can assist
+              you. Fill out the form to tell us more, and we’ll get back to you.
+            </p>
+          </div>
+          {/* Middle: Direct Contact Message */}
+          <div className="rounded-lg bg-[#eaf3e5] text-[#1a3323] text-lg px-6 py-4 mb-2">
+            If you prefer, feel free to contact us directly via the emails
+            listed below.
+          </div>
+          {/* Contact grid */}
+          <div className="grid grid-cols-2 gap-2 mb-2">
+            <div className="rounded-lg bg-white px-6 py-5">
+              <div className="font-semibold text-[#1a3323] mb-1">
+                General Inquiries
+              </div>
+              <div className="text-[#1a3323] text-base">hello@elab.com</div>
             </div>
-            
-            <div className="space-y-6">
-              {contactInfo.map((info, index) => (
-                <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/80 backdrop-blur-sm border-border/50">
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                        {info.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-lg font-semibold text-foreground mb-1">
-                          {info.title}
-                        </h4>
-                        <p className="text-foreground font-medium mb-1">
-                          {info.details}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {info.subtitle}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="rounded-lg bg-white px-6 py-5">
+              <div className="font-semibold text-[#1a3323] mb-1">
+                Project Listing
+              </div>
+              <div className="text-[#1a3323] text-base">suppliers@elab.com</div>
             </div>
-            
-            <Card className="bg-green-gradient border-border/50">
-              <CardContent className="p-6 text-center">
-                <h4 className="text-xl font-semibold text-foreground mb-2">
-                  Schedule a Demo
-                </h4>
-                <p className="text-muted-foreground mb-4">
-                  See our platform in action with a personalized demo
-                </p>
-                <Button variant="outline" className="hover:bg-primary hover:text-primary-foreground">
-                  Book Demo Call
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </CardContent>
-            </Card>
+            <div className="rounded-lg bg-white px-6 py-5">
+              <div className="font-semibold text-[#1a3323] mb-1">Sales</div>
+              <div className="text-[#1a3323] text-base">sales@elab.com</div>
+            </div>
+            <div className="rounded-lg bg-white px-6 py-5">
+              <div className="font-semibold text-[#1a3323] mb-1">Support</div>
+              <div className="text-[#1a3323] text-base">support@elab.com</div>
+            </div>
+          </div>
+          {/* Technical Help */}
+          <div className="rounded-b-2xl bg-white px-6 py-4">
+            <div className="font-semibold text-[#1a3323]">
+              Need Technical Product Help?
+            </div>
+            <a
+              href="#"
+              className="text-[#558068] underline font-medium text-base"
+            >
+              Get Tech Help
+            </a>
           </div>
         </div>
+
+        {/* Right Side: Form */}
+        <form
+          className="rounded-2xl bg-white border border-[#d8e3c7] px-10 py-8 flex flex-col justify-between"
+          style={{ minHeight: 640 }}
+        >
+          <div className="grid grid-cols-2 gap-6 mb-6">
+            <div>
+              <label
+                className="block text-[#1a3323] font-medium mb-2"
+                htmlFor="firstName"
+              >
+                First name<span className="text-[#ef4444]">*</span>
+              </label>
+              <input
+                required
+                id="firstName"
+                className="block w-full rounded-md border border-[#d8e3c7] bg-[#f4f7ec] px-4 py-2 text-base outline-none focus:ring-2 focus:ring-primary transition"
+                value={form.firstName}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, firstName: e.target.value }))
+                }
+              />
+            </div>
+            <div>
+              <label
+                className="block text-[#1a3323] font-medium mb-2"
+                htmlFor="lastName"
+              >
+                Last name<span className="text-[#ef4444]">*</span>
+              </label>
+              <input
+                required
+                id="lastName"
+                className="block w-full rounded-md border border-[#d8e3c7] bg-[#f4f7ec] px-4 py-2 text-base outline-none focus:ring-2 focus:ring-primary transition"
+                value={form.lastName}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, lastName: e.target.value }))
+                }
+              />
+            </div>
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-[#1a3323] font-medium mb-2"
+              htmlFor="email"
+            >
+              Business email<span className="text-[#ef4444]">*</span>
+            </label>
+            <input
+              required
+              id="email"
+              type="email"
+              className="block w-full rounded-md border border-[#d8e3c7] bg-[#f4f7ec] px-4 py-2 text-base outline-none focus:ring-2 focus:ring-primary transition"
+              value={form.email}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, email: e.target.value }))
+              }
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-[#1a3323] font-medium mb-2"
+              htmlFor="phone"
+            >
+              Phone<span className="text-[#ef4444]">*</span>
+            </label>
+            <input
+              required
+              id="phone"
+              className="block w-full rounded-md border border-[#d8e3c7] bg-[#f4f7ec] px-4 py-2 text-base outline-none focus:ring-2 focus:ring-primary transition"
+              value={form.phone}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, phone: e.target.value }))
+              }
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-[#1a3323] font-medium mb-2"
+              htmlFor="company"
+            >
+              Company Name
+            </label>
+            <input
+              required
+              id="company"
+              className="block w-full rounded-md border border-[#d8e3c7] bg-[#f4f7ec] px-4 py-2 text-base outline-none focus:ring-2 focus:ring-primary transition"
+              value={form.company}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, company: e.target.value }))
+              }
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-6 mb-6">
+            <div>
+              <label
+                className="block text-[#1a3323] font-medium mb-2"
+                htmlFor="location"
+              >
+                Company Location?
+              </label>
+              <select
+                required
+                id="location"
+                className="block w-full rounded-md border border-[#d8e3c7] bg-[#f4f7ec] px-4 py-2 text-base text-[#6d7c6e] outline-none focus:ring-2 focus:ring-primary transition"
+                value={form.location}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, location: e.target.value }))
+                }
+              >
+                <option value="">Please Select</option>
+                <option value="us">United States</option>
+                <option value="eu">Europe</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label
+                className="block text-[#1a3323] font-medium mb-2"
+                htmlFor="interested"
+              >
+                I&apos;m interested in
+              </label>
+              <select
+                required
+                id="interested"
+                className="block w-full rounded-md border border-[#d8e3c7] bg-[#f4f7ec] px-4 py-2 text-base text-[#6d7c6e] outline-none focus:ring-2 focus:ring-primary transition"
+                value={form.interested}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, interested: e.target.value }))
+                }
+              >
+                <option value="">Please Select</option>
+                <option value="offsetting">Offsetting</option>
+                <option value="api">API Integration</option>
+                <option value="projects">Project Listing</option>
+                <option value="support">Support</option>
+              </select>
+            </div>
+          </div>
+          {/* Legal text */}
+          <div className="mb-4 text-[#1a3323] text-sm leading-relaxed">
+            By submitting this form, you are consenting to Cloverly contacting
+            you. For information on how to unsubscribe, as well as our privacy
+            practices and commitment to protecting your privacy, check out our{" "}
+            <a href="#" className="text-[#2357b4] underline">
+              Privacy Policy
+            </a>
+            .
+          </div>
+          {/* reCAPTCHA placeholder */}
+          {/* <div className="mb-4">
+            <img
+              src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
+              alt="reCAPTCHA"
+              className="inline mr-2"
+              style={{
+                height: 32,
+                width: 32,
+                display: "inline-block",
+                verticalAlign: "middle",
+              }}
+            />
+            <span className="align-middle text-xs text-[#1a3323]">
+              protected by reCAPTCHA
+            </span>
+          </div> */}
+          {/* Submit button */}
+          <button
+            type="submit"
+            className="rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold justify-center text-base flex items-center gap-2 shadow-lg px-8 py-3 transition mt-1"
+          >
+            Let&apos;s Talk
+          </button>
+        </form>
       </div>
     </section>
   );
-};
-
-export default ContactSection;
+}
