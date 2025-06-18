@@ -81,69 +81,83 @@ const WhyChooseUsSection = () => {
 
         {/* Right: Images grid */}
         <div className="w-full lg:w-1/2 max-w-[600px] min-w-[320px] p-4 flex flex-col items-center justify-center">
-          <div className="grid grid-cols-2 gap-7 w-full">
-            <div className="flex flex-col gap-7">
+          {/* Responsive grid for images */}
+          <div className="grid grid-cols-2 gap-4 sm:gap-7 w-full">
+            {/* Left column: on mobile, stack vertically */}
+            <div className="flex flex-col gap-4 sm:gap-7">
               <div
-                className="rounded-2xl overflow-hidden"
+                className="rounded-2xl overflow-hidden aspect-square w-full min-w-0"
                 style={{
-                  width: "100%",
-                  aspectRatio: "1",
-                  minWidth: 180,
-                  minHeight: 180,
+                  minWidth: 0,
+                  minHeight: 0,
                   maxWidth: 250,
                   maxHeight: 250,
                 }}
               >
                 <img
-                  src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-                  alt="Globe with tree and city"
+                  src="/landing-page/sus-1.jpg"
+                  alt="Sustainable Solutions"
                   className="w-full h-full object-cover"
                   draggable={false}
                 />
               </div>
               <div
-                className="rounded-2xl overflow-hidden"
+                className="rounded-2xl overflow-hidden aspect-square w-full min-w-0"
                 style={{
-                  width: "100%",
-                  aspectRatio: "1",
-                  minWidth: 180,
-                  minHeight: 180,
+                  minWidth: 0,
+                  minHeight: 0,
                   maxWidth: 250,
                   maxHeight: 250,
                 }}
               >
                 <img
-                  src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80"
-                  alt="Children planting"
+                  src="/landing-page/sus-3.jpg"
+                  alt="Sustainable Solutions"
                   className="w-full h-full object-cover"
                   draggable={false}
                 />
               </div>
             </div>
 
-            {/* Right column */}
+            {/* Right column: full height on desktop, auto on mobile */}
             <div
-              className="rounded-2xl overflow-hidden"
+              className="rounded-2xl overflow-hidden w-full min-w-0 flex-1"
               style={{
-                width: "100%",
-                height: "calc(200% + 28px)",
-                minWidth: 180,
-                minHeight: 368,
+                minWidth: 0,
+                minHeight: 0,
                 maxWidth: 250,
                 maxHeight: 528,
-                marginTop: 50
+                height: "100%",
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-                alt="Tree with wind turbines"
+                src="/landing-page/sus-6.jpg"
+                alt="Sustainable Solutions"
                 className="w-full h-full object-cover"
                 draggable={false}
+                style={{
+                  height: "100%",
+                  minHeight: 0,
+                  maxHeight: "528px",
+                  objectFit: "cover",
+                }}
               />
             </div>
           </div>
         </div>
       </div>
+      {/* Extra style to avoid horizontal scroll on mobile */}
+      <style>{`
+        @media (max-width: 640px) {
+          #why-choose-us .grid {
+            grid-template-columns: 1fr !important;
+          }
+          #why-choose-us .flex-col > div {
+            max-width: 100% !important;
+            max-height: 100% !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };

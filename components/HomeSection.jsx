@@ -16,6 +16,7 @@ import FaqSection from "@/components/FaqSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import BlogSection from "@/components/BlogSection";
 import AiSection from "@/components/AiSection";
+import ContactSection from "@/components/ContactSection";
 import FooterSection from "@/components/FooterSection";
 import { Leaf, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -58,7 +59,7 @@ const HomeSection = () => {
       <TestimonialsSection />
       {/* <PricingSection /> */}
 
-      {/* <ContactSection /> */}
+      <ContactSection />
       <FooterSection />
 
       {/* Scroll to Top Button */}

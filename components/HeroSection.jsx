@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
+import GeometricBackground from "@/components/ui/geometric";
 
 const users = [
   "https://randomuser.me/api/portraits/men/32.jpg",
@@ -16,19 +17,8 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section
-      className="relative min-h-screen flex items-center bg-no-repeat bg-cover bg-center overflow-hidden"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')",
-      }}
-    >
-      {/* gradient overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="w-full h-full bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
-      </div>
-
-      <div className="container mx-auto px-4 py-12 md:px-10 lg:px-16 relative z-10">
+    <GeometricBackground className="min-h-screen flex items-center">
+      <div className="container mx-auto px-4 py-12 md:px-10 lg:px-16 relative z-10 flex items-center min-h-screen">
         <div className="max-w-2xl bg-transparent rounded-xl p-6 lg:p-8">
           <div
             className={`flex items-center gap-2 mb-4 transition-opacity duration-1000 ${
@@ -120,13 +110,13 @@ const HeroSection = () => {
                 <div className="text-gray-300 text-xs">Active Review</div>
               </div>
             </div>
-            <button className="inline-flex items-center px-6 py-3 bg-yellow-400 text-gray-900 text-base font-semibold rounded-md shadow-lg transition hover:bg-yellow-500 focus:outline-none">
+            <button className="inline-flex items-center px-6 py-3 bg-[#FFA726] hover:bg-[#ff9800] text-gray-900 text-base font-semibold rounded-md shadow-lg transition focus:outline-none">
               Get In Touch <ArrowRight className="ml-2 w-5 h-5" />
             </button>
           </div>
         </div>
       </div>
-    </section>
+    </GeometricBackground>
   );
 };
 
