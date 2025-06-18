@@ -5,25 +5,22 @@ import Link from "next/link";
 const projects = [
   {
     title: "Renewable Energy Implementation",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+    image: "/landing-page/renewable-energy-project.jpg" ,
     description:
       "Our renewable energy solutions harness the power of natural resources like solar.",
     cta: { text: "Read More", href: "/projects/1" },
   },
   {
     title: "Reforestation to Restore Natural",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-    description:
+        image: "/landing-page/reforestration-project.jpg" ,
+description:
       "Our renewable energy solutions harness the power of natural resources like solar.",
     cta: { text: "Read More", href: "/projects/2" },
   },
   {
     title: "Climate Action for a Greener Planet",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-    description:
+        image: "/landing-page/climate-awarness.jpg" ,
+description:
       "Our renewable energy solutions harness the power of natural resources like solar.",
     cta: { text: "Read More", href: "/projects/3" },
   },
@@ -85,7 +82,7 @@ export default function ProjectsSection() {
         </div>
 
         {/* Cards Row */}
-        <div className="w-full flex flex-row justify-center gap-10 mb-10">
+        <div className="w-full flex flex-col md:flex-row justify-center gap-10 mb-10">
           {projects.map((project, i) => (
             <div
               key={i}

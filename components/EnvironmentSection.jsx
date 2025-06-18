@@ -32,7 +32,6 @@ const reasons = [
 ];
 
 export default function FactsAndEnvironmentSection() {
-  // For animated count when scrolled into view
   const [startCount, setStartCount] = useState(false);
   const sectionRef = useRef();
 
@@ -50,129 +49,137 @@ export default function FactsAndEnvironmentSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex justify-center items-center py-20 min-h-[700px] overflow-visible"
+      className="relative flex justify-center items-center py-12 md:py-20 min-h-[700px] bg-[#0A2D23] overflow-x-hidden"
     >
       {/* Background leafy overlay */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 z-0 pointer-events-none"
+        aria-hidden="true"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.1,
-          zIndex: 1,
+          opacity: 0.08,
         }}
       />
-      <div
-        className="w-full"
-        style={{
-          background: "#0A2D23",
-        }}
-      >
-        <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-12 items-center justify-center h-[700px] px-4 py-0">
-          {/* LEFT: Content */}
-          <div className="flex-1 flex flex-col justify-center items-start text-white py-6 px-4 lg:px-0">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-                <Settings size={22} strokeWidth={2} className="text-green-500" />
-              </span>
-              <span className="uppercase text-green-400 tracking-widest text-sm font-semibold">
-                Our Facts
-              </span>
-            </div>
-
-            <h2
-              className="font-bold text-white text-3xl sm:text-4xl leading-tight mb-4"
-              style={{
-                fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-              }}
-            >
-              Key environmental facts for
-              <br />a sustainable future
-            </h2>
-
-            <p className="text-green-100 text-lg mb-8 leading-relaxed max-w-xl">
-              Discover essential facts about our planet&apos;s health, climate
-              change, and sustainability efforts. Understanding these facts
-              empowers us to take action.
-            </p>
-
-            {/* Arrow List  */}
-            <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 w-full max-w-xl">
-              {reasons.map((reason, i) => (
-                <div key={i} className="flex items-center gap-2 mb-1">
-                  <ChevronRight className="w-5 h-5 text-[#FFA726] flex-shrink-0" />
-                  <span className="text-green-50 text-base font-medium">
-                    {reason}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Divider */}
-            <div className="w-full h-px bg-green-700/50 mb-12 max-w-xl" />
-
-            {/* Animated Numbers */}
-            <div className="grid grid-cols-3 gap-y-0 gap-x-0 w-full max-w-xl">
-              {facts.map((fact, idx) => (
-                <div
-                  key={idx}
-                  className={`flex flex-col items-center text-center border-r border-green-800 last:border-none py-2`}
-                >
-                  <div className="mb-3">{fact.icon}</div>
-                  <div
-                    className="text-4xl lg:text-5xl font-extrabold mb-1 text-white"
-                    style={{
-                      fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-                    }}
-                  >
-                    {startCount ? (
-                      <CountUp
-                        end={fact.number}
-                        duration={1.4}
-                        suffix={fact.suffix}
-                      />
-                    ) : (
-                      `0${fact.suffix}`
-                    )}
-                  </div>
-                  <div className="text-green-200 font-medium text-sm uppercase tracking-wide">
-                    {fact.label}
-                  </div>
-                </div>
-              ))}
-            </div>
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-8 md:gap-12 items-center justify-center px-2 sm:px-4 py-0">
+        {/* LEFT: Content */}
+        <div className="flex-1 flex flex-col justify-center items-start text-white py-8 sm:py-10 px-0 sm:px-4 w-full max-w-2xl">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <Settings size={22} strokeWidth={2} className="text-green-500" />
+            </span>
+            <span className="uppercase text-green-400 tracking-widest text-sm font-semibold">
+              Our Facts
+            </span>
           </div>
 
-          {/* Overflowing the container */}
-          <div className="flex-1 relative flex items-end justify-center h-full min-h-[700px] overflow-visible">
-            <div
-              className="relative"
+          <h2
+            className="font-bold text-white text-2xl sm:text-3xl md:text-4xl leading-tight mb-4"
+            style={{
+              fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
+              letterSpacing: "-0.02em",
+              lineHeight: 1.1,
+            }}
+          >
+            Key environmental facts for
+            <br />a <span className="text-primary">sustainable future</span>
+          </h2>
+
+          <p className="text-green-100 text-base sm:text-lg mb-8 leading-relaxed max-w-xl">
+            Discover essential facts about our planet&apos;s health, climate
+            change, and sustainability efforts. Understanding these facts
+            empowers us to take action.
+          </p>
+
+          {/* Arrow List  */}
+          <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 w-full max-w-xl">
+            {reasons.map((reason, i) => (
+              <div key={i} className="flex items-center gap-2 mb-1">
+                <ChevronRight className="w-5 h-5 text-[#FFA726] flex-shrink-0" />
+                <span className="text-green-50 text-base font-medium">
+                  {reason}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Divider */}
+          <div className="w-full h-px bg-green-700/50 mb-10 max-w-xl" />
+
+          {/* Animated Numbers */}
+          <div className="grid grid-cols-3 gap-x-2 sm:gap-x-0 gap-y-6 w-full max-w-xl">
+            {facts.map((fact, idx) => (
+              <div
+                key={idx}
+                className={`flex flex-col items-center text-center border-r border-green-800 last:border-none py-2`}
+              >
+                <div className="mb-2 sm:mb-3">{fact.icon}</div>
+                <div
+                  className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-1 text-white"
+                  style={{
+                    fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
+                  }}
+                >
+                  {startCount ? (
+                    <CountUp
+                      end={fact.number}
+                      duration={1.4}
+                      suffix={fact.suffix}
+                    />
+                  ) : (
+                    `0${fact.suffix}`
+                  )}
+                </div>
+                <div className="text-green-200 font-medium text-xs sm:text-sm uppercase tracking-wide">
+                  {fact.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Illustration */}
+        <div className="flex-1 min-w-0 w-full h-full flex items-center justify-center relative">
+          <div
+            className="relative flex items-center justify-center w-full h-full"
+            style={{
+              minWidth: "0",
+              minHeight: "0",
+              maxWidth: 500,
+              maxHeight: 950,
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <img
+              src="/man-plant-2.png"
+              alt="Person holding a plant"
+              className="w-full h-auto object-contain rounded-b-3xl drop-shadow-2xl mx-auto"
+              draggable={false}
               style={{
-                minWidth: 430,
-                maxWidth: 530,
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                alignItems: "flex-end",
+                maxHeight: 950,
+                minHeight: 280,
+                marginTop: 0,
+                display: "block",
               }}
-            >
-              <img
-                src="/man-plant-2.png"
-                alt="Person holding a plant"
-                className="w-full h-auto object-contain rounded-b-3xl drop-shadow-2xl"
-                draggable={false}
-                style={{
-                  maxHeight: "800px",
-                  marginTop: "-100px",
-                }}
-              />
-            </div>
+            />
           </div>
         </div>
       </div>
+      {/* Prevent section from shrinking too much on mobile */}
+      <style>{`
+        @media (max-width: 1024px) {
+          .min-h-\\[700px\\] {
+            min-height: 0 !important;
+          }
+        }
+        @media (max-width: 640px) {
+          section {
+            padding-bottom: 1.5rem !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

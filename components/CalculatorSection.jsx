@@ -98,8 +98,8 @@ export default function CalculatorSection() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80"
-                alt="Carbon footprint calculation"
+              src="/landing-page/1.jpg"
+                              alt="Carbon footprint calculation"
                 className="w-full h-full object-cover"
                 draggable={false}
               />
@@ -126,7 +126,7 @@ export default function CalculatorSection() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80"
+              src="/landing-page/3.jpg"
                 alt="Carbon footprint calculation"
                 className="w-full h-full object-cover"
                 draggable={false}

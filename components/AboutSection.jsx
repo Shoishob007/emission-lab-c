@@ -99,8 +99,8 @@ const AboutSection = () => {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-              alt="Globe and plant"
+            src="/landing-page/protecting-nature-1.jpg"
+              alt="Protecting nature"
               style={{
                 width: "100%",
                 height: "100%",
@@ -126,8 +126,8 @@ const AboutSection = () => {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80"
-              alt="Person with plant"
+            src="/landing-page/protecting-nature-2.jpg"
+              alt="Protecting nature"
               style={{
                 width: "100%",
                 height: "100%",
