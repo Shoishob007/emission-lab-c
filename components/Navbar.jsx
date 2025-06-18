@@ -26,6 +26,53 @@ const navItems = [
   { name: "Contact", href: "/contact", icon: Phone },
 ];
 
+
+const buttonStyles = `
+.animated-hover-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #FFA726 0%, #ff9800 100%);
+  color: #fff;
+  font-weight: 700;
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+  letter-spacing: 0.01em;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 3px 14px 0px rgba(0,0,0,0.12);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  transition: color 0.2s;
+  z-index: 1;
+}
+
+.animated-hover-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(135deg, #ff9800 0%, #FFA726 100%);
+  transition: background-position 0.5s cubic-bezier(0.4,0,0.2,1);
+  background-size: 200% 200%;
+  background-position: bottom left;
+  border-radius: inherit;
+  opacity: 1;
+}
+
+.animated-hover-btn:hover::before,
+.animated-hover-btn:focus-visible::before {
+  background-position: top right;
+}
+
+.animated-hover-btn > * {
+  position: relative;
+  z-index: 1;
+}
+`;
+
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();

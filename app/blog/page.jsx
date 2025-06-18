@@ -1,11 +1,245 @@
-import React from 'react'
+/* eslint-disable @next/next/no-img-element */
+"use client";
+import { useState } from "react";
+import { ArrowRight, ArrowLeft, Filter, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 
-const Blog = () => {
+const blogPosts = [
+  {
+    title: "How to Reduce Plastic Waste",
+    excerpt:
+      "Discover simple and effective ways to cut down on plastic waste in your daily life. From using reusable bags.",
+    image:
+      "/landing-page/plastic.jpg",
+    link: "#",
+    date: "2025-06-10",
+    author: "Jane Doe",
+    category: "blog",
+    subCategory: "environmental",
+  },
+  {
+    title: "Future of Renewable Energy",
+    excerpt:
+      "Explore the latest innovations and policies driving the shift to renewable resources and clean energy.",
+    image:
+      "/landing-page/renewable-energy-project-2.jpg",
+    link: "#",
+    date: "2025-06-13",
+    author: "Michael Lee",
+    category: "news",
+    subCategory: "renewables",
+  },
+  {
+    title: "Eco-Friendly Gardening",
+    excerpt:
+      "Tips and tricks for maintaining a green garden with minimal environmental impact.",
+    image:
+      "/landing-page/eco-friendly-gardening.jpg",
+    link: "#",
+    date: "2025-06-15",
+    author: "Sara Green",
+    category: "blog",
+    subCategory: "community",
+  },
+  {
+    title: "Community Clean-up Drive Success",
+    excerpt:
+      "Our recent clean-up drive saw over 500 volunteers collect tons of waste from city parks.",
+    image:
+      "/landing-page/community-clean.jpg",
+    link: "#",
+    date: "2025-06-17",
+    author: "Tom Smith",
+    category: "news",
+    subCategory: "community",
+  },
+  {
+    title: "Biodiversity Conservation in Action",
+    excerpt:
+      "Learn how new policies are protecting endangered species and habitats worldwide.",
+    image:
+      "/landing-page/bio.jpg",
+    link: "#",
+    date: "2025-06-18",
+    author: "Priya Patel",
+    category: "blog",
+    subCategory: "environmental",
+  },
+];
+
+const subCategories = [
+  "all",
+  ...Array.from(new Set(blogPosts.map(b => b.subCategory))),
+];
+
+const categories = [
+  { key: "all", label: "All" },
+  { key: "blog", label: "Blog" },
+  { key: "news", label: "News" }
+];
+
+export default function BlogPage() {
+  // Filters
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeSub, setActiveSub] = useState("all");
+  const [sortDate, setSortDate] = useState("desc");
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Filtering logic
+  let filtered = blogPosts;
+  if (activeCategory !== "all") {
+    filtered = filtered.filter(b => b.category === activeCategory);
+  }
+  if (activeSub !== "all") {
+    filtered = filtered.filter(b => b.subCategory === activeSub);
+  }
+  filtered = filtered.sort((a, b) =>
+    sortDate === "desc"
+      ? new Date(b.date) - new Date(a.date)
+      : new Date(a.date) - new Date(b.date)
+  );
+
   return (
-    <div>
-      This is blog section
-    </div>
-  )
-}
+    <section className="bg-white min-h-[100vh] py-14 px-2 font-['Montserrat','Arial','Helvetica',sans-serif']">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* HEADER */}
+        <div className="mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+                <Filter size={20} className="text-green-500" />
+              </span>
+              <span className="uppercase text-green-600 tracking-widest text-xs font-bold">
+                Blogs, News & Articles
+              </span>
+            </div>
+            <h1 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-1"
+                style={{
+                  fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
+                  letterSpacing: 0,
+                  lineHeight: 1.13,
+                }}>
+              Explore Our Latest <span className="text-[#17b652]">Stories</span>
+            </h1>
+            <p className="text-[#6c7a77] text-lg max-w-2xl mt-2">
+              Find the latest updates, news, and in-depth articles on sustainability, innovation, and more. Filter by type, topic or date to discover what matters to you.
+            </p>
+          </div>
+          {/* Filter bar */}
+          <div className="w-full md:w-auto">
+            <div className="flex gap-4 items-center justify-end flex-wrap">
+              {/* Category Tabs */}
+              <div className="flex gap-1 bg-[#f4f7ec] rounded-full p-1 shadow-sm">
+                {categories.map(c => (
+                  <button
+                    key={c.key}
+                    className={`px-5 py-2 rounded-full text-sm font-semibold transition ${
+                      activeCategory === c.key
+                        ? "bg-[#FFA726] text-white shadow"
+                        : "bg-transparent text-[#163820] hover:bg-[#FFA726]/10"
+                    }`}
+                    onClick={() => setActiveCategory(c.key)}
+                  >
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+              {/* Sub-category filter */}
+              <div className="relative">
+                <select
+                  value={activeSub}
+                  onChange={e => setActiveSub(e.target.value)}
+                  className="px-6 py-2 rounded-full bg-[#f4f7ec] text-[#163820] border border-[#eaeaea] font-semibold text-sm focus:ring-2 focus:ring-[#FFA726] appearance-none"
+                  style={{ minWidth: 150 }}
+                >
+                  {subCategories.map(sub => (
+                    <option key={sub} value={sub}>
+                      {sub.charAt(0).toUpperCase() + sub.slice(1)}
+                    </option>
+                  ))}
+                </select>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#FFA726]">
+                  <ChevronDown size={16} />
+                </span>
+              </div>
+              {/* Date sort */}
+              <button
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#f4f7ec] text-[#163820] border border-[#eaeaea] font-semibold text-sm transition hover:bg-[#FFA726]/10"
+                onClick={() => setSortDate(sortDate === "desc" ? "asc" : "desc")}
+                aria-label="Sort by date"
+              >
+                <Calendar size={18} className="text-[#FFA726]" />
+                {sortDate === "desc" ? (
+                  <>
+                    Newest
+                    <ChevronDown size={16} />
+                  </>
+                ) : (
+                  <>
+                    Oldest
+                    <ChevronUp size={16} />
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Blog grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {filtered.map((post, i) => (
+            <div
+              key={i}
+              className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow-sm group flex flex-col transition hover:shadow-xl"
+            >
+              <div className="h-[220px] w-full overflow-hidden relative">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Sub-category badge */}
+                <span className="absolute top-3 left-3 bg-[#FFA726] text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
+                  {post.subCategory}
+                </span>
+              </div>
+              <div className="p-7 flex-1 flex flex-col">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[#767676] text-xs">{post.date}</span>
+                  <span className="text-green-600 text-xs font-bold uppercase">{post.category}</span>
+                </div>
+                <h3 className="text-lg font-bold text-[#163820] mb-2 mt-1">
+                  {post.title}
+                </h3>
+                <p className="text-[#767676] text-sm mb-3 flex-1">
+                  {post.excerpt}
+                </p>
+                <span className="text-[#163820] font-semibold text-sm mb-3">
+                  {post.author}
+                </span>
+                <a
+                  href={post.link}
+                  className="mt-auto font-semibold text-[#FFA726] flex items-center gap-2 hover:underline text-sm w-fit"
+                >
+                  Read More <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
 
-export default Blog
+        {/* Pagination Placeholder */}
+        <div className="mt-14 flex justify-center">
+          <nav className="inline-flex gap-1">
+            <button className="px-4 py-2 rounded-l-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-[#FFA726]/10 flex items-center gap-1">
+              <ArrowLeft size={18} /> Prev
+            </button>
+            <button className="px-4 py-2 bg-[#FFA726] text-white font-bold transition">1</button>
+            <button className="px-4 py-2 rounded-r-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-[#FFA726]/10 flex items-center gap-1">
+              Next <ArrowRight size={18} />
+            </button>
+          </nav>
+        </div>
+      </div>
+    </section>
+  );
+}

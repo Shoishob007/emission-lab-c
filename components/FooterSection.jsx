@@ -58,7 +58,7 @@ const FooterSection = () => {
             </span>
             <div>
               <div className="font-bold text-white">E-Mail</div>
-              <div className="text-green-100 text-sm">info@domainname.com</div>
+              <div className="text-green-100 text-sm">info@elab.com</div>
             </div>
           </div>
         </div>

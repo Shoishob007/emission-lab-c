@@ -6,29 +6,25 @@ const steps = [
     title: "Assessment & Planning",
     description:
       "We analyze environmental challenges, conduct research, and develop tailored solutions.",
-    image:
-      "https://images.unsplash.com/photo-1466611653911-95081537e5b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+    image: "/landing-page/assesment.jpg",
   },
   {
     title: "Implementation",
     description:
       "Our team executes the plan with sustainable practices and cutting-edge technology.",
-    image:
-      "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+    image: "/landing-page/implement.jpg",
   },
   {
     title: "Monitoring",
     description:
       "Continuous tracking of environmental impact and progress metrics.",
-    image:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+    image: "/landing-page/monitor.jpg",
   },
   {
     title: "Optimization",
     description:
       "Refining strategies based on data to maximize environmental benefits.",
-    image:
-      "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+    image: "/landing-page/optimize.jpg",
   },
 ];
 
@@ -38,27 +34,28 @@ export default function HowItWorksSection() {
       <div className="max-w-[1200px] mx-auto px-4">
         {/* Section header */}
         <div className="flex flex-col">
-                      <div className="flex items-center gap-2 mb-3">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-                <Leaf size={22} strokeWidth={2} className="text-green-500" />
-              </span>
-              <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
-                How it works
-              </span>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <Leaf size={22} strokeWidth={2} className="text-green-500" />
+            </span>
+            <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+              How it works
+            </span>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between items-center mb-14 gap-12">
+            <div className="flex-1">
+              <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
+                How our programs and actions{" "}
+                <span className="text-primary"> work together</span>
+              </h2>
             </div>
-            <div className="flex flex-col md:flex-row justify-between items-center mb-14 gap-12">
-          <div className="flex-1">
-            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
-              How our programs and actions <span className="text-[#78B943]"> work together</span>
-            </h2>
-          </div>
-          <div className="flex-1 text-[#767676] text-lg max-w-xl">
-            Our four-step process ensures comprehensive environmental solutions
-            through assessment, implementation, monitoring, and optimization.
+            <div className="flex-1 text-[#767676] text-lg max-w-xl">
+              Our four-step process ensures comprehensive environmental
+              solutions through assessment, implementation, monitoring, and
+              optimization.
+            </div>
           </div>
         </div>
-        </div>
-        
 
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
