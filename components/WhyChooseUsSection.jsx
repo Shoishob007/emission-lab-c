@@ -27,7 +27,7 @@ const WhyChooseUsSection = () => {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="text-green-500"
+                className="text-primary"
                 viewBox="0 0 24 24"
               >
                 <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
@@ -40,7 +40,7 @@ const WhyChooseUsSection = () => {
                 />
               </svg>
             </span>
-            <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+            <span className="uppercase text-primary tracking-widest text-xs font-semibold">
               Why Choose Us
             </span>
           </div>
@@ -52,7 +52,9 @@ const WhyChooseUsSection = () => {
               lineHeight: 1.18,
             }}
           >
-            Your partner for <span className="text-[#78B943]">sustainable environmental</span> solutions
+            Your partner for{" "}
+            <span className="text-[#78B943]">sustainable environmental</span>{" "}
+            solutions
           </h2>
           <p className="text-base md:text-lg text-[#767676] mb-8 leading-relaxed max-w-xl">
             We are committed to delivering innovative and sustainable
@@ -72,7 +74,7 @@ const WhyChooseUsSection = () => {
             ))}
           </div>
           <button
-            className="mt-2 px-7 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
+            className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
             type="button"
           >
             Contact Us <ArrowRight className="w-5 h-5" />
@@ -146,18 +148,6 @@ const WhyChooseUsSection = () => {
           </div>
         </div>
       </div>
-      {/* Extra style to avoid horizontal scroll on mobile */}
-      <style>{`
-        @media (max-width: 640px) {
-          #why-choose-us .grid {
-            grid-template-columns: 1fr !important;
-          }
-          #why-choose-us .flex-col > div {
-            max-width: 100% !important;
-            max-height: 100% !important;
-          }
-        }
-      `}</style>
     </section>
   );
 };

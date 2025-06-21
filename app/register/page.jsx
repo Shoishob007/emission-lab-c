@@ -66,7 +66,7 @@ const btnIcon =
     if (valid)
       return (
         <CheckCircle
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500 transition-all duration-300 animate-[checkmark_0.5s_ease-out]"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-primary transition-all duration-300 animate-[checkmark_0.5s_ease-out]"
           size={20}
           aria-label="valid"
         />

@@ -56,9 +56,9 @@ export default function BlogSection() {
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-                <Leaf size={22} strokeWidth={2} className="text-green-500" />
+                <Leaf size={22} strokeWidth={2} className="text-primary" />
               </span>
-              <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+              <span className="uppercase text-primary tracking-widest text-xs font-semibold">
                 Latest Articles
               </span>
             </div>
@@ -81,7 +81,7 @@ export default function BlogSection() {
           <div className="flex-1 flex justify-end w-full">
             <Button
               size="lg"
-              className="bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base px-8 py-3 rounded-lg shadow-lg transition flex items-center gap-2"
+              className="bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base px-8 py-3 rounded-lg shadow-lg transition flex items-center gap-2"
               type="button"
             >
               View All Articles <ArrowRight className="w-5 h-5" />
@@ -110,7 +110,7 @@ export default function BlogSection() {
                   <span className="text-[#767676] text-sm">
                     {blogPosts[0].date}
                   </span>
-                  <span className="text-green-600 text-xs font-bold uppercase">
+                  <span className="text-primary text-xs font-bold uppercase">
                     {blogPosts[0].category}
                   </span>
                 </div>
@@ -157,7 +157,7 @@ export default function BlogSection() {
                 <div className="p-6 flex flex-col flex-1">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[#767676] text-sm">{post.date}</span>
-                    <span className="text-green-600 text-xs font-bold uppercase">
+                    <span className="text-primary text-xs font-bold uppercase">
                       {post.category}
                     </span>
                   </div>

@@ -26,7 +26,6 @@ const navItems = [
   { name: "Contact", href: "/contact", icon: Phone },
 ];
 
-
 const buttonStyles = `
 .animated-hover-btn {
   position: relative;
@@ -72,7 +71,6 @@ const buttonStyles = `
 }
 `;
 
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -85,17 +83,19 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full bg-white border-b border-border">
+    <nav className="w-full !bg-transparent border-b border-border">
       <div className="max-w-[1440px] py-4 mx-auto px-4 sm:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <img
-              src="/carbon-logo.png"
-              alt="EmissionLab Logo"
-              className="h-12 w-auto cursor-pointer"
-            />
-          </div>
+          <Link href="/">
+            <div className="flex-shrink-0 flex items-center">
+              <img
+                src="/carbon-logo.png"
+                alt="EmissionLab Logo"
+                className="h-12 w-auto cursor-pointer"
+              />
+            </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex flex-1 justify-center">
@@ -127,7 +127,7 @@ export default function Navbar() {
           <div className="hidden md:flex">
             <Link
               href="/donate"
-              className="ml-8 px-7 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
+              className="ml-8 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
               style={{
                 fontWeight: 700,
                 fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
@@ -177,7 +177,7 @@ export default function Navbar() {
           ))}
           <Link
             href="/donate"
-            className="mt-4 w-full px-7 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base flex items-center justify-center gap-2 shadow-lg transition"
+            className="mt-4 w-full px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center justify-center gap-2 shadow-lg transition"
             style={{
               fontWeight: 700,
               fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",

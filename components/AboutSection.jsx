@@ -99,7 +99,7 @@ const AboutSection = () => {
             }}
           >
             <img
-            src="/landing-page/protecting-nature-1.jpg"
+              src="/landing-page/protecting-nature-1.jpg"
               alt="Protecting nature"
               style={{
                 width: "100%",
@@ -126,7 +126,7 @@ const AboutSection = () => {
             }}
           >
             <img
-            src="/landing-page/protecting-nature-2.jpg"
+              src="/landing-page/protecting-nature-2.jpg"
               alt="Protecting nature"
               style={{
                 width: "100%",
@@ -159,7 +159,7 @@ const AboutSection = () => {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="text-green-500"
+                className="text-primary"
                 viewBox="0 0 24 24"
               >
                 <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
@@ -172,7 +172,7 @@ const AboutSection = () => {
                 />
               </svg>
             </span>
-            <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+            <span className="uppercase text-primary tracking-widest text-xs font-semibold">
               About Us
             </span>
           </div>
@@ -184,8 +184,7 @@ const AboutSection = () => {
               letterSpacing: 0,
             }}
           >
-            Protecting nature nurturing a
-            sustainable future
+            Protecting nature nurturing a sustainable future
           </h2>
           {/* Description */}
           <p className="text-base md:text-lg text-[#767676] mb-8 leading-relaxed max-w-xl">
@@ -263,7 +262,7 @@ const AboutSection = () => {
                 </div>
               </div>
             </div>
-            <button className="ml-2 px-5 py-2.5 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-sm flex items-center gap-2 shadow-lg transition">
+            <button className="ml-2 px-5 py-2.5 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-sm flex items-center gap-2 shadow-lg transition">
               More About Us <ArrowRight className="w-4 h-4" />
             </button>
           </div>

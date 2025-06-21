@@ -24,6 +24,10 @@
     --input: 240 5.9% 90%;
     --ring: 120 60% 45%;
     --radius: 0.5rem;
+      --btn-primary: 34 94% 56%;       /* #FFA726 in HSL: h=34, s=94%, l=56% */
+  --btn-primary-foreground: 0 0% 100%; /* white */
+  --btn-secondary: 120 60% 45%;    /* Matches your --primary from earlier (custom green) */
+  --btn-secondary-foreground: 0 0% 98%; /* Zinc-50 */
   }
 
   .dark {
@@ -46,6 +50,10 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 120 60% 45%;
+      --btn-primary: 34 94% 56%;         /* #FFA726 */
+  --btn-primary-foreground: 0 0% 10%; /* almost black for contrast if needed */
+  --btn-secondary: 120 60% 45%;      /* green as secondary in dark too */
+  --btn-secondary-foreground: 240 5.9% 10%; /* for contrast */
   }
 
   * {
@@ -358,4 +366,16 @@ html, body {
   font-weight: 900 !important;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+
+/* why choose us mobile */
+
+@media (max-width: 640px) {
+  #why-choose-us .grid {
+    grid-template-columns: 1fr !important;
+  }
+  #why-choose-us .flex-col > div {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
 }

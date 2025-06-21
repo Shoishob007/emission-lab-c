@@ -5,22 +5,22 @@ import Link from "next/link";
 const projects = [
   {
     title: "Renewable Energy Implementation",
-    image: "/landing-page/renewable-energy-project.jpg" ,
+    image: "/landing-page/renewable-energy-project.jpg",
     description:
       "Our renewable energy solutions harness the power of natural resources like solar.",
     cta: { text: "Read More", href: "/projects/1" },
   },
   {
     title: "Reforestation to Restore Natural",
-        image: "/landing-page/reforestration-project.jpg" ,
-description:
+    image: "/landing-page/reforestration-project.jpg",
+    description:
       "Our renewable energy solutions harness the power of natural resources like solar.",
     cta: { text: "Read More", href: "/projects/2" },
   },
   {
     title: "Climate Action for a Greener Planet",
-        image: "/landing-page/climate-awarness.jpg" ,
-description:
+    image: "/landing-page/climate-awarness.jpg",
+    description:
       "Our renewable energy solutions harness the power of natural resources like solar.",
     cta: { text: "Read More", href: "/projects/3" },
   },
@@ -43,7 +43,7 @@ export default function ProjectsSection() {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  className="text-green-500"
+                  className="text-primary"
                   viewBox="0 0 24 24"
                 >
                   <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
@@ -74,7 +74,7 @@ export default function ProjectsSection() {
           </div>
           <Link
             href="/projects"
-            className="mt-6 md:mt-0 px-7 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base flex items-center gap-2 shadow-lg transition whitespace-nowrap"
+            className="mt-6 md:mt-0 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition whitespace-nowrap"
             style={{ fontFamily: "'Montserrat', Arial, Helvetica, sans-serif" }}
           >
             View All Projects <ArrowRight className="w-5 h-5" />

@@ -284,7 +284,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
 
         {/* Offset Section */}
         <h2 className="text-2xl font-bold mb-4 text-gray-600 flex items-center justify-center">
-          <Trees className="w-10 h-10 mr-2 text-green-500" />
+          <Trees className="w-10 h-10 mr-2 text-primary" />
           Carbon Offset Solutions
         </h2>
         <p className="text-gray-600 mb-6 max-w-3xl mx-auto text-center">
@@ -523,7 +523,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
               improving lives worldwide.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center">
+              <button className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center">
                 <ArrowUp className="h-5 w-5 mr-2" />
                 Offset Now
               </button>

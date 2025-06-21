@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 import { Filter } from "lucide-react";
 import { useState } from "react";
 
@@ -23,10 +23,10 @@ export default function Contact() {
           <div className="rounded-t-2xl rounded-b-lg bg-[#0a2d23] p-8 md:p-10 text-left mb-2">
             <div className="flex items-center gap-2 mb-2">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-                <Filter size={20} className="text-green-500" />
+                <Filter size={20} className="text-primary" />
               </span>
-              <span className="uppercase text-green-600 tracking-widest text-xs font-bold">
-                Blogs, News & Articles
+              <span className="uppercase text-primary tracking-widest text-xs font-bold">
+                Contact Us
               </span>
             </div>
             <h1
@@ -254,7 +254,7 @@ export default function Contact() {
           {/* Submit button */}
           <button
             type="submit"
-            className="rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold justify-center text-base flex items-center gap-2 shadow-lg px-8 py-3 transition mt-1"
+            className="rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold justify-center text-base flex items-center gap-2 shadow-lg px-8 py-3 transition mt-1"
           >
             Let&apos;s Talk
           </button>

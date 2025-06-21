@@ -20,7 +20,7 @@ export default function ContactSection() {
         <div className="flex flex-col">
           <div className="flex items-center gap-3 mb-6">
             <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-              <Settings size={22} strokeWidth={2} className="text-green-500" />
+              <Settings size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-green-400 tracking-widest text-sm font-semibold">
               Contact Us
@@ -253,7 +253,7 @@ export default function ContactSection() {
           {/* Submit button */}
           <button
             type="submit"
-            className="rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold justify-center text-base flex items-center gap-2 shadow-lg px-8 py-3 transition mt-1"
+            className="rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold justify-center text-base flex items-center gap-2 shadow-lg px-8 py-3 transition mt-1"
           >
             Let&apos;s Talk
           </button>

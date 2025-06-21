@@ -39,7 +39,8 @@ const getEmissionCategory = (emissionsInTons) => {
   if (!emissionsInTons) return { category: "unknown", color: "gray" };
 
   if (emissionsInTons < 0.1) return { category: "Low", color: "green-500" };
-  if (emissionsInTons >= 0.1 && emissionsInTons < 0.2) return { category: "Moderate", color: "yellow-500" };
+  if (emissionsInTons >= 0.1 && emissionsInTons < 0.2)
+    return { category: "Moderate", color: "yellow-500" };
   return { category: "High", color: "red-500" };
 };
 
@@ -52,7 +53,9 @@ const SidebarBooking = ({
     return `${amount.toLocaleString()} ${currency}`;
   };
 
-  const emissionsInTons = getEmissionsInMetricTons(flightDetails.emissionsValue);
+  const emissionsInTons = getEmissionsInMetricTons(
+    flightDetails.emissionsValue
+  );
   const emissionCategory = getEmissionCategory(emissionsInTons);
 
   // Calculate carbon data metrics
@@ -217,7 +220,7 @@ const SidebarBooking = ({
                       className={`text-sm font-medium text-${emissionCategory.color}`}
                     >
                       {emissionCategory.category} CO2 emissions (
-                        {emissionsInTons.toFixed(2)} MT)
+                      {emissionsInTons.toFixed(2)} MT)
                     </span>
                   </div>
                   <TooltipProvider>
@@ -289,7 +292,7 @@ const SidebarBooking = ({
 
                         <div className="flex items-center justify-between border-b border-gray-200 pb-1">
                           <div className="flex items-center gap-2">
-                            <TreePine className="h-4 w-4 text-green-500" />
+                            <TreePine className="h-4 w-4 text-primary" />
                             <span className="text-sm text-gray-600">
                               Trees Needed
                             </span>
@@ -349,7 +352,7 @@ const SidebarBooking = ({
                       <div className="space-y-2">
                         <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-white/60 transition-colors">
                           <div className="flex items-center gap-2">
-                            <TreePine className="h-4 w-4 text-green-500" />
+                            <TreePine className="h-4 w-4 text-primary" />
                             <span className="text-sm">
                               Reforestation Project
                             </span>
@@ -417,7 +420,7 @@ const SidebarBooking = ({
                   <span>{formatCurrency(1500)}</span>
                 </div>
                 {selectedCoupon && (
-                  <div className="flex justify-between text-sm text-green-600">
+                  <div className="flex justify-between text-sm text-primary">
                     <span className="flex items-center gap-1">
                       <BadgePercent className="h-4 w-4" />
                       Discount Applied

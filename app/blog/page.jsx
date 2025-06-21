@@ -1,15 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useState } from "react";
-import { ArrowRight, ArrowLeft, Filter, Calendar, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowLeft,
+  Filter,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 
 const blogPosts = [
   {
     title: "How to Reduce Plastic Waste",
     excerpt:
       "Discover simple and effective ways to cut down on plastic waste in your daily life. From using reusable bags.",
-    image:
-      "/landing-page/plastic.jpg",
+    image: "/landing-page/plastic.jpg",
     link: "#",
     date: "2025-06-10",
     author: "Jane Doe",
@@ -20,8 +26,7 @@ const blogPosts = [
     title: "Future of Renewable Energy",
     excerpt:
       "Explore the latest innovations and policies driving the shift to renewable resources and clean energy.",
-    image:
-      "/landing-page/renewable-energy-project-2.jpg",
+    image: "/landing-page/renewable-energy-project-2.jpg",
     link: "#",
     date: "2025-06-13",
     author: "Michael Lee",
@@ -32,8 +37,7 @@ const blogPosts = [
     title: "Eco-Friendly Gardening",
     excerpt:
       "Tips and tricks for maintaining a green garden with minimal environmental impact.",
-    image:
-      "/landing-page/eco-friendly-gardening.jpg",
+    image: "/landing-page/eco-friendly-gardening.jpg",
     link: "#",
     date: "2025-06-15",
     author: "Sara Green",
@@ -44,8 +48,7 @@ const blogPosts = [
     title: "Community Clean-up Drive Success",
     excerpt:
       "Our recent clean-up drive saw over 500 volunteers collect tons of waste from city parks.",
-    image:
-      "/landing-page/community-clean.jpg",
+    image: "/landing-page/community-clean.jpg",
     link: "#",
     date: "2025-06-17",
     author: "Tom Smith",
@@ -56,8 +59,7 @@ const blogPosts = [
     title: "Biodiversity Conservation in Action",
     excerpt:
       "Learn how new policies are protecting endangered species and habitats worldwide.",
-    image:
-      "/landing-page/bio.jpg",
+    image: "/landing-page/bio.jpg",
     link: "#",
     date: "2025-06-18",
     author: "Priya Patel",
@@ -68,13 +70,13 @@ const blogPosts = [
 
 const subCategories = [
   "all",
-  ...Array.from(new Set(blogPosts.map(b => b.subCategory))),
+  ...Array.from(new Set(blogPosts.map((b) => b.subCategory))),
 ];
 
 const categories = [
   { key: "all", label: "All" },
   { key: "blog", label: "Blog" },
-  { key: "news", label: "News" }
+  { key: "news", label: "News" },
 ];
 
 export default function BlogPage() {
@@ -87,10 +89,10 @@ export default function BlogPage() {
   // Filtering logic
   let filtered = blogPosts;
   if (activeCategory !== "all") {
-    filtered = filtered.filter(b => b.category === activeCategory);
+    filtered = filtered.filter((b) => b.category === activeCategory);
   }
   if (activeSub !== "all") {
-    filtered = filtered.filter(b => b.subCategory === activeSub);
+    filtered = filtered.filter((b) => b.subCategory === activeSub);
   }
   filtered = filtered.sort((a, b) =>
     sortDate === "desc"
@@ -106,22 +108,26 @@ export default function BlogPage() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-                <Filter size={20} className="text-green-500" />
+                <Filter size={20} className="text-primary" />
               </span>
-              <span className="uppercase text-green-600 tracking-widest text-xs font-bold">
-                Blogs, News & Articles
+              <span className="uppercase text-primary tracking-widest text-xs font-bold">
+                Our Articles
               </span>
             </div>
-            <h1 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-1"
-                style={{
-                  fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-                  letterSpacing: 0,
-                  lineHeight: 1.13,
-                }}>
-              Explore Our Latest <span className="text-[#17b652]">Stories</span>
+            <h1
+              className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-1"
+              style={{
+                fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
+                letterSpacing: 0,
+                lineHeight: 1.13,
+              }}
+            >
+              Explore Our Latest <span className="text-primary">Stories</span>
             </h1>
             <p className="text-[#6c7a77] text-lg max-w-2xl mt-2">
-              Find the latest updates, news, and in-depth articles on sustainability, innovation, and more. Filter by type, topic or date to discover what matters to you.
+              Find the latest updates, news, and in-depth articles on
+              sustainability, innovation, and more. Filter by type, topic or
+              date to discover what matters to you.
             </p>
           </div>
           {/* Filter bar */}
@@ -129,7 +135,7 @@ export default function BlogPage() {
             <div className="flex gap-4 items-center justify-end flex-wrap">
               {/* Category Tabs */}
               <div className="flex gap-1 bg-[#f4f7ec] rounded-full p-1 shadow-sm">
-                {categories.map(c => (
+                {categories.map((c) => (
                   <button
                     key={c.key}
                     className={`px-5 py-2 rounded-full text-sm font-semibold transition ${
@@ -147,11 +153,11 @@ export default function BlogPage() {
               <div className="relative">
                 <select
                   value={activeSub}
-                  onChange={e => setActiveSub(e.target.value)}
+                  onChange={(e) => setActiveSub(e.target.value)}
                   className="px-6 py-2 rounded-full bg-[#f4f7ec] text-[#163820] border border-[#eaeaea] font-semibold text-sm focus:ring-2 focus:ring-[#FFA726] appearance-none"
                   style={{ minWidth: 150 }}
                 >
-                  {subCategories.map(sub => (
+                  {subCategories.map((sub) => (
                     <option key={sub} value={sub}>
                       {sub.charAt(0).toUpperCase() + sub.slice(1)}
                     </option>
@@ -164,7 +170,9 @@ export default function BlogPage() {
               {/* Date sort */}
               <button
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#f4f7ec] text-[#163820] border border-[#eaeaea] font-semibold text-sm transition hover:bg-[#FFA726]/10"
-                onClick={() => setSortDate(sortDate === "desc" ? "asc" : "desc")}
+                onClick={() =>
+                  setSortDate(sortDate === "desc" ? "asc" : "desc")
+                }
                 aria-label="Sort by date"
               >
                 <Calendar size={18} className="text-[#FFA726]" />
@@ -183,7 +191,7 @@ export default function BlogPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Blog grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {filtered.map((post, i) => (
@@ -205,7 +213,9 @@ export default function BlogPage() {
               <div className="p-7 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[#767676] text-xs">{post.date}</span>
-                  <span className="text-green-600 text-xs font-bold uppercase">{post.category}</span>
+                  <span className="text-primary text-xs font-bold uppercase">
+                    {post.category}
+                  </span>
                 </div>
                 <h3 className="text-lg font-bold text-[#163820] mb-2 mt-1">
                   {post.title}
@@ -233,7 +243,9 @@ export default function BlogPage() {
             <button className="px-4 py-2 rounded-l-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-[#FFA726]/10 flex items-center gap-1">
               <ArrowLeft size={18} /> Prev
             </button>
-            <button className="px-4 py-2 bg-[#FFA726] text-white font-bold transition">1</button>
+            <button className="px-4 py-2 bg-[#FFA726] text-white font-bold transition">
+              1
+            </button>
             <button className="px-4 py-2 rounded-r-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-[#FFA726]/10 flex items-center gap-1">
               Next <ArrowRight size={18} />
             </button>
