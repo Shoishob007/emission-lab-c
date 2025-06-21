@@ -93,20 +93,23 @@ const HeroSection = () => {
       {/* Video */}
       <div className="absolute inset-0 z-0">
         <video
-  ref={videoRef}
-  autoPlay
-  loop
-  muted
-  playsInline
-  className="w-full h-full object-cover"
->
-  <source src="https://res.cloudinary.com/dmazsiqdy/video/upload/v1750540137/emisison-lab/video-3.mp4" type="video/mp4" />
-  <img
-    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-    alt="Nature background fallback"
-    className="w-full h-full object-cover"
-  />
-</video>
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source
+            src="https://res.cloudinary.com/dmazsiqdy/video/upload/v1750540137/emisison-lab/video-3.mp4"
+            type="video/mp4"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+            alt="Nature background fallback"
+            className="w-full h-full object-cover"
+          />
+        </video>
       </div>
       {/* gradient overlay */}
       <div className="absolute inset-0 z-0 pointer-events-none">
