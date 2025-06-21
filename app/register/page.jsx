@@ -12,8 +12,12 @@ import {
   XCircle,
 } from "lucide-react";
 import { checkPasswordStrength, emailRegex, phoneRegex } from "@/utils/helper";
-import { RiFacebookFill, RiGithubFill, RiGoogleFill, RiTwitterXFill } from "@remixicon/react";
-
+import {
+  RiFacebookFill,
+  RiGithubFill,
+  RiGoogleFill,
+  RiTwitterXFill,
+} from "@remixicon/react";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
@@ -26,9 +30,9 @@ const Register = () => {
   const [animationLoaded, setAnimationLoaded] = useState(false);
 
   const btnBase =
-  "relative w-full py-2.5 rounded-lg text-white font-semibold text-base bg-gradient-to-br from-primary to-green-600 shadow transition-all overflow-hidden flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 hover:opacity-90 duration-500";
-const btnIcon =
-  "pointer-events-none flex items-center justify-center mr-2 flex-shrink-0 opacity-80";
+    "relative w-full py-2.5 rounded-lg text-white font-semibold text-base bg-gradient-to-br from-primary to-green-600 shadow transition-all overflow-hidden flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 hover:opacity-90 duration-500";
+  const btnIcon =
+    "pointer-events-none flex items-center justify-center mr-2 flex-shrink-0 opacity-80";
 
   // fallback timeout in case onLoad doesn't trigger
   useEffect(() => {
