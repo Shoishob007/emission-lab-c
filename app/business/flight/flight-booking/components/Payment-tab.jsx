@@ -79,7 +79,7 @@ const Payment = ({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-6 text-green-600"
+                    className="h-6 text-primary"
                   >
                     <CheckCircle className="h-4 w-4 mr-1" /> Applied
                   </Button>
@@ -150,7 +150,7 @@ const Payment = ({
                               <span className="font-medium text-sm">
                                 {coupon.code}
                               </span>
-                              <span className="text-xs text-green-600 font-medium">
+                              <span className="text-xs text-primary font-medium">
                                 {coupon.discount}
                               </span>
                             </div>

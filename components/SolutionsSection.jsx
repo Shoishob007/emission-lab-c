@@ -68,14 +68,15 @@ export default function SolutionsSection() {
           <div className="text-center md:text-left max-w-2xl mx-auto md:mx-0">
             <div className="flex items-center gap-2 mb-3 justify-center md:justify-start">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-                <Target size={22} strokeWidth={2} className="text-green-500" />
+                <Target size={22} strokeWidth={2} className="text-primary" />
               </span>
-              <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+              <span className="uppercase text-primary tracking-widest text-xs font-semibold">
                 Solutions
               </span>
             </div>
             <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
-              Complete <span className="text-primary">Carbon Management</span> Solutions
+              Complete <span className="text-primary">Carbon Management</span>{" "}
+              Solutions
             </h2>
             <p className="text-lg text-[#767676] mt-4 max-w-xl">
               From measurement to action - our comprehensive platform guides you

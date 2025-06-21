@@ -63,7 +63,7 @@ const testimonials = [
 ];
 
 // Set a fixed hero image for the left
-const fixedImage = "/landing-page/testimonial.jpg"
+const fixedImage = "/landing-page/testimonial.jpg";
 export default function TestimonialsSection() {
   const [current, setCurrent] = useState(0);
 
@@ -125,7 +125,7 @@ export default function TestimonialsSection() {
                   />
                 </svg>
               </span>
-              <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+              <span className="uppercase text-primary tracking-widest text-xs font-semibold">
                 Testimonials
               </span>
             </div>
@@ -139,7 +139,8 @@ export default function TestimonialsSection() {
             >
               What our <span className="text-primary">supporters and</span>
               <br />
-              <span className="text-primary">partners</span> say about our impact
+              <span className="text-primary">partners</span> say about our
+              impact
             </h2>
           </div>
           {/* Google rating */}

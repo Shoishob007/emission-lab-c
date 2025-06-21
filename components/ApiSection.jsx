@@ -85,9 +85,9 @@ export default function ApiSection() {
           <div className="mb-8 w-full max-w-lg">
             <div className="flex items-center gap-2 mb-3">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-                <Code size={22} strokeWidth={2} className="text-green-500" />
+                <Code size={22} strokeWidth={2} className="text-primary" />
               </span>
-              <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+              <span className="uppercase text-primary tracking-widest text-xs font-semibold">
                 API Integration
               </span>
             </div>
@@ -130,9 +130,9 @@ export default function ApiSection() {
             <div className="flex justify-end w-full">
               <Link href="/api" passHref legacyBehavior>
                 <button
-                  className="px-7 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
+                  className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
                   style={{
-                    fontFamily: "'Montserrat', Arial, Helvetica, sans-serif"
+                    fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
                   }}
                 >
                   View Documentation <ArrowRight className="w-5 h-5" />

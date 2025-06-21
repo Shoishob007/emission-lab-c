@@ -179,8 +179,8 @@ const FlightAirlineDetails = ({ flight, formatCurrency }) => {
 
             {flight.promo && (
               <div className="flex items-center gap-1 mt-1">
-                <BadgePercent className="h-3 w-3 text-green-600" />
-                <span className="text-xs text-green-600 font-medium">
+                <BadgePercent className="h-3 w-3 text-primary" />
+                <span className="text-xs text-primary font-medium">
                   {flight.promo}
                 </span>
               </div>

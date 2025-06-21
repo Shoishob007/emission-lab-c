@@ -4,7 +4,12 @@ import React, { useEffect, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { CheckCircle, Lock, Mail, XCircle } from "lucide-react";
 import { checkPasswordStrength, emailRegex } from "@/utils/helper";
-import { RiFacebookFill, RiGithubFill, RiGoogleFill, RiTwitterXFill } from "@remixicon/react";
+import {
+  RiFacebookFill,
+  RiGithubFill,
+  RiGoogleFill,
+  RiTwitterXFill,
+} from "@remixicon/react";
 
 const btnBase =
   "relative w-full py-2.5 rounded-lg text-white font-semibold text-base bg-gradient-to-br from-primary to-green-600 shadow transition-all overflow-hidden flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 hover:opacity-90 duration-500";
@@ -49,7 +54,7 @@ const Login = () => {
     if (valid)
       return (
         <CheckCircle
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500 transition-all duration-300 animate-[checkmark_0.5s_ease-out]"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-primary transition-all duration-300 animate-[checkmark_0.5s_ease-out]"
           size={20}
           aria-label="valid"
         />

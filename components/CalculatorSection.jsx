@@ -45,10 +45,10 @@ export default function CalculatorSection() {
                 <Calculator
                   size={22}
                   strokeWidth={2}
-                  className="text-green-500"
+                  className="text-primary"
                 />
               </span>
-              <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+              <span className="uppercase text-primary tracking-widest text-xs font-semibold">
                 Calculator
               </span>
             </div>
@@ -73,7 +73,7 @@ export default function CalculatorSection() {
           <div className="items-center p-6">
             <Link href="/calculator" passHref legacyBehavior>
               <button
-                className="px-7 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
+                className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
                 style={{
                   fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
                 }}

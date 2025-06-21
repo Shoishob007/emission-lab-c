@@ -22,9 +22,9 @@ export default function AiSection() {
         <div className="w-full lg:w-1/2 max-w-[560px] min-w-[320px] p-4 flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-3">
             <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-              <Brain size={22} strokeWidth={2} className="text-green-600" />
+              <Brain size={22} strokeWidth={2} className="text-primary" />
             </span>
-            <span className="uppercase text-green-600 tracking-widest text-xs font-semibold">
+            <span className="uppercase text-primary tracking-widest text-xs font-semibold">
               Artificial Intelligence
             </span>
           </div>
@@ -39,9 +39,10 @@ export default function AiSection() {
             AI-Powered <span className="text-primary">Sustainability</span>
           </h2>
           <p className="text-base md:text-lg text-[#767676] mb-8 leading-relaxed max-w-xl">
-            Harness the power of artificial intelligence to optimize your carbon reduction strategies. 
-            Our advanced algorithms analyze your data to provide personalized recommendations and predict 
-            the most effective pathways to carbon neutrality.
+            Harness the power of artificial intelligence to optimize your carbon
+            reduction strategies. Our advanced algorithms analyze your data to
+            provide personalized recommendations and predict the most effective
+            pathways to carbon neutrality.
           </p>
           <div className="bg-[#F7F7F7] rounded-2xl py-7 px-8 mb-8 flex flex-col gap-5">
             {aiFeatures.map((feature, i) => (
@@ -57,7 +58,7 @@ export default function AiSection() {
           </div>
           <Button
             size="lg"
-            className="mt-2 px-7 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ff9800] text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
+            className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
             type="button"
           >
             Explore AI Features <ArrowRight className="w-5 h-5" />

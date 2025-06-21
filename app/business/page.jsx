@@ -1,141 +1,123 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
+
+const businessScopes = [
+  {
+    id: 1,
+    name: "Flight",
+    route: "/business/flight",
+    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    desc: "Book and manage air travel for your business with efficient carbon tracking and route optimization.",
+  },
+  {
+    id: 2,
+    name: "Car",
+    route: "/business/car",
+    image: "/business/car.jpg",
+    desc: "Seamlessly handle business car rentals, ride-sharing, and eco-friendly vehicle reporting.",
+  },
+  {
+    id: 3,
+    name: "Motorbike",
+    route: "/business/motorbike",
+    image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    desc: "Manage motorbike logistics, expenses, and sustainable travel options for quick city commutes.",
+  },
+  {
+    id: 4,
+    name: "Bus",
+    route: "/business/bus",
+    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    desc: "Coordinate group transport, staff bus bookings, and sustainable public travel for teams.",
+  },
+  {
+    id: 5,
+    name: "Train",
+    route: "/business/train",
+    image: "/business/train.jpg",
+    desc: "Optimize business rail journeys, ticketing, and carbon reporting for long-distance commutes.",
+  },
+  {
+    id: 6,
+    name: "Hotel",
+    route: "/business/hotel",
+    image: "/business/hotel.jpg",
+    desc: "Book hotels, track business stays, and find accommodations aligned with your sustainability goals.",
+  },
+  {
+    id: 7,
+    name: "Ship",
+    route: "/business/ship",
+    image: "/business/ship.jpg",
+    desc: "Handle international business shipping, cruises, and marine logistics with ease.",
+  },
+];
 
 const Business = () => {
   const router = useRouter();
 
-  const icons = [
-    {
-      id: 1,
-      name: "Flight",
-      icon: "✈️",
-      route: "/business/flight",
-      url: "/airplane.png",
-      top: 50,
-      left: 50,
-    },
-    {
-      id: 2,
-      name: "Car",
-      icon: "🚗",
-      route: "/business/car",
-      url: "/car.png",
-      top: 10,
-      left: 35,
-    },
-    {
-      id: 3,
-      name: "Motorbike",
-      icon: "🏍️",
-      route: "/business/motorbike",
-      url: "/bike-pollution.png",
-      top: 10,
-      left: 65,
-    },
-    {
-      id: 4,
-      name: "Bus",
-      icon: "🚌",
-      route: "/business/bus",
-      url: "/bus.png",
-      top: 50,
-      left: 20,
-    },
-    {
-      id: 5,
-      name: "Train",
-      icon: "🚆",
-      route: "/business/train",
-      url: "/train.png",
-      top: 50,
-      left: 80,
-    },
-    {
-      id: 6,
-      name: "Hotel",
-      icon: "🏨",
-      route: "/business/hotel",
-      url: "/hotel.png",
-
-      top: 90,
-      left: 35,
-    },
-    {
-      id: 7,
-      name: "Ship",
-      icon: "🚢",
-      route: "/business/ship",
-      url: "/cruise.png",
-      top: 90,
-      left: 65,
-    },
-  ];
-
-  // tracking hover
-  const [hoveredId, setHoveredId] = useState(null);
-
-  const handleIconClick = (route) => {
-    router.push(route);
-  };
-
   return (
-    <div className="flex flex-col justify-center items-center w-full h-screen p-8 gap-4">
-      <h2 className="text-3xl font-bold">Choose your travelling scope</h2>
-      <p className="text-sm text-center max-w-3xl">
-        Choose your business travel mode! Whether it&apos;s a flight, car, bus,
-        or train you have covered. Just click on the icon to explore each of the
-        scopes.
-      </p>
-      <div className="relative w-full max-w-3xl h-96 mx-auto my-auto">
-        {icons.map((icon) => {
-          const isHovered = hoveredId === icon.id;
-
-          return (
-            <div
-              key={icon.id}
-              className={`absolute cursor-pointer transition-all duration-300 ${
-                isHovered ? "scale-110 z-10" : "z-0"
-              }`}
-              style={{
-                top: `${icon.top}%`,
-                left: `${icon.left}%`,
-                transform: "translate(-50%, -50%)",
-              }}
-              onClick={() => handleIconClick(icon.route)}
-              onMouseEnter={() => setHoveredId(icon.id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              <div className="flex flex-col items-center">
-                <div
-                  className={`w-32 h-32 flex items-center justify-center rounded-full mb-2 shadow-md transition-all duration-300 border-2 border-solid border-secondary  ${
-                    isHovered
-                      ? "shadow-lg bg-secondary/10 scale-105"
-                      : "bg-white"
-                  }`}
-                >
-                  <Image
-                    src={icon.url}
-                    alt={icon.name}
-                    width={72}
-                    height={72}
-                    className="object-contain"
-                  />{" "}
-                </div>
-                <p
-                  className={`text-base font-semibold transition-all duration-300 ${
-                    isHovered ? "text-secondary" : "text-gray-800"
-                  }`}
-                >
-                  {icon.name}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+    <section className="bg-[#0A2D23] min-h-screen py-12 px-4 flex flex-col items-center justify-start">
+      <div className="max-w-3xl text-center mb-12">
+        <h2
+          className="text-4xl md:text-5xl font-extrabold text-white mb-4"
+          style={{
+            fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
+            letterSpacing: "-0.01em",
+          }}
+        >
+          Choose your <span className="text-primary">business scope</span>
+        </h2>
+        <p className="text-green-100 text-lg max-w-2xl mx-auto">
+          Select a business travel or service category. Click a card to manage, book, or analyze each scope in detail.
+        </p>
       </div>
-    </div>
+      <div className="w-full max-w-6xl grid gap-8 md:grid-cols-4 sm:grid-cols-2 grid-cols-1">
+        {businessScopes.map((scope) => (
+          <div
+            key={scope.id}
+            className="group relative rounded-2xl overflow-hidden shadow-lg bg-[#0A2D23] cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
+            onClick={() => router.push(scope.route)}
+            tabIndex={0}
+            onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && router.push(scope.route)}
+            role="button"
+            aria-label={`Go to ${scope.name}`}
+          >
+            <div className="relative w-full h-64">
+              <Image
+                src={scope.image}
+                alt={scope.name}
+                fill
+                className="object-cover object-center transition-all duration-300 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                priority={scope.id <= 3}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
+            <div className="absolute bottom-0 left-0 w-full p-6 pb-7 z-10 flex flex-col">
+              <h3 className="text-2xl font-bold text-white mb-1 drop-shadow-lg">
+                {scope.name}
+              </h3>
+              <p className="text-green-100 text-base font-medium mb-5 line-clamp-2 drop-shadow">
+                {scope.desc}
+              </p>
+              <button
+                tabIndex={-1}
+                className="flex items-center gap-1 text-white/90 font-semibold group-hover:text-[#FFA726] transition-colors mt-auto"
+                onClick={e => { e.stopPropagation(); router.push(scope.route); }}
+                aria-label={`Explore ${scope.name}`}
+                type="button"
+              >
+                Have a look
+                <span className="ml-1">→</span>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 

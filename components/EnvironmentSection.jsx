@@ -67,7 +67,7 @@ export default function FactsAndEnvironmentSection() {
         <div className="flex-1 flex flex-col justify-center items-start text-white py-8 sm:py-10 px-0 sm:px-4 w-full max-w-2xl">
           <div className="flex items-center gap-3 mb-6">
             <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-              <Settings size={22} strokeWidth={2} className="text-green-500" />
+              <Settings size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-green-400 tracking-widest text-sm font-semibold">
               Our Facts

@@ -118,7 +118,7 @@ const Review = ({}) => {
                       <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-medium">
                         FLIGHTINT
                       </span>
-                      <span className="text-sm font-medium text-green-600">
+                      <span className="text-sm font-medium text-primary">
                         10% OFF
                       </span>
                     </div>
