@@ -56,7 +56,7 @@ export default function ProjectsSection() {
                   />
                 </svg>
               </span>
-              <span className="uppercase text-green-200 tracking-widest text-xs font-semibold">
+              <span className="uppercase text-primary tracking-widest text-xs font-semibold">
                 Our Project
               </span>
             </div>
@@ -118,7 +118,7 @@ export default function ProjectsSection() {
                 <Link
                   href={project.cta.href}
                   className={`
-                    inline-flex items-center gap-1 font-semibold text-[#FFA726] hover:underline text-base
+                    inline-flex items-center gap-1 font-semibold text-btn-primary hover:underline text-base
                     opacity-0 translate-y-4
                     group-hover:opacity-100 group-hover:translate-y-0
                     transition-all duration-400
@@ -142,7 +142,7 @@ export default function ProjectsSection() {
             Let&apos;s make something great work together.
             <Link
               href="/contact"
-              className="ml-1 text-[#FFA726] font-semibold hover:underline"
+              className="ml-1 text-btn-primary font-semibold hover:underline"
             >
               Get Free Quote
             </Link>

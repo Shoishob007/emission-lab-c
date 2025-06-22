@@ -5,19 +5,19 @@ import { useRef, useEffect, useState } from "react";
 
 const facts = [
   {
-    icon: <Award className="w-10 h-10 text-green-400" />,
+    icon: <Award className="w-10 h-10 text-primary" />,
     number: 150,
     suffix: "+",
     label: "Team member",
   },
   {
-    icon: <Users className="w-10 h-10 text-green-400" />,
+    icon: <Users className="w-10 h-10 text-primary" />,
     number: 650,
     suffix: "+",
     label: "Customer Review",
   },
   {
-    icon: <Globe className="w-10 h-10 text-green-400" />,
+    icon: <Globe className="w-10 h-10 text-primary" />,
     number: 5,
     suffix: "k+",
     label: "Project complete",
@@ -69,7 +69,7 @@ export default function FactsAndEnvironmentSection() {
             <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
               <Settings size={22} strokeWidth={2} className="text-primary" />
             </span>
-            <span className="uppercase text-green-400 tracking-widest text-sm font-semibold">
+            <span className="uppercase text-primary tracking-widest text-sm font-semibold">
               Our Facts
             </span>
           </div>
@@ -96,7 +96,7 @@ export default function FactsAndEnvironmentSection() {
           <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 w-full max-w-xl">
             {reasons.map((reason, i) => (
               <div key={i} className="flex items-center gap-2 mb-1">
-                <ChevronRight className="w-5 h-5 text-[#FFA726] flex-shrink-0" />
+                <ChevronRight className="w-5 h-5 text-btn-primary flex-shrink-0" />
                 <span className="text-green-50 text-base font-medium">
                   {reason}
                 </span>

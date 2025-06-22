@@ -63,7 +63,7 @@ export default function ApiSection() {
 }`}
                 </div>
                 <div className="border-t border-gray-700 pt-4">
-                  <div className="text-green-400">Response:</div>
+                  <div className="text-primary">Response:</div>
                   <div className="text-gray-300 whitespace-pre-line">
                     {`{
   "carbonFootprint": 2.1,

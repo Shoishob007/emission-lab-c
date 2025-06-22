@@ -163,7 +163,7 @@ export default function BlogPage() {
                     </option>
                   ))}
                 </select>
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#FFA726]">
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-btn-primary">
                   <ChevronDown size={16} />
                 </span>
               </div>
@@ -175,7 +175,7 @@ export default function BlogPage() {
                 }
                 aria-label="Sort by date"
               >
-                <Calendar size={18} className="text-[#FFA726]" />
+                <Calendar size={18} className="text-btn-primary" />
                 {sortDate === "desc" ? (
                   <>
                     Newest
@@ -228,7 +228,7 @@ export default function BlogPage() {
                 </span>
                 <a
                   href={post.link}
-                  className="mt-auto font-semibold text-[#FFA726] flex items-center gap-2 hover:underline text-sm w-fit"
+                  className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-sm w-fit"
                 >
                   Read More <ArrowRight className="w-4 h-4" />
                 </a>

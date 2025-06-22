@@ -11,7 +11,7 @@ import {
 
 const services = [
   {
-    icon: <Calculator className="w-9 h-9 text-[#78B943]" />,
+    icon: <Calculator className="w-9 h-9 text-primary" />,
     hoverIcon: <Calculator className="w-9 h-9 text-black" />,
     title: "Carbon Footprint Analysis",
     description:
@@ -19,7 +19,7 @@ const services = [
     features: ["Real-time tracking", "Detailed analytics", "Custom reports"],
   },
   {
-    icon: <TrendingDown className="w-9 h-9 text-[#78B943]" />,
+    icon: <TrendingDown className="w-9 h-9 text-primary" />,
     hoverIcon: <TrendingDown className="w-9 h-9 text-black" />,
     title: "Emission Reduction Plans",
     description:
@@ -27,7 +27,7 @@ const services = [
     features: ["AI-powered insights", "Progress monitoring", "Expert guidance"],
   },
   {
-    icon: <Zap className="w-9 h-9 text-[#78B943]" />,
+    icon: <Zap className="w-9 h-9 text-primary" />,
     hoverIcon: <Zap className="w-9 h-9 text-black" />,
     title: "Carbon Offset Solutions",
     description:
@@ -89,7 +89,7 @@ export default function WhatWeDoSection() {
               </span>
             </div>
             <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
-              Innovative <span className="text-[#78B943]">Solutions</span> for a
+              Innovative <span className="text-primary">Solutions</span> for a
               Sustainable Future!
             </h2>
           </div>
@@ -138,7 +138,7 @@ export default function WhatWeDoSection() {
                 <div className="mt-auto flex justify-end">
                   <span
                     className="
-                    font-semibold text-[#FFA726] group-hover:text-white 
+                    font-semibold text-btn-primary group-hover:text-white 
                     transition-colors duration-300 flex items-center
                   "
                   >
@@ -155,7 +155,7 @@ export default function WhatWeDoSection() {
         <div className="flex flex-col items-center justify-center gap-12">
           <div className="w-full max-w-2xl text-center mb-6">
             <h3 className="text-3xl font-bold text-[#163820] mb-2">
-              Why Our <span className="text-[#78B943]">Approach</span> Works
+              Why Our <span className="text-primary">Approach</span> Works
             </h3>
             <p className="text-lg text-[#767676] leading-relaxed">
               We combine cutting-edge technology with scientific rigor to

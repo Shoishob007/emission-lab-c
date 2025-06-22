@@ -16,14 +16,14 @@ import {
 
 const services = [
   {
-    icon: <Trees size={32} strokeWidth={1.5} className="text-[#78B943]" />,
+    icon: <Trees size={32} strokeWidth={1.5} className="text-primary" />,
     hoverIcon: <Trees size={32} strokeWidth={1.5} className="text-black" />,
     title: "Sustainable Forestry",
     description:
       "Comprehensive forest management for long-term ecological balance.",
   },
   {
-    icon: <LeafyGreen size={32} strokeWidth={1.5} className="text-[#78B943]" />,
+    icon: <LeafyGreen size={32} strokeWidth={1.5} className="text-primary" />,
     hoverIcon: (
       <LeafyGreen size={32} strokeWidth={1.5} className="text-black" />
     ),
@@ -31,39 +31,37 @@ const services = [
     description: "Protecting ecosystems and endangered species habitats.",
   },
   {
-    icon: <Sprout size={32} strokeWidth={1.5} className="text-[#78B943]" />,
+    icon: <Sprout size={32} strokeWidth={1.5} className="text-primary" />,
     hoverIcon: <Sprout size={32} strokeWidth={1.5} className="text-black" />,
     title: "Eco-Friendly Consulting",
     description: "Expert guidance for sustainable business practices.",
   },
   {
-    icon: <Factory size={32} strokeWidth={1.5} className="text-[#78B943]" />,
+    icon: <Factory size={32} strokeWidth={1.5} className="text-primary" />,
     hoverIcon: <Factory size={32} strokeWidth={1.5} className="text-black" />,
     title: "Green Building Solutions",
     description: "LEED-certified sustainable construction methods.",
   },
   {
-    icon: <Lightbulb size={32} strokeWidth={1.5} className="text-[#78B943]" />,
+    icon: <Lightbulb size={32} strokeWidth={1.5} className="text-primary" />,
     hoverIcon: <Lightbulb size={32} strokeWidth={1.5} className="text-black" />,
     title: "Energy Audit",
     description: "Comprehensive analysis for energy efficiency optimization.",
   },
   {
-    icon: <Droplets size={32} strokeWidth={1.5} className="text-[#78B943]" />,
+    icon: <Droplets size={32} strokeWidth={1.5} className="text-primary" />,
     hoverIcon: <Droplets size={32} strokeWidth={1.5} className="text-black" />,
     title: "Water Management",
     description: "Innovative solutions for water conservation.",
   },
   {
-    icon: <Flower2 size={32} strokeWidth={1.5} className="text-[#78B943]" />,
+    icon: <Flower2 size={32} strokeWidth={1.5} className="text-primary" />,
     hoverIcon: <Flower2 size={32} strokeWidth={1.5} className="text-black" />,
     title: "Organic Farming",
     description: "Sustainable agricultural practices.",
   },
   {
-    icon: (
-      <MountainSnow size={32} strokeWidth={1.5} className="text-[#78B943]" />
-    ),
+    icon: <MountainSnow size={32} strokeWidth={1.5} className="text-primary" />,
     hoverIcon: (
       <MountainSnow size={32} strokeWidth={1.5} className="text-black" />
     ),
@@ -158,7 +156,7 @@ const ServicesSection = () => {
                 {service.description}
               </p>
 
-              <div className="font-semibold text-[#FFA726] group-hover:text-white transition-colors duration-300 flex items-center">
+              <div className="font-semibold text-btn-primary group-hover:text-white transition-colors duration-300 flex items-center">
                 Read More
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </div>

@@ -48,7 +48,7 @@ export default function AiSection() {
             {aiFeatures.map((feature, i) => (
               <div key={i} className="flex items-center gap-3">
                 <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#FFA7261A]">
-                  <ArrowRight className="w-[18px] h-[18px] text-[#FFA726]" />
+                  <ArrowRight className="w-[18px] h-[18px] text-btn-primary" />
                 </span>
                 <span className="text-[#767676] text-base font-medium">
                   {feature}
