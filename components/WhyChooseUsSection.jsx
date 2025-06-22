@@ -53,7 +53,7 @@ const WhyChooseUsSection = () => {
             }}
           >
             Your partner for{" "}
-            <span className="text-[#78B943]">sustainable environmental</span>{" "}
+            <span className="text-primary">sustainable environmental</span>{" "}
             solutions
           </h2>
           <p className="text-base md:text-lg text-[#767676] mb-8 leading-relaxed max-w-xl">
@@ -65,7 +65,7 @@ const WhyChooseUsSection = () => {
             {reasons.map((reason, i) => (
               <div key={i} className="flex items-center gap-3">
                 <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#FFA7261A]">
-                  <ArrowRight className="w-[18px] h-[18px] text-[#FFA726]" />
+                  <ArrowRight className="w-[18px] h-[18px] text-btn-primary" />
                 </span>
                 <span className="text-[#767676] text-base font-medium">
                   {reason}

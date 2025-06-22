@@ -9,7 +9,7 @@ import {
 
 const solutions = [
   {
-    icon: <Calculator className="w-9 h-9 text-[#78B943]" />,
+    icon: <Calculator className="w-9 h-9 text-primary" />,
     hoverIcon: <Calculator className="w-9 h-9 text-black" />,
     title: "Calculate",
     subtitle: "Measure Your Impact",
@@ -19,7 +19,7 @@ const solutions = [
     color: "primary",
   },
   {
-    icon: <TrendingDown className="w-9 h-9 text-[#78B943]" />,
+    icon: <TrendingDown className="w-9 h-9 text-primary" />,
     hoverIcon: <TrendingDown className="w-9 h-9 text-black" />,
     title: "Reduce",
     subtitle: "Smart Recommendations",
@@ -29,7 +29,7 @@ const solutions = [
     color: "secondary",
   },
   {
-    icon: <TreePine className="w-9 h-9 text-[#78B943]" />,
+    icon: <TreePine className="w-9 h-9 text-primary" />,
     hoverIcon: <TreePine className="w-9 h-9 text-black" />,
     title: "Offset",
     subtitle: "Verified Projects",
@@ -133,7 +133,7 @@ export default function SolutionsSection() {
                 <div className="mt-auto flex justify-end">
                   <span
                     className="
-                    font-semibold text-[#FFA726] group-hover:text-white 
+                    font-semibold text-btn-primary group-hover:text-white 
                     transition-colors duration-300 flex items-center
                   "
                   >

@@ -8,7 +8,8 @@ const businessScopes = [
     id: 1,
     name: "Flight",
     route: "/business/flight",
-    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image:
+      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     desc: "Book and manage air travel for your business with efficient carbon tracking and route optimization.",
   },
   {
@@ -22,14 +23,16 @@ const businessScopes = [
     id: 3,
     name: "Motorbike",
     route: "/business/motorbike",
-    image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image:
+      "https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     desc: "Manage motorbike logistics, expenses, and sustainable travel options for quick city commutes.",
   },
   {
     id: 4,
     name: "Bus",
     route: "/business/bus",
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image:
+      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     desc: "Coordinate group transport, staff bus bookings, and sustainable public travel for teams.",
   },
   {
@@ -71,7 +74,8 @@ const Business = () => {
           Choose your <span className="text-primary">business scope</span>
         </h2>
         <p className="text-green-100 text-lg max-w-2xl mx-auto">
-          Select a business travel or service category. Click a card to manage, book, or analyze each scope in detail.
+          Select a business travel or service category. Click a card to manage,
+          book, or analyze each scope in detail.
         </p>
       </div>
       <div className="w-full max-w-6xl grid gap-8 md:grid-cols-4 sm:grid-cols-2 grid-cols-1">
@@ -81,7 +85,9 @@ const Business = () => {
             className="group relative rounded-2xl overflow-hidden shadow-lg bg-[#0A2D23] cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
             onClick={() => router.push(scope.route)}
             tabIndex={0}
-            onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && router.push(scope.route)}
+            onKeyDown={(e) =>
+              (e.key === "Enter" || e.key === " ") && router.push(scope.route)
+            }
             role="button"
             aria-label={`Go to ${scope.name}`}
           >
@@ -105,8 +111,11 @@ const Business = () => {
               </p>
               <button
                 tabIndex={-1}
-                className="flex items-center gap-1 text-white/90 font-semibold group-hover:text-[#FFA726] transition-colors mt-auto"
-                onClick={e => { e.stopPropagation(); router.push(scope.route); }}
+                className="flex items-center gap-1 text-white/90 font-semibold group-hover:text-btn-primary transition-colors mt-auto"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push(scope.route);
+                }}
                 aria-label={`Explore ${scope.name}`}
                 type="button"
               >

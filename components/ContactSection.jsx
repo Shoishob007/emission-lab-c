@@ -22,7 +22,7 @@ export default function ContactSection() {
             <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
               <Settings size={22} strokeWidth={2} className="text-primary" />
             </span>
-            <span className="uppercase text-green-400 tracking-widest text-sm font-semibold">
+            <span className="uppercase text-primary tracking-widest text-sm font-semibold">
               Contact Us
             </span>
           </div>

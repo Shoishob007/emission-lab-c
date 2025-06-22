@@ -125,7 +125,7 @@ export default function BlogSection() {
                 </span>
                 <a
                   href={blogPosts[0].link}
-                  className="mt-auto font-semibold text-[#FFA726] flex items-center gap-2 hover:underline text-base w-fit"
+                  className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-base w-fit"
                 >
                   Read More <ArrowRight className="w-4 h-4" />
                 </a>
@@ -170,7 +170,7 @@ export default function BlogSection() {
                   </span>
                   <a
                     href={post.link}
-                    className="mt-auto font-semibold text-[#FFA726] flex items-center gap-2 hover:underline text-sm w-fit"
+                    className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-sm w-fit"
                   >
                     Read More <ArrowRight className="w-4 h-4" />
                   </a>

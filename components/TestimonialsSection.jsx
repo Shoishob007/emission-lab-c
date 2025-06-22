@@ -112,7 +112,7 @@ export default function TestimonialsSection() {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  className="text-green-400"
+                  className="text-primary"
                   viewBox="0 0 24 24"
                 >
                   <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
@@ -202,7 +202,7 @@ export default function TestimonialsSection() {
               <img
                 src={testimonials[current].image}
                 alt={testimonials[current].name}
-                className="h-12 w-12 rounded-full object-cover border-2 border-green-400"
+                className="h-12 w-12 rounded-full object-cover border-2 border-primary"
               />
               <div>
                 <div className="font-semibold text-[#163820]">
