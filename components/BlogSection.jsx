@@ -101,7 +101,7 @@ export default function BlogSection() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Sub-category badge */}
-                <span className="absolute top-2 left-2 bg-[#FFA726] text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
+                <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
                   {blogPosts[0].subCategory}
                 </span>
               </div>
@@ -150,7 +150,7 @@ export default function BlogSection() {
                     style={{ height: "100%" }}
                   />
                   {/* Sub-category badge */}
-                  <span className="absolute top-2 left-2 bg-[#FFA726] text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
+                  <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
                     {post.subCategory}
                   </span>
                 </div>

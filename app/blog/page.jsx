@@ -140,8 +140,8 @@ export default function BlogPage() {
                     key={c.key}
                     className={`px-5 py-2 rounded-full text-sm font-semibold transition ${
                       activeCategory === c.key
-                        ? "bg-[#FFA726] text-white shadow"
-                        : "bg-transparent text-[#163820] hover:bg-[#FFA726]/10"
+                        ? "bg-btn-primary text-white shadow"
+                        : "bg-transparent text-[#163820] hover:bg-btn-primary/10"
                     }`}
                     onClick={() => setActiveCategory(c.key)}
                   >
@@ -169,7 +169,7 @@ export default function BlogPage() {
               </div>
               {/* Date sort */}
               <button
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#f4f7ec] text-[#163820] border border-[#eaeaea] font-semibold text-sm transition hover:bg-[#FFA726]/10"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#f4f7ec] text-[#163820] border border-[#eaeaea] font-semibold text-sm transition hover:bg-btn-primary/10"
                 onClick={() =>
                   setSortDate(sortDate === "desc" ? "asc" : "desc")
                 }
@@ -206,7 +206,7 @@ export default function BlogPage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Sub-category badge */}
-                <span className="absolute top-3 left-3 bg-[#FFA726] text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
+                <span className="absolute top-3 left-3 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
                   {post.subCategory}
                 </span>
               </div>
@@ -240,13 +240,13 @@ export default function BlogPage() {
         {/* Pagination Placeholder */}
         <div className="mt-14 flex justify-center">
           <nav className="inline-flex gap-1">
-            <button className="px-4 py-2 rounded-l-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-[#FFA726]/10 flex items-center gap-1">
+            <button className="px-4 py-2 rounded-l-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-btn-primary/10 flex items-center gap-1">
               <ArrowLeft size={18} /> Prev
             </button>
-            <button className="px-4 py-2 bg-[#FFA726] text-white font-bold transition">
+            <button className="px-4 py-2 bg-btn-primary text-white font-bold transition">
               1
             </button>
-            <button className="px-4 py-2 rounded-r-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-[#FFA726]/10 flex items-center gap-1">
+            <button className="px-4 py-2 rounded-r-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-btn-primary/10 flex items-center gap-1">
               Next <ArrowRight size={18} />
             </button>
           </nav>

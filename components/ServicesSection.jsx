@@ -172,8 +172,8 @@ const ServicesSection = () => {
               onClick={() => handleDotClick(idx)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 page === idx
-                  ? "bg-[#FFA726] w-6"
-                  : "bg-[#EAEAEA] hover:bg-[#FFA726]/50"
+                  ? "bg-btn-primary w-6"
+                  : "bg-[#EAEAEA] hover:bg-btn-primary/50"
               }`}
               aria-label={`Go to page ${idx + 1}`}
             />

@@ -98,22 +98,11 @@ export default function CalculatorSection() {
               }}
             >
               <img
-              src="/landing-page/1.jpg"
-                              alt="Carbon footprint calculation"
+                src="/landing-page/1.jpg"
+                alt="Carbon footprint calculation"
                 className="w-full h-full object-cover"
                 draggable={false}
               />
-              {/* <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[85%]">
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 flex items-center justify-between shadow-lg">
-                  <div>
-                    <div className="text-xl font-bold text-primary">2.1 tons</div>
-                    <div className="text-xs text-muted-foreground">Monthly CO₂ Emissions</div>
-                  </div>
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Calculator className="w-5 h-5 text-primary" />
-                  </div>
-                </div>
-              </div> */}
             </div>
             <div
               className="rounded-2xl overflow-hidden shadow-xl absolute lg:top-0 z-0"
@@ -126,7 +115,7 @@ export default function CalculatorSection() {
               }}
             >
               <img
-              src="/landing-page/3.jpg"
+                src="/landing-page/3.jpg"
                 alt="Carbon footprint calculation"
                 className="w-full h-full object-cover"
                 draggable={false}
