@@ -152,7 +152,7 @@ export default function WhatWeDoSection() {
         </div>
 
         {/* Why it works */}
-        <div className="flex flex-col items-center justify-center gap-12">
+        {/* <div className="flex flex-col items-center justify-center gap-12">
           <div className="w-full max-w-2xl text-center mb-6">
             <h3 className="text-3xl font-bold text-[#163820] mb-2">
               Why Our <span className="text-primary">Approach</span> Works
@@ -182,7 +182,7 @@ export default function WhatWeDoSection() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

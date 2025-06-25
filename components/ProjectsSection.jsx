@@ -135,7 +135,7 @@ export default function ProjectsSection() {
         </div>
 
         <div className="w-full flex items-center justify-center mt-6">
-          <span className="inline-flex items-center gap-2 bg-[#FFA726] bg-opacity-90 text-white text-sm font-semibold px-3 py-1 rounded-2xl shadow-sm mr-2">
+          <span className="inline-flex items-center gap-2 bg-btn-primary bg-opacity-90 text-white text-sm font-semibold px-3 py-1 rounded-2xl shadow-sm mr-2">
             Free
           </span>
           <span className="text-green-100 text-sm">
