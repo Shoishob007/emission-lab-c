@@ -64,80 +64,80 @@ export default function FactsAndEnvironmentSection() {
       />
       <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-8 md:gap-12 items-center justify-center px-2 sm:px-4 py-0">
         {/* LEFT: Content */}
-        <div className="flex-1 flex flex-col justify-center items-start text-white py-8 sm:py-10 px-0 sm:px-4 w-full max-w-2xl">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
-              <Settings size={22} strokeWidth={2} className="text-primary" />
-            </span>
-            <span className="uppercase text-primary tracking-widest text-sm font-semibold">
-              Our Facts
-            </span>
-          </div>
+        <div className="flex-1 flex flex-col justify-center items-start text-white py-8 sm:py-10 px-4 sm:px-6 w-full max-w-2xl">
+  <div className="flex items-center gap-3 mb-6">
+    <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+      <Settings size={22} strokeWidth={2} className="text-primary" />
+    </span>
+    <span className="uppercase text-primary tracking-widest text-sm font-semibold">
+      Our Facts
+    </span>
+  </div>
 
-          <h2
-            className="font-bold text-white text-2xl sm:text-3xl md:text-4xl leading-tight mb-4"
-            style={{
-              fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-              letterSpacing: "-0.02em",
-              lineHeight: 1.1,
-            }}
-          >
-            Key environmental facts for
-            <br />a <span className="text-primary">sustainable future</span>
-          </h2>
+  <h2
+    className="font-bold text-white text-2xl sm:text-3xl md:text-4xl leading-tight mb-4"
+    style={{
+      fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
+      letterSpacing: "-0.02em",
+      lineHeight: 1.1,
+    }}
+  >
+    Key environmental facts for
+    <br />a <span className="text-primary">sustainable future</span>
+  </h2>
 
-          <p className="text-green-100 text-base sm:text-lg mb-8 leading-relaxed max-w-xl">
-            Discover essential facts about our planet&apos;s health, climate
-            change, and sustainability efforts. Understanding these facts
-            empowers us to take action.
-          </p>
+  <p className="text-green-100 text-base sm:text-lg mb-8 leading-relaxed max-w-xl">
+    Discover essential facts about our planet&apos;s health, climate
+    change, and sustainability efforts. Understanding these facts
+    empowers us to take action.
+  </p>
 
-          {/* Arrow List  */}
-          <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 w-full max-w-xl">
-            {reasons.map((reason, i) => (
-              <div key={i} className="flex items-center gap-2 mb-1">
-                <ChevronRight className="w-5 h-5 text-btn-primary flex-shrink-0" />
-                <span className="text-green-50 text-base font-medium">
-                  {reason}
-                </span>
-              </div>
-            ))}
-          </div>
+  {/* Arrow List  */}
+  <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 w-full max-w-xl">
+    {reasons.map((reason, i) => (
+      <div key={i} className="flex items-center gap-2 mb-1">
+        <ChevronRight className="w-5 h-5 text-btn-primary flex-shrink-0" />
+        <span className="text-green-50 text-base font-medium">
+          {reason}
+        </span>
+      </div>
+    ))}
+  </div>
 
-          {/* Divider */}
-          <div className="w-full h-px bg-green-700/50 mb-10 max-w-xl" />
+  {/* Divider */}
+  <div className="w-full h-px bg-green-700/50 mb-10 max-w-xl" />
 
-          {/* Animated Numbers */}
-          <div className="grid grid-cols-3 gap-x-2 sm:gap-x-0 gap-y-6 w-full max-w-xl">
-            {facts.map((fact, idx) => (
-              <div
-                key={idx}
-                className={`flex flex-col items-center text-center border-r border-green-800 last:border-none py-2`}
-              >
-                <div className="mb-2 sm:mb-3">{fact.icon}</div>
-                <div
-                  className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-1 text-white"
-                  style={{
-                    fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-                  }}
-                >
-                  {startCount ? (
-                    <CountUp
-                      end={fact.number}
-                      duration={1.4}
-                      suffix={fact.suffix}
-                    />
-                  ) : (
-                    `0${fact.suffix}`
-                  )}
-                </div>
-                <div className="text-green-200 font-medium text-xs sm:text-sm uppercase tracking-wide">
-                  {fact.label}
-                </div>
-              </div>
-            ))}
-          </div>
+  {/* Animated Numbers */}
+  <div className="grid grid-cols-3 gap-x-2 sm:gap-x-0 gap-y-6 w-full max-w-xl">
+    {facts.map((fact, idx) => (
+      <div
+        key={idx}
+        className={`flex flex-col items-center text-center border-r border-green-800 last:border-none py-2`}
+      >
+        <div className="mb-2 sm:mb-3">{fact.icon}</div>
+        <div
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-1 text-white"
+          style={{
+            fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
+          }}
+        >
+          {startCount ? (
+            <CountUp
+              end={fact.number}
+              duration={1.4}
+              suffix={fact.suffix}
+            />
+          ) : (
+            `0${fact.suffix}`
+          )}
         </div>
+        <div className="text-green-200 font-medium text-xs sm:text-sm uppercase tracking-wide">
+          {fact.label}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
 
         {/* Illustration */}
         <div className="flex-1 min-w-0 w-full h-full flex items-center justify-center relative">

@@ -66,7 +66,7 @@ const FaqSection = () => {
           <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
             Frequently Asked <span className="text-primary">Questions</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             Everything you need to know about our carbon management platform
           </p>
         </div>

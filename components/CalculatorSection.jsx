@@ -38,7 +38,7 @@ export default function CalculatorSection() {
       }}
     >
       <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 px-4">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8 px-4">
           <div className="max-w-2xl">
             <div className="flex items-center gap-2 mb-3">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
@@ -52,14 +52,7 @@ export default function CalculatorSection() {
                 Calculator
               </span>
             </div>
-            <h2
-              className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4"
-              style={{
-                fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-                letterSpacing: 0,
-                lineHeight: 1.18,
-              }}
-            >
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4">
               Calculate Your{" "}
               <span className="text-primary">Carbon Footprint</span>
             </h2>
@@ -72,12 +65,7 @@ export default function CalculatorSection() {
           </div>
           <div className="items-center p-6">
             <Link href="/calculator" passHref legacyBehavior>
-              <button
-                className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
-                style={{
-                  fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
-                }}
-              >
+              <button className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit">
                 Start Calculating <Calculator className="w-5 h-5" />
               </button>
             </Link>
@@ -88,8 +76,50 @@ export default function CalculatorSection() {
         <div className="flex flex-col lg:flex-row gap-10 items-start">
           {/* Stacked Photos*/}
           <div className="w-full lg:w-1/2 relative" style={{ minHeight: 340 }}>
+            {/* Mobile stacked, diagonal */}
             <div
-              className="rounded-2xl overflow-hidden shadow-xl absolute lg:right-0 lg:top-20 z-10"
+              className="block lg:hidden"
+              style={{ height: 350, position: "relative" }}
+            >
+              <div
+                className="rounded-2xl overflow-hidden absolute left-0 top-0"
+                style={{
+                  width: 300,
+                  height: 200,
+                  background: "#f3f3f3",
+                  zIndex: 2,
+                  boxShadow: "0 8px 32px 0 rgba(0,0,0,0.14)",
+                }}
+              >
+                <img
+                  src="/landing-page/1.jpg"
+                  alt="Carbon footprint calculation"
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+              </div>
+              <div
+                className="rounded-2xl overflow-hidden absolute left-14 top-28"
+                style={{
+                  width: 300,
+                  height: 200,
+                  background: "#f3f3f3",
+                  zIndex: 1,
+                  boxShadow: "0 8px 32px 0 rgba(0,0,0,0.14)",
+                }}
+              >
+                <img
+                  src="/landing-page/3.jpg"
+                  alt="Carbon footprint calculation"
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                  style={{ filter: "brightness(0.93)" }}
+                />
+              </div>
+            </div>
+            {/* Desktop diagonal stack */}
+            <div
+              className="hidden lg:block rounded-2xl overflow-hidden absolute right-0 top-20 z-10"
               style={{
                 width: 330,
                 height: 250,
@@ -105,7 +135,7 @@ export default function CalculatorSection() {
               />
             </div>
             <div
-              className="rounded-2xl overflow-hidden shadow-xl absolute lg:top-0 z-0"
+              className="hidden lg:block rounded-2xl overflow-hidden absolute top-0 z-0"
               style={{
                 width: 330,
                 height: 250,

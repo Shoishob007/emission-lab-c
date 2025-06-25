@@ -74,7 +74,7 @@ const WhyChooseUsSection = () => {
             ))}
           </div>
           <button
-            className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
+            className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex justify-center items-center gap-2 shadow-lg transition mx-auto sm:mx-0 w-fit"
             type="button"
           >
             Contact Us <ArrowRight className="w-5 h-5" />
@@ -85,17 +85,9 @@ const WhyChooseUsSection = () => {
         <div className="w-full lg:w-1/2 max-w-[600px] min-w-[320px] p-4 flex flex-col items-center justify-center">
           {/* Responsive grid for images */}
           <div className="grid grid-cols-2 gap-4 sm:gap-7 w-full">
-            {/* Left column: on mobile, stack vertically */}
+            {/* Left column */}
             <div className="flex flex-col gap-4 sm:gap-7">
-              <div
-                className="rounded-2xl overflow-hidden aspect-square w-full min-w-0"
-                style={{
-                  minWidth: 0,
-                  minHeight: 0,
-                  maxWidth: 250,
-                  maxHeight: 250,
-                }}
-              >
+              <div className="rounded-2xl overflow-hidden aspect-square w-full min-w-0 max-w-[250px] mx-auto">
                 <img
                   src="/landing-page/sus-1.jpg"
                   alt="Sustainable Solutions"
@@ -103,15 +95,7 @@ const WhyChooseUsSection = () => {
                   draggable={false}
                 />
               </div>
-              <div
-                className="rounded-2xl overflow-hidden aspect-square w-full min-w-0"
-                style={{
-                  minWidth: 0,
-                  minHeight: 0,
-                  maxWidth: 250,
-                  maxHeight: 250,
-                }}
-              >
+              <div className="rounded-2xl overflow-hidden aspect-square w-full min-w-0 max-w-[250px] mx-auto">
                 <img
                   src="/landing-page/sus-3.jpg"
                   alt="Sustainable Solutions"
@@ -121,16 +105,13 @@ const WhyChooseUsSection = () => {
               </div>
             </div>
 
-            {/* Right column: full height on desktop, auto on mobile */}
+            {/* Right column */}
             <div
-              className="rounded-2xl overflow-hidden w-full min-w-0 flex-1"
-              style={{
-                minWidth: 0,
-                minHeight: 0,
-                maxWidth: 250,
-                maxHeight: 528,
-                height: "100%",
-              }}
+              className="
+        rounded-2xl overflow-hidden
+        aspect-square w-full min-w-0 max-w-[320px] mx-auto
+        sm:aspect-auto sm:max-w-[250px] sm:max-h-[528px] sm:h-full
+      "
             >
               <img
                 src="/landing-page/sus-6.jpg"
@@ -138,7 +119,6 @@ const WhyChooseUsSection = () => {
                 className="w-full h-full object-cover"
                 draggable={false}
                 style={{
-                  height: "100%",
                   minHeight: 0,
                   maxHeight: "528px",
                   objectFit: "cover",

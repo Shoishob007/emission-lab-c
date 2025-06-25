@@ -81,7 +81,7 @@ export default function BlogSection() {
           <div className="flex-1 flex justify-end w-full">
             <Button
               size="lg"
-              className="bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base px-8 py-3 rounded-lg shadow-lg transition flex items-center gap-2"
+              className="bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base px-8 py-3 rounded-lg shadow-lg transition flex items-center gap-2 mx-auto sm:mx-0 sm:w-fit"
               type="button"
             >
               View All Articles <ArrowRight className="w-5 h-5" />
@@ -90,7 +90,55 @@ export default function BlogSection() {
         </div>
 
         {/* Blog grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch mt-12">
+        {/* Mobile: all three as large cards. Desktop: grid with large + two small cards */}
+        <div className="md:hidden flex flex-col gap-8 mt-12">
+          {blogPosts.map((post, idx) => (
+            <div
+              key={idx}
+              className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow group flex flex-col h-full min-h-[400px]"
+            >
+              <div className="h-[280px] w-full overflow-hidden relative">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Sub-category badge */}
+                <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
+                  {post.subCategory}
+                </span>
+              </div>
+              <div className="p-8 flex-1 flex flex-col">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[#767676] text-sm">
+                    {post.date}
+                  </span>
+                  <span className="text-primary text-xs font-bold uppercase">
+                    {post.category}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold text-[#163820] mb-3">
+                  {post.title}
+                </h3>
+                <p className="text-[#767676] text-base mb-4">
+                  {post.excerpt}
+                </p>
+                <span className="text-[#163820] font-semibold text-base mb-5">
+                  {post.author}
+                </span>
+                <a
+                  href={post.link}
+                  className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-base w-fit"
+                >
+                  Read More <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop layout */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch mt-12">
           {/* Left: Large card */}
           <div className="md:col-span-6 flex flex-col">
             <div className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow group flex flex-col h-full min-h-[400px]">
