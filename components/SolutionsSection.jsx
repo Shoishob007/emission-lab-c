@@ -6,6 +6,7 @@ import {
   TreePine,
   TrendingDown,
 } from "lucide-react";
+import Link from "next/link";
 
 const solutions = [
   {
@@ -22,6 +23,7 @@ const solutions = [
     ],
     motivation: "You can't reduce what you don't measure.",
     color: "primary",
+    href: "/calculatorPage",
   },
   {
     icon: <TrendingDown className="w-9 h-9 text-primary" />,
@@ -37,6 +39,7 @@ const solutions = [
     ],
     motivation: "Small changes, big climate impact.",
     color: "secondary",
+    href: "/reducePage",
   },
   {
     icon: <TreePine className="w-9 h-9 text-primary" />,
@@ -52,6 +55,7 @@ const solutions = [
     ],
     motivation: "Positive action = balanced climate.",
     color: "primary",
+    href: "/offsetPage",
   },
 ];
 
@@ -105,14 +109,18 @@ export default function SolutionsSection() {
 
         <div className="flex flex-row flex-wrap justify-center gap-7 mb-8">
           {solutions.map((solution, idx) => (
-            <div
-              key={solution.title}
-              className={`
-                group relative rounded-3xl border-2 border-[#EAEAEA] bg-white
-                transition-all duration-500 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer
-                w-[340px] min-h-[350px] flex flex-col
-              `}
-            >
+            <Link
+    key={solution.title}
+    href={solution.href}
+    className={`
+      group relative rounded-3xl border-2 border-[#EAEAEA] bg-white
+      transition-all duration-500 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer
+      w-[340px] min-h-[350px] flex flex-col
+      no-underline
+    `}
+    tabIndex={0}
+    aria-label={`Learn more about ${solution.title}`}
+  >
               <div className="p-6 flex flex-col h-full">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="p-3 rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-300 w-fit">
@@ -140,12 +148,12 @@ export default function SolutionsSection() {
                 {/* Features list */}
                 <div className="flex-1 flex flex-col gap-2 mb-4">
                   {solution.features.map((feature, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm">
-                      <div className="w-2 h-2 bg-[#78B943] rounded-full group-hover:bg-white transition-colors duration-300 mt-1.5" />
-                      <span className="text-[#767676] group-hover:text-white/90 transition-colors duration-300">
-                        {feature}
-                      </span>
-                    </div>
+                    <div key={i} className="flex items-baseline gap-2 text-sm">
+  <div className="w-2 h-2 bg-[#78B943] rounded-full flex-shrink-0 mt-1"></div>
+  <span className="text-[#767676] group-hover:text-white/90 transition-colors duration-300 leading-tight">
+    {feature}
+  </span>
+</div>
                   ))}
                 </div>
 
@@ -165,7 +173,7 @@ export default function SolutionsSection() {
                   </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

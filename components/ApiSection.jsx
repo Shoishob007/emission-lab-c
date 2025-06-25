@@ -32,7 +32,7 @@ export default function ApiSection() {
       id="api"
       className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden"
     >
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 flex flex-col lg:flex-row items-center justify-center gap-10">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 flex flex-col-reverse lg:flex-row items-center justify-center gap-10">
         {/* API Visual/Code */}
         <div className="w-full lg:w-1/2 max-w-[600px] min-w-[320px] p-4 flex flex-col items-center justify-center">
           <Card className="bg-slate-900 text-white border-none shadow-2xl overflow-hidden w-full max-w-[450px] mx-auto">
@@ -129,12 +129,7 @@ export default function ApiSection() {
             </div>
             <div className="flex justify-end w-full">
               <Link href="/api" passHref legacyBehavior>
-                <button
-                  className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
-                  style={{
-                    fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
-                  }}
-                >
+                <button className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition mx-auto sm:mx-0 sm:w-fit">
                   View Documentation <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>

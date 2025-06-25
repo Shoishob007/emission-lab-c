@@ -30,9 +30,9 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="relative flex justify-center items-center bg-[#0A2D23] py-20 min-h-[700px] px-2"
+      className="relative flex justify-center items-center bg-[#0A2D23] py-20 min-h-[700px] px-2 sm:px-4"
     >
-      <div className="w-full max-w-[1200px] mx-auto flex flex-col items-center">
+      <div className="w-full max-w-[1200px] mx-auto flex flex-col items-center px-2 sm:px-0">
         <div className="w-full flex flex-col md:flex-row md:justify-between md:items-center mb-12">
           <div>
             <div className="flex items-center gap-2 mb-3">
@@ -60,22 +60,14 @@ export default function ProjectsSection() {
                 Our Project
               </span>
             </div>
-            <h2
-              className="font-bold text-white text-3xl sm:text-4xl leading-tight"
-              style={{
-                fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-                letterSpacing: 0,
-                lineHeight: 1.2,
-              }}
-            >
+            <h2 className="font-bold text-white text-3xl sm:text-4xl leading-tight">
               Exploring our environmental and
               <br className="hidden sm:block" /> sustainability projects
             </h2>
           </div>
           <Link
             href="/projects"
-            className="mt-6 md:mt-0 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition whitespace-nowrap"
-            style={{ fontFamily: "'Montserrat', Arial, Helvetica, sans-serif" }}
+            className="mt-6 md:mt-0 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition whitespace-nowrap w-fit"
           >
             View All Projects <ArrowRight className="w-5 h-5" />
           </Link>
@@ -86,7 +78,7 @@ export default function ProjectsSection() {
           {projects.map((project, i) => (
             <div
               key={i}
-              className="relative rounded-2xl overflow-hidden flex-1 min-w-[340px] max-w-[410px] h-[410px] group cursor-pointer transition-shadow duration-400"
+              className="relative rounded-2xl overflow-hidden flex-1 min-w-[90vw] max-w-[410px] h-[410px] group cursor-pointer transition-shadow duration-400 mx-auto md:min-w-[340px] md:mx-0"
               style={{
                 background: "#18352b",
                 boxShadow: "0 8px 32px 0 rgba(0,0,0,0.14)",
@@ -95,7 +87,7 @@ export default function ProjectsSection() {
               <img
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 max-h-[300px] md:max-h-none"
                 style={{ display: "block" }}
                 draggable={false}
               />
@@ -138,7 +130,7 @@ export default function ProjectsSection() {
           <span className="inline-flex items-center gap-2 bg-btn-primary bg-opacity-90 text-white text-sm font-semibold px-3 py-1 rounded-2xl shadow-sm mr-2">
             Free
           </span>
-          <span className="text-green-100 text-sm">
+          <span className="text-green-100 text-xs sm:text-sm ">
             Let&apos;s make something great work together.
             <Link
               href="/contact"

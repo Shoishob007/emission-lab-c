@@ -30,11 +30,6 @@ export default function AiSection() {
           </div>
           <h2
             className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4"
-            style={{
-              fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-              letterSpacing: 0,
-              lineHeight: 1.18,
-            }}
           >
             AI-Powered <span className="text-primary">Sustainability</span>
           </h2>
@@ -58,7 +53,7 @@ export default function AiSection() {
           </div>
           <Button
             size="lg"
-            className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
+            className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex justify-center items-center gap-2 shadow-lg transition mx-auto sm:mx-0 sm:w-fit"
             type="button"
           >
             Explore AI Features <ArrowRight className="w-5 h-5" />

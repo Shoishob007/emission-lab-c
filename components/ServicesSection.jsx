@@ -113,8 +113,8 @@ const ServicesSection = () => {
       <div className="relative z-10 items-center w-full max-w-[1200px] mx-auto px-4 gap-10">
         {/* Section header */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 md:gap-0 px-4">
-          <div className="text-center md:text-left max-w-2xl">
-            <div className="flex items-center gap-2 mb-3 justify-center md:justify-start">
+          <div className="text-left max-w-2xl">
+            <div className="flex items-center gap-2 mb-3 justify-start">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
                 <Leaf size={22} strokeWidth={2} className="text-primary" />
               </span>
