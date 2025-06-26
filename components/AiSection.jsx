@@ -64,7 +64,7 @@ export default function AiSection() {
                 Artificial Intelligence
               </span>
             </div>
-            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-1">
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-1 capitalize">
               AI-Powered <span className="text-primary">Sustainability</span>
             </h2>
             <p className="font-semibold text-[#767676] text-base sm:text-lg leading-tight mb-4">

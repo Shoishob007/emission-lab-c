@@ -60,7 +60,7 @@ export default function ProjectsSection() {
                 Our Project
               </span>
             </div>
-            <h2 className="font-bold text-white text-3xl sm:text-4xl leading-tight">
+            <h2 className="font-bold text-white text-3xl sm:text-4xl leading-tight mb-4 capitalize">
               Exploring our environmental and
               <br className="hidden sm:block" /> sustainability projects
             </h2>

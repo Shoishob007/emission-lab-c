@@ -45,7 +45,7 @@ const DonateSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center">
               <Heart className="w-8 h-8 text-primary" />
             </div>
           </div>

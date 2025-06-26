@@ -218,7 +218,7 @@ export default function OffsetPage() {
 
         {/* CTA SECTION */}
         <div className="w-full flex flex-col items-center justify-center mb-2">
-          <div className="bg-primary/10 border border-[#e2f0e4] rounded-3xl py-10 px-6 shadow flex flex-col items-center w-full max-w-2xl mx-auto">
+          <div className="bg-primary/20 border border-[#e2f0e4] rounded-3xl py-10 px-6 shadow flex flex-col items-center w-full max-w-2xl mx-auto">
             <h3 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center">
               Take Responsibility. Make a Difference.
             </h3>

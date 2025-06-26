@@ -88,14 +88,14 @@ export default function WhatWeDoSection() {
                 What We Do
               </span>
             </div>
-            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize">
               Innovative <span className="text-primary">Solutions</span> for a
               Sustainable Future!
             </h2>
           </div>
         </div>
 
-        <div className="flex flex-row flex-wrap justify-center gap-7 mb-16">
+        <div className="flex flex-row flex-wrap justify-center gap-7">
           {services.map((service, idx) => (
             <div
               key={service.title}

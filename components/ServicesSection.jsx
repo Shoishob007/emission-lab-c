@@ -122,8 +122,8 @@ const ServicesSection = () => {
                 Our Services
               </span>
             </div>
-            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4">
-              Comprehensive Environmental Solutions for a Sustainable Future
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4 capitalize">
+              Comprehensive <span className="text-primary">Environmental Solutions</span> for a Sustainable Future
             </h2>
           </div>
           <button className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit">

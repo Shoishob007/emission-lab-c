@@ -75,15 +75,10 @@ export default function FactsAndEnvironmentSection() {
   </div>
 
   <h2
-    className="font-bold text-white text-2xl sm:text-3xl md:text-4xl leading-tight mb-4"
-    style={{
-      fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-      letterSpacing: "-0.02em",
-      lineHeight: 1.1,
-    }}
+    className="font-bold text-white text-2xl sm:text-3xl md:text-4xl leading-tight capitalize mb-4"
   >
-    Key environmental facts for
-    <br />a <span className="text-primary">sustainable future</span>
+    Key <span className="text-primary">environmental facts</span> for
+    <br />a sustainable future
   </h2>
 
   <p className="text-green-100 text-base sm:text-lg mb-8 leading-relaxed max-w-xl">

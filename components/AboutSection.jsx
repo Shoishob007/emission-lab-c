@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BadgeCheck, CheckCircle } from "lucide-react";
 
 function YearsBadge() {
   return (
@@ -177,14 +177,9 @@ const AboutSection = () => {
             </span>
           </div>
           {/* Title */}
-          <h2
-            className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4"
-            style={{
-              fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-              letterSpacing: 0,
-            }}
-          >
-            Protecting nature nurturing a sustainable future
+          <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4 capitalize">
+            Protecting nature nurturing a{" "}
+            <span className="text-primary capitalize">sustainable future</span>
           </h2>
           {/* Description */}
           <p className="text-base md:text-lg text-[#767676] mb-8 leading-relaxed max-w-xl">
@@ -193,56 +188,32 @@ const AboutSection = () => {
           </p>
           {/* Features CTA */}
           <div className="flex flex-col md:flex-row gap-4 mb-8">
-            <div className="flex-1 flex items-center bg-white border border-gray-200 rounded-xl py-3 px-4 shadow-sm">
-              <span className="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-[#DDF8DB]">
-                <svg
-                  width="18"
-                  height="18"
-                  fill="none"
-                  stroke="#78B943"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path
-                    d="M8 12l2 2l4-4"
-                    stroke="#78B943"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+            <div className="flex flex-col md:flex-row gap-4 w-full">
+              <div className="flex-1 min-w-[260px] flex items-center bg-white border border-gray-200 rounded-xl py-2 px-4 shadow-sm">
+                <span className="mr-3 flex items-center justify-center w-8 h-8 rounded-full text-primary bg-primary/20">
+                  <CheckCircle
+                    className="w-5 h-5 text-primary"
+                    strokeWidth={2}
                   />
-                </svg>
-              </span>
-              <span className="font-semibold text-[#163820] text-sm md:text-base">
-                Partnerships For <br className="hidden sm:block" />
-                Planetary Progress
-              </span>
-            </div>
-            <div className="flex-1 flex items-center bg-white border border-gray-200 rounded-xl py-3 px-4 shadow-sm">
-              <span className="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-[#DDF8DB]">
-                <svg
-                  width="18"
-                  height="18"
-                  fill="none"
-                  stroke="#78B943"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path
-                    d="M9 12l2 2l4-4"
-                    stroke="#78B943"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                </span>
+                <span className="font-semibold text-[#163820] text-sm md:text-base">
+                  Partnerships For <br className="hidden sm:block" />
+                  Planetary Progress
+                </span>
+              </div>
+              <div className="flex-1 min-w-[260px] flex items-center bg-white border border-gray-200 rounded-xl py-2 px-4 shadow-sm">
+                <span className="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary">
+                  <CheckCircle
+                    className="w-5 h-5 text-primary"
+                    strokeWidth={2}
                   />
-                </svg>
-              </span>
-              <span className="font-semibold text-[#163820] text-sm md:text-base">
-                Leading The Way
-                <br className="hidden sm:block" />
-                In Conservation
-              </span>
+                </span>
+                <span className="font-semibold text-[#163820] text-sm md:text-base">
+                  Leading The Way
+                  <br className="hidden sm:block" />
+                  In Conservation
+                </span>
+              </div>
             </div>
           </div>
           {/* Signature/Person & CTA */}
@@ -262,9 +233,9 @@ const AboutSection = () => {
                 </div>
               </div>
             </div>
-            <button className="ml-2 px-5 py-2.5 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-sm flex items-center gap-2 shadow-lg transition">
+            {/* <button className="ml-2 px-5 py-2.5 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-sm flex items-center gap-2 shadow-lg transition">
               More About Us <ArrowRight className="w-4 h-4" />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

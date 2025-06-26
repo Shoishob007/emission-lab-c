@@ -44,7 +44,7 @@ export default function HowItWorksSection() {
           </div>
           <div className="flex flex-col md:flex-row justify-between items-center mb-14 gap-12">
             <div className="flex-1">
-              <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
+              <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize">
                 How our programs and actions{" "}
                 <span className="text-primary"> work together</span>
               </h2>
