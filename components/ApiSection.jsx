@@ -64,7 +64,7 @@ export default function ApiSection() {
     >
       <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 flex flex-col gap-12">
         {/* Top Row */}
-        <div className="flex flex-col lg:flex-row justify-between gap-10 px-4">
+        <div className="flex flex-col lg:flex-row-reverse justify-between gap-10 px-4">
           <div className="w-full lg:w-1/2 max-w-[600px] min-w-[320px] flex flex-col">
             <div className="flex items-center gap-2 mb-3">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
@@ -90,7 +90,7 @@ export default function ApiSection() {
             </p>
           </div>
           {/* Right: API Visual/Code */}
-          <div className="w-full lg:w-1/2 max-w-[600px] min-w-[320px] p-4 flex flex-col items-center justify-center">
+          <div className="w-full lg:w-1/2  min-w-[320px] p-4 flex flex-col items-center justify-center">
             <ApiJsonCard />
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function ApiSection() {
             ))}
           </div>
           {/* Right */}
-          <div className="w-full lg:w-1/2 max-w-[600px] flex flex-col gap-8 p-4 sm:p-6">
+          <div className="w-full lg:w-1/2 max-w-[600px] flex flex-col gap-8 px-4 sm:px-6">
             {/* Built For */}
             <div>
               <div className="font-semibold text-[#163820] text-base mb-2">

@@ -52,7 +52,7 @@ export default function BlogSection() {
       />
       <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-8 sm:gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
@@ -63,12 +63,7 @@ export default function BlogSection() {
               </span>
             </div>
             <h2
-              className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight"
-              style={{
-                fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-                letterSpacing: 0,
-                lineHeight: 1.18,
-              }}
+              className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize"
             >
               Recent articles and updates
               <br />

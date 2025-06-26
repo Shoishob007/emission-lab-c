@@ -45,7 +45,7 @@ const WhyChooseUsSection = () => {
             </span>
           </div>
           <h2
-            className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4"
+            className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4 capitalize"
             style={{
               fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
               letterSpacing: 0,

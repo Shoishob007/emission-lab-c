@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Leaf, MapPin, Phone, Mail } from "lucide-react";
+import { FaPinterestP, FaXTwitter, FaFacebookF, FaInstagram } from "react-icons/fa6";
 
 const FooterSection = () => {
   return (
@@ -33,17 +34,19 @@ const FooterSection = () => {
           </div>
           {/* Address */}
           <div className="flex items-center gap-3">
-            <span className="w-12 h-12 rounded-full bg-[#3BBF4A] flex items-center justify-center">
+            <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
               <MapPin className="w-6 h-6 text-white" />
             </span>
             <div>
               <div className="font-bold text-white">Address</div>
-              <div className="text-green-100 text-sm">4517 Washington Manchester</div>
+              <div className="text-green-100 text-sm">
+                4517 Washington Manchester
+              </div>
             </div>
           </div>
           {/* Contact */}
           <div className="flex items-center gap-3">
-            <span className="w-12 h-12 rounded-full bg-[#3BBF4A] flex items-center justify-center">
+            <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
               <Phone className="w-6 h-6 text-white" />
             </span>
             <div>
@@ -53,7 +56,7 @@ const FooterSection = () => {
           </div>
           {/* Email */}
           <div className="flex items-center gap-3">
-            <span className="w-12 h-12 rounded-full bg-[#3BBF4A] flex items-center justify-center">
+            <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
               <Mail className="w-6 h-6 text-white" />
             </span>
             <div>
@@ -70,43 +73,100 @@ const FooterSection = () => {
           <div>
             <div className="font-bold text-lg mb-4">About Company</div>
             <p className="text-green-100 mb-4 text-sm">
-              Join us in making a lasting impact on our planet. Together, we can protect nature, reduce our carbon footprint.
+              Join us in making a lasting impact on our planet. Together, we can
+              protect nature, reduce our carbon footprint.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="w-8 h-8 bg-[#3BBF4A] rounded-full flex items-center justify-center text-green-900 hover:bg-green-200 transition">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="none"/><text x="7" y="17" fontSize="14" fill="currentColor">p</text></svg>
-              </a>
-              <a href="#" className="w-8 h-8 bg-[#3BBF4A] rounded-full flex items-center justify-center text-green-900 hover:bg-green-200 transition">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="none"/><text x="7" y="17" fontSize="14" fill="currentColor">x</text></svg>
-              </a>
-              <a href="#" className="w-8 h-8 bg-[#3BBF4A] rounded-full flex items-center justify-center text-green-900 hover:bg-green-200 transition">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="none"/><text x="7" y="17" fontSize="14" fill="currentColor">f</text></svg>
-              </a>
-              <a href="#" className="w-8 h-8 bg-[#3BBF4A] rounded-full flex items-center justify-center text-green-900 hover:bg-green-200 transition">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="none"/><text x="7" y="17" fontSize="14" fill="currentColor">i</text></svg>
-              </a>
-            </div>
+      <a
+        href="#"
+        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-green-200 transition text-white"
+        title="Pinterest"
+      >
+        <FaPinterestP className="w-4 h-4" />
+      </a>
+      <a
+        href="#"
+        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-green-200 transition text-white"
+        title="X"
+      >
+        <FaXTwitter className="w-4 h-4" />
+      </a>
+      <a
+        href="#"
+        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-green-200 transition text-white"
+        title="Facebook"
+      >
+        <FaFacebookF className="w-4 h-4" />
+      </a>
+      <a
+        href="#"
+        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-green-200 transition text-white"
+        title="Instagram"
+      >
+        <FaInstagram className="w-4 h-4" />
+      </a>
+    </div>
           </div>
           {/* Quick Link */}
           <div>
             <div className="font-bold text-lg mb-4">Quick Link</div>
             <ul className="space-y-2 text-green-100 text-sm">
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">Home</a></li>
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">About Us</a></li>
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">Services</a></li>
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">Projects</a></li>
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">Latest Blog</a></li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  Services
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  Projects
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  Latest Blog
+                </a>
+              </li>
             </ul>
           </div>
           {/* Services */}
           <div>
             <div className="font-bold text-lg mb-4">Services</div>
             <ul className="space-y-2 text-green-100 text-sm">
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">Energy Solutions</a></li>
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">Water Conservation</a></li>
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">Waste Management</a></li>
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">Biodiversity Protection</a></li>
-              <li><a href="#" className="hover:text-[#3BBF4A] transition">Green Technology</a></li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  Energy Solutions
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  Water Conservation
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  Waste Management
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  Biodiversity Protection
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-[#3BBF4A] transition">
+                  Green Technology
+                </a>
+              </li>
             </ul>
           </div>
           {/* Newsletter */}
@@ -123,7 +183,7 @@ const FooterSection = () => {
               />
               <button
                 type="submit"
-                className="bg-[#7DBB3A] hover:bg-[#3BBF4A] text-green-900 font-semibold px-5 py-2 rounded-r-lg text-sm transition"
+                className="bg-btn-secondary hover:bg-btn-secondary-hover text-green-100 font-semibold px-5 py-2 rounded-r-lg text-sm transition"
               >
                 Subscribe
               </button>
@@ -134,10 +194,16 @@ const FooterSection = () => {
         <hr className="border-green-800 mb-4" />
 
         <div className="flex flex-col md:flex-row justify-between items-center text-green-100 text-sm px-1">
-          <div className="mb-2 md:mb-0">Copyright © 2025 All Rights Reserved.</div>
+          <div className="mb-2 md:mb-0">
+            Copyright © 2025 All Rights Reserved.
+          </div>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-[#3BBF4A] transition">Terms & Condition</a>
-            <a href="#" className="hover:text-[#3BBF4A] transition">Privacy Policy</a>
+            <a href="#" className="hover:text-[#3BBF4A] transition">
+              Terms & Condition
+            </a>
+            <a href="#" className="hover:text-[#3BBF4A] transition">
+              Privacy Policy
+            </a>
           </div>
         </div>
       </div>

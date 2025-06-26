@@ -84,7 +84,7 @@ export function ApiJsonCard() {
 
   return (
     <>
-      <Card className="bg-slate-900 text-white border-none shadow-2xl overflow-hidden w-full max-w-[450px] mx-auto relative">
+      <Card className="bg-slate-900 text-white border-none shadow-2xl overflow-hidden w-full max-w-[500px] mx-auto relative">
         <div className="flex items-center gap-2 px-8 pt-8 pb-2">
           <div className="w-3 h-3 bg-red-500 rounded-full" />
           <div className="w-3 h-3 bg-yellow-500 rounded-full" />
@@ -100,15 +100,14 @@ export function ApiJsonCard() {
             {JSON.stringify(apiRequest, null, 2)}
           </pre>
         </div>
-        <div className="absolute bottom-4 left-0 w-full flex justify-center">
+        <div className="absolute bottom-3 left-0 w-full flex justify-center">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button
-                variant="secondary"
-                className="rounded-full px-6 py-1.5 text-sm shadow-md"
+              <button
+                className="rounded-full bg-btn-primary hover:bg-btn-primary-hover px-6 py-2 text-sm"
               >
                 See Details
-              </Button>
+              </button>
             </DialogTrigger>
             <DialogContent
               className="max-w-2xl w-full p-0 rounded-2xl overflow-hidden"

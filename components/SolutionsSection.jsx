@@ -93,7 +93,7 @@ export default function SolutionsSection() {
                 Solutions
               </span>
             </div>
-            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight">
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize">
               Complete{" "}
               <span className="text-primary">Carbon Management Solutions</span>{" "}
               for Business & Individuals on your Travel
