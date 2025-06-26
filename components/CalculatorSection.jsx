@@ -1,31 +1,45 @@
 /* eslint-disable @next/next/no-img-element */
-import { Calculator, BarChart3, TrendingDown, Zap } from "lucide-react";
+import {
+  Calculator,
+  BarChart3,
+  TrendingDown,
+  Zap,
+  TrainTrack,
+  EarthIcon,
+} from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
 const features = [
   {
-    icon: <Calculator className="w-7 h-7 text-primary" />,
+    icon: <Calculator strokeWidth={2} />,
     title: "Precise Calculations",
     description:
-      "Advanced algorithms for accurate carbon footprint assessment across all lifestyle factors.",
+      "Advanced algorithms for accurate carbon footprint assessment.",
   },
   {
-    icon: <BarChart3 className="w-7 h-7 text-secondary" />,
-    title: "Detailed Analytics",
+    icon: <TrainTrack strokeWidth={2} />,
+    title: "Track Your Travel",
     description:
-      "Comprehensive reporting with interactive charts and actionable insights for reduction.",
+      "Estimate emissions for where you go with flight, bus, train and where you stay at hotels.",
   },
   {
-    icon: <TrendingDown className="w-7 h-7 text-primary" />,
+    icon: <EarthIcon strokeWidth={2} />,
+    title: "Create Impact",
+    description:
+      "Understand how your journey affects the planet and how you contribute to restore balance.",
+  },
+  {
+    icon: <TrendingDown strokeWidth={2} />,
     title: "Reduction Tracking",
     description:
       "Monitor your progress with real-time tracking and personalized improvement suggestions.",
   },
   {
-    icon: <Zap className="w-7 h-7 text-secondary" />,
+    icon: <Zap strokeWidth={2} />,
     title: "Instant Results",
     description:
-      "Get immediate feedback and start your sustainability journey within seconds.",
+      "Get your results in real-time and start your sustainability journey within seconds.",
   },
 ];
 
@@ -52,15 +66,17 @@ export default function CalculatorSection() {
                 Calculator
               </span>
             </div>
-            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4">
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-1">
               Calculate Your{" "}
               <span className="text-primary">Carbon Footprint</span>
             </h2>
+            <p className="font-semibold text-[#767676] text-base sm:text-lg leading-tight mb-4">
+              No login required — calculate anytime, anywhere.
+            </p>
             <p className="text-base md:text-lg text-[#767676] mb-6 leading-relaxed">
-              Take the first step towards carbon neutrality with our
-              comprehensive footprint calculator. Analyze your lifestyle,
-              transportation, energy usage, and consumption patterns to get your
-              most accurate carbon assessment.
+              Take the first step towards carbon neutrality with our AI-Powered
+              footprint calculator. Analyze you consumption pattern on your
+              travel and get your most accurate carbon assessment.
             </p>
           </div>
           <div className="items-center p-6">
@@ -73,7 +89,7 @@ export default function CalculatorSection() {
         </div>
 
         {/* Bottom Row */}
-        <div className="flex flex-col lg:flex-row gap-10 items-start">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-10 items-start">
           {/* Stacked Photos*/}
           <div className="w-full lg:w-1/2 relative" style={{ minHeight: 340 }}>
             {/* Mobile stacked, diagonal */}
@@ -154,11 +170,13 @@ export default function CalculatorSection() {
             </div>
           </div>
           {/* Features */}
-          <div className="w-full lg:w-1/2 bg-[#F7F7F7] rounded-2xl py-7 px-8 flex flex-col gap-5">
+          <div className="w-full lg:w-1/2 bg-[#F7F7F7] rounded-2xl p-4 sm:p-6 flex flex-col gap-4">
             {features.map((feature, i) => (
               <div key={i} className="flex items-start gap-3">
-                <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-white shadow-sm mr-2">
-                  {feature.icon}
+                <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-white shadow-sm mr-2 p-1.5 shrink-0">
+                  {React.cloneElement(feature.icon, {
+                    className: "w-full h-full text-secondary",
+                  })}
                 </span>
                 <div>
                   <div className="text-base font-semibold text-[#163820] mb-1">

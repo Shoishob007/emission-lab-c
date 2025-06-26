@@ -8,6 +8,7 @@ import {
   HandCoins,
   Settings,
   CheckCircle2,
+  Lightbulb,
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -161,10 +162,8 @@ export default function OffsetPage() {
                 </span>
               </div>
               <h2 className="font-bold text-[#163820] text-2xl sm:text-3xl mb-2">
-                Verified{" "}
-                <span className="text-[#37c048]">
-                  . Transparent . Impactful
-                </span>
+                Verified.{" "}
+                <span className="text-[#37c048]">Transparent. Impactful</span>
               </h2>
               <div className="text-[#767676] text-base sm:text-lg mt-3 max-w-xl">
                 All our offset projects are:
@@ -194,12 +193,27 @@ export default function OffsetPage() {
           </div>
         </div>
 
-        <div className="w-full max-w-3xl mx-auto mb-20 text-center">
-          <p className="text-[#767676] text-base sm:text-lg mb-2 font-semibold">
-            Offsetting isn&apos;t just about numbers — it&apos;s about
-            regenerating ecosystems, empowering communities, and investing in a
-            better future.
-          </p>
+        {/* SMALL STEPS BIG IMPACT */}
+        <div className="mb-20 flex flex-col items-center justify-center">
+          <div className="w-full max-w-5xl mx-auto">
+            <div className="flex items-center gap-2 mb-2 justify-center">
+              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+                <Lightbulb size={22} strokeWidth={2} className="text-primary" />
+              </span>
+              <span className="uppercase text-primary tracking-widest text-xs font-bold">
+                Your action. Global impact.
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center">
+              Every Action Plants a Seed{" "}
+              <span className="text-primary">for Tomorrow</span>
+            </h2>
+            <p className="text-[#767676] text-base sm:text-lg max-w-4xl mt-3 mb-4 mx-auto text-center">
+              Offsetting isn&apos;t just about numbers — it&apos;s about
+              regenerating ecosystems, empowering communities, and investing in
+              a better future.
+            </p>
+          </div>
         </div>
 
         {/* CTA SECTION */}
