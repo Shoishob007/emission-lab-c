@@ -1,29 +1,59 @@
-import { Code, Zap, Globe, Shield, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "./ui/card";
+import {
+  Code,
+  Zap,
+  ArrowRight,
+  FolderSync,
+  FileJson,
+  FileJson2,
+} from "lucide-react";
 import Link from "next/link";
+import React from "react";
+import { ApiJsonCard } from "@/components/ApiJsonCard";
 
 const features = [
   {
-    icon: <Code className="w-7 h-7 text-primary" />,
-    title: "RESTful API",
-    description: "Simple, intuitive endpoints for seamless integration",
+    icon: <Zap strokeWidth={2} />,
+    title: "Real-Time Emission Calculation",
+    description:
+      "Pull travel, logistics, utility, or manufacturing data — and instantly calculate carbon impact.",
   },
   {
-    icon: <Zap className="w-7 h-7 text-secondary" />,
-    title: "Real-time Data",
-    description: "Live carbon calculations and offset tracking",
+    icon: <Code strokeWidth={2} />,
+    title: "Flexible Integration",
+    description: "Connect with CRMs, travel systems and more.",
   },
   {
-    icon: <Globe className="w-7 h-7 text-primary" />,
-    title: "Global Coverage",
-    description: "Worldwide emission factors and offset projects",
+    icon: <FolderSync strokeWidth={2} />,
+    title: "Auto-Track & Sync",
+    description:
+      "Set up scheduled data syncs for recurring activities like shipping, commuting, or business flights.",
   },
   {
-    icon: <Shield className="w-7 h-7 text-secondary" />,
-    title: "Enterprise Security",
-    description: "Bank-level encryption and data protection",
+    icon: <FileJson strokeWidth={2} />,
+    title: "Emission Reporting APIs",
+    description:
+      "Generate reports for internal ESG goals, customer disclosures, or investor compliance.",
   },
+  {
+    icon: <FileJson2 strokeWidth={2} />,
+    title: "Offset Matching API",
+    description:
+      "Programmatically match emissions with certified offset projects — and offer real-time sustainability to your users.",
+  },
+];
+
+const builtFor = [
+  "Airlines & OTAs – show emissions in booking flow, offer offset options at checkout",
+  "Enterprise Application – plug into finance, HR, Compliance systems for company-wide carbon reports",
+  "Travel & Logistics Platforms – automate trip-level and package-level carbon insights",
+];
+
+const devFriendly = [
+  "OAuth & token-based authentication",
+  "Rich API documentation with use-case examples",
+  "Sandbox & test environment",
+  "Webhooks, versioning & error handling",
+  "Developer support available",
 ];
 
 export default function ApiSection() {
@@ -32,57 +62,10 @@ export default function ApiSection() {
       id="api"
       className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden"
     >
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 flex flex-col-reverse lg:flex-row items-center justify-center gap-10">
-        {/* API Visual/Code */}
-        <div className="w-full lg:w-1/2 max-w-[600px] min-w-[320px] p-4 flex flex-col items-center justify-center">
-          <Card className="bg-slate-900 text-white border-none shadow-2xl overflow-hidden w-full max-w-[450px] mx-auto">
-            <CardContent className="p-8">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="ml-4 text-sm text-gray-400">
-                  api.ecosphere.com
-                </span>
-              </div>
-              <div className="space-y-4 text-sm font-mono">
-                <div>
-                  <span className="text-blue-400">POST</span>
-                  <span className="text-gray-300"> /api/calculate</span>
-                </div>
-                <div className="text-gray-300 whitespace-pre-line">
-                  {`{
-  "transport": {
-    "distance": 1200,
-    "mode": "car"
-  },
-  "energy": {
-    "consumption": 450,
-    "source": "grid"
-  }
-}`}
-                </div>
-                <div className="border-t border-gray-700 pt-4">
-                  <div className="text-primary">Response:</div>
-                  <div className="text-gray-300 whitespace-pre-line">
-                    {`{
-  "carbonFootprint": 2.1,
-  "unit": "tons_co2",
-  "breakdown": {
-    "transport": 1.2,
-    "energy": 0.9
-  }
-}`}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Textual content and features */}
-        <div className="w-full lg:w-1/2 min-w-[320px] px-4 flex flex-col justify-center items-center lg:items-start">
-          <div className="mb-8 w-full max-w-lg">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 flex flex-col gap-12">
+        {/* Top Row */}
+        <div className="flex flex-col lg:flex-row justify-between gap-10 px-4">
+          <div className="w-full lg:w-1/2 max-w-[600px] min-w-[320px] flex flex-col">
             <div className="flex items-center gap-2 mb-3">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
                 <Code size={22} strokeWidth={2} className="text-primary" />
@@ -91,17 +74,13 @@ export default function ApiSection() {
                 API Integration
               </span>
             </div>
-            <h2
-              className="font-bold text-[#163820] text-3xl sm:text-4xl lg:text-5xl leading-tight mb-4"
-              style={{
-                fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-                letterSpacing: 0,
-                lineHeight: 1.18,
-              }}
-            >
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-1">
               Powerful <span className="text-primary">API</span> Integration
             </h2>
-            <p className="text-lg text-[#767676] mb-8 leading-relaxed">
+            <p className="font-semibold text-[#767676] text-base sm:text-lg leading-tight mb-4">
+              Seamless Carbon Intelligence for Every System
+            </p>
+            <p className="text-lg text-[#767676] leading-relaxed">
               Integrate carbon measurement and offsetting capabilities directly
               into your business workflows with our robust APIs.
               <br />
@@ -109,25 +88,69 @@ export default function ApiSection() {
               environmental consciousness directly into their applications,
               making sustainability accessible to millions of users.
             </p>
-            <p className="text-base text-[#767676] mb-6 leading-relaxed"></p>
-            <div className="bg-[#F7F7F7] rounded-2xl py-7 px-8 flex flex-col gap-5 mb-6">
-              {features.map((feature, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-white shadow-sm mr-2">
-                    {feature.icon}
-                  </span>
-                  <div>
-                    <div className="text-base font-semibold text-[#163820] mb-1">
-                      {feature.title}
-                    </div>
-                    <div className="text-sm text-[#767676]">
-                      {feature.description}
-                    </div>
+          </div>
+          {/* Right: API Visual/Code */}
+          <div className="w-full lg:w-1/2 max-w-[600px] min-w-[320px] p-4 flex flex-col items-center justify-center">
+            <ApiJsonCard />
+          </div>
+        </div>
+
+        {/* Bottom Row */}
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-10">
+          {/* Left: Features */}
+          <div className="w-full lg:w-1/2 max-w-[600px] flex flex-col gap-4 bg-[#F7F7F7] rounded-2xl p-4 sm:p-6">
+            {/* <div className="text-lg font-semibold text-[#163820] mb-2">
+              API Features
+            </div> */}
+            {features.map((feature, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-white shadow-sm mr-2 p-1.5 shrink-0">
+                  {React.cloneElement(feature.icon, {
+                    className: "w-full h-full text-secondary",
+                  })}
+                </span>
+                <div>
+                  <div className="text-base font-semibold text-[#163820] mb-1">
+                    {feature.title}
+                  </div>
+                  <div className="text-sm text-[#767676]">
+                    {feature.description}
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
+          </div>
+          {/* Right */}
+          <div className="w-full lg:w-1/2 max-w-[600px] flex flex-col gap-8 p-4 sm:p-6">
+            {/* Built For */}
+            <div>
+              <div className="font-semibold text-[#163820] text-base mb-2">
+                Built For:
+              </div>
+              <ul className="flex flex-col gap-2 mb-4">
+                {builtFor.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <ArrowRight className="w-5 h-5 text-btn-primary mt-1 flex-shrink-0" />
+                    <span className="text-[#767676] text-base">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="flex justify-end w-full">
+            {/* Developer-Friendly */}
+            <div>
+              <div className="font-semibold text-[#163820] text-base mb-2">
+                Developer-Friendly
+              </div>
+              <ul className="flex flex-col gap-2">
+                {devFriendly.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <ArrowRight className="w-5 h-5 text-btn-primary mt-1 flex-shrink-0" />
+                    <span className="text-[#767676] text-base">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex justify-start w-full">
               <Link href="/api" passHref legacyBehavior>
                 <button className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition mx-auto sm:mx-0 sm:w-fit">
                   View Documentation <ArrowRight className="w-5 h-5" />
