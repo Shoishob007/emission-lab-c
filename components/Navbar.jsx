@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
 import {
-  Menu,
+  Menu as MenuIcon,
   X,
   Plane,
   Home,
@@ -11,11 +12,22 @@ import {
   BookOpen,
   Phone,
   ArrowRight,
+  ChevronDown,
+  Info,
+  HelpCircle,
+  Users,
+  Layers,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 const navItems = [
   { name: "Home", href: "/", icon: Home },
@@ -23,57 +35,62 @@ const navItems = [
   { name: "Business", href: "/business", icon: Briefcase },
   { name: "API", href: "/apiSection", icon: FileCode },
   { name: "Blog", href: "/blog", icon: BookOpen },
-  { name: "Contact", href: "/contact", icon: Phone },
 ];
 
-const buttonStyles = `
-.animated-hover-btn {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, #FFA726 0%, #ff9800 100%);
-  color: #fff;
-  font-weight: 700;
-  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-  letter-spacing: 0.01em;
-  padding: 0.75rem 1.75rem;
-  border-radius: 0.5rem;
-  box-shadow: 0px 3px 14px 0px rgba(0,0,0,0.12);
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: none;
-  transition: color 0.2s;
-  z-index: 1;
-}
-
-.animated-hover-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: linear-gradient(135deg, #ff9800 0%, #FFA726 100%);
-  transition: background-position 0.5s cubic-bezier(0.4,0,0.2,1);
-  background-size: 200% 200%;
-  background-position: bottom left;
-  border-radius: inherit;
-  opacity: 1;
-}
-
-.animated-hover-btn:hover::before,
-.animated-hover-btn:focus-visible::before {
-  background-position: top right;
-}
-
-.animated-hover-btn > * {
-  position: relative;
-  z-index: 1;
-}
-`;
+const aboutMenu = [
+  {
+    name: "Who We Are",
+    href: "#about",
+    icon: Users,
+  },
+  {
+    name: "What We Do",
+    href: "#what-we-do",
+    icon: Layers,
+  },
+  {
+    name: "FAQ",
+    href: "#faq",
+    icon: HelpCircle,
+  },
+  {
+    name: "Contact Us",
+    href: "#contact",
+    icon: Phone,
+  },
+];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
+  const scrollToSection = (e, id) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+
+    if (element) {
+      // Reset scroll first for consistency
+      window.scrollTo({ top: 0, behavior: "instant" });
+
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: "smooth" });
+        window.history.replaceState(null, null, `#${id}`);
+      }, 50);
+    }
+  };
+
+  // Maintain scroll position on route changes
+  useEffect(() => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      const element = document.getElementById(hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [pathname]);
 
   const isActive = (path) => {
     if (path === "/") {
@@ -114,19 +131,66 @@ export default function Navbar() {
                     background: "transparent",
                   }}
                 >
-                  <span className="flex items-center gap-1">
-                    {/* {item.icon && <item.icon className="w-4 h-4" />} */}
-                    {item.name}
-                  </span>
+                  <span className="flex items-center gap-1">{item.name}</span>
                 </Link>
               ))}
+
+              {/* About Dropdown Menu */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className={cn(
+                      "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none flex items-center gap-1",
+                      aboutMenu.some((m) => isActive(m.href))
+                        ? "text-primary"
+                        : "text-black"
+                    )}
+                    style={{
+                      fontWeight: 600,
+                      letterSpacing: "0.01em",
+                      background: "transparent",
+                    }}
+                  >
+                    <span className="flex items-center gap-1">
+                      About <ChevronDown className="w-4 h-4" />
+                    </span>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="center"
+                  sideOffset={8}
+                  className="w-56 rounded-lg shadow-lg border border-border bg-white p-2"
+                >
+                  {aboutMenu.map((item) => (
+                    <DropdownMenuItem
+                      asChild
+                      key={item.href}
+                      className={cn(
+                        "w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150 hover:bg-primary/10 hover:text-primary cursor-pointer",
+                        isActive(item.href)
+                          ? "bg-primary/10 text-primary"
+                          : "text-black"
+                      )}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={(e) =>
+                          scrollToSection(e, item.href.split("#")[1])
+                        }
+                      >
+                        {item.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
           {/* Donate Now Button */}
           <div className="hidden md:flex">
             <Link
-              href="/donate"
+              href="/login"
               className="ml-8 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
               style={{
                 fontWeight: 700,
@@ -134,7 +198,7 @@ export default function Navbar() {
                 letterSpacing: "0.01em",
               }}
             >
-              Donate Now <ArrowRight className="w-5 h-5" />
+              Start Now <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
 
@@ -148,7 +212,7 @@ export default function Navbar() {
               {isOpen ? (
                 <X className="block h-6 w-6" aria-hidden="true" />
               ) : (
-                <Menu className="block h-6 w-6" aria-hidden="true" />
+                <MenuIcon className="block h-6 w-6" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -169,14 +233,50 @@ export default function Navbar() {
                   : "text-black hover:text-primary"
               )}
             >
-              <div className="flex items-center">
-                {item.icon && <item.icon className="h-5 w-5 mr-2" />}
-                {item.name}
-              </div>
+              <div className="flex items-center">{item.name}</div>
             </Link>
           ))}
+
+          {/* About Dropdown for mobile */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={cn(
+                  "w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150 hover:text-primary focus:outline-none",
+                  aboutMenu.some((m) => isActive(m.href))
+                    ? "text-primary"
+                    : "text-black"
+                )}
+              >
+                About <ChevronDown className="w-4 h-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="start"
+              className="w-56 rounded-lg shadow-lg border border-border bg-white p-2"
+            >
+              {aboutMenu.map((item) => (
+                <DropdownMenuItem
+                  asChild
+                  key={item.href}
+                  className={cn(
+                    "w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150 hover:bg-primary/10 hover:text-primary cursor-pointer",
+                    isActive(item.href)
+                      ? "bg-primary/10 text-primary"
+                      : "text-black"
+                  )}
+                >
+                  <Link href={item.href}>
+                    <item.icon className="w-5 h-5 mr-2 text-primary" />
+                    {item.name}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Link
-            href="/donate"
+            href="/login"
             className="mt-4 w-full px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center justify-center gap-2 shadow-lg transition"
             style={{
               fontWeight: 700,
@@ -184,7 +284,7 @@ export default function Navbar() {
               letterSpacing: "0.01em",
             }}
           >
-            Donate Now <ArrowRight className="w-5 h-5" />
+            Start Now <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </div>

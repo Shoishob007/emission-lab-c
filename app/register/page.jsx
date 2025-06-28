@@ -308,7 +308,7 @@ const Register = () => {
           >
             <button
               type="submit"
-              className={`${btnBase} bg-gradient-to-br from-primary to-green-600`}
+              className={`${btnBase} bg-btn-secondary hover:bg-btn-secondary-hover`}
               disabled={loading}
             >
               {loading && (

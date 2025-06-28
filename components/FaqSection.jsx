@@ -49,15 +49,22 @@ const FaqSection = () => {
   ];
 
   return (
-    <section className="py-20 relative">
+    <section id="faq"
+      className="relative py-8 md:py-20 bg-white overflow-x-hidden flex justify-center items-center"
+      style={{
+        backgroundImage: "url('/city1.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "650px",
+      }}>
       {/* Background */}
-      <div 
-        className="absolute inset-0 z-0"
+      <div
+        className="absolute inset-0"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.02
+          pointerEvents: "none",
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.8) 100%)",
         }}
       />
       

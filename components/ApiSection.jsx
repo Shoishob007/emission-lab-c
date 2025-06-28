@@ -7,8 +7,9 @@ import {
   FileJson2,
 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { ApiJsonCard } from "@/components/ApiJsonCard";
+import {FloatingLoginModal} from "@/components/FloatingLogin";
 
 const features = [
   {
@@ -151,11 +152,7 @@ export default function ApiSection() {
               </ul>
             </div>
             <div className="flex justify-start w-full">
-              <Link href="/api" passHref legacyBehavior>
-                <button className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition mx-auto sm:mx-0 sm:w-fit">
-                  View Documentation <ArrowRight className="w-5 h-5" />
-                </button>
-              </Link>
+              <FloatingLoginModal />
             </div>
           </div>
         </div>

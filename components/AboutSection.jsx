@@ -149,8 +149,8 @@ const AboutSection = () => {
           </div>
         </div>
 
-        {/* Right: Content */}
-        <div className="w-full lg:w-1/2 max-w-[520px] min-w-[300px] p-4 flex flex-col justify-center">
+        {/* Right */}
+        <div id="who-we-are" className="w-full lg:w-1/2 max-w-[520px] min-w-[300px] p-4 flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-2">
             <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
               <svg
@@ -173,21 +173,28 @@ const AboutSection = () => {
               </svg>
             </span>
             <span className="uppercase text-primary tracking-widest text-xs font-semibold">
-              About Us
+              Who we are
             </span>
           </div>
           {/* Title */}
           <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4 capitalize">
-            Protecting nature nurturing a{" "}
-            <span className="text-primary capitalize">sustainable future</span>
+            About <span className="text-primary">Us</span>
           </h2>
           {/* Description */}
+          <p className="text-base md:text-lg text-[#767676] mb-4 leading-relaxed max-w-xl">
+            <b>Emission Lab</b> is a climate-tech initiative born from urgency — and driven by hope.
+          </p>
+          <p className="text-base md:text-lg text-[#767676] mb-4 leading-relaxed max-w-xl">
+            We are a team of technologists, environmentalists, and innovators who believe that data, AI, and human action can work together to restore the planet’s balance.
+          </p>
+          <p className="text-base md:text-lg text-[#767676] mb-4 leading-relaxed max-w-xl">
+            Our mission is to drive Earth Renewal Initiatives — restoring the balance between people, purpose, and the planet. We aim to empower individuals, businesses, and institutions to understand, reduce, and offset their carbon footprint.
+          </p>
           <p className="text-base md:text-lg text-[#767676] mb-8 leading-relaxed max-w-xl">
-            We are dedicated to preserving the planet&apos;s natural beauty
-            while practices ensure a thriving future for generations to come.
+            Join us on the journey to regenerate the Earth — powered by purpose, driven by data.
           </p>
           {/* Features CTA */}
-          <div className="flex flex-col md:flex-row gap-4 mb-8">
+          {/* <div className="flex flex-col md:flex-row gap-4 mb-8">
             <div className="flex flex-col md:flex-row gap-4 w-full">
               <div className="flex-1 min-w-[260px] flex items-center bg-white border border-gray-200 rounded-xl py-2 px-4 shadow-sm">
                 <span className="mr-3 flex items-center justify-center w-8 h-8 rounded-full text-primary bg-primary/20">
@@ -215,7 +222,7 @@ const AboutSection = () => {
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* Signature/Person & CTA */}
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-2">

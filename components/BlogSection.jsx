@@ -65,8 +65,8 @@ export default function BlogSection() {
             <h2
               className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize"
             >
-              Recent articles and updates
-              <br />
+              Recent articles and updates {" "}
+              <br className="hidden sm:block" />
               on{" "}
               <span className="text-primary">
                 sustainability & conservation

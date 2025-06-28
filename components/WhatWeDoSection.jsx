@@ -7,56 +7,77 @@ import {
   Shield,
   Users,
   ArrowRight,
+  TreePine,
+  Handshake,
 } from "lucide-react";
 
 const services = [
   {
     icon: <Calculator className="w-9 h-9 text-primary" />,
     hoverIcon: <Calculator className="w-9 h-9 text-black" />,
-    title: "Carbon Footprint Analysis",
+    title: "Calculate Emissions",
     description:
-      "Comprehensive assessment of your environmental impact with detailed reporting.",
-    features: ["Real-time tracking", "Detailed analytics", "Custom reports"],
+      "Track carbon emissions across travel, energy, operations, supply chain, and more. Our tools support individuals, teams, and organizations through intuitive dashboards and robust APIs.",
+    features: [
+      "Travel, energy, operations, supply chain",
+      "Dashboards & robust APIs",
+      "For individuals, teams & organizations",
+    ],
   },
   {
     icon: <TrendingDown className="w-9 h-9 text-primary" />,
     hoverIcon: <TrendingDown className="w-9 h-9 text-black" />,
-    title: "Emission Reduction Plans",
+    title: "Reduce",
     description:
-      "Personalized strategies to minimize your carbon footprint effectively.",
-    features: ["AI-powered insights", "Progress monitoring", "Expert guidance"],
+      "Leverage AI-driven insights to optimize energy use, promote sustainable choices, and guide your journey to lower emissions — backed by automated tracking and actionable tips.",
+    features: [
+      "AI-driven optimization",
+      "Sustainable choices",
+      "Automated tracking & tips",
+    ],
   },
   {
-    icon: <Zap className="w-9 h-9 text-primary" />,
-    hoverIcon: <Zap className="w-9 h-9 text-black" />,
-    title: "Carbon Offset Solutions",
+    icon: <TreePine className="w-9 h-9 text-primary" />,
+    hoverIcon: <TreePine className="w-9 h-9 text-black" />,
+    title: "Offset",
     description:
-      "Invest in verified projects to neutralize your environmental impact.",
-    features: ["Verified projects", "Global portfolio", "Impact tracking"],
-  },
-];
-
-const highlights = [
-  {
-    icon: <Shield className="w-6 h-6 text-primary" />,
-    title: "Certified & Verified",
-    description: "All our solutions meet international environmental standards",
+      "Offset unavoidable emissions by supporting verified carbon projects — from forest restoration and renewable energy to clean water and sustainable agriculture.",
+    features: [
+      "Support verified projects",
+      "Forest, energy, water, agriculture",
+      "Offset unavoidable emissions",
+    ],
   },
   {
-    icon: <Users className="w-6 h-6 text-primary" />,
-    title: "Expert Support",
-    description: "Dedicated team of environmental scientists and consultants",
+    icon: <Shield className="w-9 h-9 text-primary" />,
+    hoverIcon: <Shield className="w-9 h-9 text-black" />,
+    title: "Enable Integration",
+    description:
+      "With powerful APIs, we integrate with your existing systems — from logistics to cloud infrastructure — making climate action seamless and intelligent.",
+    features: [
+      "Robust API integration",
+      "Works with logistics & cloud",
+      "Seamless, intelligent automation",
+    ],
   },
   {
-    icon: <Leaf className="w-6 h-6 text-primary" />,
-    title: "Measurable Impact",
-    description: "Track and verify your positive environmental contributions",
+    icon: <Handshake className="w-9 h-9 text-primary" />,
+    hoverIcon: <Handshake className="w-9 h-9 text-black" />,
+    title: "Partnering with Business",
+    description:
+      "With believe, help and row together. We integrate and support Airlines & OTAs, Enterprise Application, Travel & Logistics Platforms.",
+    features: [
+      "Airlines & OTAs",
+      "Enterprise Applications",
+      "Travel & Logistics Platforms",
+    ],
   },
 ];
 
 export default function WhatWeDoSection() {
   return (
     <section
+    id="what-we-do"
       className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden"
       style={{
         minHeight: "650px",
@@ -124,7 +145,7 @@ export default function WhatWeDoSection() {
                   </p>
                 </div>
 
-                <div className="flex-1 flex flex-col gap-2 mb-4">
+                {/* <div className="flex-1 flex flex-col gap-2 mb-4">
                   {service.features.map((feature, i) => (
                     <div key={i} className="flex items-start gap-2 text-sm">
                       <div className="w-2 h-2 bg-[#78B943] rounded-full group-hover:bg-white transition-colors duration-300 mt-1.5" />
@@ -133,7 +154,7 @@ export default function WhatWeDoSection() {
                       </span>
                     </div>
                   ))}
-                </div>
+                </div> */}
 
                 <div className="mt-auto flex justify-end">
                   <span
@@ -150,39 +171,6 @@ export default function WhatWeDoSection() {
             </div>
           ))}
         </div>
-
-        {/* Why it works */}
-        {/* <div className="flex flex-col items-center justify-center gap-12">
-          <div className="w-full max-w-2xl text-center mb-6">
-            <h3 className="text-3xl font-bold text-[#163820] mb-2">
-              Why Our <span className="text-primary">Approach</span> Works
-            </h3>
-            <p className="text-lg text-[#767676] leading-relaxed">
-              We combine cutting-edge technology with scientific rigor to
-              deliver environmental solutions that create real, measurable
-              impact.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
-            {highlights.map((highlight, index) => (
-              <div
-                key={index}
-                className="group relative bg-white rounded-2xl shadow-md p-8 min-h-[200px] transition-all duration-300 hover:shadow-xl"
-              >
-                <div className="flex flex-col h-full">
-                  <div className="mb-4 w-12 h-12 bg-[#F7F7F7] rounded-xl flex items-center justify-center group-hover:bg-[#EAFDD5] transition-colors duration-300">
-                    {highlight.icon}
-                  </div>
-                  <h4 className="text-lg font-semibold mb-3 text-[#163820]">
-                    {highlight.title}
-                  </h4>
-                  <p className="text-[#767676] mb-4">{highlight.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div> */}
       </div>
     </section>
   );

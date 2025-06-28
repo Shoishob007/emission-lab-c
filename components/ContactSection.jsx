@@ -14,7 +14,7 @@ export default function ContactSection() {
   });
 
   return (
-    <section className="w-full bg-white py-16 px-4 flex items-center justify-center font-['Montserrat','Arial','Helvetica',sans-serif']">
+    <section id="contact" className="w-full bg-white py-16 px-4 flex items-center justify-center font-['Montserrat','Arial','Helvetica',sans-serif']">
       <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
         {/* Left Side */}
         <div className="flex flex-col">

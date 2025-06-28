@@ -33,7 +33,7 @@ export default function HowItWorksSection() {
     <section className="relative py-20 bg-white">
       <div className="max-w-[1200px] mx-auto px-4">
         {/* Section header */}
-        <div className="flex flex-col">
+        <div className="flex flex-col px-4">
           <div className="flex items-center gap-2 mb-3">
             <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
               <Leaf size={22} strokeWidth={2} className="text-primary" />
