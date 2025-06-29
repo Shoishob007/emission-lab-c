@@ -122,7 +122,7 @@ const TransportCalculatorLeft = ({
       };
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/transportAPI/carbon-emission-by-vehicle-type`,
+        `${process.env.NEXT_PUBLIC_API}/api/carbon/transportAPI/carbon-emission-by-vehicle-type/`,
         {
           method: "POST",
           headers: {

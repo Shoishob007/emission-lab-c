@@ -143,7 +143,7 @@ const HotelCalculatorLeft = ({
       // console.log("requestData :: ", requestData);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/hotelAPI/hotel-stay-carbon-estimate`,
+        `${process.env.NEXT_PUBLIC_API}/api/carbon/hotelAPI/hotel-stay-carbon-estimate/`,
         {
           method: "POST",
           headers: {
