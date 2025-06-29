@@ -30,7 +30,7 @@ const FlightCalculatorLeft = ({
     try {
       const query = qs.stringify({ keyword });
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/airAPI/airport-list-by-keyword?${query}`
+        `${process.env.NEXT_PUBLIC_API}/api/carbon/airAPI/airport-list-by-keyword?${query}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -99,7 +99,7 @@ const FlightCalculatorLeft = ({
       console.log("requestData :: ", requestData);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/airAPI/carbon-emission`,
+        `${process.env.NEXT_PUBLIC_API}/api/carbon/airAPI/carbon-emission/`,
         {
           method: "POST",
           headers: {

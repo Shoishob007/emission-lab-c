@@ -21,7 +21,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -63,19 +63,23 @@ const aboutMenu = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const scrollToSection = (e, id) => {
     e.preventDefault();
-    const element = document.getElementById(id);
-
-    if (element) {
-      // Reset scroll first for consistency
-      window.scrollTo({ top: 0, behavior: "instant" });
-
-      setTimeout(() => {
-        element.scrollIntoView({ behavior: "smooth" });
-        window.history.replaceState(null, null, `#${id}`);
-      }, 50);
+    
+    // Always navigate to root path with hash
+    if (pathname !== "/") {
+      router.push(`/#${id}`);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+          window.history.replaceState(null, null, `/#${id}`);
+        }, 50);
+      }
     }
   };
 
@@ -99,6 +103,11 @@ export default function Navbar() {
     return pathname.startsWith(path);
   };
 
+  // Check if current hash matches menu item
+  const isHashActive = (hash) => {
+    return typeof window !== 'undefined' && window.location.hash === hash;
+  };
+
   return (
     <nav className="w-full !bg-transparent border-b border-border">
       <div className="max-w-[1440px] py-4 mx-auto px-4 sm:px-8">
@@ -117,23 +126,21 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex flex-1 justify-center">
             <div className="flex items-center space-x-7">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none",
-                    isActive(item.href) ? "text-primary" : "text-black"
-                  )}
-                  style={{
-                    fontWeight: 600,
-                    letterSpacing: "0.01em",
-                    background: "transparent",
-                  }}
-                >
-                  <span className="flex items-center gap-1">{item.name}</span>
-                </Link>
-              ))}
+              {/* Home Link */}
+              <Link
+                href="/"
+                className={cn(
+                  "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none",
+                  isActive("/") ? "text-primary" : "text-black"
+                )}
+                style={{
+                  fontWeight: 600,
+                  letterSpacing: "0.01em",
+                  background: "transparent",
+                }}
+              >
+                <span className="flex items-center gap-1">Home</span>
+              </Link>
 
               {/* About Dropdown Menu */}
               <DropdownMenu>
@@ -141,7 +148,7 @@ export default function Navbar() {
                   <button
                     className={cn(
                       "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none flex items-center gap-1",
-                      aboutMenu.some((m) => isActive(m.href))
+                      aboutMenu.some((m) => isHashActive(m.href))
                         ? "text-primary"
                         : "text-black"
                     )}
@@ -167,23 +174,41 @@ export default function Navbar() {
                       key={item.href}
                       className={cn(
                         "w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150 hover:bg-primary/10 hover:text-primary cursor-pointer",
-                        isActive(item.href)
+                        isHashActive(item.href)
                           ? "bg-primary/10 text-primary"
                           : "text-black"
                       )}
                     >
                       <Link
-                        href={item.href}
-                        onClick={(e) =>
-                          scrollToSection(e, item.href.split("#")[1])
-                        }
+                        href={`/${item.href}`}
+                        onClick={(e) => scrollToSection(e, item.href.split("#")[1])}
                       >
+                        <item.icon className="w-5 h-5 mr-2 text-primary" />
                         {item.name}
                       </Link>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
+
+              {/* Other Navigation Items */}
+              {navItems.slice(1).map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none",
+                    isActive(item.href) ? "text-primary" : "text-black"
+                  )}
+                  style={{
+                    fontWeight: 600,
+                    letterSpacing: "0.01em",
+                    background: "transparent",
+                  }}
+                >
+                  <span className="flex items-center gap-1">{item.name}</span>
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -222,20 +247,16 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div className={cn("md:hidden", isOpen ? "block" : "hidden")}>
         <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-border">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "block px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150",
-                isActive(item.href)
-                  ? "text-primary"
-                  : "text-black hover:text-primary"
-              )}
-            >
-              <div className="flex items-center">{item.name}</div>
-            </Link>
-          ))}
+          {/* Home Link */}
+          <Link
+            href="/"
+            className={cn(
+              "block px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150",
+              isActive("/") ? "text-primary" : "text-black hover:text-primary"
+            )}
+          >
+            <div className="flex items-center">Home</div>
+          </Link>
 
           {/* About Dropdown for mobile */}
           <DropdownMenu>
@@ -243,7 +264,7 @@ export default function Navbar() {
               <button
                 className={cn(
                   "w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150 hover:text-primary focus:outline-none",
-                  aboutMenu.some((m) => isActive(m.href))
+                  aboutMenu.some((m) => isHashActive(m.href))
                     ? "text-primary"
                     : "text-black"
                 )}
@@ -261,12 +282,15 @@ export default function Navbar() {
                   key={item.href}
                   className={cn(
                     "w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150 hover:bg-primary/10 hover:text-primary cursor-pointer",
-                    isActive(item.href)
+                    isHashActive(item.href)
                       ? "bg-primary/10 text-primary"
                       : "text-black"
                   )}
                 >
-                  <Link href={item.href}>
+                  <Link 
+                    href={`/${item.href}`}
+                    onClick={(e) => scrollToSection(e, item.href.split("#")[1])}
+                  >
                     <item.icon className="w-5 h-5 mr-2 text-primary" />
                     {item.name}
                   </Link>
@@ -274,6 +298,22 @@ export default function Navbar() {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {/* Other Navigation Items */}
+          {navItems.slice(1).map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                "block px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150",
+                isActive(item.href)
+                  ? "text-primary"
+                  : "text-black hover:text-primary"
+              )}
+            >
+              <div className="flex items-center">{item.name}</div>
+            </Link>
+          ))}
 
           <Link
             href="/login"
