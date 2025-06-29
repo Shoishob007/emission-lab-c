@@ -84,8 +84,8 @@ export default function SolutionsSection() {
       <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4">
         {/* header */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 md:gap-0 px-4">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="flex items-center gap-2 mb-3 justify-center">
+          <div className="sm:text-center max-w-4xl mx-auto">
+            <div className="flex items-center gap-2 mb-3 sm:justify-center">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
                 <Target size={22} strokeWidth={2} className="text-primary" />
               </span>
