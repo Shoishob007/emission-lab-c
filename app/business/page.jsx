@@ -65,11 +65,7 @@ const Business = () => {
     <section className="bg-[#0A2D23] min-h-screen py-12 px-4 flex flex-col items-center justify-start">
       <div className="max-w-3xl text-center mb-12">
         <h2
-          className="text-4xl md:text-5xl font-extrabold text-white mb-4"
-          style={{
-            fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-            letterSpacing: "-0.01em",
-          }}
+          className="font-bold text-white text-3xl sm:text-4xl leading-tight capitalize mb-4"
         >
           Choose your <span className="text-primary">business scope</span>
         </h2>

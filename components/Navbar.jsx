@@ -17,6 +17,7 @@ import {
   HelpCircle,
   Users,
   Layers,
+  LogOut,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -28,6 +29,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { useSession, signOut } from "next-auth/react";
 
 const navItems = [
   { name: "Home", href: "/", icon: Home },
@@ -64,10 +66,11 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   const scrollToSection = (e, id) => {
     e.preventDefault();
-    
+
     // Always navigate to root path with hash
     if (pathname !== "/") {
       router.push(`/#${id}`);
@@ -105,7 +108,20 @@ export default function Navbar() {
 
   // Check if current hash matches menu item
   const isHashActive = (hash) => {
-    return typeof window !== 'undefined' && window.location.hash === hash;
+    return typeof window !== "undefined" && window.location.hash === hash;
+  };
+
+  // Logout handler
+  const handleLogout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/logout/`, {
+        method: "POST",
+        credentials: "include",
+      });
+      await signOut({ callbackUrl: "/" });
+    } catch (error) {
+      await signOut({ callbackUrl: "/" });
+    }
   };
 
   return (
@@ -181,7 +197,9 @@ export default function Navbar() {
                     >
                       <Link
                         href={`/${item.href}`}
-                        onClick={(e) => scrollToSection(e, item.href.split("#")[1])}
+                        onClick={(e) =>
+                          scrollToSection(e, item.href.split("#")[1])
+                        }
                       >
                         <item.icon className="w-5 h-5 mr-2 text-primary" />
                         {item.name}
@@ -212,19 +230,33 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Donate Now Button */}
+          {/* Start Now / Logout Button - Desktop */}
           <div className="hidden md:flex">
-            <Link
-              href="/login"
-              className="ml-8 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
-              style={{
-                fontWeight: 700,
-                fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Start Now <ArrowRight className="w-5 h-5" />
-            </Link>
+            {session?.user ? (
+              <button
+                onClick={handleLogout}
+                className="ml-8 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
+                style={{
+                  fontWeight: 700,
+                  fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
+                  letterSpacing: "0.01em",
+                }}
+              >
+                Logout Now <LogOut className="w-5 h-5" />
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="ml-8 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
+                style={{
+                  fontWeight: 700,
+                  fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
+                  letterSpacing: "0.01em",
+                }}
+              >
+                Start Now <ArrowRight className="w-5 h-5" />
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -287,7 +319,7 @@ export default function Navbar() {
                       : "text-black"
                   )}
                 >
-                  <Link 
+                  <Link
                     href={`/${item.href}`}
                     onClick={(e) => scrollToSection(e, item.href.split("#")[1])}
                   >
@@ -315,17 +347,32 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <Link
-            href="/login"
-            className="mt-4 w-full px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center justify-center gap-2 shadow-lg transition"
-            style={{
-              fontWeight: 700,
-              fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
-              letterSpacing: "0.01em",
-            }}
-          >
-            Start Now <ArrowRight className="w-5 h-5" />
-          </Link>
+          {/* Start Now / Logout Button - Mobile */}
+          {session?.user ? (
+            <button
+              onClick={handleLogout}
+              className="mt-4 w-full px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center justify-center gap-2 shadow-lg transition"
+              style={{
+                fontWeight: 700,
+                fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
+                letterSpacing: "0.01em",
+              }}
+            >
+              Logout Now <LogOut className="w-5 h-5" />
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="mt-4 w-full px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center justify-center gap-2 shadow-lg transition"
+              style={{
+                fontWeight: 700,
+                fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
+                letterSpacing: "0.01em",
+              }}
+            >
+              Start Now <ArrowRight className="w-5 h-5" />
+            </Link>
+          )}
         </div>
       </div>
     </nav>

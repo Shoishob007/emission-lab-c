@@ -79,28 +79,21 @@ const FooterSection = () => {
             <div className="flex gap-3">
       <a
         href="#"
-        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-green-200 transition text-white"
-        title="Pinterest"
-      >
-        <FaPinterestP className="w-4 h-4" />
-      </a>
-      <a
-        href="#"
-        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-green-200 transition text-white"
+        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
         title="X"
       >
         <FaXTwitter className="w-4 h-4" />
       </a>
       <a
         href="#"
-        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-green-200 transition text-white"
+        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
         title="Facebook"
       >
         <FaFacebookF className="w-4 h-4" />
       </a>
       <a
         href="#"
-        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-green-200 transition text-white"
+        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
         title="Instagram"
       >
         <FaInstagram className="w-4 h-4" />

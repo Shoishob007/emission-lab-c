@@ -78,7 +78,7 @@ export default function WhatWeDoSection() {
   return (
     <section
       id="what-we-do"
-      className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden"
+      className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden overflow-y-auto"
       style={{
         minHeight: "650px",
         backgroundImage: "url('/city1-rotated.jpg')",

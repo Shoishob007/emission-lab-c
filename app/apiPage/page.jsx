@@ -10,7 +10,10 @@ import {
   Check,
 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { FloatingLoginModal } from "@/components/FloatingLogin";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const features = [
   {
@@ -59,6 +62,20 @@ const devFriendly = [
 ];
 
 export default function ApiSection() {
+  const { data: session } = useSession();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    if (!session?.user) {
+      e.preventDefault();
+      setShowLoginModal(true);
+    } else {
+      router.push("/contact");
+    }
+  };
+
   return (
     <section className="min-h-[100vh] py-14 px-2 font-['Montserrat','Arial','Helvetica',sans-serif'] bg-transparent">
       <div className="max-w-6xl mx-auto px-4">
@@ -66,7 +83,7 @@ export default function ApiSection() {
         <div className="grid md:grid-cols-[320px_1fr] gap-8 md:gap-16 mb-16 items-center">
           <div className="relative">
             <img
-              src="/landing-page/sus-3.jpg"
+              src="/api-1.jpg"
               alt="API Integration"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -137,7 +154,7 @@ export default function ApiSection() {
           </div>
           <div className="relative">
             <img
-              src="/landing-page/sus-3.jpg"
+              src="/api-2.jpg"
               alt="API Integration"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -226,7 +243,7 @@ export default function ApiSection() {
           {/* Image */}
           <div className="order-1 md:order-none">
             <img
-              src="/landing-page/sus-3.jpg"
+              src="/api-3.jpg"
               alt="Developer Friendly"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -251,13 +268,15 @@ export default function ApiSection() {
               👉 Get started today and bring carbon intelligence to your
               application.
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-3 bg-[#FFA726] hover:bg-[#ffb84d] transition text-white font-bold py-3 px-4 sm:px-8 rounded-full text-lg shadow-lg shadow-[#FFA72633] focus:ring-4 focus:ring-[#FFA72644] animate-bounce"
-              style={{ letterSpacing: "0.02em" }}
-            >
-              Postman Documentation <ArrowRight className="w-5 h-5" />
-            </Link>
+            <button
+            className="inline-flex items-center gap-3 bg-[#FFA726] hover:bg-[#ffb84d] transition text-white font-bold py-3 px-4 sm:px-8 rounded-full text-lg shadow-lg shadow-[#FFA72633] focus:ring-4 focus:ring-[#FFA72644] animate-bounce"
+            style={{ letterSpacing: "0.02em" }}
+            onClick={handleClick}
+            type="button"
+          >
+            Postman Documentation <ArrowRight className="w-5 h-5" />
+          </button>
+          <FloatingLoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
           </div>
         </div>
       </div>

@@ -1,12 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
   Mail,
@@ -18,19 +13,14 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { RiFacebookFill, RiGoogleFill, RiTwitterXFill } from "@remixicon/react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-// Helper regexes
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phoneRegex = /^[+\d]?(?:[\d-.\s()]*)$/;
-function checkPasswordStrength(pw) {
-  if (!pw) return "";
-  if (pw.length > 8 && /[A-Z]/.test(pw) && /\d/.test(pw)) return "strong";
-  if (pw.length > 6) return "medium";
-  return "weak";
-}
+import { checkPasswordStrength, emailRegex, phoneRegex } from "@/utils/helper";
 
-const leftImage =
-  "/CTA_bg_1.jpg";
+
+const API_URL = process.env.NEXT_PUBLIC_API || "https://api.aiemissionlab.com";
+const leftImage = "/CTA_bg_1.jpg";
 
 const validationIcon = (valid, value) => {
   if (!value) return null;
@@ -51,17 +41,17 @@ const validationIcon = (valid, value) => {
   );
 };
 
-export function FloatingLoginModal() {
-  const [open, setOpen] = useState(false);
+export function FloatingLoginModal({ open, onOpenChange }) {
   const [showSignUp, setShowSignUp] = useState(false);
 
-  // Login form state
+  // --- LOGIN STATE
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
-  // Register form state
+  // --- REGISTER STATE
   const [fullName, setFullName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -69,6 +59,9 @@ export function FloatingLoginModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [regLoading, setRegLoading] = useState(false);
   const [regSuccess, setRegSuccess] = useState(false);
+  const [regError, setRegError] = useState("");
+
+  const router = useRouter();
 
   // Login validation
   const isEmailValid = emailRegex.test(email);
@@ -86,48 +79,90 @@ export function FloatingLoginModal() {
   const isConfirmValid =
     confirmPassword === regPassword && regPassword.length > 0;
 
-  // Handlers
-  const handleLoginSubmit = (e) => {
+  // Login handler
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 2000);
-    }, 1200);
+    setLoginLoading(true);
+    setLoginError("");
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if (result?.error) {
+        setLoginError("Invalid email or password. Please try again.");
+        setLoginLoading(false);
+        return;
+      }
+      if (result?.ok) {
+        setLoginSuccess(true);
+        setTimeout(() => {
+          setLoginSuccess(false);
+          onOpenChange(false);
+          router.refresh();
+        }, 1500);
+      }
+    } catch (err) {
+      setLoginError("An error occurred during login. Please try again.");
+    } finally {
+      setLoginLoading(false);
+    }
   };
 
-  const handleSignUpSubmit = (e) => {
+  // Register handler
+  const registerUser = async ({ email, name, password, phone }) => {
+    const res = await fetch(`${API_URL}/api/users/register/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        name,
+        password,
+        phone: phone || undefined,
+        role: "individual",
+      }),
+    });
+    if (!res.ok) {
+      let error = "Registration failed";
+      try {
+        const data = await res.json();
+        error = data.detail || data.message || JSON.stringify(data);
+      } catch {}
+      throw new Error(error);
+    }
+    return res.json();
+  };
+
+  const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     setRegLoading(true);
-    setTimeout(() => {
-      setRegLoading(false);
+    setRegError("");
+    try {
+      await registerUser({
+        email: regEmail,
+        name: fullName,
+        password: regPassword,
+        phone,
+      });
       setRegSuccess(true);
-      setTimeout(() => setRegSuccess(false), 2000);
-    }, 1400);
+      setTimeout(() => {
+        setRegSuccess(false);
+        setShowSignUp(false);
+        // Optionally auto-fill login fields
+        setEmail(regEmail);
+        setPassword(regPassword);
+      }, 1500);
+    } catch (err) {
+      setRegError(err.message);
+    } finally {
+      setRegLoading(false);
+    }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <button className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition mx-auto sm:mx-0 sm:w-fit">
-          View Documentation
-          <span>
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </span>
-        </button>
-      </DialogTrigger>
-      <DialogContent
-        className="max-w-[980px] w-full p-0 rounded-2xl overflow-hidden bg-white"
-      >
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-[980px] w-full p-0 rounded-2xl overflow-hidden bg-white">
         <div className="flex flex-col md:flex-row bg-white min-h-[680px] relative transition-all duration-500">
           {/* Left half with image and text */}
           <div
@@ -139,38 +174,26 @@ export function FloatingLoginModal() {
             <div className="absolute inset-0 bg-black/40 z-0 rounded-l-2xl" />
             <div className="relative z-10 flex flex-col items-center text-center w-full h-full justify-center p-8">
               <h2 className="text-white text-2xl font-bold mb-2 drop-shadow-lg">
-                Good Afternoon
+                {showSignUp ? "Create Account" : "Good Afternoon"}
                 <br />
                 Welcome
               </h2>
               <span className="text-white font-medium mb-8 text-base drop-shadow">
                 {showSignUp ? "Already have account?" : "Don't have account ?"}
               </span>
-              {showSignUp ? (
-                <button
-                  className="px-7 py-2 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition mx-auto sm:mx-0 sm:w-fit"
-                  onClick={() => setShowSignUp(false)}
-                  type="button"
-                >
-                  Sign In
-                </button>
-              ) : (
-                <button
-                  className="px-7 py-2 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition mx-auto sm:mx-0 sm:w-fit"
-                  onClick={() => setShowSignUp(true)}
-                  type="button"
-                >
-                  Register
-                </button>
-              )}
+              <button
+                className="px-7 py-2 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition mx-auto sm:mx-0 sm:w-fit"
+                onClick={() => setShowSignUp((prev) => !prev)}
+                type="button"
+              >
+                {showSignUp ? "Sign In" : "Register"}
+              </button>
             </div>
           </div>
 
           {/* Right half: Form */}
           <div className="md:w-1/2 w-full max-h-[680px] flex flex-col justify-center items-center bg-white relative overflow-y-auto">
-
-            {/* LOGIN FORM */}
-            {!showSignUp && (
+            {!showSignUp ? (
               <div className="w-full h-full flex flex-col justify-center items-center">
                 <div className="w-full max-w-[420px] flex flex-col justify-center items-center bg-white rounded-xl p-8">
                   <h3 className="text-3xl font-bold text-[#22292f] mb-6 text-center">
@@ -201,6 +224,7 @@ export function FloatingLoginModal() {
                             : "#e0e0e0",
                         }}
                         required
+                        disabled={loginLoading}
                       />
                       {validationIcon(isEmailValid, email)}
                     </div>
@@ -224,9 +248,15 @@ export function FloatingLoginModal() {
                             : "#e0e0e0",
                         }}
                         required
+                        disabled={loginLoading}
                       />
                       {validationIcon(isPasswordValid, password)}
                     </div>
+                    {loginError && (
+                      <div className="mb-2 text-red-500 text-sm text-center">
+                        {loginError}
+                      </div>
+                    )}
                     <div className="flex justify-end">
                       <a
                         href="#"
@@ -238,9 +268,11 @@ export function FloatingLoginModal() {
                     <Button
                       type="submit"
                       className="w-full h-12 rounded-lg text-base font-bold bg-[#3BBF4A] hover:bg-green-700 shadow-none transition-all mt-2"
-                      disabled={loading}
+                      disabled={
+                        loginLoading || !isEmailValid || !isPasswordValid
+                      }
                     >
-                      {loading ? (
+                      {loginLoading ? (
                         <span className="flex items-center justify-center">
                           <svg
                             className="w-5 h-5 text-white animate-spin mr-2"
@@ -263,6 +295,8 @@ export function FloatingLoginModal() {
                           </svg>
                           Logging in...
                         </span>
+                      ) : loginSuccess ? (
+                        "🎉 Welcome to Emission Lab!"
                       ) : (
                         "Login Now"
                       )}
@@ -273,6 +307,7 @@ export function FloatingLoginModal() {
                         type="button"
                         className="w-full h-12 rounded-lg text-base font-bold bg-[#DB4437] hover:bg-[#c1351a] flex items-center justify-center gap-2 shadow-none transition-all"
                         aria-label="Login with Google"
+                        disabled={loginLoading}
                       >
                         <RiGoogleFill size={20} className="mr-2" />
                         Login with Google
@@ -281,6 +316,7 @@ export function FloatingLoginModal() {
                         type="button"
                         className="w-full h-12 rounded-lg text-base font-bold bg-[#14171a] hover:bg-[#23272f] flex items-center justify-center gap-2 shadow-none transition-all"
                         aria-label="Login with X"
+                        disabled={loginLoading}
                       >
                         <RiTwitterXFill size={20} className="mr-2" />
                         Login with X
@@ -289,6 +325,7 @@ export function FloatingLoginModal() {
                         type="button"
                         className="w-full h-12 rounded-lg text-base font-bold bg-[#1877f2] hover:bg-[#1558b0] flex items-center justify-center gap-2 shadow-none transition-all"
                         aria-label="Login with Facebook"
+                        disabled={loginLoading}
                       >
                         <RiFacebookFill size={20} className="mr-2" />
                         Login with Facebook
@@ -297,10 +334,7 @@ export function FloatingLoginModal() {
                   </form>
                 </div>
               </div>
-            )}
-
-            {/* SIGN UP FORM */}
-            {showSignUp && (
+            ) : (
               <div className="w-full h-full flex flex-col justify-center items-center">
                 <div className="w-full max-w-[420px] flex flex-col justify-center items-center bg-white rounded-xl p-8">
                   <h3 className="text-3xl font-bold text-[#22292f] mb-6 text-center">
@@ -331,6 +365,7 @@ export function FloatingLoginModal() {
                             : "#e0e0e0",
                         }}
                         required
+                        disabled={regLoading}
                       />
                       {validationIcon(isFullNameValid, fullName)}
                     </div>
@@ -354,6 +389,7 @@ export function FloatingLoginModal() {
                             : "#e0e0e0",
                         }}
                         required
+                        disabled={regLoading}
                       />
                       {validationIcon(isRegEmailValid, regEmail)}
                     </div>
@@ -376,6 +412,7 @@ export function FloatingLoginModal() {
                               : "#f44336"
                             : "#e0e0e0",
                         }}
+                        disabled={regLoading}
                       />
                       {validationIcon(isPhoneValid, phone)}
                     </div>
@@ -399,6 +436,7 @@ export function FloatingLoginModal() {
                             : "#e0e0e0",
                         }}
                         required
+                        disabled={regLoading}
                       />
                       {validationIcon(isRegPasswordValid, regPassword)}
                     </div>
@@ -422,13 +460,25 @@ export function FloatingLoginModal() {
                             : "#e0e0e0",
                         }}
                         required
+                        disabled={regLoading}
                       />
                       {validationIcon(isConfirmValid, confirmPassword)}
                     </div>
+                    {regError && (
+                      <div className="mb-2 text-red-500 text-sm text-center">
+                        {regError}
+                      </div>
+                    )}
                     <Button
                       type="submit"
                       className="w-full h-12 rounded-lg text-base font-bold bg-[#3BBF4A] hover:bg-green-700 shadow-none transition-all mt-2"
-                      disabled={regLoading}
+                      disabled={
+                        regLoading ||
+                        !isFullNameValid ||
+                        !isRegEmailValid ||
+                        !isRegPasswordValid ||
+                        !isConfirmValid
+                      }
                     >
                       {regLoading ? (
                         <span className="flex items-center justify-center">
@@ -453,6 +503,8 @@ export function FloatingLoginModal() {
                           </svg>
                           Registering...
                         </span>
+                      ) : regSuccess ? (
+                        "🎉 Welcome to Emission Lab!"
                       ) : (
                         "Register"
                       )}
@@ -463,6 +515,7 @@ export function FloatingLoginModal() {
                         type="button"
                         className="w-full h-12 rounded-lg text-base font-bold bg-[#DB4437] hover:bg-[#c1351a] flex items-center justify-center gap-2 shadow-none transition-all"
                         aria-label="Sign up with Google"
+                        disabled={regLoading}
                       >
                         <RiGoogleFill size={20} className="mr-2" />
                         Sign up with Google
@@ -471,6 +524,7 @@ export function FloatingLoginModal() {
                         type="button"
                         className="w-full h-12 rounded-lg text-base font-bold bg-[#14171a] hover:bg-[#23272f] flex items-center justify-center gap-2 shadow-none transition-all"
                         aria-label="Sign up with X"
+                        disabled={regLoading}
                       >
                         <RiTwitterXFill size={20} className="mr-2" />
                         Sign up with X
@@ -479,6 +533,7 @@ export function FloatingLoginModal() {
                         type="button"
                         className="w-full h-12 rounded-lg text-base font-bold bg-[#1877f2] hover:bg-[#1558b0] flex items-center justify-center gap-2 shadow-none transition-all"
                         aria-label="Sign up with Facebook"
+                        disabled={regLoading}
                       >
                         <RiFacebookFill size={20} className="mr-2" />
                         Sign up with Facebook

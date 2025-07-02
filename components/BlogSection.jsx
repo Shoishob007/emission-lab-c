@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { ArrowRight, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const blogPosts = [
   {
@@ -74,6 +75,7 @@ export default function BlogSection() {
             </h2>
           </div>
           <div className="flex-1 flex justify-end w-full">
+            <Link href="/blog">
             <Button
               size="lg"
               className="bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base px-8 py-3 rounded-lg shadow-lg transition flex items-center gap-2 mx-auto sm:mx-0 sm:w-fit"
@@ -81,6 +83,7 @@ export default function BlogSection() {
             >
               View All Articles <ArrowRight className="w-5 h-5" />
             </Button>
+            </Link>
           </div>
         </div>
 

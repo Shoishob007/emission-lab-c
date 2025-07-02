@@ -20,7 +20,7 @@ const slides = [
   },
   {
     image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481496/emisison-lab/hero-carousel/11846_a6o4yu.jpg",
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481892/emisison-lab/hero-carousel/2150196692_p3csru.jpg",
     headline: (
       <>
         Measure. Reduce. Offset.
@@ -54,7 +54,7 @@ const slides = [
   },
   {
     image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481892/emisison-lab/hero-carousel/2150196692_p3csru.jpg",
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481357/emisison-lab/hero-carousel/8_u6ih0l.png",
     headline: (
       <>
         The Future of Sustainability is Integrated.
@@ -86,7 +86,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
       {/* Background Image (fade transition) */}
       {slides.map((slide, idx) => (
         <div
