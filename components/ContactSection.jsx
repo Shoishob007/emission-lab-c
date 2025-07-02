@@ -14,7 +14,10 @@ export default function ContactSection() {
   });
 
   return (
-    <section id="contact" className="w-full bg-white py-16 px-4 flex items-center justify-center font-['Montserrat','Arial','Helvetica',sans-serif']">
+    <section
+      id="contact"
+      className="w-full bg-white py-16 px-4 flex items-center justify-center font-['Montserrat','Arial','Helvetica',sans-serif']"
+    >
       <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
         {/* Left Side */}
         <div className="flex flex-col">
@@ -53,16 +56,6 @@ export default function ContactSection() {
                 General Inquiries
               </div>
               <div className="text-[#1a3323] text-base">hello@elab.com</div>
-            </div>
-            <div className="rounded-lg bg-white px-6 py-5">
-              <div className="font-semibold text-[#1a3323] mb-1">
-                Project Listing
-              </div>
-              <div className="text-[#1a3323] text-base">suppliers@elab.com</div>
-            </div>
-            <div className="rounded-lg bg-white px-6 py-5">
-              <div className="font-semibold text-[#1a3323] mb-1">Sales</div>
-              <div className="text-[#1a3323] text-base">sales@elab.com</div>
             </div>
             <div className="rounded-lg bg-white px-6 py-5">
               <div className="font-semibold text-[#1a3323] mb-1">Support</div>

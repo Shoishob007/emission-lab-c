@@ -4,7 +4,7 @@ export const phoneRegex = /^[+]?[\d\s\-\(\)]{10,}$/;
 
 export function checkPasswordStrength(password) {
   let score = 0;
-  if (password.length >= 8) score++;
+  if (password.length >= 3) score++;
   if (/[a-z]/.test(password)) score++;
   if (/[A-Z]/.test(password)) score++;
   if (/\d/.test(password)) score++;

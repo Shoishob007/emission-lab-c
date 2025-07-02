@@ -19,6 +19,9 @@ import {
   RiTwitterXFill,
 } from "@remixicon/react";
 
+// API base URL from env variable
+const API_URL = process.env.NEXT_PUBLIC_API || "https://api.aiemissionlab.com";
+
 const Register = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,6 +30,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [apiError, setApiError] = useState("");
   const [animationLoaded, setAnimationLoaded] = useState(false);
 
   const btnBase =
@@ -54,14 +58,50 @@ const Register = () => {
     passwordStrength === "strong" || passwordStrength === "medium";
   const isConfirmValid = confirmPassword === password && password.length > 0;
 
-  const handleSubmit = (e) => {
+  // API call
+  const registerUser = async ({ email, name, password, phone }) => {
+    const res = await fetch(`${API_URL}/api/users/register/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        name,
+        password,
+        phone: phone || undefined,
+        role: "individual",
+      }),
+    });
+    // error
+    if (!res.ok) {
+      let error = "Registration failed";
+      try {
+        const data = await res.json();
+        error = data.detail || data.message || JSON.stringify(data);
+      } catch {}
+      throw new Error(error);
+    }
+    return res.json();
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiError("");
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await registerUser({ email, name: fullName, password, phone });
       setSuccess(true);
+      setFullName("");
+      setEmail("");
+      setPhone("");
+      setPassword("");
+      setConfirmPassword("");
       setTimeout(() => setSuccess(false), 3000);
-    }, 2000);
+      router.push("/");
+    } catch (err) {
+      setApiError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // validation
@@ -94,11 +134,9 @@ const Register = () => {
               loop
               autoplay
               onLoad={() => {
-                console.log("Animation loaded");
                 setAnimationLoaded(true);
               }}
               onError={(error) => {
-                console.log("Animation error:", error);
                 setAnimationLoaded(true);
               }}
               style={{
@@ -299,6 +337,11 @@ const Register = () => {
               {validationIcon(isConfirmValid, confirmPassword)}
             </div>
           </div>
+          {apiError && (
+            <div className="mb-3 text-red-500 text-sm text-center">
+              {apiError}
+            </div>
+          )}
           <div
             className={`flex flex-col gap-3 mt-2 mb-1 transition-all duration-500 delay-400 ${
               animationLoaded
@@ -309,7 +352,13 @@ const Register = () => {
             <button
               type="submit"
               className={`${btnBase} bg-btn-secondary hover:bg-btn-secondary-hover`}
-              disabled={loading}
+              disabled={
+                loading ||
+                !isFullNameValid ||
+                !isEmailValid ||
+                !isPasswordValid ||
+                !isConfirmValid
+              }
             >
               {loading && (
                 <span className="absolute left-3 top-1/2 -translate-y-1/2">

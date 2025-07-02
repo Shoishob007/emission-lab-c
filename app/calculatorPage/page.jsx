@@ -71,7 +71,7 @@ export default function CalcPage() {
                 Carbon Footprint Calculator
               </span>
             </div>
-            <h1 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-2">
+            <h1 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-2 capitalize">
               What is the{" "}
               <span className="text-primary">Carbon Footprint Calculator?</span>
             </h1>
@@ -110,7 +110,7 @@ export default function CalcPage() {
                 Why does it matter?
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 capitalize">
               Why should you{" "}
               <span className="text-primary">know your footprint?</span>
             </h2>
@@ -157,7 +157,7 @@ export default function CalcPage() {
               What can you calculate?
             </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-4 capitalize">
             Instantly estimate{" "}
             <span className="text-primary">your emissions</span>
           </h2>
@@ -218,7 +218,7 @@ export default function CalcPage() {
                   What can you do after calculating?
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2">
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 capitalize">
                 Take <span className="text-primary">real action</span> toward a
                 lighter footprint
               </h2>
@@ -256,7 +256,7 @@ export default function CalcPage() {
         {/* 5. CTA SECTION */}
         <div className="w-full flex flex-col items-center justify-center mb-2">
           <div className="bg-primary/20 border border-[#e2f0e4] rounded-3xl py-10 px-6 shadow flex flex-col items-center w-full max-w-2xl mx-auto">
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center">
+            <h3 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center capitalize">
               Ready to Know Your Impact?
             </h3>
             <p className="text-[#767676] text-lg text-center mb-6">

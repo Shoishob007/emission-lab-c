@@ -4,24 +4,28 @@ import React, { useEffect, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { CheckCircle, Lock, Mail, XCircle } from "lucide-react";
 import { checkPasswordStrength, emailRegex } from "@/utils/helper";
+import { signIn, getSession } from "next-auth/react";
 import {
   RiFacebookFill,
   RiGithubFill,
   RiGoogleFill,
   RiTwitterXFill,
 } from "@remixicon/react";
+import { useRouter } from "next/navigation";
 
 const btnBase =
   "relative w-full py-2.5 rounded-lg text-white font-semibold text-base bg-gradient-to-br from-primary to-green-600 shadow transition-all overflow-hidden flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 hover:opacity-90 duration-500";
 const btnIcon =
   "pointer-events-none flex items-center justify-center mr-2 flex-shrink-0 opacity-80";
 
-const Login = () => {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
   const [animationLoaded, setAnimationLoaded] = useState(false);
+  const router = useRouter();
 
   // fallback timeout in case onLoad doesn't trigger
   useEffect(() => {
@@ -38,14 +42,35 @@ const Login = () => {
   const isPasswordValid =
     passwordStrength === "strong" || passwordStrength === "medium";
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    setError("");
+
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError("Invalid email or password. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      if (result?.ok) {
+        setSuccess(true);
+        const session = await getSession();
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("An error occurred during login. Please try again.");
+    } finally {
       setLoading(false);
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    }, 2000);
+    }
   };
 
   // validation check
@@ -107,11 +132,18 @@ const Login = () => {
           </p>
         </div>
         <form
-          id="registrationForm"
+          id="loginForm"
           onSubmit={handleSubmit}
           autoComplete="off"
           className="p-8"
         >
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+              {error}
+            </div>
+          )}
+
           {/* email */}
           <div
             className={`mb-5 form-group transition-all duration-500 delay-200 ${
@@ -141,10 +173,12 @@ const Login = () => {
                     : "#e0e0e0",
                 }}
                 required
+                disabled={loading}
               />
               {validationIcon(isEmailValid, email)}
             </div>
           </div>
+
           {/* password */}
           <div
             className={`mb-5 form-group transition-all duration-500 delay-300 ${
@@ -174,10 +208,12 @@ const Login = () => {
                     : "#e0e0e0",
                 }}
                 required
+                disabled={loading}
               />
               {validationIcon(isPasswordValid, password)}
             </div>
           </div>
+
           {/* login button and social logins */}
           <div
             className={`flex flex-col gap-3 mt-2 mb-1 transition-all duration-500 delay-400 ${
@@ -189,7 +225,7 @@ const Login = () => {
             <button
               type="submit"
               className={`${btnBase} bg-btn-secondary hover:bg-btn-secondary-hover`}
-              disabled={loading}
+              disabled={loading || !isEmailValid || !isPasswordValid}
             >
               {loading && (
                 <span className="absolute left-3 top-1/2 -translate-y-1/2">
@@ -215,33 +251,43 @@ const Login = () => {
                 </span>
               )}
               <span className="btn-text transition-opacity duration-300">
-                {success ? "🎉 Welcome to Emission Lab!" : "Ready To Go!"}
+                {success
+                  ? "🎉 Welcome to Emission Lab!"
+                  : loading
+                  ? "Signing In..."
+                  : "Ready To Go!"}
               </span>
             </button>
+
             <button
               type="button"
               className={`${btnBase} !bg-[#DB4437] !from-[#DB4437] !to-[#DB4437]`}
               aria-label="Login with Google"
+              disabled={loading}
             >
               <span className={btnIcon}>
                 <RiGoogleFill size={18} aria-hidden="true" />
               </span>
               Login with Google
             </button>
+
             <button
               type="button"
               className={`${btnBase} !bg-[#14171a] !from-[#14171a] !to-[#14171a]`}
               aria-label="Login with X"
+              disabled={loading}
             >
               <span className={btnIcon}>
                 <RiTwitterXFill size={18} aria-hidden="true" />
               </span>
               Login with X
             </button>
+
             <button
               type="button"
               className={`${btnBase} !bg-[#1877f2] !from-[#1877f2] !to-[#1877f2]`}
               aria-label="Login with Facebook"
+              disabled={loading}
             >
               <span className={btnIcon}>
                 <RiFacebookFill size={18} aria-hidden="true" />
@@ -249,6 +295,7 @@ const Login = () => {
               Login with Facebook
             </button>
           </div>
+
           <p
             className={`text-center mt-5 text-gray-600 text-sm transition-all duration-500 delay-500 ${
               animationLoaded
@@ -268,6 +315,4 @@ const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}

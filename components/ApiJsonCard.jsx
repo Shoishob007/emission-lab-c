@@ -103,10 +103,8 @@ export function ApiJsonCard() {
         <div className="absolute bottom-3 left-0 w-full flex justify-center">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <button
-                className="rounded-full bg-btn-primary hover:bg-btn-primary-hover px-6 py-2 text-sm"
-              >
-                See Details
+              <button className="rounded-full bg-btn-primary hover:bg-btn-primary-hover px-6 py-2 text-sm">
+                See Response
               </button>
             </DialogTrigger>
             <DialogContent
@@ -125,9 +123,6 @@ export function ApiJsonCard() {
                 style={{ maxHeight: "70vh" }}
               >
                 <div className="mb-5">
-                  <span className="font-mono text-xs text-muted-foreground block">
-                    Endpoint:
-                  </span>
                   <span className="font-mono text-xs text-muted-foreground">
                     {apiUrl}
                   </span>
