@@ -236,7 +236,7 @@ export default function ApiSection() {
         {/* 5. CTA SECTION */}
         <div className="w-full mt-20 mb-10 flex justify-center">
           <img
-            src="/landing-page/sus-3.jpg"
+            src="/flow.png"
             alt="Website Sitemap"
             className="w-full max-w-4xl rounded-xl shadow-md border border-gray-200"
           />

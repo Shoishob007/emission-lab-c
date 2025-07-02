@@ -1,7 +1,6 @@
 "use client";
-import React, { useRef } from "react";
-import { useEffect, useMemo, useState } from "react";
-import { Plane, Car, Ship, ShipIcon, Hotel, HotelIcon } from "lucide-react";
+import React, { useRef, useEffect, useMemo, useState } from "react";
+import { Plane, Car, Hotel } from "lucide-react";
 import FlightCalculatorLeft from "./flight/components/FlightCalculatorLeft";
 import FlightCalculatorRight from "./flight/components/FlightCalculatorRight";
 import CarCalculatorLeft from "./car/components/TransportCalculatorLeft";
@@ -12,6 +11,10 @@ import CarbonImpactDashboard from "./components/CarbonEmissionDash";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableTabs } from "@/components/ui/expandable-tabs";
 
+/**
+ * Adds a soft city image background (as in SolutionsSection) with a white gradient overlay.
+ * The bg and overlay are absolutely positioned, content is relatively positioned with z-10.
+ */
 export default function Calculator() {
   const dashboardRef = useRef(null);
   const [activeTab, setActiveTab] = useState("flight");
@@ -80,7 +83,6 @@ export default function Calculator() {
             setEmissionData={setEmissionData}
           />
         );
-
       case "transport":
         return (
           <CarCalculatorLeft
@@ -99,7 +101,6 @@ export default function Calculator() {
             setEmissionData={setEmissionData}
           />
         );
-
       default:
         return null;
     }
@@ -147,52 +148,70 @@ export default function Calculator() {
   };
 
   return (
-    <div className="flex flex-col gap-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-gray-50">
-        {/* Tabs */}
-        <div className="mb-8">
-          <ExpandableTabs
-            tabs={tabs}
-            activeTabIndex={tabs.findIndex((tab) => tab.value === activeTab)}
-            onChange={handleTabChange}
-            activeColor="text-primary"
-            className="border-primary-200 dark:border-primary-800 text-center justify-center w-fit mx-auto"
-            alwaysKeepActive={true}
-          />
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {/* Left Panel - Input Form */}
-          <div className="bg-card rounded-lg p-8 shadow-lg">
-            <h2 className="text-xl font-semibold mb-6 text-center">
-              {activeTab === "flight" && "Put Your Flight Details"}
-              {activeTab === "transport" && "Put Your Journey Details"}
-              {activeTab === "hotel" && "Put Your Hotel Details"}
-            </h2>
-
-            <div className="space-y-6">{renderCalculatorContent()}</div>
-          </div>
-
-          {renderRightPanel()}
-        </div>
-      </div>
-      <AnimatePresence>
-        {showDashboard && (
-          <motion.div
-            initial={{ y: "100%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: "100%", opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            ref={dashboardRef}
-          >
-            <CarbonImpactDashboard
-              emissionData={emissionData}
-              calculatorType={activeTab}
-              setShowDashboard={setShowDashboard}
+    <section
+      className="relative py-20 flex justify-center items-center overflow-x-hidden"
+      style={{
+        minHeight: "650px",
+        backgroundImage: "url('/bg-calc.png')",
+        backgroundRepeat: "repeat",
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* overlay */}
+      <div
+        className="absolute inset-0"
+        style={{
+          pointerEvents: "none",
+          background:
+            "linear-gradient(to top right, rgba(255,255,255,0.85) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,0.85) 80%)",
+        }}
+      />
+      {/* content */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-10">
+        <div className="py-8">
+          {/* Tabs */}
+          <div className="mb-8">
+            <ExpandableTabs
+              tabs={tabs}
+              activeTabIndex={tabs.findIndex((tab) => tab.value === activeTab)}
+              onChange={handleTabChange}
+              activeColor="text-primary"
+              className="border-primary-200 dark:border-primary-800 text-center justify-center w-fit mx-auto"
+              alwaysKeepActive={true}
             />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {/* Left Panel - Input Form */}
+            <div className="bg-card rounded-lg p-8 shadow-lg">
+              <h2 className="text-xl font-semibold mb-6 text-center">
+                {activeTab === "flight" && "Put Your Flight Details"}
+                {activeTab === "transport" && "Put Your Journey Details"}
+                {activeTab === "hotel" && "Put Your Hotel Details"}
+              </h2>
+              <div className="space-y-6">{renderCalculatorContent()}</div>
+            </div>
+            {renderRightPanel()}
+          </div>
+        </div>
+        <AnimatePresence>
+          {showDashboard && (
+            <motion.div
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              ref={dashboardRef}
+            >
+              <CarbonImpactDashboard
+                emissionData={emissionData}
+                calculatorType={activeTab}
+                setShowDashboard={setShowDashboard}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
   );
 }
