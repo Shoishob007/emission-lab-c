@@ -41,31 +41,31 @@ const projects = [
 const flow = [
   {
     icon: <Settings className="w-7 h-7 text-secondary" />,
-    color: "text-secondary",
+    color: "text-gray-700",
     title: "Calculate",
     desc: "Estimate your emissions for free.",
   },
   {
     icon: <BadgeCheck className="w-7 h-7 text-secondary" />,
-    color: "text-secondary",
+    color: "text-gray-700",
     title: "Review",
     desc: "Get tailored offset suggestions.",
   },
   {
     icon: <Globe2 className="w-7 h-7 text-secondary" />,
-    color: "text-secondary",
+    color: "text-gray-700",
     title: "Choose",
     desc: "Pick a project or let us auto-match.",
   },
   {
     icon: <HandCoins className="w-7 h-7 text-secondary" />,
-    color: "text-secondary",
+    color: "text-gray-700",
     title: "Contribute",
     desc: "Support with one-time or recurring payment.",
   },
   {
     icon: <CheckCircle2 className="w-7 h-7 text-secondary" />,
-    color: "text-secondary",
+    color: "text-gray-700",
     title: "Get Certified",
     desc: "Receive certificates & track offset history.",
   },
@@ -261,7 +261,7 @@ function OffsetTimeline({ steps }) {
                   className="w-1 h-16"
                   style={{
                     background:
-                      "linear-gradient(180deg,#e2f0e4 40%,#FFA726 100%)",
+                      "linear-gradient(180deg,#16bf2f 40%,#16bf2f 100%)",
                     zIndex: 0,
                   }}
                 />
@@ -325,6 +325,11 @@ function ProjectCard({ title, image, description, cta }) {
         boxShadow: "0 8px 32px 0 rgba(0,0,0,0.14)",
       }}
     >
+      {/*  badge */}
+      <span className="absolute top-3 left-3 z-20 px-3 py-1 rounded-full text-xs font-semibold bg-btn-primary text-white shadow shadow-[#FFA72655] select-none">
+        Coming Soon
+      </span>
+
       <img
         src={image}
         alt={title}

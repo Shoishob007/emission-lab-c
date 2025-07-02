@@ -11,7 +11,7 @@ import Link from "next/link";
 const solutions = [
   {
     icon: <Calculator className="w-9 h-9 text-primary" />,
-    hoverIcon: <Calculator className="w-9 h-9 text-black" />,
+    hoverIcon: <Calculator className="w-9 h-9 text-white/90" />,
     title: "Calculate",
     subtitle: "Understand Your Impact",
     description:
@@ -27,7 +27,7 @@ const solutions = [
   },
   {
     icon: <TrendingDown className="w-9 h-9 text-primary" />,
-    hoverIcon: <TrendingDown className="w-9 h-9 text-black" />,
+    hoverIcon: <TrendingDown className="w-9 h-9 text-white/90" />,
     title: "Reduce",
     subtitle: "Turn Insights into Action",
     description:
@@ -43,7 +43,7 @@ const solutions = [
   },
   {
     icon: <TreePine className="w-9 h-9 text-primary" />,
-    hoverIcon: <TreePine className="w-9 h-9 text-black" />,
+    hoverIcon: <TreePine className="w-9 h-9 text-white/90" />,
     title: "Offset",
     subtitle: "Balance What's Inevitable",
     description:
@@ -110,17 +110,17 @@ export default function SolutionsSection() {
         <div className="flex flex-row flex-wrap justify-center gap-7 mb-8">
           {solutions.map((solution, idx) => (
             <Link
-    key={solution.title}
-    href={solution.href}
-    className={`
+              key={solution.title}
+              href={solution.href}
+              className={`
       group relative rounded-3xl border-2 border-[#EAEAEA] bg-white
       transition-all duration-500 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer
       w-[340px] min-h-[350px] flex flex-col
       no-underline
     `}
-    tabIndex={0}
-    aria-label={`Learn more about ${solution.title}`}
-  >
+              tabIndex={0}
+              aria-label={`Learn more about ${solution.title}`}
+            >
               <div className="p-6 flex flex-col h-full">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="p-3 rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-300 w-fit">
@@ -149,11 +149,11 @@ export default function SolutionsSection() {
                 <div className="flex-1 flex flex-col gap-2 mb-4">
                   {solution.features.map((feature, i) => (
                     <div key={i} className="flex items-baseline gap-2 text-sm">
-  <div className="w-2 h-2 bg-[#78B943] rounded-full flex-shrink-0 mt-1"></div>
-  <span className="text-[#767676] group-hover:text-white/90 transition-colors duration-300 leading-tight">
-    {feature}
-  </span>
-</div>
+                      <div className="w-2 h-2 bg-[#78B943] group-hover:bg-white/90 rounded-full flex-shrink-0 mt-1"></div>
+                      <span className="text-[#767676] group-hover:text-white/90 transition-colors duration-300 leading-tight">
+                        {feature}
+                      </span>
+                    </div>
                   ))}
                 </div>
 

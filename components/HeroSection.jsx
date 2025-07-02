@@ -1,9 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 
 const slides = [
   {
+    image:
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481357/emisison-lab/hero-carousel/78_nbf1ye.jpg",
     headline: (
       <>
         Join us on the Journey to regenerate the Earth
@@ -17,6 +19,8 @@ const slides = [
     secondary: "See our Services",
   },
   {
+    image:
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481892/emisison-lab/hero-carousel/2150196692_p3csru.jpg",
     headline: (
       <>
         Measure. Reduce. Offset.
@@ -32,6 +36,8 @@ const slides = [
     secondary: "Learn How We Help",
   },
   {
+    image:
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481358/emisison-lab/hero-carousel/Green_Simple_Natural_Outdoor_Travel_Vlog_YouTube_Intro_Video_1_pa72rd.jpg",
     headline: (
       <>
         Unlock Your Climate Impact.
@@ -47,6 +53,8 @@ const slides = [
     secondary: "See Our Solutions",
   },
   {
+    image:
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481357/emisison-lab/hero-carousel/8_u6ih0l.png",
     headline: (
       <>
         The Future of Sustainability is Integrated.
@@ -64,9 +72,8 @@ const slides = [
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const videoRef = useRef(null);
 
-  // Slide interval
+  // Slide interval for both image and text
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible(false);
@@ -78,40 +85,30 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Video
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {
-        videoRef.current.muted = true;
-        videoRef.current.play();
-      });
-    }
-  }, []);
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video */}
-      <div className="absolute inset-0 z-0">
-        <video
-  ref={videoRef}
-  autoPlay
-  loop
-  muted
-  playsInline
-  className="w-full h-full object-cover"
->
-  <source src="https://res.cloudinary.com/dmazsiqdy/video/upload/v1750540137/emisison-lab/video-3.mp4" type="video/mp4" />
-  <img
-    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-    alt="Nature background fallback"
-    className="w-full h-full object-cover"
-  />
-</video>
-      </div>
-      {/* gradient overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="w-full h-full bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
-      </div>
+    <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
+      {/* Background Image (fade transition) */}
+      {slides.map((slide, idx) => (
+        <div
+          key={idx}
+          className={`
+            absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out
+            ${currentSlide === idx && isVisible ? "opacity-100" : "opacity-0"}
+          `}
+          aria-hidden={currentSlide !== idx}
+        >
+          <img
+            src={slide.image}
+            alt=""
+            className="w-full h-full object-cover"
+            draggable={false}
+          />
+          {/* gradient overlay */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="w-full h-full bg-gradient-to-r from-black/50 to-black/50" />
+          </div>
+        </div>
+      ))}
 
       <div className="relative z-10 flex flex-1 justify-center items-center w-full min-h-screen">
         <div className="max-w-5xl w-full px-4 py-12 bg-transparent rounded-xl flex flex-col items-center">
@@ -164,9 +161,6 @@ const HeroSection = () => {
               {slides[currentSlide].secondary}
             </button>
           </div>
-          {/* 
-          // If want to re-enable avatars/reviews later
-          */}
         </div>
       </div>
     </section>

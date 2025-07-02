@@ -218,9 +218,9 @@ export default function ContactSection() {
           </div>
           {/* Legal text */}
           <div className="mb-4 text-[#1a3323] text-sm leading-relaxed">
-            By submitting this form, you are consenting to Cloverly contacting
+            By submitting this form, you are consenting to Emission Lab is contacting
             you. For information on how to unsubscribe, as well as our privacy
-            practices and commitment to protecting your privacy, check out our{" "}
+            practices, check out our{" "}
             <a href="#" className="text-[#2357b4] underline">
               Privacy Policy
             </a>

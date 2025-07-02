@@ -105,9 +105,9 @@ export default function AiPage() {
               <h1 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-3 capitalize">
                 AI-Powered <span className="text-primary">Sustainability</span>
               </h1>
-              <p className="font-semibold text-[#767676] text-base sm:text-lg leading-tight mb-4">
+              {/* <p className="font-semibold text-[#767676] text-base sm:text-lg leading-tight mb-4">
                 Smarter Climate Action Starts with Intelligence
-              </p>
+              </p> */}
               <p className="text-base md:text-lg text-[#767676] mb-6 leading-relaxed max-w-xl">
                 We use the power of AI and machine learning to help individuals
                 and businesses make data-driven, impactful climate decisions —

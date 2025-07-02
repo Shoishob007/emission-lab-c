@@ -14,7 +14,7 @@ import {
 const services = [
   {
     icon: <Calculator className="w-9 h-9 text-primary" />,
-    hoverIcon: <Calculator className="w-9 h-9 text-black" />,
+    hoverIcon: <Calculator className="w-9 h-9 text-white/90" />,
     title: "Calculate Emissions",
     description:
       "Track carbon emissions across travel, energy, operations, supply chain, and more. Our tools support individuals, teams, and organizations through intuitive dashboards and robust APIs.",
@@ -26,7 +26,7 @@ const services = [
   },
   {
     icon: <TrendingDown className="w-9 h-9 text-primary" />,
-    hoverIcon: <TrendingDown className="w-9 h-9 text-black" />,
+    hoverIcon: <TrendingDown className="w-9 h-9 text-white/90" />,
     title: "Reduce",
     description:
       "Leverage AI-driven insights to optimize energy use, promote sustainable choices, and guide your journey to lower emissions — backed by automated tracking and actionable tips.",
@@ -38,7 +38,7 @@ const services = [
   },
   {
     icon: <TreePine className="w-9 h-9 text-primary" />,
-    hoverIcon: <TreePine className="w-9 h-9 text-black" />,
+    hoverIcon: <TreePine className="w-9 h-9 text-white/90" />,
     title: "Offset",
     description:
       "Offset unavoidable emissions by supporting verified carbon projects — from forest restoration and renewable energy to clean water and sustainable agriculture.",
@@ -50,7 +50,7 @@ const services = [
   },
   {
     icon: <Shield className="w-9 h-9 text-primary" />,
-    hoverIcon: <Shield className="w-9 h-9 text-black" />,
+    hoverIcon: <Shield className="w-9 h-9 text-white/90" />,
     title: "Enable Integration",
     description:
       "With powerful APIs, we integrate with your existing systems — from logistics to cloud infrastructure — making climate action seamless and intelligent.",
@@ -62,7 +62,7 @@ const services = [
   },
   {
     icon: <Handshake className="w-9 h-9 text-primary" />,
-    hoverIcon: <Handshake className="w-9 h-9 text-black" />,
+    hoverIcon: <Handshake className="w-9 h-9 text-white/90" />,
     title: "Partnering with Business",
     description:
       "With believe, help and row together. We integrate and support Airlines & OTAs, Enterprise Application, Travel & Logistics Platforms.",
@@ -78,7 +78,7 @@ export default function WhatWeDoSection() {
   return (
     <section
       id="what-we-do"
-      className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden"
+      className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden overflow-y-auto"
       style={{
         minHeight: "650px",
         backgroundImage: "url('/city1-rotated.jpg')",

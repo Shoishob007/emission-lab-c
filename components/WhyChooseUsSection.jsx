@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const reasons = [
   "Expert Team with Extensive Environmental Knowledge",
@@ -73,12 +74,13 @@ const WhyChooseUsSection = () => {
               </div>
             ))}
           </div>
+          <Link href="/contact">
           <button
             className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex justify-center items-center gap-2 shadow-lg transition mx-auto sm:mx-0 w-fit"
             type="button"
           >
             Contact Us <ArrowRight className="w-5 h-5" />
-          </button>
+          </button></Link>
         </div>
 
         {/* Right: Images grid */}

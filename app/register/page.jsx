@@ -20,7 +20,7 @@ import {
 } from "@remixicon/react";
 
 // API base URL from env variable
-const API_URL = process.env.NEXT_PUBLIC_API || "https://api.aiemissionlab.com";
+const API_URL = process.env.NEXT_PUBLIC_API;
 
 const Register = () => {
   const [fullName, setFullName] = useState("");

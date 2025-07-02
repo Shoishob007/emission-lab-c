@@ -15,8 +15,8 @@ import Link from "next/link";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useRef, useEffect } from "react";
 
-const IMAGE_EARTH = "/landing-page/sus-3.jpg";
-const IMAGE_ACTION = "/landing-page/sus-3.jpg";
+const IMAGE_EARTH = "/reduce-1.jpg";
+const IMAGE_ACTION = "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481357/emisison-lab/hero-carousel/31052_ngnoj7.jpg";
 
 export default function ReducePage() {
   const steps = [
@@ -124,7 +124,7 @@ export default function ReducePage() {
           </div>
           <div className="relative">
             <img
-              src={IMAGE_EARTH}
+              src={IMAGE_ACTION}
               alt="Reduce emissions"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />

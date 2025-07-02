@@ -66,7 +66,7 @@ export default function ProjectsSection() {
             </h2>
           </div>
           <Link
-            href="/projects"
+            href=""
             className="mt-6 md:mt-0 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition whitespace-nowrap w-fit"
           >
             View All Projects <ArrowRight className="w-5 h-5" />
