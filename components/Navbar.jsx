@@ -33,7 +33,7 @@ const navItems = [
   { name: "Home", href: "/", icon: Home },
   { name: "Calculator", href: "/calculator", icon: Plane },
   { name: "Business", href: "/business", icon: Briefcase },
-  { name: "API", href: "/apiSection", icon: FileCode },
+  { name: "API", href: "/apiPage", icon: FileCode },
   { name: "Blog", href: "/blog", icon: BookOpen },
 ];
 

@@ -77,7 +77,7 @@ const services = [
 export default function WhatWeDoSection() {
   return (
     <section
-    id="what-we-do"
+      id="what-we-do"
       className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden"
       style={{
         minHeight: "650px",
@@ -123,7 +123,7 @@ export default function WhatWeDoSection() {
               className="
                 group relative rounded-3xl border-2 border-[#EAEAEA] bg-white
                 transition-all duration-500 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer
-                w-[340px] min-h-[350px] flex flex-col
+                w-[340px] min-h-[270px] flex flex-col
               "
             >
               <div className="p-6 flex flex-col h-full">
@@ -155,18 +155,6 @@ export default function WhatWeDoSection() {
                     </div>
                   ))}
                 </div> */}
-
-                <div className="mt-auto flex justify-end">
-                  <span
-                    className="
-                    font-semibold text-btn-primary group-hover:text-white 
-                    transition-colors duration-300 flex items-center
-                  "
-                  >
-                    Read More
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                  </span>
-                </div>
               </div>
             </div>
           ))}

@@ -46,13 +46,13 @@ const HomeSection = () => {
       <AiSection />
       <ApiSection />
       <WhatWeDoSection />
-      <HowItWorksSection />
+      {/* <HowItWorksSection /> */}
       <WhyChooseUsSection />
       <ProjectsSection />
       <BlogSection />
       <FaqSection />
       <AboutSection />
-      <ServicesSection />
+      {/* <ServicesSection /> */}
       <FactsAndEnvironmentSection />
       {/* <FactsSection /> */}
       {/* <DonateSection /> */}
@@ -60,8 +60,6 @@ const HomeSection = () => {
       {/* <PricingSection /> */}
 
       <ContactSection />
-      <FooterSection />
-
       {/* Scroll to Top Button */}
       {showScrollTop && (
         <Button

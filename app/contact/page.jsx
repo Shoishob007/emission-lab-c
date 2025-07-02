@@ -56,16 +56,6 @@ export default function Contact() {
               <div className="text-[#1a3323] text-base">hello@elab.com</div>
             </div>
             <div className="rounded-lg bg-white px-6 py-5">
-              <div className="font-semibold text-[#1a3323] mb-1">
-                Project Listing
-              </div>
-              <div className="text-[#1a3323] text-base">suppliers@elab.com</div>
-            </div>
-            <div className="rounded-lg bg-white px-6 py-5">
-              <div className="font-semibold text-[#1a3323] mb-1">Sales</div>
-              <div className="text-[#1a3323] text-base">sales@elab.com</div>
-            </div>
-            <div className="rounded-lg bg-white px-6 py-5">
               <div className="font-semibold text-[#1a3323] mb-1">Support</div>
               <div className="text-[#1a3323] text-base">support@elab.com</div>
             </div>

@@ -40,8 +40,8 @@ const projects = [
 
 const flow = [
   {
-    icon: <Settings className="w-7 h-7 text-primary" />,
-    color: "text-primary",
+    icon: <Settings className="w-7 h-7 text-secondary" />,
+    color: "text-secondary",
     title: "Calculate",
     desc: "Estimate your emissions for free.",
   },
@@ -52,20 +52,20 @@ const flow = [
     desc: "Get tailored offset suggestions.",
   },
   {
-    icon: <Globe2 className="w-7 h-7 text-[#FFA726]" />,
-    color: "text-[#FFA726]",
+    icon: <Globe2 className="w-7 h-7 text-secondary" />,
+    color: "text-secondary",
     title: "Choose",
     desc: "Pick a project or let us auto-match.",
   },
   {
-    icon: <HandCoins className="w-7 h-7 text-[#43cea2]" />,
-    color: "text-[#43cea2]",
+    icon: <HandCoins className="w-7 h-7 text-secondary" />,
+    color: "text-secondary",
     title: "Contribute",
     desc: "Support with one-time or recurring payment.",
   },
   {
-    icon: <CheckCircle2 className="w-7 h-7 text-[#8b5cf6]" />,
-    color: "text-[#8b5cf6]",
+    icon: <CheckCircle2 className="w-7 h-7 text-secondary" />,
+    color: "text-secondary",
     title: "Get Certified",
     desc: "Receive certificates & track offset history.",
   },
@@ -85,7 +85,7 @@ export default function OffsetPage() {
               Offset
             </span>
           </div>
-          <h1 className="font-bold text-center text-[#163820] text-3xl sm:text-4xl leading-tight mb-3">
+          <h1 className="font-bold text-center text-[#163820] text-3xl sm:text-4xl leading-tight mb-3 capitalize">
             Even after{" "}
             <span className="text-primary">reducing your emissions</span>, some
             carbon output is unavoidable.
@@ -141,8 +141,8 @@ export default function OffsetPage() {
                 How to Offset
               </span>
             </div>
-            <h2 className="font-bold text-[#163820] text-center text-2xl sm:text-3xl mb-6">
-              Offset your <span className="text-primary">footprint</span> in a
+            <h2 className="font-bold text-[#163820] text-center text-2xl sm:text-3xl mb-6 capitalize">
+              Offset your <span className="text-primary">emission</span> in a
               few simple steps
             </h2>
             <OffsetTimeline steps={flow} />
@@ -161,7 +161,7 @@ export default function OffsetPage() {
                   Our Projects
                 </span>
               </div>
-              <h2 className="font-bold text-[#163820] text-2xl sm:text-3xl mb-2">
+              <h2 className="font-bold text-[#163820] text-2xl sm:text-3xl mb-2 capitalize">
                 Verified.{" "}
                 <span className="text-[#37c048]">Transparent. Impactful</span>
               </h2>
@@ -177,9 +177,6 @@ export default function OffsetPage() {
               <Link
                 href="/projects"
                 className="mt-5 inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ffb84d] text-white font-bold text-base transition whitespace-nowrap shadow"
-                style={{
-                  fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
-                }}
               >
                 See More Projects <ArrowRight className="w-5 h-5 text-white" />
               </Link>
@@ -204,7 +201,7 @@ export default function OffsetPage() {
                 Your action. Global impact.
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center capitalize">
               Every Action Plants a Seed{" "}
               <span className="text-primary">for Tomorrow</span>
             </h2>
@@ -219,7 +216,7 @@ export default function OffsetPage() {
         {/* CTA SECTION */}
         <div className="w-full flex flex-col items-center justify-center mb-2">
           <div className="bg-primary/20 border border-[#e2f0e4] rounded-3xl py-10 px-6 shadow flex flex-col items-center w-full max-w-2xl mx-auto">
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center">
+            <h3 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center capitalize">
               Take Responsibility. Make a Difference.
             </h3>
             <p className="text-[#767676] text-lg text-center mb-6">

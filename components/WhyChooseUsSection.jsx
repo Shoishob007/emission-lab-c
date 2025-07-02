@@ -61,7 +61,7 @@ const WhyChooseUsSection = () => {
             environmental solutions. Our team of experts helps you minimize
             environmental impact.
           </p>
-          <div className="bg-[#F7F7F7] rounded-2xl py-7 px-8 mb-8 flex flex-col gap-5">
+          <div className="bg-[#F7F7F7] rounded-2xl py-7 px-4 mb-8 flex flex-col gap-5">
             {reasons.map((reason, i) => (
               <div key={i} className="flex items-center gap-3">
                 <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#FFA7261A]">

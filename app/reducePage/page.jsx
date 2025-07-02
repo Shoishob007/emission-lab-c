@@ -21,22 +21,22 @@ const IMAGE_ACTION = "/landing-page/sus-3.jpg";
 export default function ReducePage() {
   const steps = [
     {
-      icon: <BarChart3 className="w-7 h-7 text-[#387cf3]" />,
+      icon: <BarChart3 className="w-7 h-7 text-secondary" />,
       title: "Analyze your data",
       desc: "Finds your high-emission areas and top opportunities.",
     },
     {
-      icon: <Route className="w-7 h-7 text-[#43cea2]" />,
+      icon: <Route className="w-7 h-7 text-secondary" />,
       title: "Suggests pathways",
       desc: "Custom reduction strategies tailored to your profile.",
     },
     {
-      icon: <Plane className="w-7 h-7 text-[#FFA726]" />,
+      icon: <Plane className="w-7 h-7 text-secondary" />,
       title: "Low-carbon travel",
       desc: "Helps you choose smarter travel options.",
     },
     {
-      icon: <ListChecks className="w-7 h-7 text-[#8b5cf6]" />,
+      icon: <ListChecks className="w-7 h-7 text-secondary" />,
       title: "Real carbon savings",
       desc: "Actionable alternatives, best practices, and tracking.",
     },
@@ -68,7 +68,7 @@ export default function ReducePage() {
                 Reduce
               </span>
             </div>
-            <h1 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-3">
+            <h1 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-3 capitalize">
               After understanding your carbon footprint,{" "}
               <span className="text-primary">take action to reduce it.</span>
             </h1>
@@ -103,7 +103,7 @@ export default function ReducePage() {
                 Why is Reducing Emissions Important?
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 capitalize">
               Measuring is good,{" "}
               <span className="text-primary">Reducing is vital</span>
             </h2>
@@ -149,12 +149,7 @@ export default function ReducePage() {
                 </span>
               </div>
               <h2
-                className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight mb-4 capitalize"
-                style={{
-                  fontFamily: '"Montserrat", Arial, Helvetica, sans-serif',
-                  letterSpacing: 0,
-                  lineHeight: 1.18,
-                }}
+                className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 capitalize"
               >
                 Turn <span className="text-primary">insight</span> into{" "}
                 <span className="text-primary">action</span>
@@ -192,7 +187,7 @@ export default function ReducePage() {
                 Small steps. Big impact.
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center capitalize">
               Simple changes,{" "}
               <span className="text-primary">meaningful results</span>
             </h2>

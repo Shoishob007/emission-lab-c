@@ -58,7 +58,7 @@ const Register = () => {
     passwordStrength === "strong" || passwordStrength === "medium";
   const isConfirmValid = confirmPassword === password && password.length > 0;
 
-  // Registration API call
+  // API call
   const registerUser = async ({ email, name, password, phone }) => {
     const res = await fetch(`${API_URL}/api/users/register/`, {
       method: "POST",
@@ -71,7 +71,7 @@ const Register = () => {
         role: "individual",
       }),
     });
-    // handle error
+    // error
     if (!res.ok) {
       let error = "Registration failed";
       try {
@@ -96,8 +96,7 @@ const Register = () => {
       setPassword("");
       setConfirmPassword("");
       setTimeout(() => setSuccess(false), 3000);
-      // Optionally redirect to login page
-      // router.push("/login");
+      router.push("/");
     } catch (err) {
       setApiError(err.message);
     } finally {
