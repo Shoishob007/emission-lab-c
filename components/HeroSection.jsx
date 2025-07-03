@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const slides = [
   {
@@ -15,8 +16,8 @@ const slides = [
     ),
     subheading:
       "The all-in-one platform led you to a mission to drive the Erach Renewal Initiatives, restoring the balance between people, purpose, and the planet",
-    primary: "Learn How We Help",
-    secondary: "See our Services",
+    primary: { text: "Learn How We Help", href: "#about" },
+    secondary: { text: "See our Services", href: "#" },
   },
   {
     image:
@@ -32,8 +33,8 @@ const slides = [
     ),
     subheading:
       "Empowering individuals, businesses, and organizations to easily understand and manage their carbon footprint for a greener planet.",
-    primary: "Calculate Your Footprint Now",
-    secondary: "Learn How We Help",
+    primary: { text: "Calculate Your Footprint Now", href: "/calculator" },
+    secondary: { text: "Learn How We Help", href: "#" },
   },
   {
     image:
@@ -49,8 +50,8 @@ const slides = [
     ),
     subheading:
       "Discover precisely where your emissions come from, gain actionable insights to reduce them, and contribute to verified climate protection projects.",
-    primary: "Start Your Journey",
-    secondary: "See Our Solutions",
+    primary: { text: "Start Your Journey", href: "/login" },
+    secondary: { text: "See Our Solutions", href: "#" },
   },
   {
     image:
@@ -64,8 +65,8 @@ const slides = [
     ),
     subheading:
       "Empower your applications with our robust API suite and drive measurable climate action and fostering a greener digital ecosystem.",
-    primary: "Explore Our APIs",
-    secondary: "View Documentation",
+    primary: { text: "Explore Our APIs", href: "/apiPage" },
+    secondary: { text: "View Documentation", href: "/apiPage" },
   },
 ];
 
@@ -153,13 +154,19 @@ const HeroSection = () => {
             `}
             key={currentSlide + "-cta"}
           >
-            <button className="inline-flex items-center px-7 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none">
-              {slides[currentSlide].primary}
+            <Link
+              href={slides[currentSlide].primary.href}
+              className="inline-flex items-center px-7 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
+            >
+              {slides[currentSlide].primary.text}
               <ArrowRight className="ml-2 w-5 h-5" />
-            </button>
-            <button className="inline-flex items-center px-7 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none">
-              {slides[currentSlide].secondary}
-            </button>
+            </Link>
+            <Link
+              href={slides[currentSlide].secondary.href}
+              className="inline-flex items-center px-7 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
+            >
+              {slides[currentSlide].secondary.text}
+            </Link>
           </div>
         </div>
       </div>
@@ -167,4 +174,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default HeroSection

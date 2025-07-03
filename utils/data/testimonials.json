@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Roshan Singh",
+    "role": "General Manager",
+    "company": "Logoipsum",
+    "companyLogo": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
+    "groupImage": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
+    "quote": "Their sustainability initiatives have truly made a difference! Proud to support their efforts for a greener planet. Innovative solutions that bring real environmental impact. Their work in water conservation is outstanding. Implementing their green practices in my business has been a game-changer. Highly recommended!",
+    "rating": 5
+  },
+  {
+    "name": "Sarah Johnson",
+    "role": "Head of Sustainability",
+    "company": "Eco Partners",
+    "companyLogo": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
+    "groupImage": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
+    "quote": "The dedication and innovation from this team helped us reach our sustainability goals faster than we thought possible. Their platform is intuitive and reliable.",
+    "rating": 5
+  },
+  {
+    "name": "Michael Chen",
+    "role": "Sustainability Analyst",
+    "company": "GreenTech",
+    "companyLogo": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+    "groupImage": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
+    "quote": "Working with them has opened new doors for us. The carbon tracking tools are state-of-the-art and their team is always ready to help.",
+    "rating": 5
+  },
+  {
+    "name": "Emma Rodriguez",
+    "role": "Chief Operations Officer",
+    "company": "Sustainable Ventures",
+    "companyLogo": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
+    "groupImage": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80",
+    "quote": "Their API integration made it seamless to embed sustainability into our core operations. The impact on our business and the environment has been incredible.",
+    "rating": 5
+  }
+]
