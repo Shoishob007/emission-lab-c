@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import faqs from '@/utils/data/faqs.json'
 
 const FaqSection = () => {
   const [openItems, setOpenItems] = useState([0]);
@@ -12,41 +13,6 @@ const FaqSection = () => {
         : [...prev, index]
     );
   };
-
-  const faqs = [
-    {
-      question: "How accurate are your carbon footprint calculations?",
-      answer: "Our calculations are based on internationally recognized methodologies and updated emission factors from leading climate research institutions. We achieve 95%+ accuracy for most calculations and continuously improve our algorithms based on the latest scientific data."
-    },
-    {
-      question: "What types of carbon offset projects do you support?",
-      answer: "We support verified projects across multiple categories including renewable energy, reforestation, methane capture, and community-based initiatives. All projects are certified by recognized standards like Gold Standard, VCS, or CDM."
-    },
-    {
-      question: "How can I integrate your API into my business?",
-      answer: "Our RESTful API is designed for easy integration with comprehensive documentation, SDKs for popular programming languages, and dedicated developer support. Most implementations can be completed within a few hours."
-    },
-    {
-      question: "Do you offer solutions for large enterprises?",
-      answer: "Yes, we provide enterprise-grade solutions including custom integrations, dedicated support, advanced reporting, and white-label options. Contact our enterprise team for a tailored solution."
-    },
-    {
-      question: "How do you ensure the quality of offset projects?",
-      answer: "We conduct thorough due diligence on all projects, including on-site verification, third-party audits, and continuous monitoring. We only work with projects that meet stringent additionality and permanence criteria."
-    },
-    {
-      question: "Can I track the impact of my contributions?",
-      answer: "Absolutely! Our platform provides detailed tracking and reporting on your environmental impact, including real-time project updates, impact metrics, and personalized sustainability insights."
-    },
-    {
-      question: "What is your pricing model?",
-      answer: "We offer flexible pricing based on usage, from individual subscriptions to enterprise packages. Carbon offsets are priced competitively starting from $15 per ton of CO₂, with volume discounts available."
-    },
-    {
-      question: "How does your AI-powered recommendation system work?",
-      answer: "Our AI analyzes your carbon footprint data, lifestyle patterns, and industry benchmarks to provide personalized recommendations. The system learns from your actions and continuously optimizes suggestions for maximum impact."
-    }
-  ];
 
   return (
     <section id="faq"
@@ -100,7 +66,7 @@ const FaqSection = () => {
                   </button>
                   
                   {openItems.includes(index) && (
-                    <div className="px-6 pb-6 animate-fadeInUp">
+                    <div className="px-6 pt-2 pb-2 animate-fadeInUp">
                       <p className="text-muted-foreground leading-relaxed">
                         {faq.answer}
                       </p>

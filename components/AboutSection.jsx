@@ -26,30 +26,7 @@ function YearsBadge() {
       }}
       className="select-none"
     >
-      <span
-        style={{
-          display: "block",
-          fontWeight: 700,
-          fontSize: "1.4rem",
-          color: "#fff",
-        }}
-      >
-        25+
-      </span>
-      <span
-        style={{
-          fontWeight: 500,
-          color: "#fff",
-          fontSize: "0.85rem",
-          marginTop: 0,
-          lineHeight: 1.3,
-          display: "block",
-        }}
-      >
-        Years of
-        <br />
-        experience
-      </span>
+      <img src="/carbon-Fav.png" alt="fav-icon" className="w-12" />
     </div>
   );
 }

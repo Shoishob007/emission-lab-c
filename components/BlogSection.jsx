@@ -1,43 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import { ArrowRight, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import blogPostsJson from "@/utils/data/blog.json";
 
-const blogPosts = [
-  {
-    title: "How to Reduce Plastic Waste",
-    excerpt:
-      "Discover simple and effective ways to cut down on plastic waste in your daily life. From using reusable bags.",
-    image: "/landing-page/plastic.jpg",
-    link: "#",
-    date: "Coming Soon",
-    author: "Jane Doe",
-    category: "blog",
-    subCategory: "environmental",
-  },
-  {
-    title: "Future of Renewable Energy",
-    excerpt:
-      "Discover simple and effective ways to cut down on plastic waste in your daily life. From using reusable bags.",
-    image: "/landing-page/renewable-energy-project-2.jpg",
-    link: "#",
-    date: "Coming Soon",
-    author: "Michael Lee",
-    category: "news",
-    subCategory: "renewables",
-  },
-  {
-    title: "Eco-Friendly Gardening",
-    excerpt:
-      "Discover simple and effective ways to cut down on plastic waste in your daily life. From using reusable bags.",
-    image: "/landing-page/eco-friendly-gardening.jpg",
-    link: "#",
-    date: "Coming Soon",
-    author: "Sara Green",
-    category: "blog",
-    subCategory: "community",
-  },
-];
+const blogPosts = blogPostsJson.slice(0, 3);
 
 export default function BlogSection() {
   return (
@@ -63,10 +31,8 @@ export default function BlogSection() {
                 Latest Articles
               </span>
             </div>
-            <h2
-              className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize"
-            >
-              Recent articles and updates {" "}
+            <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize">
+              Recent articles and updates{" "}
               <br className="hidden sm:block" />
               on{" "}
               <span className="text-primary">
@@ -76,13 +42,13 @@ export default function BlogSection() {
           </div>
           <div className="flex-1 flex justify-end w-full">
             <Link href="/blog">
-            <Button
-              size="lg"
-              className="bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base px-8 py-3 rounded-lg shadow-lg transition flex items-center gap-2 mx-auto sm:mx-0 sm:w-fit"
-              type="button"
-            >
-              View All Articles <ArrowRight className="w-5 h-5" />
-            </Button>
+              <Button
+                size="lg"
+                className="bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base px-8 py-3 rounded-lg shadow-lg transition flex items-center gap-2 mx-auto sm:mx-0 sm:w-fit"
+                type="button"
+              >
+                View All Articles <ArrowRight className="w-5 h-5" />
+              </Button>
             </Link>
           </div>
         </div>

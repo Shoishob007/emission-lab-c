@@ -1,69 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
+import testimonials from "@/utils/data/testimonials.json";
 
-const testimonials = [
-  {
-    name: "Roshan Singh",
-    role: "General Manager",
-    company: "Logoipsum",
-    companyLogo:
-      "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
-    image:
-      "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
-    groupImage:
-      "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
-    quote:
-      "Their sustainability initiatives have truly made a difference! Proud to support their efforts for a greener planet. Innovative solutions that bring real environmental impact. Their work in water conservation is outstanding. Implementing their green practices in my business has been a game-changer. Highly recommended!",
-    rating: 5,
-  },
-  {
-    name: "Sarah Johnson",
-    role: "Head of Sustainability",
-    company: "Eco Partners",
-    companyLogo:
-      "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
-    image:
-      "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
-    groupImage:
-      "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
-    quote:
-      "The dedication and innovation from this team helped us reach our sustainability goals faster than we thought possible. Their platform is intuitive and reliable.",
-    rating: 5,
-  },
-  {
-    name: "Michael Chen",
-    role: "Sustainability Analyst",
-    company: "GreenTech",
-    companyLogo:
-      "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-    groupImage:
-      "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
-    quote:
-      "Working with them has opened new doors for us. The carbon tracking tools are state-of-the-art and their team is always ready to help.",
-    rating: 5,
-  },
-  {
-    name: "Emma Rodriguez",
-    role: "Chief Operations Officer",
-    company: "Sustainable Ventures",
-    companyLogo:
-      "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
-    image:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
-    groupImage:
-      "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80",
-    quote:
-      "Their API integration made it seamless to embed sustainability into our core operations. The impact on our business and the environment has been incredible.",
-    rating: 5,
-  },
-];
-
-// Set a fixed hero image for the left
+// fixed image
 const fixedImage = "/landing-page/testimonial.jpg";
+
 export default function TestimonialsSection() {
   const [current, setCurrent] = useState(0);
 
@@ -148,26 +92,24 @@ export default function TestimonialsSection() {
             <FcGoogle size={32} title="Google" />
             <div className="flex items-center gap-1">
               {stars.map((_, i) => (
-                <svg
+                <Star
                   key={i}
-                  width="18"
-                  height="18"
+                  width={18}
+                  height={18}
                   fill="#FFA726"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 17.75L6.16 21l1.13-6.62L2 9.99l6.66-.97L12 3.75l3.34 5.27 6.66.97-4.8 4.4L17.84 21z" />
-                </svg>
+                  stroke="#FFA726"
+                />
               ))}
             </div>
             <div className="text-orange-500 text-base font-semibold ml-2">
-              5.00 Customer Review
+              5-star Customer Review
             </div>
           </div>
         </div>
 
-        {/* Main testimonial card */}
+        {/* Main testimonial */}
         <div className="mt-8 w-full flex flex-col lg:flex-row items-stretch justify-center gap-10">
-          {/* Fixed Hero Image */}
+          {/* Fixed Image */}
           <div className="flex-1 flex justify-center items-center min-w-[340px]">
             <div className="rounded-2xl overflow-hidden shadow-lg w-full max-w-[420px] h-[340px] bg-green-50/40 flex items-center justify-center">
               <img
@@ -191,9 +133,15 @@ export default function TestimonialsSection() {
               </span>
             </div>
             <div className="flex gap-2 items-center mb-3">
-              <svg width="28" height="28" fill="#FFA726" viewBox="0 0 24 24">
-                <path d="M17.65 17.65q-1.05 0-1.8-.75T15.1 15.1q0-1.05.75-1.8t1.8-.75q1.05 0 1.8.75t.75 1.8q0 1.05-.75 1.8t-1.8.75Zm-11.3 0q-1.05 0-1.8-.75T3.8 15.1q0-1.05.75-1.8t1.8-.75q1.05 0 1.8.75t.75 1.8q0 1.05-.75 1.8t-1.8.75Z" />
-              </svg>
+              {[...Array(testimonials[current].rating)].map((_, i) => (
+                <Star
+                  key={i}
+                  width={16}
+                  height={16}
+                  fill="#FFA726"
+                  stroke="#FFA726"
+                />
+              ))}
             </div>
             <blockquote className="text-[#163820] text-base md:text-lg leading-relaxed mb-4">
               &quot;{testimonials[current].quote}&quot;
