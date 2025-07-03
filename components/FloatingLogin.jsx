@@ -302,7 +302,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                       )}
                     </Button>
                     {/* Social logins */}
-                    <div className="flex flex-col text-white gap-3 mt-4">
+                    {/* <div className="flex flex-col text-white gap-3 mt-4">
                       <button
                         type="button"
                         className="w-full h-12 rounded-lg text-base font-bold bg-[#DB4437] hover:bg-[#c1351a] flex items-center justify-center gap-2 shadow-none transition-all"
@@ -330,7 +330,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                         <RiFacebookFill size={20} className="mr-2" />
                         Login with Facebook
                       </button>
-                    </div>
+                    </div> */}
                   </form>
                 </div>
               </div>
@@ -510,7 +510,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                       )}
                     </Button>
                     {/* Social logins */}
-                    <div className="flex flex-col text-white gap-3 mt-4">
+                    {/* <div className="flex flex-col text-white gap-3 mt-4">
                       <button
                         type="button"
                         className="w-full h-12 rounded-lg text-base font-bold bg-[#DB4437] hover:bg-[#c1351a] flex items-center justify-center gap-2 shadow-none transition-all"
@@ -538,7 +538,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                         <RiFacebookFill size={20} className="mr-2" />
                         Sign up with Facebook
                       </button>
-                    </div>
+                    </div> */}
                   </form>
                 </div>
               </div>

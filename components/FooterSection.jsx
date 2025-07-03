@@ -1,6 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import { Leaf, MapPin, Phone, Mail } from "lucide-react";
-import { FaPinterestP, FaXTwitter, FaFacebookF, FaInstagram } from "react-icons/fa6";
+import {
+  FaPinterestP,
+  FaXTwitter,
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedin,
+} from "react-icons/fa6";
 
 const FooterSection = () => {
   return (
@@ -61,71 +67,74 @@ const FooterSection = () => {
             </span>
             <div>
               <div className="font-bold text-white">E-Mail</div>
-              <div className="text-green-100 text-sm">info@elab.com</div>
+              <div className="text-green-100 text-sm">
+                info@aiemissionlab.com
+              </div>
             </div>
           </div>
         </div>
 
         <hr className="border-green-900 mb-8" />
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-10">
           {/* About */}
           <div>
             <div className="font-bold text-lg mb-4">About Company</div>
             <p className="text-green-100 mb-4 text-sm">
-              Join us in making a lasting impact on our planet. Together, we can
-              protect nature, reduce our carbon footprint.
+              <span className="font-semibold">Emission Lab</span> is a
+              climate-tech initiative born from urgency — and driven by hope.
+              Join us on the journey to regenerate the Earth — powered by
+              purpose, driven by data.
             </p>
             <div className="flex gap-3">
-      <a
-        href="#"
-        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
-        title="X"
-      >
-        <FaXTwitter className="w-4 h-4" />
-      </a>
-      <a
-        href="#"
-        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
-        title="Facebook"
-      >
-        <FaFacebookF className="w-4 h-4" />
-      </a>
-      <a
-        href="#"
-        className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
-        title="Instagram"
-      >
-        <FaInstagram className="w-4 h-4" />
-      </a>
-    </div>
+              <a
+                href="https://www.linkedin.com/company/emission-lab/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
+                title="LinkedIn"
+              >
+                <FaLinkedin className="w-4 h-4" />
+              </a>
+              <a
+                href="https://www.facebook.com/profile.php?id=61576672107476"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
+                title="Facebook"
+              >
+                <FaFacebookF className="w-4 h-4" />
+              </a>
+              {/* <a
+                href="#"
+                className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
+                title="Instagram"
+              >
+                <FaInstagram className="w-4 h-4" />
+              </a> */}
+            </div>
           </div>
           {/* Quick Link */}
           <div>
             <div className="font-bold text-lg mb-4">Quick Link</div>
             <ul className="space-y-2 text-green-100 text-sm">
               <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
+                <a href="/" className="hover:text-[#3BBF4A] transition">
                   Home
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
-                  About Us
+                <a href="/calculator" className="hover:text-[#3BBF4A] transition">
+                  Calculators
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
+                <a href="/projectsPage" className="hover:text-[#3BBF4A] transition">
                   Projects
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
+                <a href="/blog" className="hover:text-[#3BBF4A] transition">
                   Latest Blog
                 </a>
               </li>
@@ -136,28 +145,23 @@ const FooterSection = () => {
             <div className="font-bold text-lg mb-4">Services</div>
             <ul className="space-y-2 text-green-100 text-sm">
               <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
-                  Energy Solutions
+                <a href="/calculatorPage" className="hover:text-[#3BBF4A] transition">
+                  Your CO2 Footprint
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
-                  Water Conservation
+                <a href="/apiPage" className="hover:text-[#3BBF4A] transition">
+                  Api Documentation
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
-                  Waste Management
+                <a href="/offsetPage" className="hover:text-[#3BBF4A] transition">
+                  Want to Offset?
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
-                  Biodiversity Protection
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-[#3BBF4A] transition">
-                  Green Technology
+                <a href="/business" className="hover:text-[#3BBF4A] transition">
+                  Business Scopes
                 </a>
               </li>
             </ul>

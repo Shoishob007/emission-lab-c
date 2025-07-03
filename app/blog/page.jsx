@@ -220,9 +220,9 @@ useEffect(() => {
                     {/* Excerpt with word limit */}
                     {getExcerpt(post.excerpt, WORD_LIMIT)}
                   </div>
-                  <span className="text-[#163820] font-semibold text-sm mb-3">
+                  {/* <span className="text-[#163820] font-semibold text-sm mb-3">
                     {post.author}
-                  </span>
+                  </span> */}
                   <Link
                     href={`/blog/${post.id}`}
                     className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-sm w-fit"

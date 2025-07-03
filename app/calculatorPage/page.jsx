@@ -57,7 +57,7 @@ export default function CalcPage() {
         <div className="grid md:grid-cols-[320px_1fr] gap-8 md:gap-16 mb-16 items-center">
           <div className="relative">
             <img
-              src="/landing-page/sus-3.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751543740/emisison-lab/hero-carousel/2150196640_a3fuvi.jpg"
               alt="Carbon Footprint"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -140,7 +140,7 @@ export default function CalcPage() {
           </div>
           <div className="relative">
             <img
-              src="/landing-page/sus-3.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751543740/emisison-lab/hero-carousel/2148997061_nmspea.jpg"
               alt="Earth climate change"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -199,7 +199,7 @@ export default function CalcPage() {
             {/* Desktop image - left column */}
             <div className="hidden md:block">
               <img
-                src="/landing-page/sus-3.jpg"
+                src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751543740/emisison-lab/hero-carousel/2151262650_sytshg.jpg"
                 alt="Offset and reduce"
                 className="rounded-full w-full object-cover aspect-square bg-white shadow"
               />
@@ -244,7 +244,7 @@ export default function CalcPage() {
               {/* Mobile image, after content */}
               <div className="mt-6 md:hidden">
                 <img
-                  src="/landing-page/sus-3.jpg"
+                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751543740/emisison-lab/hero-carousel/2151262650_sytshg.jpg"
                   alt="Offset and reduce"
                   className="rounded-full w-full aspect-square object-cover bg-white shadow"
                 />

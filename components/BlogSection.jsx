@@ -124,9 +124,9 @@ export default function BlogSection() {
                     ? post.excerpt.replace(/<[^>]+>/g, '').slice(0, 180) + (post.excerpt.length > 180 ? '...' : '')
                     : ""}
                 </p>
-                <span className="text-[#163820] font-semibold text-base mb-5">
+                {/* <span className="text-[#163820] font-semibold text-base mb-5">
                   {post.author}
-                </span>
+                </span> */}
                 <Link
                   href={`/blog/${post.id}`}
                   className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-base w-fit"
@@ -171,9 +171,9 @@ export default function BlogSection() {
                     ? blogPosts[0].excerpt.replace(/<[^>]+>/g, '').slice(0, 200) + (blogPosts[0].excerpt.length > 200 ? '...' : '')
                     : ""}
                 </p>
-                <span className="text-[#163820] font-semibold text-base mb-5">
+                {/* <span className="text-[#163820] font-semibold text-base mb-5">
                   {blogPosts[0].author}
-                </span>
+                </span> */}
                 <Link
                   href={`/blog/${blogPosts[0].id}`}
                   className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-base w-fit"
@@ -215,14 +215,14 @@ export default function BlogSection() {
                   <h3 className="text-lg font-bold text-[#163820] mb-2">
                     {post.title}
                   </h3>
-                  <p className="text-[#767676] text-sm mb-2 line-clamp-4">
+                  <p className="text-[#767676] text-sm mb-4 line-clamp-4">
                     {typeof post.excerpt === "string"
                       ? post.excerpt.replace(/<[^>]+>/g, '').slice(0, 110) + (post.excerpt.length > 110 ? '...' : '')
                       : ""}
                   </p>
-                  <span className="text-[#163820] font-semibold text-sm mb-2">
+                  {/* <span className="text-[#163820] font-semibold text-sm mb-2">
                     {post.author}
-                  </span>
+                  </span> */}
                   <Link
                     href={`/blog/${post.id}`}
                     className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-sm w-fit"
