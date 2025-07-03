@@ -387,7 +387,7 @@ const Register = () => {
                 {success ? "🎉 Welcome to Emission Lab!" : "Ready To Go!"}
               </span>
             </button>
-            <button
+            {/* <button
               type="button"
               className={`${btnBase} !bg-[#DB4437] !from-[#DB4437] !to-[#DB4437]`}
               aria-label="Login with Google"
@@ -416,7 +416,7 @@ const Register = () => {
                 <RiFacebookFill size={18} aria-hidden="true" />
               </span>
               Register with Facebook
-            </button>
+            </button> */}
           </div>
           <p className="text-center mt-6 text-gray-600 text-sm">
             Already have an account?{" "}

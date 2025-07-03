@@ -55,11 +55,11 @@ export default function ContactSection() {
               <div className="font-semibold text-[#1a3323] mb-1">
                 General Inquiries
               </div>
-              <div className="text-[#1a3323] text-base">hello@elab.com</div>
+              <div className="text-[#1a3323] text-base">hello@aiemissionlab.com</div>
             </div>
             <div className="rounded-lg bg-white px-6 py-5">
-              <div className="font-semibold text-[#1a3323] mb-1">Support</div>
-              <div className="text-[#1a3323] text-base">support@elab.com</div>
+              <div className="font-semibold text-[#1a3323] mb-1">Sales</div>
+              <div className="text-[#1a3323] text-base">sales@aiemissionlab.com</div>
             </div>
           </div>
           {/* Technical Help */}

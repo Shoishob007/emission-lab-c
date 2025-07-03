@@ -237,6 +237,12 @@
   background: hsl(var(--primary) / 0.8);
 }
 
+pre, code {
+  white-space: pre-wrap !important;
+  word-break: break-word;
+  /* optional: for better wrapping of long words/lines */
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;

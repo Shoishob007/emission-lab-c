@@ -10,7 +10,7 @@ import {
   Check,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FloatingLoginModal } from "@/components/FloatingLogin";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -64,6 +64,8 @@ const devFriendly = [
 export default function ApiSection() {
   const { data: session } = useSession();
   const [showLoginModal, setShowLoginModal] = useState(false);
+    const postmanRef = useRef(null);
+
 
   const router = useRouter();
 
@@ -72,7 +74,8 @@ export default function ApiSection() {
       e.preventDefault();
       setShowLoginModal(true);
     } else {
-      router.push("/contact");
+            postmanRef.current?.click();
+
     }
   };
 
@@ -83,7 +86,7 @@ export default function ApiSection() {
         <div className="grid md:grid-cols-[320px_1fr] gap-8 md:gap-16 mb-16 items-center">
           <div className="relative">
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539583/emisison-lab/api-1_rmis3r.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751544262/emisison-lab/hero-carousel/2148233377_pvxjm0.jpg"
               alt="API Integration"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -251,15 +254,15 @@ export default function ApiSection() {
         </div>
 
         {/* 5. CTA SECTION */}
-        <div className="w-full mt-20 mb-10 flex justify-center">
+        {/* <div className="w-full mt-20 mb-10 flex justify-center">
           <img
             src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751540266/emisison-lab/flow_davk1v.png"
             alt="Website Sitemap"
             className="w-full max-w-4xl rounded-xl shadow-md border border-gray-200"
           />
-        </div>
+        </div> */}
 
-        <div className="w-full flex flex-col items-center justify-center mb-2">
+        <div className="w-full flex flex-col items-center justify-center mb-2 mt-20">
           <div className="bg-primary/20 border border-[#e2f0e4] rounded-3xl py-10 px-2 sm:px-6 shadow flex flex-col items-center w-full max-w-2xl mx-auto">
             <h3 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center capitalize">
               Ready to Build with Our API?
@@ -268,14 +271,21 @@ export default function ApiSection() {
               👉 Get started today and bring carbon intelligence to your
               application.
             </p>
-            <button
-            className="inline-flex items-center gap-3 bg-[#FFA726] hover:bg-[#ffb84d] transition text-white font-bold py-3 px-4 sm:px-8 rounded-full text-lg shadow-lg shadow-[#FFA72633] focus:ring-4 focus:ring-[#FFA72644] animate-bounce"
-            style={{ letterSpacing: "0.02em" }}
-            onClick={handleClick}
-            type="button"
-          >
-            Postman Documentation <ArrowRight className="w-5 h-5" />
-          </button>
+            <a
+          href="https://documenter.getpostman.com/view/22788049/2sB2xBEVzP"
+          target="_blank"
+          rel="noopener noreferrer"
+          ref={postmanRef}
+          style={{ display: "none" }}
+        />
+        <button
+          className="inline-flex items-center gap-3 bg-[#FFA726] hover:bg-[#ffb84d] transition text-white font-bold py-3 px-4 sm:px-8 rounded-full text-lg shadow-lg shadow-[#FFA72633] focus:ring-4 focus:ring-[#FFA72644] animate-bounce"
+          style={{ letterSpacing: "0.02em" }}
+          onClick={handleClick}
+          type="button"
+        >
+          Postman Documentation <ArrowRight className="w-5 h-5" />
+        </button>
           <FloatingLoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
           </div>
         </div>

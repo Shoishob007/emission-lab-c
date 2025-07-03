@@ -259,7 +259,7 @@ export default function Login() {
               </span>
             </button>
 
-            <button
+            {/* <button
               type="button"
               className={`${btnBase} !bg-[#DB4437] !from-[#DB4437] !to-[#DB4437]`}
               aria-label="Login with Google"
@@ -293,7 +293,7 @@ export default function Login() {
                 <RiFacebookFill size={18} aria-hidden="true" />
               </span>
               Login with Facebook
-            </button>
+            </button> */}
           </div>
 
           <p

@@ -66,14 +66,13 @@ export default function ProjectsSection() {
             </h2>
           </div>
           <Link
-            href=""
+            href="/projectsPage"
             className="mt-6 md:mt-0 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition whitespace-nowrap w-fit"
           >
             View All Projects <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
 
-        {/* Cards Row */}
         <div className="w-full flex flex-col md:flex-row justify-center gap-10 mb-10">
           {projects.map((project, i) => (
             <div
@@ -84,6 +83,11 @@ export default function ProjectsSection() {
                 boxShadow: "0 8px 32px 0 rgba(0,0,0,0.14)",
               }}
             >
+              {/* Badge */}
+              <span className="absolute top-3 left-3 z-20 px-3 py-1 rounded-full text-xs font-semibold bg-btn-primary text-white shadow shadow-[#FFA72655] select-none">
+                Coming Soon
+              </span>
+
               <img
                 src={project.image}
                 alt={project.title}

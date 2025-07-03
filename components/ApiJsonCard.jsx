@@ -14,9 +14,9 @@ import { Copy } from "lucide-react";
 const apiUrl = "/api/carbon/airAPI/carbon-emission/";
 
 const apiRequest = {
-  user_id: "1733e8b2-d517-4a33-96e6-16e1b7...",
-  iata_airport_from: "DAC",
-  iata_airport_to: "JSR",
+  user_id: "1733e8b2-d517-4a33-96e6-16e1b7f155c4",
+  iata_airport_from: "JFK",
+  iata_airport_to: "LHR",
   number_of_passengers: 1,
   flight_class: "economy",
   round_trip: "Y",
@@ -25,52 +25,32 @@ const apiRequest = {
 
 const apiResponse = {
   result: {
-    timestamp: "",
-    transaction_id: "",
+    timestamp: "2025-07-01T07:05:26.730181",
+    transaction_id: "a579c39a-1b7a-4c31-b0c2-370ab91560fe",
     data: {
-      airport_from: "",
-      airport_to: "",
-      iata_airport_from: "",
-      iata_airport_to: "",
-      distance_km: 0,
-      number_of_passengers: "",
-      flight_class: "",
-      round_trip: "",
+      airport_from: "John F Kennedy International Airport",
+      airport_to: "London Heathrow Airport",
+      iata_airport_from: "JFK",
+      iata_airport_to: "LHR",
+      distance_km: 5539.38,
+      number_of_passengers: "1",
+      flight_class: "Average",
+      round_trip: "Y",
       emissions: {
-        co2e_gm: 0,
-        co2e_kg: 0,
-        co2e_mt: 0,
-        co2e_lb: 0,
-      },
-      environmental_impact: {
-        totalEmissions: 0,
-        treesRequired: 0,
-        homeEquivalent: 0,
-        carEquivalent: 0,
-        airQualityImprovement: 0,
-        waterSaved: 0,
-        speciesProtected: 0,
+        co2e_gm: 3250619,
+        co2e_kg: 3250.62,
+        co2e_mt: 3.25,
+        co2e_lb: 7166.32,
       },
       calculation_options: {
-        add_rf: "",
-        include_wtt: "",
+        add_rf: "Y",
+        include_wtt: "Y",
       },
     },
-    guidelines: {
-      methodology: "",
-      impact_metrics: {
-        totalEmissions: 0,
-        treesRequired: 0,
-        homeEquivalent: 0,
-        carEquivalent: 0,
-        airQualityImprovement: 0,
-        waterSaved: 0,
-        speciesProtected: 0,
-      },
-    },
-    status: 0,
+    status: 200,
     success: true,
-    disclaimer: "",
+    disclaimer:
+      "Carbon emission calculations are estimates and may vary based on multiple factors and is not dependant on Flight Stopage and Layover.",
   },
 };
 

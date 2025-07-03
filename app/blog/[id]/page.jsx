@@ -61,7 +61,7 @@ export default function BlogDetailPage() {
             <img
               src={post.image}
               alt={post.title}
-              className="w-full h-[200px] sm:h-[300px] object-cover object-center"
+              className="w-full h-[400px] sm:h-full object-cover object-center"
               style={{ borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
             />
             {/* Sub-category badge */}
