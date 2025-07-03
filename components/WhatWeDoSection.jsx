@@ -2,11 +2,8 @@
 import {
   Calculator,
   TrendingDown,
-  Zap,
   Leaf,
   Shield,
-  Users,
-  ArrowRight,
   TreePine,
   Handshake,
 } from "lucide-react";
@@ -117,48 +114,38 @@ export default function WhatWeDoSection() {
         </div>
 
         <div className="flex flex-row flex-wrap justify-center gap-7">
-          {services.map((service, idx) => (
-            <div
-              key={service.title}
-              className="
-                group relative rounded-3xl border-2 border-[#EAEAEA] bg-white
-                transition-all duration-500 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer
-                w-[340px] min-h-[270px] flex flex-col
-              "
-            >
-              <div className="p-6 flex flex-col h-full">
-                <div className="mb-4 p-3 rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-300 w-fit">
-                  <span className="block group-hover:hidden">
-                    {service.icon}
-                  </span>
-                  <span className="hidden group-hover:block">
-                    {service.hoverIcon}
-                  </span>
-                </div>
-
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold mb-3 text-[#163820] group-hover:text-white transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="text-[#767676] group-hover:text-white/90 transition-colors duration-300">
-                    {service.description}
-                  </p>
-                </div>
-
-                {/* <div className="flex-1 flex flex-col gap-2 mb-4">
-                  {service.features.map((feature, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm">
-                      <div className="w-2 h-2 bg-[#78B943] rounded-full group-hover:bg-white transition-colors duration-300 mt-1.5" />
-                      <span className="text-[#767676] group-hover:text-white/90 transition-colors duration-300">
-                        {feature}
-                      </span>
-                    </div>
-                  ))}
-                </div> */}
-              </div>
-            </div>
-          ))}
+  {services.map((service, idx) => (
+    <div
+      key={service.title}
+      className="
+        group relative rounded-3xl border-2 border-[#EAEAEA] bg-white
+        transition-all duration-500 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer
+        w-[340px] min-h-[270px] flex flex-col
+      "
+    >
+      <div className="p-6 flex flex-col h-full">
+        {/* ICON + TITLE ROW */}
+        <div className="flex items-center gap-4 mb-4">
+          <div className="p-3 rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-300 w-fit">
+            <span className="block group-hover:hidden">
+              {service.icon}
+            </span>
+            <span className="hidden group-hover:block">
+              {service.hoverIcon}
+            </span>
+          </div>
+          <h3 className="text-xl font-bold text-[#163820] group-hover:text-white transition-colors duration-300">
+            {service.title}
+          </h3>
         </div>
+        {/* DESC */}
+        <p className="text-[#767676] group-hover:text-white/90 transition-colors duration-300">
+          {service.description}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
       </div>
     </section>
   );
