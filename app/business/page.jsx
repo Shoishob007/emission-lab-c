@@ -15,14 +15,14 @@ const businessScopes = [
   {
     id: 2,
     name: "Car",
-    route: "/business/car",
+    route: "/coming-soon",
     image: "/business/car.jpg",
     desc: "Seamlessly handle business car rentals, ride-sharing, and eco-friendly vehicle reporting.",
   },
   {
     id: 3,
     name: "Motorbike",
-    route: "/business/motorbike",
+    route: "/coming-soon",
     image:
       "https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     desc: "Manage motorbike logistics, expenses, and sustainable travel options for quick city commutes.",
@@ -30,7 +30,7 @@ const businessScopes = [
   {
     id: 4,
     name: "Bus",
-    route: "/business/bus",
+    route: "/coming-soon",
     image:
       "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     desc: "Coordinate group transport, staff bus bookings, and sustainable public travel for teams.",
@@ -38,21 +38,21 @@ const businessScopes = [
   {
     id: 5,
     name: "Train",
-    route: "/business/train",
+    route: "/coming-soon",
     image: "/business/train.jpg",
     desc: "Optimize business rail journeys, ticketing, and carbon reporting for long-distance commutes.",
   },
   {
     id: 6,
     name: "Hotel",
-    route: "/business/hotel",
+    route: "/coming-soon",
     image: "/business/hotel.jpg",
     desc: "Book hotels, track business stays, and find accommodations aligned with your sustainability goals.",
   },
   {
     id: 7,
     name: "Ship",
-    route: "/business/ship",
+    route: "/coming-soon",
     image: "/business/ship.jpg",
     desc: "Handle international business shipping, cruises, and marine logistics with ease.",
   },

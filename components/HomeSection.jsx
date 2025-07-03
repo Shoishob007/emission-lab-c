@@ -56,7 +56,7 @@ const HomeSection = () => {
       <FactsAndEnvironmentSection />
       {/* <FactsSection /> */}
       {/* <DonateSection /> */}
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
       {/* <PricingSection /> */}
 
       <ContactSection />

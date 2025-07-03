@@ -175,7 +175,7 @@ export default function OffsetPage() {
                 </ul>
               </div>
               <Link
-                href="/projects"
+                href="/projectsPage"
                 className="mt-5 inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#FFA726] hover:bg-[#ffb84d] text-white font-bold text-base transition whitespace-nowrap shadow"
               >
                 See More Projects <ArrowRight className="w-5 h-5 text-white" />

@@ -1,10 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Leaf, MapPin, Phone, Mail } from "lucide-react";
 import {
-  FaPinterestP,
-  FaXTwitter,
   FaFacebookF,
-  FaInstagram,
   FaLinkedin,
 } from "react-icons/fa6";
 
@@ -29,7 +26,7 @@ const FooterSection = () => {
       />
       <div className="relative z-10 w-full max-w-[1300px] mx-auto px-6">
         {/* Top bar with logo and contact */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-center mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-8">
           {/* Brand */}
           <div className="flex-shrink-0 flex items-center">
             <img
@@ -46,12 +43,12 @@ const FooterSection = () => {
             <div>
               <div className="font-bold text-white">Address</div>
               <div className="text-green-100 text-sm">
-                4517 Washington Manchester
+                9392 w 32nd Ln Hialeah FL 33018
               </div>
             </div>
           </div>
           {/* Contact */}
-          <div className="flex items-center gap-3">
+          {/* <div className="flex items-center gap-3">
             <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
               <Phone className="w-6 h-6 text-white" />
             </span>
@@ -59,7 +56,7 @@ const FooterSection = () => {
               <div className="font-bold text-white">Contact</div>
               <div className="text-green-100 text-sm">+(91) - 123 456 789</div>
             </div>
-          </div>
+          </div> */}
           {/* Email */}
           <div className="flex items-center gap-3">
             <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
@@ -76,7 +73,7 @@ const FooterSection = () => {
 
         <hr className="border-green-900 mb-8" />
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
           {/* About */}
           <div>
             <div className="font-bold text-lg mb-4">About Company</div>
@@ -86,6 +83,98 @@ const FooterSection = () => {
               Join us on the journey to regenerate the Earth — powered by
               purpose, driven by data.
             </p>
+          </div>
+          {/* Quick Link */}
+          <div>
+            <div className="font-bold text-lg mb-4">Quick Link</div>
+            <ul className="space-y-2 text-green-100 text-sm">
+              <li>
+                <a href="/" className="hover:text-[#3BBF4A] transition">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/calculator"
+                  className="hover:text-[#3BBF4A] transition"
+                >
+                  Calculators
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/projectsPage"
+                  className="hover:text-[#3BBF4A] transition"
+                >
+                  Projects
+                </a>
+              </li>
+              <li>
+                <a href="/blog" className="hover:text-[#3BBF4A] transition">
+                  Latest Blog
+                </a>
+              </li>
+            </ul>
+          </div>
+          {/* Services */}
+          <div>
+            <div className="font-bold text-lg mb-4">Services</div>
+            <ul className="space-y-2 text-green-100 text-sm">
+              <li>
+                <a
+                  href="/calculatorPage"
+                  className="hover:text-[#3BBF4A] transition"
+                >
+                  Your CO2 Footprint
+                </a>
+              </li>
+              <li>
+                <a href="/apiPage" className="hover:text-[#3BBF4A] transition">
+                  Api Documentation
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/offsetPage"
+                  className="hover:text-[#3BBF4A] transition"
+                >
+                  Want to Offset?
+                </a>
+              </li>
+              <li>
+                <a href="/business" className="hover:text-[#3BBF4A] transition">
+                  Business Scopes
+                </a>
+              </li>
+            </ul>
+          </div>
+          {/* Newsletter */}
+          {/* <div className="">
+            <div className="font-bold text-lg mb-4">Newsletter</div>
+            <div className="text-green-100 text-sm mb-2">
+              * Sign up now to get daily latest news & update from us.
+            </div>
+            <form className="flex mt-2 max-w-[360px]">
+              <input
+                type="email"
+                placeholder="Enter Your Email"
+                className="flex-1 px-4 py-2 rounded-l-lg bg-green-900 text-green-100 focus:outline-none border border-green-700 placeholder:text-green-300 text-sm"
+              />
+              <button
+                type="submit"
+                className="bg-btn-secondary hover:bg-btn-secondary-hover text-green-100 font-semibold px-5 py-2 rounded-r-lg text-sm transition"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div> */}
+
+          <div className="">
+            <div className="font-bold text-lg mb-4">Our Social Platforms</div>
+            <div className="text-green-100 text-sm mb-2">
+              Join our sustainability community! Follow us for the latest
+              updates, carbon reduction tips, and environmental insights.
+            </div>
             <div className="flex gap-3">
               <a
                 href="https://www.linkedin.com/company/emission-lab/"
@@ -114,78 +203,6 @@ const FooterSection = () => {
               </a> */}
             </div>
           </div>
-          {/* Quick Link */}
-          <div>
-            <div className="font-bold text-lg mb-4">Quick Link</div>
-            <ul className="space-y-2 text-green-100 text-sm">
-              <li>
-                <a href="/" className="hover:text-[#3BBF4A] transition">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="/calculator" className="hover:text-[#3BBF4A] transition">
-                  Calculators
-                </a>
-              </li>
-              <li>
-                <a href="/projectsPage" className="hover:text-[#3BBF4A] transition">
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a href="/blog" className="hover:text-[#3BBF4A] transition">
-                  Latest Blog
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Services */}
-          <div>
-            <div className="font-bold text-lg mb-4">Services</div>
-            <ul className="space-y-2 text-green-100 text-sm">
-              <li>
-                <a href="/calculatorPage" className="hover:text-[#3BBF4A] transition">
-                  Your CO2 Footprint
-                </a>
-              </li>
-              <li>
-                <a href="/apiPage" className="hover:text-[#3BBF4A] transition">
-                  Api Documentation
-                </a>
-              </li>
-              <li>
-                <a href="/offsetPage" className="hover:text-[#3BBF4A] transition">
-                  Want to Offset?
-                </a>
-              </li>
-              <li>
-                <a href="/business" className="hover:text-[#3BBF4A] transition">
-                  Business Scopes
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Newsletter */}
-          <div className="md:col-span-2">
-            <div className="font-bold text-lg mb-4">Newsletter</div>
-            <div className="text-green-100 text-sm mb-2">
-              * Sign up now to get daily latest news & update from us.
-            </div>
-            <form className="flex mt-2 max-w-[360px]">
-              <input
-                type="email"
-                placeholder="Enter Your Email"
-                className="flex-1 px-4 py-2 rounded-l-lg bg-green-900 text-green-100 focus:outline-none border border-green-700 placeholder:text-green-300 text-sm"
-              />
-              <button
-                type="submit"
-                className="bg-btn-secondary hover:bg-btn-secondary-hover text-green-100 font-semibold px-5 py-2 rounded-r-lg text-sm transition"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
         </div>
 
         <hr className="border-green-800 mb-4" />
@@ -195,10 +212,13 @@ const FooterSection = () => {
             Copyright © 2025 All Rights Reserved.
           </div>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-[#3BBF4A] transition">
+            <a href="/terms" className="hover:text-[#3BBF4A] transition">
               Terms & Condition
             </a>
-            <a href="#" className="hover:text-[#3BBF4A] transition">
+            <a
+              href="/privacy-policy"
+              className="hover:text-[#3BBF4A] transition"
+            >
               Privacy Policy
             </a>
           </div>
