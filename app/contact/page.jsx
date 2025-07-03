@@ -72,7 +72,7 @@ export default function Contact() {
             listed below.
           </div>
           {/* Contact grid */}
-          <div className="grid grid-cols-2 gap-2 mb-2">
+          <div className="grid grid-cols-1 gap-2 mb-2">
             <div className="rounded-lg bg-white px-6 py-5">
               <div className="font-semibold text-[#1a3323] mb-1">
                 General Inquiries
