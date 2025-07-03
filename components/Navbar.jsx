@@ -112,17 +112,25 @@ export default function Navbar() {
   };
 
   // Logout handler
-  const handleLogout = async () => {
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/logout/`, {
-        method: "POST",
-        credentials: "include",
-      });
-      await signOut({ callbackUrl: "/" });
-    } catch (error) {
-      await signOut({ callbackUrl: "/" });
-    }
-  };
+const handleLogout = async () => {
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/logout/`, {
+      method: "POST",
+      credentials: "include",
+    });
+    
+    await signOut({
+      redirect: false 
+    });
+    
+    router.push('/');
+  } catch (error) {
+    await signOut({
+      redirect: false
+    });
+    router.push('/');
+  }
+};
 
   return (
     <nav className="w-full !bg-transparent border-b border-border">

@@ -34,7 +34,7 @@ export default NextAuth({
       }
     }),
   ],
-  pages: { signIn: "/login" },
+  pages: { signIn: "/login", signOut: "/", },
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user }) {
@@ -47,4 +47,11 @@ export default NextAuth({
       return session;
     },
   },
+  
+  // async redirect({ url, baseUrl }) {
+  //     // Ensure redirects use the correct base URL
+  //     if (url.startsWith("/")) return `${baseUrl}${url}`;
+  //     else if (new URL(url).origin === baseUrl) return url;
+  //     return baseUrl;
+  //   },
 });
