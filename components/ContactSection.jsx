@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Settings } from "lucide-react";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function ContactSection() {
   const [form, setForm] = useState({
@@ -12,6 +13,29 @@ export default function ContactSection() {
     location: "",
     interested: "",
   });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // success message
+    Swal.fire({
+      title: "Form Submitted!",
+      text: "Thank you for contacting us. We will get back to you soon.",
+      icon: "success",
+      confirmButtonColor: "#0a2d23",
+      confirmButtonText: "OK",
+    });
+
+    setForm({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      company: "",
+      location: "",
+      interested: "",
+    });
+  };
 
   return (
     <section
@@ -55,11 +79,15 @@ export default function ContactSection() {
               <div className="font-semibold text-[#1a3323] mb-1">
                 General Inquiries
               </div>
-              <div className="text-[#1a3323] text-base">hello@aiemissionlab.com</div>
+              <div className="text-[#1a3323] text-base">
+                hello@aiemissionlab.com
+              </div>
             </div>
             <div className="rounded-lg bg-white px-6 py-5">
               <div className="font-semibold text-[#1a3323] mb-1">Sales</div>
-              <div className="text-[#1a3323] text-base">sales@aiemissionlab.com</div>
+              <div className="text-[#1a3323] text-base">
+                sales@aiemissionlab.com
+              </div>
             </div>
           </div>
           {/* Technical Help */}
@@ -80,6 +108,7 @@ export default function ContactSection() {
         <form
           className="rounded-2xl bg-white border border-[#d8e3c7] px-10 py-8 flex flex-col justify-between"
           style={{ minHeight: 640 }}
+          onSubmit={handleSubmit}
         >
           <div className="grid grid-cols-2 gap-6 mb-6">
             <div>
@@ -218,9 +247,9 @@ export default function ContactSection() {
           </div>
           {/* Legal text */}
           <div className="mb-4 text-[#1a3323] text-sm leading-relaxed">
-            By submitting this form, you are consenting to Emission Lab is contacting
-            you. For information on how to unsubscribe, as well as our privacy
-            practices, check out our{" "}
+            By submitting this form, you are consenting to Emission Lab is
+            contacting you. For information on how to unsubscribe, as well as
+            our privacy practices, check out our{" "}
             <a href="#" className="text-[#2357b4] underline">
               Privacy Policy
             </a>

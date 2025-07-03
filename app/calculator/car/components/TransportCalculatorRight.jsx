@@ -162,7 +162,7 @@ const TransportCalculatorRight = ({
                   </button>
 
                   <button
-                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors ${
+                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors cursor-not-allowed ${
                       showDashboard ? "hidden" : ""
                     }`}
                   >

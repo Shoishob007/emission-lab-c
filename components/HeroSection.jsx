@@ -17,7 +17,7 @@ const slides = [
     subheading:
       "The all-in-one platform led you to a mission to drive the Erach Renewal Initiatives, restoring the balance between people, purpose, and the planet",
     primary: { text: "Learn How We Help", href: "#about" },
-    secondary: { text: "See our Services", href: "#" },
+    secondary: { text: "What We Do", href: "#what-we-do" },
   },
   {
     image:
@@ -34,7 +34,7 @@ const slides = [
     subheading:
       "Empowering individuals, businesses, and organizations to easily understand and manage their carbon footprint for a greener planet.",
     primary: { text: "Calculate Your Footprint Now", href: "/calculator" },
-    secondary: { text: "Learn How We Help", href: "#" },
+    secondary: { text: "Having Trouble?", href: "/contact" },
   },
   {
     image:
@@ -66,7 +66,7 @@ const slides = [
     subheading:
       "Empower your applications with our robust API suite and drive measurable climate action and fostering a greener digital ecosystem.",
     primary: { text: "Explore Our APIs", href: "/apiPage" },
-    secondary: { text: "View Documentation", href: "/apiPage" },
+    secondary: { text: "View AI Features", href: "/aiPage" },
   },
 ];
 
