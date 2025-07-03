@@ -1,13 +1,47 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import { useEffect, useState } from "react";
 import { ArrowRight, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import blogPostsJson from "@/utils/data/blog.json";
-
-const blogPosts = blogPostsJson.slice(0, 3);
+import { getBlogs } from "@/utils/api/getBlogs";
 
 export default function BlogSection() {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchBlogs() {
+      setLoading(true);
+      try {
+        const data = await getBlogs();
+        // Only take first 3 posts
+        setBlogPosts(data.slice(0, 3));
+      } catch {
+        setBlogPosts([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchBlogs();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="relative py-20 bg-white flex items-center justify-center">
+        <span className="text-lg text-muted-foreground">Loading articles...</span>
+      </section>
+    );
+  }
+
+  if (!blogPosts.length) {
+    return (
+      <section className="relative py-20 bg-white flex items-center justify-center">
+        <span className="text-lg text-muted-foreground">No articles found.</span>
+      </section>
+    );
+  }
+
   return (
     <section className="relative py-20 bg-white">
       <div
@@ -58,7 +92,7 @@ export default function BlogSection() {
         <div className="md:hidden flex flex-col gap-8 mt-12">
           {blogPosts.map((post, idx) => (
             <div
-              key={idx}
+              key={post.id}
               className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow group flex flex-col h-full min-h-[400px]"
             >
               <div className="h-[280px] w-full overflow-hidden relative">
@@ -69,7 +103,7 @@ export default function BlogSection() {
                 />
                 {/* Sub-category badge */}
                 <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                  {post.subCategory}
+                  {(post.sub_category || post.subCategory || "").toString()}
                 </span>
               </div>
               <div className="p-8 flex-1 flex flex-col">
@@ -84,18 +118,21 @@ export default function BlogSection() {
                 <h3 className="text-2xl font-bold text-[#163820] mb-3">
                   {post.title}
                 </h3>
-                <p className="text-[#767676] text-base mb-4">
-                  {post.excerpt}
+                <p className="text-[#767676] text-base mb-4 line-clamp-5">
+                  {/* Strip html tags for preview */}
+                  {typeof post.excerpt === "string"
+                    ? post.excerpt.replace(/<[^>]+>/g, '').slice(0, 180) + (post.excerpt.length > 180 ? '...' : '')
+                    : ""}
                 </p>
                 <span className="text-[#163820] font-semibold text-base mb-5">
                   {post.author}
                 </span>
-                <a
-                  href={post.link}
+                <Link
+                  href={`/blog/${post.id}`}
                   className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-base w-fit"
                 >
                   Read More <ArrowRight className="w-4 h-4" />
-                </a>
+                </Link>
               </div>
             </div>
           ))}
@@ -114,7 +151,7 @@ export default function BlogSection() {
                 />
                 {/* Sub-category badge */}
                 <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                  {blogPosts[0].subCategory}
+                  {(blogPosts[0].sub_category || blogPosts[0].subCategory || "").toString()}
                 </span>
               </div>
               <div className="p-8 flex-1 flex flex-col">
@@ -129,18 +166,20 @@ export default function BlogSection() {
                 <h3 className="text-2xl font-bold text-[#163820] mb-3">
                   {blogPosts[0].title}
                 </h3>
-                <p className="text-[#767676] text-base mb-4">
-                  {blogPosts[0].excerpt}
+                <p className="text-[#767676] text-base mb-4 line-clamp-5">
+                  {typeof blogPosts[0].excerpt === "string"
+                    ? blogPosts[0].excerpt.replace(/<[^>]+>/g, '').slice(0, 200) + (blogPosts[0].excerpt.length > 200 ? '...' : '')
+                    : ""}
                 </p>
                 <span className="text-[#163820] font-semibold text-base mb-5">
                   {blogPosts[0].author}
                 </span>
-                <a
-                  href={blogPosts[0].link}
+                <Link
+                  href={`/blog/${blogPosts[0].id}`}
                   className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-base w-fit"
                 >
                   Read More <ArrowRight className="w-4 h-4" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -148,7 +187,7 @@ export default function BlogSection() {
           <div className="flex flex-col gap-10 md:col-span-6">
             {[blogPosts[1], blogPosts[2]].map((post, i) => (
               <div
-                key={i}
+                key={post.id}
                 className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow group flex flex-row min-h-[170px] h-1/2"
                 style={{
                   height: "calc((500px) / 2)",
@@ -163,7 +202,7 @@ export default function BlogSection() {
                   />
                   {/* Sub-category badge */}
                   <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                    {post.subCategory}
+                    {(post.sub_category || post.subCategory || "").toString()}
                   </span>
                 </div>
                 <div className="p-6 flex flex-col flex-1">
@@ -176,16 +215,20 @@ export default function BlogSection() {
                   <h3 className="text-lg font-bold text-[#163820] mb-2">
                     {post.title}
                   </h3>
-                  <p className="text-[#767676] text-sm mb-2">{post.excerpt}</p>
+                  <p className="text-[#767676] text-sm mb-2 line-clamp-4">
+                    {typeof post.excerpt === "string"
+                      ? post.excerpt.replace(/<[^>]+>/g, '').slice(0, 110) + (post.excerpt.length > 110 ? '...' : '')
+                      : ""}
+                  </p>
                   <span className="text-[#163820] font-semibold text-sm mb-2">
                     {post.author}
                   </span>
-                  <a
-                    href={post.link}
+                  <Link
+                    href={`/blog/${post.id}`}
                     className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-sm w-fit"
                   >
                     Read More <ArrowRight className="w-4 h-4" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
