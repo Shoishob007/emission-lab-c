@@ -152,7 +152,7 @@ export default function FactsAndEnvironmentSection() {
             }}
           >
             <img
-              src="/man-plant-2.png"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539147/emisison-lab/man-plant-2_yglkq7.png"
               alt="Person holding a plant"
               className="w-full h-auto object-contain rounded-b-3xl drop-shadow-2xl mx-auto"
               draggable={false}

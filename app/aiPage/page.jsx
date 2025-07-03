@@ -159,7 +159,7 @@ export default function AiPage() {
             <div className="w-full flex flex-col-reverse sm:flex-col gap-10 order-2 sm:order-1">
               <div className="relative flex items-center justify-center">
                 <img
-                  src="/landing-page/sus-3.jpg"
+                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539519/emisison-lab/2147717388_cupqx6.jpg"
                   alt="API Integration"
                   className="rounded-full w-full max-w-[350px] object-cover aspect-square bg-white shadow"
                 />

@@ -125,7 +125,7 @@ export default function CalculatorSection() {
                 }}
               >
                 <img
-                  src="/landing-page/3.jpg"
+                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538666/emisison-lab/3_gtg0zi.jpg"
                   alt="Carbon footprint calculation"
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -144,7 +144,7 @@ export default function CalculatorSection() {
               }}
             >
               <img
-                src="/landing-page/1.jpg"
+                src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538683/emisison-lab/1_zehacf.jpg"
                 alt="Carbon footprint calculation"
                 className="w-full h-full object-cover"
                 draggable={false}

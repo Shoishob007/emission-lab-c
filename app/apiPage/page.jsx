@@ -83,7 +83,7 @@ export default function ApiSection() {
         <div className="grid md:grid-cols-[320px_1fr] gap-8 md:gap-16 mb-16 items-center">
           <div className="relative">
             <img
-              src="/api-1.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539583/emisison-lab/api-1_rmis3r.jpg"
               alt="API Integration"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -154,7 +154,7 @@ export default function ApiSection() {
           </div>
           <div className="relative">
             <img
-              src="/api-2.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539585/emisison-lab/api-2_eqna3r.jpg"
               alt="API Integration"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -243,7 +243,7 @@ export default function ApiSection() {
           {/* Image */}
           <div className="order-1 md:order-none">
             <img
-              src="/api-3.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539587/emisison-lab/api-3_e1mx32.jpg"
               alt="Developer Friendly"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -253,7 +253,7 @@ export default function ApiSection() {
         {/* 5. CTA SECTION */}
         <div className="w-full mt-20 mb-10 flex justify-center">
           <img
-            src="/flow.png"
+            src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751540266/emisison-lab/flow_davk1v.png"
             alt="Website Sitemap"
             className="w-full max-w-4xl rounded-xl shadow-md border border-gray-200"
           />
