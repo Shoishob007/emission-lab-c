@@ -224,7 +224,7 @@ export default function OffsetPage() {
               today.
             </p>
             <Link
-              href="/projects"
+              href="/projectsPage"
               className="inline-flex items-center gap-3 bg-[#FFA726] hover:bg-[#ffb84d] transition text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg shadow-[#FFA72633] focus:ring-4 focus:ring-[#FFA72644] animate-bounce"
               style={{ letterSpacing: "0.02em" }}
             >

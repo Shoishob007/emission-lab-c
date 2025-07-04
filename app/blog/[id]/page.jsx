@@ -86,9 +86,9 @@ export default function BlogDetailPage() {
             <h1 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 flex items-center gap-2">
               {post.title}
             </h1>
-            <span className="text-[#163820] font-semibold text-sm mb-6 block">
+            {/* <span className="text-[#163820] font-semibold text-sm mb-6 block">
               {post.author}
-            </span>
+            </span> */}
 
             {/* Blog Content */}
             <div

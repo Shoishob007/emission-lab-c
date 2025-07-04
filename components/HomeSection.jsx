@@ -45,7 +45,7 @@ const HomeSection = () => {
       <CalculatorSection />
       <AiSection />
       <ApiSection />
-      <WhatWeDoSection />
+      {/* <WhatWeDoSection /> */}
       {/* <HowItWorksSection /> */}
       <WhyChooseUsSection />
       <ProjectsSection />

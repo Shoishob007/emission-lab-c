@@ -577,7 +577,7 @@ export default function ApiSection() {
               onClick={handleClick}
               type="button"
             >
-              Postman Documentation <ArrowRight className="w-5 h-5" />
+              API Documentation <ArrowRight className="w-5 h-5" />
             </button>
             <FloatingLoginModal
               open={showLoginModal}

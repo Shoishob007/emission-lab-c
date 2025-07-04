@@ -12,129 +12,55 @@ import {
   BookOpen,
   Phone,
   ArrowRight,
-  ChevronDown,
-  Info,
-  HelpCircle,
-  Users,
-  Layers,
   LogOut,
+  Info,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
 import { useSession, signOut } from "next-auth/react";
 
 const navItems = [
   { name: "Home", href: "/", icon: Home },
+  { name: "About", href: "/aboutPage", icon: Info },
   { name: "Calculator", href: "/calculator", icon: Plane },
   { name: "Business", href: "/business", icon: Briefcase },
   { name: "API", href: "/apiPage", icon: FileCode },
   { name: "Blog", href: "/blog", icon: BookOpen },
-];
-
-const aboutMenu = [
-  {
-    name: "Who We Are",
-    href: "#about",
-    icon: Users,
-  },
-  {
-    name: "What We Do",
-    href: "#what-we-do",
-    icon: Layers,
-  },
-  {
-    name: "FAQ",
-    href: "#faq",
-    icon: HelpCircle,
-  },
-  {
-    name: "Contact Us",
-    href: "#contact",
-    icon: Phone,
-  },
+  { name: "Contact", href: "/contact", icon: Phone },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { data: session, status } = useSession();
-
-  const scrollToSection = (e, id) => {
-    e.preventDefault();
-
-    // Always navigate to root path with hash
-    if (pathname !== "/") {
-      router.push(`/#${id}`);
-    } else {
-      const element = document.getElementById(id);
-      if (element) {
-        window.scrollTo({ top: 0, behavior: "instant" });
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth" });
-          window.history.replaceState(null, null, `/#${id}`);
-        }, 50);
-      }
-    }
-  };
-
-  // Maintain scroll position on route changes
-  useEffect(() => {
-    const hash = window.location.hash.substring(1);
-    if (hash) {
-      const element = document.getElementById(hash);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth" });
-        }, 100);
-      }
-    }
-  }, [pathname]);
+  const { data: session } = useSession();
 
   const isActive = (path) => {
     if (path === "/") {
       return pathname === "/";
     }
-    return pathname.startsWith(path);
+    return pathname.startsWith(path) && path !== "/";
   };
 
-  // Check if current hash matches menu item
-  const isHashActive = (hash) => {
-    return typeof window !== "undefined" && window.location.hash === hash;
+  const handleLogout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/logout/`, {
+        method: "POST",
+        credentials: "include",
+      });
+      await signOut({ redirect: false });
+      router.push("/");
+    } catch (error) {
+      await signOut({ redirect: false });
+      router.push("/");
+    }
   };
-
-  // Logout handler
-const handleLogout = async () => {
-  try {
-    await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/logout/`, {
-      method: "POST",
-      credentials: "include",
-    });
-    
-    await signOut({
-      redirect: false 
-    });
-    
-    router.push('/');
-  } catch (error) {
-    await signOut({
-      redirect: false
-    });
-    router.push('/');
-  }
-};
 
   return (
     <nav className="w-full !bg-transparent border-b border-border">
-      <div className="max-w-[1440px] py-4 mx-auto px-4 sm:px-8">
+      <div className="max-w-[1440px] py-4 mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/">
@@ -149,81 +75,13 @@ const handleLogout = async () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex flex-1 justify-center">
-            <div className="flex items-center space-x-7">
-              {/* Home Link */}
-              <Link
-                href="/"
-                className={cn(
-                  "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none",
-                  isActive("/") ? "text-primary" : "text-black"
-                )}
-                style={{
-                  fontWeight: 600,
-                  letterSpacing: "0.01em",
-                  background: "transparent",
-                }}
-              >
-                <span className="flex items-center gap-1">Home</span>
-              </Link>
-
-              {/* About Dropdown Menu */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    className={cn(
-                      "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none flex items-center gap-1",
-                      aboutMenu.some((m) => isHashActive(m.href))
-                        ? "text-primary"
-                        : "text-black"
-                    )}
-                    style={{
-                      fontWeight: 600,
-                      letterSpacing: "0.01em",
-                      background: "transparent",
-                    }}
-                  >
-                    <span className="flex items-center gap-1">
-                      About <ChevronDown className="w-4 h-4" />
-                    </span>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="center"
-                  sideOffset={8}
-                  className="w-56 rounded-lg shadow-lg border border-border bg-white p-2"
-                >
-                  {aboutMenu.map((item) => (
-                    <DropdownMenuItem
-                      asChild
-                      key={item.href}
-                      className={cn(
-                        "w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150 hover:bg-primary/10 hover:text-primary cursor-pointer",
-                        isHashActive(item.href)
-                          ? "bg-primary/10 text-primary"
-                          : "text-black"
-                      )}
-                    >
-                      <Link
-                        href={`/${item.href}`}
-                        onClick={(e) =>
-                          scrollToSection(e, item.href.split("#")[1])
-                        }
-                      >
-                        <item.icon className="w-5 h-5 mr-2 text-primary" />
-                        {item.name}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              {/* Other Navigation Items */}
-              {navItems.slice(1).map((item) => (
+            <div className="flex items-center space-x-6 sm:space-x-4 lg:space-x-6">
+              {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none",
+                    "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none flex items-center gap-1",
                     isActive(item.href) ? "text-primary" : "text-black"
                   )}
                   style={{
@@ -232,7 +90,7 @@ const handleLogout = async () => {
                     background: "transparent",
                   }}
                 >
-                  <span className="flex items-center gap-1">{item.name}</span>
+                  {item.name}
                 </Link>
               ))}
             </div>
@@ -287,60 +145,7 @@ const handleLogout = async () => {
       {/* Mobile menu */}
       <div className={cn("md:hidden", isOpen ? "block" : "hidden")}>
         <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-border">
-          {/* Home Link */}
-          <Link
-            href="/"
-            className={cn(
-              "block px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150",
-              isActive("/") ? "text-primary" : "text-black hover:text-primary"
-            )}
-          >
-            <div className="flex items-center">Home</div>
-          </Link>
-
-          {/* About Dropdown for mobile */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className={cn(
-                  "w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150 hover:text-primary focus:outline-none",
-                  aboutMenu.some((m) => isHashActive(m.href))
-                    ? "text-primary"
-                    : "text-black"
-                )}
-              >
-                About <ChevronDown className="w-4 h-4" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="start"
-              className="w-56 rounded-lg shadow-lg border border-border bg-white p-2"
-            >
-              {aboutMenu.map((item) => (
-                <DropdownMenuItem
-                  asChild
-                  key={item.href}
-                  className={cn(
-                    "w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-semibold transition-colors duration-150 hover:bg-primary/10 hover:text-primary cursor-pointer",
-                    isHashActive(item.href)
-                      ? "bg-primary/10 text-primary"
-                      : "text-black"
-                  )}
-                >
-                  <Link
-                    href={`/${item.href}`}
-                    onClick={(e) => scrollToSection(e, item.href.split("#")[1])}
-                  >
-                    <item.icon className="w-5 h-5 mr-2 text-primary" />
-                    {item.name}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Other Navigation Items */}
-          {navItems.slice(1).map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
@@ -350,6 +155,7 @@ const handleLogout = async () => {
                   ? "text-primary"
                   : "text-black hover:text-primary"
               )}
+              onClick={() => setIsOpen(false)}
             >
               <div className="flex items-center">{item.name}</div>
             </Link>
@@ -366,7 +172,7 @@ const handleLogout = async () => {
                 letterSpacing: "0.01em",
               }}
             >
-              Logout Now <LogOut className="w-5 h-5" />
+              Logout <span className="block sm:hidden xl:block">Now</span> <LogOut className="w-5 h-5" />
             </button>
           ) : (
             <Link
@@ -377,6 +183,7 @@ const handleLogout = async () => {
                 fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
                 letterSpacing: "0.01em",
               }}
+              onClick={() => setIsOpen(false)}
             >
               Start Now <ArrowRight className="w-5 h-5" />
             </Link>

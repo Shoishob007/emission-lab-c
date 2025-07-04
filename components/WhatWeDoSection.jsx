@@ -10,8 +10,8 @@ import {
 
 const services = [
   {
-    icon: <Calculator className="w-9 h-9 text-primary" />,
-    hoverIcon: <Calculator className="w-9 h-9 text-white/90" />,
+    icon: <Calculator className="w-7 h-7 text-primary" />,
+    hoverIcon: <Calculator className="w-7 h-7 text-white/90" />,
     title: "Calculate Emissions",
     description:
       "Track carbon emissions across travel, energy, operations, supply chain, and more. Our tools support individuals, teams, and organizations through intuitive dashboards and robust APIs.",
@@ -22,8 +22,8 @@ const services = [
     ],
   },
   {
-    icon: <TrendingDown className="w-9 h-9 text-primary" />,
-    hoverIcon: <TrendingDown className="w-9 h-9 text-white/90" />,
+    icon: <TrendingDown className="w-7 h-7 text-primary" />,
+    hoverIcon: <TrendingDown className="w-7 h-7 text-white/90" />,
     title: "Reduce",
     description:
       "Leverage AI-driven insights to optimize energy use, promote sustainable choices, and guide your journey to lower emissions — backed by automated tracking and actionable tips.",
@@ -34,8 +34,8 @@ const services = [
     ],
   },
   {
-    icon: <TreePine className="w-9 h-9 text-primary" />,
-    hoverIcon: <TreePine className="w-9 h-9 text-white/90" />,
+    icon: <TreePine className="w-7 h-7 text-primary" />,
+    hoverIcon: <TreePine className="w-7 h-7 text-white/90" />,
     title: "Offset",
     description:
       "Offset unavoidable emissions by supporting verified carbon projects — from forest restoration and renewable energy to clean water and sustainable agriculture.",
@@ -46,8 +46,8 @@ const services = [
     ],
   },
   {
-    icon: <Shield className="w-9 h-9 text-primary" />,
-    hoverIcon: <Shield className="w-9 h-9 text-white/90" />,
+    icon: <Shield className="w-7 h-7 text-primary" />,
+    hoverIcon: <Shield className="w-7 h-7 text-white/90" />,
     title: "Enable Integration",
     description:
       "With powerful APIs, we integrate with your existing systems — from logistics to cloud infrastructure — making climate action seamless and intelligent.",
@@ -58,8 +58,8 @@ const services = [
     ],
   },
   {
-    icon: <Handshake className="w-9 h-9 text-primary" />,
-    hoverIcon: <Handshake className="w-9 h-9 text-white/90" />,
+    icon: <Handshake className="w-7 h-7 text-primary" />,
+    hoverIcon: <Handshake className="w-7 h-7 text-white/90" />,
     title: "Partnering with Business",
     description:
       "With believe, help and row together. We integrate and support Airlines & OTAs, Enterprise Application, Travel & Logistics Platforms.",
@@ -75,30 +75,13 @@ export default function WhatWeDoSection() {
   return (
     <section
       id="what-we-do"
-      className="relative py-20 bg-white flex justify-center items-center overflow-x-hidden overflow-y-auto"
-      style={{
-        minHeight: "650px",
-        backgroundImage: "url('/city1-rotated.jpg')",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className="relative py-16 md:py-20 bg-white flex justify-center items-center overflow-x-hidden"
     >
-      {/* overlay */}
-      <div
-        className="absolute inset-0"
-        style={{
-          pointerEvents: "none",
-          background:
-            "linear-gradient(to top right, rgba(255,255,255,0.85) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,1) 100%)",
-        }}
-      />
-
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4">
-        {/*  header */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-14 gap-6 md:gap-0 px-4">
-          <div className="sm:text-center md:text-left max-w-4xl">
-            <div className="flex items-center gap-2 mb-3 justify-start">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 md:gap-0">
+          <div className="text-center md:text-left max-w-4xl">
+            <div className="flex items-center gap-2 mb-3 justify-center md:justify-start">
               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
                 <Leaf size={22} strokeWidth={2} className="text-primary" />
               </span>
@@ -107,45 +90,48 @@ export default function WhatWeDoSection() {
               </span>
             </div>
             <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize">
-              Innovative <span className="text-primary">Solutions</span> for a
-              Sustainable Future!
+              Innovative <span className="text-primary">Solutions</span> for a Sustainable Future!
             </h2>
           </div>
         </div>
 
-        <div className="flex flex-row flex-wrap justify-center gap-7">
-  {services.map((service, idx) => (
-    <div
-      key={service.title}
-      className="
-        group relative rounded-3xl border-2 border-[#EAEAEA] bg-white
-        transition-all duration-500 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer
-        w-[340px] min-h-[270px] flex flex-col
-      "
-    >
-      <div className="p-6 flex flex-col h-full">
-        {/* ICON + TITLE ROW */}
-        <div className="flex items-center gap-4 mb-4">
-          <div className="p-3 rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-300 w-fit">
-            <span className="block group-hover:hidden">
-              {service.icon}
-            </span>
-            <span className="hidden group-hover:block">
-              {service.hoverIcon}
-            </span>
-          </div>
-          <h3 className="text-xl font-bold text-[#163820] group-hover:text-white transition-colors duration-300">
-            {service.title}
-          </h3>
+        {/* Services Grid - Responsive Layout */}
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {services.map((service, idx) => (
+            <div
+              key={service.title}
+              className={`
+                group relative rounded-xl border border-[#E0E0E0] bg-white/90
+                transition-all duration-400 hover:bg-[#97D34B] hover:shadow-lg hover:border-[#97D34B]
+                w-full flex flex-col items-center p-5 shadow-sm
+                min-h-[250px] h-full
+              `}
+              style={{
+                boxShadow: "0 2px 16px 0 rgba(151, 211, 75, 0.08)",
+              }}
+            >
+              {/* Icon */}
+              <div className="mb-4 flex items-center justify-center rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-200 w-12 h-12 mx-auto shadow">
+                <span className="block group-hover:hidden">
+                  {service.icon}
+                </span>
+                <span className="hidden group-hover:block">
+                  {service.hoverIcon}
+                </span>
+              </div>
+              
+              {/* Title */}
+              <h3 className="text-xl sm:text-lg font-bold text-[#163820] group-hover:text-white transition-colors duration-300 mb-3 text-center">
+                {service.title}
+              </h3>
+              
+              {/* Description */}
+              <p className="text-base sm:text-sm text-[#767676] group-hover:text-white/90 transition-colors duration-300 text-center">
+                {service.description}
+              </p>
+            </div>
+          ))}
         </div>
-        {/* DESC */}
-        <p className="text-[#767676] group-hover:text-white/90 transition-colors duration-300">
-          {service.description}
-        </p>
-      </div>
-    </div>
-  ))}
-</div>
       </div>
     </section>
   );

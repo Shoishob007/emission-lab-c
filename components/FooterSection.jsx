@@ -43,7 +43,7 @@ const FooterSection = () => {
             <div>
               <div className="font-bold text-white">Address</div>
               <div className="text-green-100 text-sm">
-                9392 w 32nd Ln Hialeah FL 33018
+                Miami, FL 33172
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@ const FooterSection = () => {
             <p className="text-green-100 mb-4 text-sm">
               <span className="font-semibold">Emission Lab</span> is a
               climate-tech initiative born from urgency — and driven by hope.
-              Join us on the journey to regenerate the Earth — powered by
+              Join us on the journey to regenerate the Earth powered by
               purpose, driven by data.
             </p>
           </div>

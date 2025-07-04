@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calculator, Car, Train, Bus, Bike, Users } from "lucide-react";
+import { Calculator, Car, Train, Bus, Bike, Users, BikeIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Select,
@@ -27,7 +27,7 @@ const TransportCalculatorLeft = ({
   // Vehicle categories
   const vehicleCategories = [
     { value: "cars", icon: Car, label: "Cars" },
-    { value: "motorcycle", icon: Bike, label: "Motorcycle" },
+    { value: "motorcycle", icon: BikeIcon, label: "Motorcycle" },
     { value: "bus", icon: Bus, label: "Bus" },
     { value: "train", icon: Train, label: "Train" },
   ];
