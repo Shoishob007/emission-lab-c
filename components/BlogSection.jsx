@@ -102,9 +102,9 @@ export default function BlogSection() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Sub-category badge */}
-                <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
+                {/* <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
                   {(post.sub_category || post.subCategory || "").toString()}
-                </span>
+                </span> */}
               </div>
               <div className="p-8 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-2">

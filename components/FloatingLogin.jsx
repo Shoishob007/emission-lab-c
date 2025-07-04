@@ -257,14 +257,14 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                         {loginError}
                       </div>
                     )}
-                    <div className="flex justify-end">
+                    {/* <div className="flex justify-end">
                       <a
                         href="#"
                         className="text-gray-400 text-xs hover:underline"
                       >
                         Forgot Password ?
                       </a>
-                    </div>
+                    </div> */}
                     <Button
                       type="submit"
                       className="w-full h-12 rounded-lg text-base font-bold bg-[#3BBF4A] hover:bg-green-700 shadow-none transition-all mt-2"

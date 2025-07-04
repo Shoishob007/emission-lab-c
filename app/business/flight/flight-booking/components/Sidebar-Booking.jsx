@@ -219,7 +219,7 @@ const SidebarBooking = ({
                     <span
                       className={`text-sm font-medium text-${emissionCategory.color}`}
                     >
-                      {emissionCategory.category} CO2 emissions (
+                      CO2 emissions (
                       {emissionsInTons.toFixed(2)} MT)
                     </span>
                   </div>

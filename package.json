@@ -50,6 +50,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "countries-cities": "^0.0.11",
+    "countries-list": "^3.1.1",
     "country-city": "^1.0.0",
     "country-state-city": "^3.2.1",
     "date-fns": "^3.6.0",

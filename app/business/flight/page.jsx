@@ -153,7 +153,7 @@ function FlightSearchDemo() {
             </div>
             <Button
               size="lg"
-              className="bg-primary hover:bg-secondary h-12 px-8 text-base"
+              className="bg-btn-primary hover:bg-btn-primary-hover h-12 px-8 text-base"
               onClick={handleSearch}
             >
               Search Flights

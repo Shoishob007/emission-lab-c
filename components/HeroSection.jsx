@@ -18,7 +18,7 @@ const slides = [
     subheading:
       "The all-in-one platform led you to a mission to drive the Erach Renewal Initiatives, restoring the balance between people, purpose, and the planet",
     primary: { text: "Learn How We Help", href: "#about" },
-    secondary: { text: "What We Do", href: "#what-we-do" },
+    secondary: { text: "Question In Mind?", href: "#faq" },
   },
   {
     image:
@@ -52,7 +52,7 @@ const slides = [
     subheading:
       "Discover precisely where your emissions come from, gain actionable insights to reduce them, and contribute to verified climate protection projects.",
     primary: { text: "Start Your Journey", href: "/login" },
-    secondary: { text: "See Our Solutions", href: "#" },
+    secondary: { text: "See Our Solutions", href: "#solutions" },
   },
   {
     image:
