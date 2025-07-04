@@ -3,8 +3,9 @@ import { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import { ComboBox } from "../../../../components/ui/calculator-combobox";
 import { Calculator, Moon, Bed } from "lucide-react";
-import countryList from "react-select-country-list";
-import { City } from "country-state-city";
+import { countries } from "countries-list";
+// import { City } from "country-state-city";
+// import cityData from './allowed-countries-cities.json';
 
 const HotelCalculatorLeft = ({
   setCalculated,
@@ -12,7 +13,7 @@ const HotelCalculatorLeft = ({
   setHotelDetails,
   setEmissionData,
 }) => {
-  const [countries, setCountries] = useState([]);
+  const [countryOptions, setCountryOptions] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [cities, setCities] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
@@ -23,15 +24,76 @@ const HotelCalculatorLeft = ({
     general: null,
   });
   const [calculating, setCalculating] = useState(false);
+  const ALLOWED_COUNTRIES = [
+    "AR",
+    "AT",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "CH",
+    "CL",
+    "CN",
+    "CO",
+    "CR",
+    "CZ",
+    "DE",
+    "DO",
+    "EG",
+    "ES",
+    "FI",
+    "FJ",
+    "FR",
+    "GB",
+    "GR",
+    "HK",
+    "HU",
+    "ID",
+    "IE",
+    "IN",
+    "IT",
+    "JO",
+    "JP",
+    "KR",
+    "KZ",
+    "MA",
+    "MO",
+    "MV",
+    "MX",
+    "MY",
+    "NL",
+    "NZ",
+    "OM",
+    "PA",
+    "PE",
+    "PH",
+    "PL",
+    "PR",
+    "PT",
+    "QA",
+    "RO",
+    "RU",
+    "SA",
+    "SG",
+    "AE",
+    "TH",
+    "TW",
+    "US",
+    "UY",
+    "VN",
+    "ZA",
+  ];
 
   // countries list on mount
   useEffect(() => {
-    const countriesData = countryList().getData();
-    const formattedCountries = countriesData.map((country) => ({
-      value: country.value,
-      label: `${country.label} (${country.value})`,
-    }));
-    setCountries(formattedCountries);
+    const formattedCountries = Object.entries(countries)
+      .filter(([code]) => ALLOWED_COUNTRIES.includes(code))
+      .map(([code, country]) => ({
+        value: code,
+        label: `${country.name} (${code})`,
+      }));
+
+    setCountryOptions(formattedCountries);
     setFilteredCountries(formattedCountries);
   }, []);
 
@@ -43,37 +105,30 @@ const HotelCalculatorLeft = ({
   }, [hotelDetails.country_code]);
 
   // cities for a specific country
-  const loadCitiesForCountry = useCallback((countryCode) => {
+  const loadCitiesForCountry = useCallback(async (countryCode) => {
     setLoading((prev) => ({ ...prev, city: true }));
     setError((prev) => ({ ...prev, city: null }));
 
     try {
-      const citiesList = City.getCitiesOfCountry(countryCode);
+      const response = await fetch(
+        `https://secure.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=1000&username=shoishob554`
+      );
 
-      if (citiesList && citiesList.length > 0) {
-        const formattedCities = citiesList.map((city) => ({
-          value: city.name,
-          label: city.name,
-        }));
+      if (!response.ok) throw new Error("Failed to fetch cities");
 
-        setCities(formattedCities);
-        setFilteredCities(formattedCities);
-      } else {
-        setCities([]);
-        setFilteredCities([]);
-        setError((prev) => ({
-          ...prev,
-          city: `No cities found for country code: ${countryCode}. Please type the city name manually.`,
-        }));
+      const data = await response.json();
+      const citiesList = data.geonames.map((city) => city.name);
+
+      setCities(citiesList.map((city) => ({ value: city, label: city })));
+      setFilteredCities(
+        citiesList.map((city) => ({ value: city, label: city }))
+      );
+
+      if (citiesList.length === 0) {
+        setError({ city: "No cities found. Type manually." });
       }
     } catch (error) {
-      console.error("Error loading cities:", error);
-      setError((prev) => ({
-        ...prev,
-        city: error.message || "Failed to load cities",
-      }));
-      setCities([]);
-      setFilteredCities([]);
+      setError({ city: "Error loading cities. Type manually." });
     } finally {
       setLoading((prev) => ({ ...prev, city: false }));
     }
@@ -86,9 +141,9 @@ const HotelCalculatorLeft = ({
 
       try {
         if (!keyword || keyword.trim() === "") {
-          setFilteredCountries(countries);
+          setFilteredCountries(countryOptions);
         } else {
-          const filtered = countries.filter((country) =>
+          const filtered = countryOptions.filter((country) =>
             country.label.toLowerCase().includes(keyword.toLowerCase())
           );
           setFilteredCountries(filtered);
@@ -100,7 +155,7 @@ const HotelCalculatorLeft = ({
         setLoading((prev) => ({ ...prev, country: false }));
       }
     }, 300),
-    [countries]
+    [countryOptions]
   );
 
   // Filtering cities based on search
@@ -140,7 +195,7 @@ const HotelCalculatorLeft = ({
         cluster_name: hotelDetails.cluster_name || null,
       };
 
-      // console.log("requestData :: ", requestData);
+      console.log("requestData :: ", requestData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API}/api/carbon/hotelAPI/hotel-stay-carbon-estimate/`,
@@ -249,7 +304,6 @@ const HotelCalculatorLeft = ({
                 value={rating.toString()}
               />
               <span className="px-4 py-2 flex items-center text-sm font-medium">
-                {/* <Star className="h-4 w-4 mr-1" /> */}
                 {rating} Star{rating !== 1 ? "s" : ""}
               </span>
             </label>

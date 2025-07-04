@@ -73,7 +73,7 @@ export default function ProjectsSection() {
           </Link>
         </div>
 
-        <div className="w-full flex flex-col md:flex-row justify-center gap-10 mb-10">
+        <div className="w-full flex flex-col md:flex-row md:flex-wrap justify-center gap-10 mb-10">
           {projects.map((project, i) => (
             <div
               key={i}

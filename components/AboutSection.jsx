@@ -163,7 +163,7 @@ const AboutSection = () => {
           {/* Description */}
           <p className="text-base md:text-lg text-[#767676] mb-4 leading-relaxed max-w-xl">
             <b>Emission Lab</b> is a climate-tech initiative born from urgency —
-            and driven by hope.
+            and fueled by hope.
           </p>
           <p className="text-base md:text-lg text-[#767676] mb-4 leading-relaxed max-w-xl">
             We are a team of technologists, environmentalists, and innovators

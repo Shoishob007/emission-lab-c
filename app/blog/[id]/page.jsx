@@ -65,11 +65,11 @@ export default function BlogDetailPage() {
               style={{ borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
             />
             {/* Sub-category badge */}
-            {post.sub_category || post.subCategory ? (
+            {/* {post.sub_category || post.subCategory ? (
               <span className="absolute top-4 left-4 bg-btn-primary text-white rounded-full px-4 py-2 text-xs font-bold uppercase shadow z-10">
                 {(post.sub_category || post.subCategory || "").toString()}
               </span>
-            ) : null}
+            ) : null} */}
           </div>
 
           {/* Main Content */}
@@ -86,9 +86,9 @@ export default function BlogDetailPage() {
             <h1 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 flex items-center gap-2">
               {post.title}
             </h1>
-            <span className="text-[#163820] font-semibold text-sm mb-6 block">
+            {/* <span className="text-[#163820] font-semibold text-sm mb-6 block">
               {post.author}
-            </span>
+            </span> */}
 
             {/* Blog Content */}
             <div

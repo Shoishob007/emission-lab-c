@@ -89,7 +89,7 @@ export default function Contact() {
             </div>
           </div>
           {/* Technical Help */}
-          <div className="rounded-b-2xl bg-white px-6 py-4">
+          {/* <div className="rounded-b-2xl bg-white px-6 py-4">
             <div className="font-semibold text-[#1a3323]">
               Need Technical Product Help?
             </div>
@@ -99,7 +99,7 @@ export default function Contact() {
             >
               Get Tech Help
             </a>
-          </div>
+          </div> */}
         </div>
 
         {/* Right Side: Form */}

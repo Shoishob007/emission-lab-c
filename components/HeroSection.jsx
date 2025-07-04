@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
@@ -17,7 +18,7 @@ const slides = [
     subheading:
       "The all-in-one platform led you to a mission to drive the Erach Renewal Initiatives, restoring the balance between people, purpose, and the planet",
     primary: { text: "Learn How We Help", href: "#about" },
-    secondary: { text: "What We Do", href: "#what-we-do" },
+    secondary: { text: "Question In Mind?", href: "#faq" },
   },
   {
     image:
@@ -51,7 +52,7 @@ const slides = [
     subheading:
       "Discover precisely where your emissions come from, gain actionable insights to reduce them, and contribute to verified climate protection projects.",
     primary: { text: "Start Your Journey", href: "/login" },
-    secondary: { text: "See Our Solutions", href: "#" },
+    secondary: { text: "See Our Solutions", href: "#solutions" },
   },
   {
     image:
@@ -73,28 +74,56 @@ const slides = [
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Slide interval for both image and text
+  // transition handler
+  const goToNextSlide = () => {
+    if (isTransitioning) return;
+
+    setIsTransitioning(true);
+
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setIsTransitioning(false);
+    }, 1000);
+  };
+
+  // Auto-advance both slide and text together
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-        setIsVisible(true);
-      }, 400);
-    }, 7000);
+    const interval = setInterval(goToNextSlide, 10000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isTransitioning]);
+
+  const getSlideClass = (idx) => {
+    if (currentSlide !== idx) return "opacity-0";
+
+    return "opacity-100";
+  };
+
+  const getTransitionClass = (idx) => {
+    if (currentSlide === idx) {
+      return "translate-x-0";
+    }
+
+    if (idx === (currentSlide + 1) % slides.length) {
+      // entering slide from right
+      return "translate-x-full";
+    } else {
+      // exiting slide to left
+      return "-translate-x-full";
+    }
+  };
 
   return (
     <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
-      {/* Background Image (fade transition) */}
+      {/* Background Image */}
       {slides.map((slide, idx) => (
         <div
-          key={idx}
+          key={`slide-${idx}`}
           className={`
-            absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out
-            ${currentSlide === idx && isVisible ? "opacity-100" : "opacity-0"}
+            absolute inset-0 transition-all duration-1000 ease-in-out
+            ${getSlideClass(idx)}
+            ${getTransitionClass(idx)}
           `}
           aria-hidden={currentSlide !== idx}
         >
@@ -174,4 +203,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection
+export default HeroSection;

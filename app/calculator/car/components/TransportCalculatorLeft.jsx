@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { Calculator, Car, Train, Bus, Bike, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaMotorcycle } from "react-icons/fa";
 import {
   Select,
   SelectContent,
@@ -27,7 +28,7 @@ const TransportCalculatorLeft = ({
   // Vehicle categories
   const vehicleCategories = [
     { value: "cars", icon: Car, label: "Cars" },
-    { value: "motorcycle", icon: Bike, label: "Motorcycle" },
+    { value: "motorcycle", icon: FaMotorcycle, label: "Motorcycle" },
     { value: "bus", icon: Bus, label: "Bus" },
     { value: "train", icon: Train, label: "Train" },
   ];
@@ -156,7 +157,7 @@ const TransportCalculatorLeft = ({
         </label> */}
         <div className="flex items-center justify-evenly gap-2 rounded-2xl px-1 py-3">
           {vehicleCategories.map((category) => {
-            const Icon = category.icon;
+            const IconComponent = category.icon;
             const isSelected = vehicleCategory === category.value;
 
             return (
@@ -175,7 +176,7 @@ const TransportCalculatorLeft = ({
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 )}
               >
-                <Icon size={20} />
+                <IconComponent size={20} />
                 <AnimatePresence initial={false}>
                   {isSelected && (
                     <motion.span

@@ -1,12 +1,9 @@
-import {
-  Cloud,
-  Sparkles,
-  ArrowUp,
-} from "lucide-react";
+import { Cloud, Sparkles, ArrowUp } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
 import Image from "next/image";
+import Link from "next/link";
 
 const FlightCalculatorRight = ({
   calculated,
@@ -53,7 +50,7 @@ const FlightCalculatorRight = ({
   };
 
   const totalEmission = emissionData?.result?.data?.emissions.co2e_mt || 0;
-  console.log("Hello :: ", emissionData?.result?.data)
+  console.log("Hello :: ", emissionData?.result?.data);
 
   return (
     <>
@@ -281,14 +278,16 @@ const FlightCalculatorRight = ({
                     {showDashboard ? "Hide Details" : "View Details"}
                   </button>
 
-                  <button
-                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors cursor-not-allowed ${
-                      showDashboard ? "hidden" : ""
-                    }`}
-                  >
-                    <ArrowUp className="h-4 w-4 mr-2" />
-                    Offset Now
-                  </button>
+                  <Link href={"/offsetPage"}>
+                    <button
+                      className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors ${
+                        showDashboard ? "hidden" : ""
+                      }`}
+                    >
+                      <ArrowUp className="h-4 w-4 mr-2" />
+                      Offset Now
+                    </button>
+                  </Link>
                 </div>
               )}
             </div>
