@@ -16,7 +16,8 @@ import { motion, useAnimation, useInView } from "framer-motion";
 import { useRef, useEffect } from "react";
 
 const IMAGE_EARTH = "/reduce-1.jpg";
-const IMAGE_ACTION = "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481357/emisison-lab/hero-carousel/31052_ngnoj7.jpg";
+const IMAGE_ACTION =
+  "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481357/emisison-lab/hero-carousel/31052_ngnoj7.jpg";
 
 export default function ReducePage() {
   const steps = [
@@ -57,7 +58,7 @@ export default function ReducePage() {
           </div>
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <TrendingDown
                   size={22}
                   strokeWidth={2}
@@ -96,7 +97,7 @@ export default function ReducePage() {
         <div className="grid md:grid-cols-[1fr_320px] gap-8 md:gap-16 mb-16">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Info size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -109,15 +110,15 @@ export default function ReducePage() {
             </h2>
             <ul className="text-[#767676] text-base sm:text-lg space-y-2 mt-3">
               <li className="flex items-center gap-2">
-                <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                <ArrowRight className="text-btn-primary min-w-5" size={18} />
                 Saves energy, costs, and resources.
               </li>
               <li className="flex items-center gap-2">
-                <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                <ArrowRight className="text-btn-primary min-w-5" size={18} />
                 Aligns with climate goals
               </li>
               <li className="flex items-center gap-2">
-                <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                <ArrowRight className="text-btn-primary min-w-5" size={18} />
                 Builds habits that support long-term sustainability.
               </li>
             </ul>
@@ -137,7 +138,7 @@ export default function ReducePage() {
             {/* Main text/content */}
             <div className="flex-1 flex flex-col justify-center md:justify-start">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+                <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                   <Settings
                     size={22}
                     strokeWidth={2}
@@ -148,9 +149,7 @@ export default function ReducePage() {
                   How it works
                 </span>
               </div>
-              <h2
-                className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 capitalize"
-              >
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 capitalize">
                 Turn <span className="text-primary">insight</span> into{" "}
                 <span className="text-primary">action</span>
               </h2>
@@ -180,7 +179,7 @@ export default function ReducePage() {
         <div className="mb-20 flex flex-col items-center justify-center">
           <div className="w-full max-w-5xl mx-auto">
             <div className="flex items-center gap-2 mb-2 justify-center">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Lightbulb size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">

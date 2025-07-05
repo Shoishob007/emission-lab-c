@@ -82,7 +82,7 @@ export default function WhatWeDoSection() {
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 md:gap-0">
           <div className="text-center md:text-left max-w-4xl">
             <div className="flex items-center gap-2 mb-3 justify-center md:justify-start">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Leaf size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -90,7 +90,8 @@ export default function WhatWeDoSection() {
               </span>
             </div>
             <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize">
-              Innovative <span className="text-primary">Solutions</span> for a Sustainable Future!
+              Innovative <span className="text-primary">Solutions</span> for a
+              Sustainable Future!
             </h2>
           </div>
         </div>
@@ -112,19 +113,17 @@ export default function WhatWeDoSection() {
             >
               {/* Icon */}
               <div className="mb-4 flex items-center justify-center rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-200 w-12 h-12 mx-auto shadow">
-                <span className="block group-hover:hidden">
-                  {service.icon}
-                </span>
+                <span className="block group-hover:hidden">{service.icon}</span>
                 <span className="hidden group-hover:block">
                   {service.hoverIcon}
                 </span>
               </div>
-              
+
               {/* Title */}
               <h3 className="text-xl sm:text-lg font-bold text-[#163820] group-hover:text-white transition-colors duration-300 mb-3 text-center">
                 {service.title}
               </h3>
-              
+
               {/* Description */}
               <p className="text-base sm:text-sm text-[#767676] group-hover:text-white/90 transition-colors duration-300 text-center">
                 {service.description}

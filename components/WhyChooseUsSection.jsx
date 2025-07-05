@@ -21,7 +21,7 @@ const WhyChooseUsSection = () => {
         {/* Left: Content */}
         <div className="w-full lg:w-1/2 max-w-[560px] min-w-[320px] p-4 flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <svg
                 width="22"
                 height="22"
@@ -75,12 +75,13 @@ const WhyChooseUsSection = () => {
             ))}
           </div>
           <Link href="/contact">
-          <button
-            className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex justify-center items-center gap-2 shadow-lg transition mx-auto sm:mx-0 w-fit"
-            type="button"
-          >
-            Contact Us <ArrowRight className="w-5 h-5" />
-          </button></Link>
+            <button
+              className="mt-2 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex justify-center items-center gap-2 shadow-lg transition mx-auto sm:mx-0 w-fit"
+              type="button"
+            >
+              Contact Us <ArrowRight className="w-5 h-5" />
+            </button>
+          </Link>
         </div>
 
         {/* Right: Images grid */}

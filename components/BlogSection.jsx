@@ -29,7 +29,9 @@ export default function BlogSection() {
   if (loading) {
     return (
       <section className="relative py-20 bg-white flex items-center justify-center">
-        <span className="text-lg text-muted-foreground">Loading articles...</span>
+        <span className="text-lg text-muted-foreground">
+          Loading articles...
+        </span>
       </section>
     );
   }
@@ -37,7 +39,9 @@ export default function BlogSection() {
   if (!blogPosts.length) {
     return (
       <section className="relative py-20 bg-white flex items-center justify-center">
-        <span className="text-lg text-muted-foreground">No articles found.</span>
+        <span className="text-lg text-muted-foreground">
+          No articles found.
+        </span>
       </section>
     );
   }
@@ -58,7 +62,7 @@ export default function BlogSection() {
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-8 sm:gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Leaf size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -66,8 +70,7 @@ export default function BlogSection() {
               </span>
             </div>
             <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize">
-              Recent articles and updates{" "}
-              <br className="hidden sm:block" />
+              Recent articles and updates <br className="hidden sm:block" />
               on{" "}
               <span className="text-primary">
                 sustainability & conservation
@@ -108,9 +111,7 @@ export default function BlogSection() {
               </div>
               <div className="p-8 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-[#767676] text-sm">
-                    {post.date}
-                  </span>
+                  <span className="text-[#767676] text-sm">{post.date}</span>
                   <span className="text-primary text-xs font-bold uppercase">
                     {post.category}
                   </span>
@@ -121,7 +122,8 @@ export default function BlogSection() {
                 <p className="text-[#767676] text-base mb-4 line-clamp-5">
                   {/* Strip html tags for preview */}
                   {typeof post.excerpt === "string"
-                    ? post.excerpt.replace(/<[^>]+>/g, '').slice(0, 180) + (post.excerpt.length > 180 ? '...' : '')
+                    ? post.excerpt.replace(/<[^>]+>/g, "").slice(0, 180) +
+                      (post.excerpt.length > 180 ? "..." : "")
                     : ""}
                 </p>
                 {/* <span className="text-[#163820] font-semibold text-base mb-5">
@@ -151,7 +153,11 @@ export default function BlogSection() {
                 />
                 {/* Sub-category badge */}
                 <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                  {(blogPosts[0].sub_category || blogPosts[0].subCategory || "").toString()}
+                  {(
+                    blogPosts[0].sub_category ||
+                    blogPosts[0].subCategory ||
+                    ""
+                  ).toString()}
                 </span>
               </div>
               <div className="p-8 flex-1 flex flex-col">
@@ -168,7 +174,10 @@ export default function BlogSection() {
                 </h3>
                 <p className="text-[#767676] text-base mb-4 line-clamp-5">
                   {typeof blogPosts[0].excerpt === "string"
-                    ? blogPosts[0].excerpt.replace(/<[^>]+>/g, '').slice(0, 200) + (blogPosts[0].excerpt.length > 200 ? '...' : '')
+                    ? blogPosts[0].excerpt
+                        .replace(/<[^>]+>/g, "")
+                        .slice(0, 200) +
+                      (blogPosts[0].excerpt.length > 200 ? "..." : "")
                     : ""}
                 </p>
                 {/* <span className="text-[#163820] font-semibold text-base mb-5">
@@ -217,7 +226,8 @@ export default function BlogSection() {
                   </h3>
                   <p className="text-[#767676] text-sm mb-4 line-clamp-4">
                     {typeof post.excerpt === "string"
-                      ? post.excerpt.replace(/<[^>]+>/g, '').slice(0, 110) + (post.excerpt.length > 110 ? '...' : '')
+                      ? post.excerpt.replace(/<[^>]+>/g, "").slice(0, 110) +
+                        (post.excerpt.length > 110 ? "..." : "")
                       : ""}
                   </p>
                   {/* <span className="text-[#163820] font-semibold text-sm mb-2">

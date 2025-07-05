@@ -46,7 +46,7 @@ export default function ContactSection() {
         {/* Left Side */}
         <div className="flex flex-col">
           <div className="flex items-center gap-3 mb-6">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <Settings size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-primary tracking-widest text-sm font-semibold">

@@ -92,7 +92,7 @@
 //           </div>
 //           <div>
 //             <div className="flex items-center gap-2 mb-2">
-//               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+//               <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
 //                 <Code size={22} strokeWidth={2} className="text-primary" />
 //               </span>
 //               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -114,7 +114,7 @@
 //               sustainability accessible to millions of users.
 //             </p>
 //             <div className="flex items-center gap-2 mt-3">
-//               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+//               <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
 //                 <span className="font-semibold text-primary text-base">
 //                   <Check size={22} strokeWidth={2} />
 //                 </span>
@@ -130,7 +130,7 @@
 //         <div className="grid md:grid-cols-[1fr_320px] gap-8 md:gap-16 mb-16 items-center">
 //           <div>
 //             <div className="flex items-center gap-2 mb-2">
-//               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+//               <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
 //                 <FileJson size={22} strokeWidth={2} className="text-primary" />
 //               </span>
 //               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -148,7 +148,7 @@
 //             <ul className="text-[#767676] text-base sm:text-lg space-y-2 mt-3">
 //               {builtFor.map((item, idx) => (
 //                 <li key={idx} className="flex items-center gap-2">
-//                   <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+//                   <ArrowRight className="text-btn-primary min-w-5" size={18} />
 //                   <span>{item}</span>
 //                 </li>
 //               ))}
@@ -170,7 +170,7 @@
 //               {/* Main text/content - fixed width */}
 //               <div className="md:w-[320px] flex flex-col">
 //                 <div className="flex items-center gap-2 mb-3">
-//                   <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+//                   <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
 //                     <Code size={22} strokeWidth={2} className="text-primary" />
 //                   </span>
 //                   <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -218,7 +218,7 @@
 //           {/* Text content */}
 //           <div className="order-2 md:order-none">
 //             <div className="flex items-center gap-2 mb-2">
-//               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+//               <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
 //                 <Code size={22} strokeWidth={2} className="text-primary" />
 //               </span>
 //               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -235,7 +235,7 @@
 //             <ul className="text-[#767676] text-base sm:text-lg space-y-2 mt-3">
 //               {devFriendly.map((item, idx) => (
 //                 <li key={idx} className="flex items-center gap-2">
-//                   <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+//                   <ArrowRight className="text-btn-primary min-w-5" size={18} />
 //                   <span>{item}</span>
 //                 </li>
 //               ))}
@@ -386,7 +386,7 @@ export default function ApiSection() {
           </div>
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Code size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -408,7 +408,7 @@ export default function ApiSection() {
               sustainability accessible to millions of users.
             </p>
             <div className="flex items-center gap-2 mt-3">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <span className="font-semibold text-primary text-base">
                   <Check size={22} strokeWidth={2} />
                 </span>
@@ -424,7 +424,7 @@ export default function ApiSection() {
         <div className="grid md:grid-cols-[1fr_320px] gap-8 md:gap-16 mb-16 items-center">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <FileJson size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -442,7 +442,7 @@ export default function ApiSection() {
             <ul className="text-[#767676] text-base sm:text-lg space-y-2 mt-3">
               {builtFor.map((item, idx) => (
                 <li key={idx} className="flex items-center gap-2">
-                  <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                  <ArrowRight className="text-btn-primary min-w-5" size={18} />
                   <span>{item}</span>
                 </li>
               ))}
@@ -464,7 +464,7 @@ export default function ApiSection() {
               {/* Main text/content - fixed width */}
               <div className="md:w-[320px] flex flex-col">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+                  <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                     <Code size={22} strokeWidth={2} className="text-primary" />
                   </span>
                   <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -512,7 +512,7 @@ export default function ApiSection() {
           {/* Text content */}
           <div className="order-2 md:order-none">
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Code size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -529,7 +529,7 @@ export default function ApiSection() {
             <ul className="text-[#767676] text-base sm:text-lg space-y-2 mt-3">
               {devFriendly.map((item, idx) => (
                 <li key={idx} className="flex items-center gap-2">
-                  <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                  <ArrowRight className="text-btn-primary min-w-5" size={18} />
                   <span>{item}</span>
                 </li>
               ))}

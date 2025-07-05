@@ -5,21 +5,24 @@ import Link from "next/link";
 const projects = [
   {
     title: "Renewable Energy Implementation",
-    image: "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538667/emisison-lab/renewable-energy-project_tsusjo.jpg",
+    image:
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538667/emisison-lab/renewable-energy-project_tsusjo.jpg",
     description:
       "Our renewable energy solutions harness the power of natural resources like solar.",
     cta: { text: "Read More", href: "/projects/1" },
   },
   {
     title: "Reforestation to Restore Natural",
-    image: "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538665/emisison-lab/reforestration-project_zmzv6v.jpg",
+    image:
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538665/emisison-lab/reforestration-project_zmzv6v.jpg",
     description:
       "Our renewable energy solutions harness the power of natural resources like solar.",
     cta: { text: "Read More", href: "/projects/2" },
   },
   {
     title: "Climate Action for a Greener Planet",
-    image: "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538668/emisison-lab/climate-awarness_u7qsp5.jpg",
+    image:
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538668/emisison-lab/climate-awarness_u7qsp5.jpg",
     description:
       "Our renewable energy solutions harness the power of natural resources like solar.",
     cta: { text: "Read More", href: "/projects/3" },
@@ -36,7 +39,7 @@ export default function ProjectsSection() {
         <div className="w-full flex flex-col md:flex-row md:justify-between md:items-center mb-12">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <svg
                   width="22"
                   height="22"

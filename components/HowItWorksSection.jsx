@@ -35,7 +35,7 @@ export default function HowItWorksSection() {
         {/* Section header */}
         <div className="flex flex-col px-4">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <Leaf size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-primary tracking-widest text-xs font-semibold">

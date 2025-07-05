@@ -113,7 +113,7 @@ export default function KeyObjectivesSection() {
         {/* Header - Increased text sizes */}
         <div className="flex flex-col items-center mb-12">
           <div className="flex items-center gap-2 mb-4">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-3">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-3">
               <Target size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -124,7 +124,7 @@ export default function KeyObjectivesSection() {
             Our Key <span className="text-primary">Objectives</span>
           </h2>
         </div>
-        
+
         {/* Animated Objectives List - Increased text sizes */}
         <motion.div
           variants={containerVariants}
@@ -147,9 +147,7 @@ export default function KeyObjectivesSection() {
                 <h3 className="text-lg font-semibold text-[#163820] mb-2">
                   {obj.title}
                 </h3>
-                <p className="text-base text-[#767676]">
-                  {obj.description}
-                </p>
+                <p className="text-base text-[#767676]">{obj.description}</p>
               </div>
             </motion.div>
           ))}

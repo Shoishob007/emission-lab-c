@@ -74,7 +74,7 @@ export default function FactsAndEnvironmentSection() {
         {/* LEFT: Content */}
         <div className="flex-1 flex flex-col justify-center items-start text-white py-8 sm:py-10 px-4 w-full max-w-2xl">
           <div className="flex items-center gap-3 mb-6">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <Settings size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-primary tracking-widest text-sm font-semibold">
@@ -116,9 +116,7 @@ export default function FactsAndEnvironmentSection() {
                 className="flex flex-col items-center text-center border-r border-green-800 last:border-none py-2"
               >
                 <div className="mb-2 sm:mb-3">{fact.icon}</div>
-                <div
-                  className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-1 text-white"
-                >
+                <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-1 text-white">
                   {startCount ? (
                     <CountUp
                       end={fact.number}
