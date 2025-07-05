@@ -7,11 +7,22 @@ import FooterSection from "@/components/FooterSection";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Emission Lab",
-  description: "Calculate your carbon emissions",
-  icons: {
-    icon: "/carbon-Fav.png",
-    apple: "/apple-touch-icon.png",
+  metadataBase: new URL("https://www.aiemissionlab.com"),
+  title: "Carbon Initiative | Empowering Carbon Reduction",
+  description:
+    "AI Mission Lab is building a platform to help individuals and organizations calculate, reduce, and offset their carbon footprint.",
+  openGraph: {
+    title: "Carbon Initiative | Empowering Carbon Reduction",
+    description:
+      "AI Mission Lab is building a platform to help individuals and organizations calculate, reduce, and offset their carbon footprint.",
+    url: "https://www.aiemissionlab.com",
+    siteName: "AI Mission Lab",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Carbon Initiative | Empowering Carbon Reduction",
+    description:
+      "Join us on the mission to tackle climate change with AI-driven carbon solutions.",
   },
 };
 
