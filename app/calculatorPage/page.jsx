@@ -64,7 +64,7 @@ export default function CalcPage() {
           </div>
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Info size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -87,7 +87,7 @@ export default function CalcPage() {
               greenhouse gases (GHGs) you release into the atmosphere.
             </p>
             <div className="flex items-center gap-2 mt-3 ">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <span className="font-semibold text-primary text-base">
                   <Check />
                 </span>
@@ -103,7 +103,7 @@ export default function CalcPage() {
         <div className="grid md:grid-cols-[1fr_320px] gap-8 md:gap-16 mb-16 items-center">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Info size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -121,18 +121,18 @@ export default function CalcPage() {
             </p>
             <ul className="text-[#767676] text-base sm:text-lg space-y-2 mt-3">
               <li className="flex items-center gap-2">
-                <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                <ArrowRight className="text-btn-primary min-w-5" size={18} />
                 <span>
                   <b>Awareness is the first step toward change.</b>
                 </span>
               </li>
               <li className="flex items-center gap-2">
-                <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                <ArrowRight className="text-btn-primary min-w-5" size={18} />
                 Understanding your footprint helps you make smarter, more
                 sustainable decisions.
               </li>
               <li className="flex items-center gap-2">
-                <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                <ArrowRight className="text-btn-primary min-w-5" size={18} />
                 Small changes can add up to big climate impact when done
                 collectively.
               </li>
@@ -150,7 +150,7 @@ export default function CalcPage() {
         {/* 3. WHAT CAN YOU CALCULATE */}
         <div className="mb-16">
           <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <Check size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -207,7 +207,7 @@ export default function CalcPage() {
             {/* Content */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+                <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                   <MessageCircleQuestionIcon
                     size={22}
                     strokeWidth={2}
@@ -224,16 +224,16 @@ export default function CalcPage() {
               </h2>
               <ul className="text-[#767676] text-base sm:text-lg space-y-2 mt-3">
                 <li className="flex items-center gap-2">
-                  <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                  <ArrowRight className="text-btn-primary min-w-5" size={18} />
                   Reduce emissions through sustainable lifestyle choices.
                 </li>
                 <li className="flex items-center gap-2">
-                  <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                  <ArrowRight className="text-btn-primary min-w-5" size={18} />
                   Offset your unavoidable emissions via verified climate
                   projects.
                 </li>
                 <li className="flex items-center gap-2">
-                  <ArrowRight className="text-[#FFA726] min-w-5" size={18} />
+                  <ArrowRight className="text-btn-primary min-w-5" size={18} />
                   Track progress over time via your personal dashboard{" "}
                   <span className="italic text-xs text-[#8b5cf6]">
                     (coming soon)

@@ -68,7 +68,7 @@
 //         <div className="flex flex-col lg:flex-row-reverse justify-between gap-10 px-4">
 //           <div className="w-full lg:w-1/2 max-w-[600px] min-w-[320px] flex flex-col">
 //             <div className="flex items-center gap-2 mb-3">
-//               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+//               <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
 //                 <Code size={22} strokeWidth={2} className="text-primary" />
 //               </span>
 //               <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -204,7 +204,7 @@ export default function ApiSection() {
         <div className="w-full lg:w-1/2 min-w-[320px] px-4 flex flex-col justify-center items-center lg:items-start">
           <div className="mb-8 w-full max-w-lg">
             <div className="flex items-center gap-2 mb-3">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Code size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -245,9 +245,7 @@ export default function ApiSection() {
             </div> */}
             <div className="flex justify-center w-full">
               <Link href="/apiPage" passHref legacyBehavior>
-                <button
-                  className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit"
-                >
+                <button className="px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition w-fit">
                   Explore Our APIs <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>

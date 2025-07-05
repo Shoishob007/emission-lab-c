@@ -78,7 +78,7 @@ export default function OffsetPage() {
         {/* HEADER & WHY OFFSETTING MATTERS */}
         <div className="w-full max-w-5xl mx-auto mb-16">
           <div className="flex justify-center items-center gap-2 mb-2">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <TrendingUp size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -134,7 +134,7 @@ export default function OffsetPage() {
         <div className="w-full flex flex-col items-center mb-20">
           <div className="max-w-4xl w-full">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Settings size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -154,7 +154,7 @@ export default function OffsetPage() {
           <div className="flex flex-col lg:flex-row lg:items-start lg:gap-10">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+                <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                   <Globe2 size={22} strokeWidth={2} className="text-primary" />
                 </span>
                 <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -194,7 +194,7 @@ export default function OffsetPage() {
         <div className="mb-20 flex flex-col items-center justify-center">
           <div className="w-full max-w-5xl mx-auto">
             <div className="flex items-center gap-2 mb-2 justify-center">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Lightbulb size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">

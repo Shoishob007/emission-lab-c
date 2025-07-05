@@ -46,7 +46,7 @@ export default function Contact() {
           {/* Top: Hero */}
           <div className="rounded-t-2xl rounded-b-lg bg-[#0a2d23] p-8 md:p-10 text-left mb-2">
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Filter size={20} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">

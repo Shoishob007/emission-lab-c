@@ -49,7 +49,7 @@ export default function TestimonialsSection() {
         <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <svg
                   width="22"
                   height="22"

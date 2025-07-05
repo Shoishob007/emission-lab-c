@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { getBlogs } from "@/utils/api/getBlogs";
 
-
 const categories = [
   { key: "all", label: "All" },
   { key: "Blog", label: "Blog" },
@@ -37,27 +36,29 @@ export default function BlogPage() {
   const [activeSub, setActiveSub] = useState("all");
   const [sortDate, setSortDate] = useState("desc");
 
-useEffect(() => {
-  async function fetchBlogs() {
-    setLoading(true);
-    try {
-      const data = await getBlogs();
-      setBlogPosts(data);
-    } catch {
-      setBlogPosts([]);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    async function fetchBlogs() {
+      setLoading(true);
+      try {
+        const data = await getBlogs();
+        setBlogPosts(data);
+      } catch {
+        setBlogPosts([]);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
-  fetchBlogs();
-}, []);
+    fetchBlogs();
+  }, []);
 
   const subCategories = useMemo(
     () => [
       "all",
       ...Array.from(
         new Set(
-          blogPosts.map((b) => b.sub_category || b.subCategory || "").filter(Boolean)
+          blogPosts
+            .map((b) => b.sub_category || b.subCategory || "")
+            .filter(Boolean)
         )
       ),
     ],
@@ -68,8 +69,7 @@ useEffect(() => {
   let filtered = blogPosts;
   if (activeCategory !== "all") {
     filtered = filtered.filter(
-      (b) =>
-        (b.category || "").toLowerCase() === activeCategory.toLowerCase()
+      (b) => (b.category || "").toLowerCase() === activeCategory.toLowerCase()
     );
   }
   if (activeSub !== "all") {
@@ -92,7 +92,7 @@ useEffect(() => {
         <div className="mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                 <Filter size={20} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-bold">
@@ -206,9 +206,7 @@ useEffect(() => {
                 </div>
                 <div className="p-7 flex-1 flex flex-col">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[#767676] text-xs">
-                      {post.date}
-                    </span>
+                    <span className="text-[#767676] text-xs">{post.date}</span>
                     <span className="text-primary text-xs font-bold uppercase">
                       {post.category}
                     </span>

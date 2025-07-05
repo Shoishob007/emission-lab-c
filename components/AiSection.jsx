@@ -57,7 +57,7 @@
 //           {/* Left */}
 //           <div className="w-full lg:w-1/2 max-w-[600px] flex flex-col justify-center sm:p-6">
 //             <div className="flex items-center gap-2 mb-3">
-//               <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+//               <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
 //                 <Brain size={22} strokeWidth={2} className="text-primary" />
 //               </span>
 //               <span className="uppercase text-primary tracking-widest text-xs font-semibold">
@@ -198,7 +198,7 @@ export default function AiSection() {
         {/* Left: Content */}
         <div className="w-full lg:w-1/2 max-w-[560px] min-w-[320px] p-4 flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <Brain size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-primary tracking-widest text-xs font-semibold">

@@ -99,7 +99,10 @@ function ParallaxImage() {
   }, []);
 
   // Parallax effect: move slower than scroll, clamp for mobile
-  const offset = typeof window !== "undefined" && window.innerWidth < 640 ? 0 : scrollY * 0.18;
+  const offset =
+    typeof window !== "undefined" && window.innerWidth < 640
+      ? 0
+      : scrollY * 0.18;
   // Parallax image src: replace with yours as needed
   return (
     <motion.div
@@ -172,7 +175,7 @@ export default function KeyObjectivesSection() {
         {/* Header */}
         <div className="flex flex-col items-center mb-10">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <Target size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-primary tracking-widest text-xs font-semibold">

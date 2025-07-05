@@ -132,7 +132,7 @@ const AboutSection = () => {
           className="w-full lg:w-1/2 max-w-[520px] min-w-[300px] p-4 flex flex-col justify-center"
         >
           <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center justify-center bg-green-900/10 rounded-full p-2">
+            <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <svg
                 width="18"
                 height="18"
