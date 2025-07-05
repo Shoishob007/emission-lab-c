@@ -10,13 +10,13 @@ export const metadata = {
   metadataBase: new URL("https://www.aiemissionlab.com"),
   title: "Carbon Initiative | Empowering Carbon Reduction",
   description:
-    "AI Mission Lab is building a platform to help individuals and organizations calculate, reduce, and offset their carbon footprint.",
+    "Emission Lab is building a platform to help individuals and organizations calculate, reduce, and offset their carbon footprint.",
   openGraph: {
     title: "Carbon Initiative | Empowering Carbon Reduction",
     description:
-      "AI Mission Lab is building a platform to help individuals and organizations calculate, reduce, and offset their carbon footprint.",
+      "Emission Lab is building a platform to help individuals and organizations calculate, reduce, and offset their carbon footprint.",
     url: "https://www.aiemissionlab.com",
-    siteName: "AI Mission Lab",
+    siteName: "AI Emission Lab",
   },
   twitter: {
     card: "summary_large_image",
