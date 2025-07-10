@@ -11,6 +11,10 @@ export const metadata = {
   title: "Carbon Initiative | Empowering Carbon Reduction",
   description:
     "Emission Lab is building a platform to help individuals and organizations calculate, reduce, and offset their carbon footprint.",
+  icons: {
+    icon: "/carbon-Fav.png",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "Carbon Initiative | Empowering Carbon Reduction",
     description:

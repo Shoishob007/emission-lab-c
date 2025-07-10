@@ -95,9 +95,9 @@ export default function AiPage() {
             {/* Left Content */}
             <div className="w-full lg:w-1/2 max-w-[600px] flex flex-col justify-center">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex items-center justify-center rounded-full p-2">
-                  <Brain size={22} strokeWidth={2} className="text-primary" />
-                </span>
+                <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
+                    <Brain size={22} strokeWidth={2} className="text-primary" />
+                  </span>
                 <span className="uppercase text-primary tracking-widest text-xs font-semibold">
                   Artificial Intelligence
                 </span>
@@ -167,7 +167,7 @@ export default function AiPage() {
               {/* Business Help */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex items-center justify-center rounded-full p-2">
+                  <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                     <BarChart3
                       size={20}
                       strokeWidth={2}
@@ -192,7 +192,7 @@ export default function AiPage() {
               {/* Built for Regenerative Future */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex items-center justify-center rounded-full p-2">
+                  <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                     <Globe size={20} strokeWidth={2} className="text-primary" />
                   </span>
                   <span className="font-bold text-[#163820] text-lg">
@@ -217,7 +217,7 @@ export default function AiPage() {
               {/* Main header/intro */}
               <div className="w-full max-w-[520px] mb-6">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="inline-flex items-center justify-center rounded-full p-2">
+                  <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                     <Brain size={22} strokeWidth={2} className="text-primary" />
                   </span>
                   <span className="uppercase text-primary tracking-widest text-xs font-semibold">
