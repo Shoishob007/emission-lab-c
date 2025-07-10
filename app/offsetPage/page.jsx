@@ -73,7 +73,7 @@ const flow = [
 
 export default function OffsetPage() {
   return (
-    <section className="min-h-[100vh] py-14 px-2 font-['Montserrat','Arial','Helvetica',sans-serif'] bg-transparent">
+    <section className="min-h-[100vh] py-14 px-2 bg-transparent">
       <div className="max-w-6xl mx-auto px-4">
         {/* HEADER & WHY OFFSETTING MATTERS */}
         <div className="w-full max-w-5xl mx-auto mb-16">

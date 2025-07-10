@@ -146,7 +146,7 @@ export default function NewBusinessPage() {
           </div>
           <div className="relative">
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751544262/emisison-lab/hero-carousel/2148233377_pvxjm0.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1752140066/emisison-lab/2150196705_fpw74u.jpg"
               alt="Business API"
               className="rounded-full w-full object-cover aspect-square shadow"
             />
@@ -157,7 +157,7 @@ export default function NewBusinessPage() {
         <div className="grid md:grid-cols-[1fr_720px] gap-8 md:gap-16 mb-16 items-center">
           <div className="relative order-2 md:order-1">
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539585/emisison-lab/api-2_eqna3r.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1752139948/emisison-lab/2151908117_nzjw8u.jpg"
               alt="Travel API"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -308,7 +308,7 @@ export default function NewBusinessPage() {
           </div>
           <div className="relative">
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539587/emisison-lab/api-3_e1mx32.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1752139077/emisison-lab/24608_inb9mx.jpg"
               alt="Business Benefits"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />

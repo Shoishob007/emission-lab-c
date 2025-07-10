@@ -51,7 +51,7 @@ const calcScopes = [
 
 export default function CalcPage() {
   return (
-    <section className="min-h-[100vh] py-14 px-2 font-['Montserrat','Arial','Helvetica',sans-serif'] bg-transparent">
+    <section className="min-h-[100vh] py-14 px-2 bg-transparent">
       <div className="max-w-6xl mx-auto px-4">
         {/* 1. HEADER SECTION */}
         <div className="grid md:grid-cols-[320px_1fr] gap-8 md:gap-16 mb-16 items-center">

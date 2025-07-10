@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useEffect, useState } from "react";
-import { ArrowRight, Leaf } from "lucide-react";
+import { ArrowRight, File, FileText, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getBlogs } from "@/utils/api/getBlogs";
@@ -63,7 +63,7 @@ export default function BlogSection() {
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
-                <Leaf size={22} strokeWidth={2} className="text-primary" />
+                <FileText size={22} strokeWidth={2} className="text-primary" />
               </span>
               <span className="uppercase text-primary tracking-widest text-xs font-semibold">
                 Latest Articles
