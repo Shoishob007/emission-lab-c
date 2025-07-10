@@ -48,7 +48,7 @@ export default function TermsAndConditions() {
         <div className="bg-white rounded-2xl shadow-lg p-8 border border-[#eaeaea]">
           {/* Header */}
           <div className="flex flex-col items-center mb-8">
-            <span className="inline-flex items-center justify-center rounded-full bg-[#F7F7F7] p-3 mb-2 shadow-inner border border-[#eaeaea]">
+            <span className="inline-flex items-center bg-primary/20 justify-center rounded-full bg-[#F7F7F7] p-3 mb-2 shadow-inner border border-[#eaeaea]">
               <FileText size={28} strokeWidth={2} className="text-primary" />
             </span>
             <h1 className="text-3xl md:text-4xl font-bold text-center mb-2 text-primary">
@@ -71,7 +71,7 @@ export default function TermsAndConditions() {
               </div>
               <p className="text-[#767676]">
                 Welcome to{" "}
-                <span className="font-semibold">Aiemissionlab.com</span>. By
+                <span className="font-semibold">aiemissionlab.com</span>. By
                 accessing or using our website, you agree to comply with these
                 terms and conditions. These terms apply to all visitors, users,
                 and others who access or use the site. Please read them
@@ -88,7 +88,7 @@ export default function TermsAndConditions() {
                 </span>
               </div>
               <p className="text-[#767676] mb-2">
-                <span className="font-semibold">Aiemissionlab.com</span> is
+                <span className="font-semibold">aiemissionlab.com</span> is
                 provided on an &quot;as is&quot; and &quot;as available&quot;
                 basis. While Emission Lab has taken reasonable care to ensure
                 the accuracy of information presented, we provide it for
@@ -234,7 +234,7 @@ export default function TermsAndConditions() {
               </div>
               <p className="text-[#767676]">
                 All content on{" "}
-                <span className="font-semibold">Aiemissionlab.com</span>,
+                <span className="font-semibold">aiemissionlab.com</span>,
                 including text, graphics, logos, and software, is the property
                 of Emission Lab or its content suppliers and protected by
                 international copyright laws. Unauthorized use, reproduction,

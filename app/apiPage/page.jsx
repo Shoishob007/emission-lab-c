@@ -462,7 +462,7 @@ export default function ApiSection() {
           <div className="w-full max-w-6xl mx-auto px-4">
             <div className="flex flex-col md:flex-row md:items-stretch md:gap-12 gap-8">
               {/* Main text/content - fixed width */}
-              <div className="md:w-[320px] flex flex-col">
+              <div className="md:w-1/3 flex flex-col">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                     <Code size={22} strokeWidth={2} className="text-primary" />

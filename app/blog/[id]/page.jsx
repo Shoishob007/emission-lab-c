@@ -44,7 +44,7 @@ export default function BlogDetailPage() {
 
   return (
     <section className="bg-white min-h-[100vh] py-14 px-2">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4">
         {/* Back link */}
         <Link
           href="/blog"
