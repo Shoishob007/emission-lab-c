@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { Settings } from "lucide-react";
+import { Mail, Settings } from "lucide-react";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import qs from "qs";
 
-export default function ContactSection() {
+export default function ContactSection({ isPage = false }) {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -12,42 +13,91 @@ export default function ContactSection() {
     company: "",
     location: "",
     interested: "",
+    message: "",
   });
 
-  const handleSubmit = (e) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // success message
-    Swal.fire({
-      title: "Form Submitted!",
-      text: "Thank you for contacting us. We will get back to you soon.",
-      icon: "success",
-      confirmButtonColor: "#0a2d23",
-      confirmButtonText: "OK",
-    });
+    setSubmitting(true);
 
-    setForm({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      company: "",
-      location: "",
-      interested: "",
-    });
+    try {
+      const payload = {
+        first_name: form.firstName,
+        last_name: form.lastName,
+        business_email: form.email,
+        phone: form.phone,
+        company_name: form.company,
+        company_location: form.location,
+        interests: form.interested,
+        message: form.message,
+      };
+
+      const query = qs.stringify({ type: "talk" });
+
+      // POST request
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/api/articles/send-email/?${query}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      // Success
+      Swal.fire({
+        title: "Form Submitted!",
+        text: "Thank you for contacting us. We will get back to you soon.",
+        icon: "success",
+        confirmButtonColor: "#0a2d23",
+        confirmButtonText: "OK",
+      });
+
+      // Reset form
+      setForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        company: "",
+        location: "",
+        interested: "",
+        message: "",
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Submission Failed",
+        text: "Sorry, there was a problem submitting your message. Please try again.",
+        icon: "error",
+        confirmButtonColor: "#0a2d23",
+        confirmButtonText: "OK",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <section
-      id="contact"
-      className="w-full bg-white py-16 px-4 flex items-center justify-center font-['Montserrat','Arial','Helvetica',sans-serif']"
+      id={isPage ? undefined : "contact"}
+      className={`w-full bg-white py-16 px-4 flex items-center justify-center ${
+        isPage ? "min-h-screen" : ""
+      }`}
     >
       <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
         {/* Left Side */}
         <div className="flex flex-col">
           <div className="flex items-center gap-3 mb-6">
             <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
-              <Settings size={22} strokeWidth={2} className="text-primary" />
+              <Mail size={22} strokeWidth={2} className="text-primary" />
             </span>
             <span className="uppercase text-primary tracking-widest text-sm font-semibold">
               Contact Us
@@ -89,19 +139,16 @@ export default function ContactSection() {
                 sales@aiemissionlab.com
               </div>
             </div>
-          </div>
-          {/* Technical Help */}
-          {/* <div className="rounded-b-2xl bg-white px-6 py-4">
-            <div className="font-semibold text-[#1a3323]">
-              Need Technical Product Help?
+            <div className="mb-4 text-[#1a3323] text-sm leading-relaxed">
+              By submitting this form, you are consenting to Emission Lab is
+              contacting you. For information on how to unsubscribe, as well as
+              our privacy practices, check out our{" "}
+              <a href="#" className="text-[#2357b4] underline">
+                Privacy Policy
+              </a>
+              .
             </div>
-            <a
-              href="#"
-              className="text-[#558068] underline font-medium text-base"
-            >
-              Get Tech Help
-            </a>
-          </div> */}
+          </div>
         </div>
 
         {/* Right Side: Form */}
@@ -245,39 +292,36 @@ export default function ContactSection() {
               </select>
             </div>
           </div>
-          {/* Legal text */}
-          <div className="mb-4 text-[#1a3323] text-sm leading-relaxed">
-            By submitting this form, you are consenting to Emission Lab is
-            contacting you. For information on how to unsubscribe, as well as
-            our privacy practices, check out our{" "}
-            <a href="#" className="text-[#2357b4] underline">
-              Privacy Policy
-            </a>
-            .
-          </div>
-          {/* reCAPTCHA placeholder */}
-          {/* <div className="mb-4">
-            <img
-              src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
-              alt="reCAPTCHA"
-              className="inline mr-2"
-              style={{
-                height: 32,
-                width: 32,
-                display: "inline-block",
-                verticalAlign: "middle",
-              }}
+
+          {/* Message textarea */}
+          <div className="mb-6">
+            <label
+              className="block text-[#1a3323] font-medium mb-2"
+              htmlFor="message"
+            >
+              Message
+            </label>
+            <textarea
+              required
+              id="message"
+              rows={5}
+              className="block w-full rounded-md border border-[#d8e3c7] bg-[#f4f7ec] px-4 py-2 text-base outline-none focus:ring-2 focus:ring-primary transition resize-none"
+              value={form.message}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, message: e.target.value }))
+              }
+              placeholder="How can we help you?"
+              style={{ minHeight: 120 }}
             />
-            <span className="align-middle text-xs text-[#1a3323]">
-              protected by reCAPTCHA
-            </span>
-          </div> */}
+          </div>
+
           {/* Submit button */}
           <button
             type="submit"
-            className="rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold justify-center text-base flex items-center gap-2 shadow-lg px-8 py-3 transition mt-1"
+            className="rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold justify-center text-base flex items-center gap-2 shadow-lg px-8 py-3 transition mt-1 disabled:opacity-70"
+            disabled={submitting}
           >
-            Let&apos;s Talk
+            {submitting ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>
