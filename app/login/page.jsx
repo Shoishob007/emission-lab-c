@@ -259,11 +259,12 @@ export default function Login() {
               </span>
             </button>
 
-            {/* <button
+            <button
               type="button"
               className={`${btnBase} !bg-[#DB4437] !from-[#DB4437] !to-[#DB4437]`}
               aria-label="Login with Google"
               disabled={loading}
+              onClick={() => signIn("google", { callbackUrl: "/" })}
             >
               <span className={btnIcon}>
                 <RiGoogleFill size={18} aria-hidden="true" />
@@ -271,7 +272,7 @@ export default function Login() {
               Login with Google
             </button>
 
-            <button
+            {/* <button
               type="button"
               className={`${btnBase} !bg-[#14171a] !from-[#14171a] !to-[#14171a]`}
               aria-label="Login with X"
@@ -281,19 +282,21 @@ export default function Login() {
                 <RiTwitterXFill size={18} aria-hidden="true" />
               </span>
               Login with X
-            </button>
+            </button> */}
 
             <button
               type="button"
               className={`${btnBase} !bg-[#1877f2] !from-[#1877f2] !to-[#1877f2]`}
               aria-label="Login with Facebook"
               disabled={loading}
+                            onClick={() => signIn("facebook", { callbackUrl: "/" })}
+
             >
               <span className={btnIcon}>
                 <RiFacebookFill size={18} aria-hidden="true" />
               </span>
               Login with Facebook
-            </button> */}
+            </button>
           </div>
 
           <p

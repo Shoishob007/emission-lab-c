@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import ConditionalNavbar from "@/components/ConditionalNavbar";
 import AuthProvider from "./providers/AuthProvider";
 import FooterSection from "@/components/FooterSection";
+import FacebookHashFixer from "@/utils/FacebookHashFixer"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,6 +36,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.className} bg-background`}>
         <AuthProvider>
+            <FacebookHashFixer />
+
           <ConditionalNavbar />
           <main>{children}</main>
           <FooterSection />

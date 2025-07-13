@@ -95,7 +95,7 @@ export default function ContactSection({ isPage = false }) {
       <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
         {/* Left Side */}
         <div className="flex flex-col">
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-5">
             <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <Mail size={22} strokeWidth={2} className="text-primary" />
             </span>
@@ -125,7 +125,7 @@ export default function ContactSection({ isPage = false }) {
           </div>
           {/* Contact grid */}
           <div className="grid grid-cols-1 gap-2 mb-2">
-            <div className="rounded-lg bg-white px-6 py-5">
+            <div className="rounded-lg bg-white px-6 pt-3 pb-3">
               <div className="font-semibold text-[#1a3323] mb-1">
                 General Inquiries
               </div>
@@ -133,7 +133,7 @@ export default function ContactSection({ isPage = false }) {
                 hello@aiemissionlab.com
               </div>
             </div>
-            <div className="rounded-lg bg-white px-6 py-5">
+            <div className="rounded-lg bg-white px-6 pb-3">
               <div className="font-semibold text-[#1a3323] mb-1">Sales</div>
               <div className="text-[#1a3323] text-base">
                 sales@aiemissionlab.com
@@ -143,8 +143,8 @@ export default function ContactSection({ isPage = false }) {
               By submitting this form, you are consenting to Emission Lab is
               contacting you. For information on how to unsubscribe, as well as
               our privacy practices, check out our{" "}
-              <a href="#" className="text-[#2357b4] underline">
-                Privacy Policy
+              <a href="/terms" className="text-[#2357b4] underline">
+                Terms And Conditions
               </a>
               .
             </div>
@@ -157,7 +157,7 @@ export default function ContactSection({ isPage = false }) {
           style={{ minHeight: 640 }}
           onSubmit={handleSubmit}
         >
-          <div className="grid grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-2 gap-6 mb-5">
             <div>
               <label
                 className="block text-[#1a3323] font-medium mb-2"
@@ -193,7 +193,7 @@ export default function ContactSection({ isPage = false }) {
               />
             </div>
           </div>
-          <div className="mb-6">
+          <div className="mb-5">
             <label
               className="block text-[#1a3323] font-medium mb-2"
               htmlFor="email"
@@ -211,7 +211,7 @@ export default function ContactSection({ isPage = false }) {
               }
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-5">
             <label
               className="block text-[#1a3323] font-medium mb-2"
               htmlFor="phone"
@@ -228,7 +228,7 @@ export default function ContactSection({ isPage = false }) {
               }
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-5">
             <label
               className="block text-[#1a3323] font-medium mb-2"
               htmlFor="company"
@@ -245,7 +245,7 @@ export default function ContactSection({ isPage = false }) {
               }
             />
           </div>
-          <div className="grid grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-2 gap-6 mb-5">
             <div>
               <label
                 className="block text-[#1a3323] font-medium mb-2"
@@ -294,7 +294,7 @@ export default function ContactSection({ isPage = false }) {
           </div>
 
           {/* Message textarea */}
-          <div className="mb-6">
+          <div className="mb-5">
             <label
               className="block text-[#1a3323] font-medium mb-2"
               htmlFor="message"
