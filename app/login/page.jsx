@@ -9,6 +9,7 @@ import {
   RiFacebookFill,
   RiGithubFill,
   RiGoogleFill,
+  RiLinkedinFill,
   RiTwitterXFill,
 } from "@remixicon/react";
 import { useRouter } from "next/navigation";
@@ -271,6 +272,18 @@ export default function Login() {
               </span>
               Login with Google
             </button>
+            <button
+              type="button"
+              className={`${btnBase} !bg-[#3791db] !from-[#3791db] !to-[#3791db]`}
+              aria-label="Login with LinkedIn"
+              disabled={loading}
+              onClick={() => signIn("linkedin", { callbackUrl: "/" })}
+            >
+              <span className={btnIcon}>
+                <RiLinkedinFill size={18} aria-hidden="true" />
+              </span>
+              Login with LinkedIn
+            </button>
 
             {/* <button
               type="button"
@@ -289,8 +302,7 @@ export default function Login() {
               className={`${btnBase} !bg-[#1877f2] !from-[#1877f2] !to-[#1877f2]`}
               aria-label="Login with Facebook"
               disabled={loading}
-                            onClick={() => signIn("facebook", { callbackUrl: "/" })}
-
+              onClick={() => signIn("facebook", { callbackUrl: "/" })}
             >
               <span className={btnIcon}>
                 <RiFacebookFill size={18} aria-hidden="true" />
