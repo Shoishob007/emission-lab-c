@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
+import LinkedInProvider from "next-auth/providers/linkedin";
 
 export default NextAuth({
   providers: [
@@ -36,13 +37,8 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      authorization: {
-        params: {
-          redirect_uri: `${process.env.NEXTAUTH_URL}/api/auth/callback/google`,
-        },
-      },
     }),
-    
+
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
@@ -62,12 +58,34 @@ export default NextAuth({
         }
       },
     }),
+
+    LinkedInProvider({
+      clientId: process.env.LINKEDIN_CLIENT_ID,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+      id: "linkedin",
+      name: "LinkedIn",
+      type: "oauth",
+      client: { token_endpoint_auth_method: "client_secret_post" },
+      issuer: "https://www.linkedin.com",
+      profile: (profile) => ({
+        id: profile.sub,
+        name: profile.name,
+        email: profile.email,
+        image: profile.picture,
+      }),
+      wellKnown:
+        "https://www.linkedin.com/oauth/.well-known/openid-configuration",
+      authorization: {
+        params: {
+          scope: "openid profile email",
+        },
+      },
+    }),
   ],
   pages: { signIn: "/login", signOut: "/", },
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user, account, profile }) {
-      // Only run this logic during initial sign-in (when account exists)
       if (account) {
         if (user?.accessToken) {
           token.user = { ...user, provider: "credentials" };
@@ -92,9 +110,20 @@ export default NextAuth({
           token.accessToken = account.access_token;
           token.refreshToken = account.refresh_token;
           token.idToken = account.id_token;
+        } else if (account.provider === 'linkedin') {
+          token.user = {
+            id: profile.sub,
+            name: profile.name,
+            email: profile.email,
+            image: profile.picture,
+            provider: 'linkedin',
+          };
+          token.accessToken = account.access_token;
+          token.refreshToken = account.refresh_token;
+          token.idToken = account.id_token;
         }
       }
-      
+
       return token;
     },
     async session({ session, token }) {
@@ -107,6 +136,5 @@ export default NextAuth({
       return session;
     },
   },
-
   secret: process.env.NEXTAUTH_SECRET,
 });
