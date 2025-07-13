@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 
 export default NextAuth({
   providers: [
@@ -22,36 +23,90 @@ export default NextAuth({
 
         const data = await res.json();
         if (res.ok && data && data.user && data.user.email) {
-          // Optionally merge token into user if you want access in session/jwt
           return {
             ...data.user,
             accessToken: data.token?.access,
             refreshToken: data.token?.refresh,
           };
         }
-        // Optional: throw an error with the message from API
         throw new Error(data.detail || "Login failed");
       }
+    }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          redirect_uri: `${process.env.NEXTAUTH_URL}/api/auth/callback/google`,
+        },
+      },
+    }),
+    
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      authorization: {
+        params: {
+          scope: 'public_profile',
+          auth_type: 'reauthenticate',
+          display: 'popup',
+        },
+      },
+      profile(profile) {
+        return {
+          id: profile.id,
+          name: profile.name || `${profile.first_name} ${profile.last_name}`,
+          email: profile.email,
+          image: profile.picture?.data?.url,
+        }
+      },
     }),
   ],
   pages: { signIn: "/login", signOut: "/", },
   session: { strategy: "jwt" },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.user = user;
+    async jwt({ token, user, account, profile }) {
+      // Only run this logic during initial sign-in (when account exists)
+      if (account) {
+        if (user?.accessToken) {
+          token.user = { ...user, provider: "credentials" };
+        } else if (account.provider === "google") {
+          token.user = {
+            email: profile?.email ?? user?.email,
+            name: profile?.name ?? user?.name,
+            image: profile?.picture ?? user?.image,
+            provider: "google",
+          };
+          token.accessToken = account.access_token;
+          token.refreshToken = account.refresh_token;
+          token.idToken = account.id_token;
+        } else if (account.provider === 'facebook') {
+          token.user = {
+            id: profile.id,
+            name: profile.name || `${profile.first_name} ${profile.last_name}`,
+            email: profile.email,
+            image: profile.picture?.data?.url,
+            provider: 'facebook',
+          };
+          token.accessToken = account.access_token;
+          token.refreshToken = account.refresh_token;
+          token.idToken = account.id_token;
+        }
+      }
+      
       return token;
     },
     async session({ session, token }) {
       if (token?.user) session.user = token.user;
-      console.log("Session :: ", session)
+      if (token?.accessToken) session.accessToken = token.accessToken;
+      if (token?.refreshToken) session.refreshToken = token.refreshToken;
+      if (token?.idToken) session.idToken = token.idToken;
+      console.log("Session :: ", session);
+
       return session;
     },
   },
-  
-  // async redirect({ url, baseUrl }) {
-  //     // Ensure redirects use the correct base URL
-  //     if (url.startsWith("/")) return `${baseUrl}${url}`;
-  //     else if (new URL(url).origin === baseUrl) return url;
-  //     return baseUrl;
-  //   },
+
+  secret: process.env.NEXTAUTH_SECRET,
 });

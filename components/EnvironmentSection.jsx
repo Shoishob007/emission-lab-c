@@ -34,10 +34,10 @@ const facts = [
 ];
 
 const reasons = [
-  "Carbon Footprint Reduction",
-  "Sustainable Water Management",
-  "Wildlife Conservation Efforts",
-  "Eco-Friendly Waste Disposal",
+  "Global Travel Emissions Are Soaring",
+  "Businesses Drive Over 70% of Emissions",
+  "Individual Climate Action Adds Up",
+  "Verified Carbon Offsets Make a Real Difference",
 ];
 
 export default function FactsAndEnvironmentSection() {
@@ -71,7 +71,7 @@ export default function FactsAndEnvironmentSection() {
           opacity: 0.08,
         }}
       />
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-8 md:gap-12 items-center justify-center px-2 sm:px-4 py-0">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-8 md:gap-10 items-center justify-center px-2 sm:px-4 py-0">
         {/* LEFT: Content */}
         <div className="flex-1 flex flex-col justify-center items-start text-white py-8 sm:py-10 px-4 w-full max-w-2xl">
           <div className="flex items-center gap-3 mb-6">
@@ -88,14 +88,14 @@ export default function FactsAndEnvironmentSection() {
             <br className="hidden sm:block" />a sustainable future
           </h2>
 
-          <p className="text-green-100 text-base sm:text-lg mb-8 leading-relaxed max-w-xl">
+          <p className="text-green-100 text-base sm:text-lg mb-6 leading-relaxed max-w-xl">
             Discover essential facts about our planet&apos;s health, climate
             change, and sustainability efforts. Understanding these facts
             empowers us to take action.
           </p>
 
           {/* Arrow List  */}
-          <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2 w-full max-w-xl">
+          <div className="mb-10 grid grid-cols-1 gap-y-2 w-full max-w-2xl">
             {reasons.map((reason, i) => (
               <div key={i} className="flex items-center gap-2 mb-1">
                 <ArrowRight className="w-5 h-5 text-btn-primary flex-shrink-0" />

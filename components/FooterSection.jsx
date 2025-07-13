@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { Leaf, MapPin, Phone, Mail } from "lucide-react";
-import {
-  FaFacebookF,
-  FaLinkedin,
-} from "react-icons/fa6";
+import Link from "next/link";
+import { FaFacebookF, FaLinkedin, FaTwitter, FaX } from "react-icons/fa6";
+import { FaXTwitter } from "react-icons/fa6";
 
 const FooterSection = () => {
   return (
@@ -29,11 +28,13 @@ const FooterSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-8">
           {/* Brand */}
           <div className="flex-shrink-0 flex items-center">
-            <img
-              src="/carbon-logo.png"
-              alt="EmissionLab Logo"
-              className="h-12 w-auto cursor-pointer"
-            />
+            <Link href={"/"}>
+              <img
+                src="/carbon-logo.png"
+                alt="EmissionLab Logo"
+                className="h-12 w-auto cursor-pointer"
+              />
+            </Link>
           </div>
           {/* Address */}
           <div className="flex items-center gap-3">
@@ -42,9 +43,7 @@ const FooterSection = () => {
             </span>
             <div>
               <div className="font-bold text-white">Address</div>
-              <div className="text-green-100 text-sm">
-                Miami, FL 33172
-              </div>
+              <div className="text-green-100 text-sm">Miami, FL 33172</div>
             </div>
           </div>
           {/* Contact */}
@@ -80,8 +79,8 @@ const FooterSection = () => {
             <p className="text-green-100 mb-4 text-sm">
               <span className="font-semibold">Emission Lab</span> is a
               climate-tech initiative born from urgency — and driven by hope.
-              Join us on the journey to regenerate the Earth powered by
-              purpose, driven by data.
+              Join us on the journey to regenerate the Earth powered by purpose,
+              driven by data.
             </p>
           </div>
           {/* Quick Link */}
@@ -194,13 +193,13 @@ const FooterSection = () => {
               >
                 <FaFacebookF className="w-4 h-4" />
               </a>
-              {/* <a
+              <a
                 href="#"
                 className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
-                title="Instagram"
+                title="X"
               >
-                <FaInstagram className="w-4 h-4" />
-              </a> */}
+                <FaXTwitter className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
@@ -213,14 +212,14 @@ const FooterSection = () => {
           </div>
           <div className="flex gap-6">
             <a href="/terms" className="hover:text-[#3BBF4A] transition">
-              Terms & Condition
+              Terms & Conditions
             </a>
-            <a
+            {/* <a
               href="/privacy-policy"
               className="hover:text-[#3BBF4A] transition"
             >
               Privacy Policy
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
