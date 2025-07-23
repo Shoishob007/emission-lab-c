@@ -11,13 +11,14 @@ import {
   User,
   XCircle,
 } from "lucide-react";
-import { checkPasswordStrength, emailRegex, phoneRegex } from "@/utils/helper";
+import { checkPasswordStrength, emailRegex } from "@/utils/helper";
 import {
   RiFacebookFill,
   RiGithubFill,
   RiGoogleFill,
   RiTwitterXFill,
 } from "@remixicon/react";
+import { useRouter } from "next/navigation";
 
 // API base URL from env variable
 const API_URL = process.env.NEXT_PUBLIC_API;
@@ -25,13 +26,14 @@ const API_URL = process.env.NEXT_PUBLIC_API;
 const Register = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [apiError, setApiError] = useState("");
   const [animationLoaded, setAnimationLoaded] = useState(false);
+
+  const router = useRouter();
 
   const btnBase =
     "relative w-full py-2.5 rounded-lg text-white font-semibold text-base bg-gradient-to-br from-primary to-green-600 shadow transition-all overflow-hidden flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 hover:opacity-90 duration-500";
@@ -52,7 +54,7 @@ const Register = () => {
   // validation check
   const isFullNameValid = fullName.trim().length >= 2;
   const isEmailValid = emailRegex.test(email);
-  const isPhoneValid = phoneRegex.test(phone) || phone === "";
+  // const isPhoneValid = phoneRegex.test(phone) || phone === "";
   const passwordStrength = checkPasswordStrength(password);
   const isPasswordValid =
     passwordStrength === "strong" || passwordStrength === "medium";
@@ -60,14 +62,13 @@ const Register = () => {
 
   // API call
   const registerUser = async ({ email, name, password, phone }) => {
-    const res = await fetch(`${API_URL}/api/users/register/`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email,
         name,
         password,
-        phone: phone || undefined,
         role: "individual",
       }),
     });
@@ -88,11 +89,10 @@ const Register = () => {
     setApiError("");
     setLoading(true);
     try {
-      await registerUser({ email, name: fullName, password, phone });
+      await registerUser({ email, name: fullName, password });
       setSuccess(true);
       setFullName("");
       setEmail("");
-      setPhone("");
       setPassword("");
       setConfirmPassword("");
       setTimeout(() => setSuccess(false), 3000);
@@ -237,38 +237,6 @@ const Register = () => {
                 required
               />
               {validationIcon(isEmailValid, email)}
-            </div>
-          </div>
-          {/* phone */}
-          <div
-            className={`mb-5 form-group transition-all duration-500 delay-200 ${
-              animationLoaded
-                ? "opacity-100 transform translate-y-0"
-                : "opacity-0 transform translate-y-4"
-            }`}
-          >
-            <div className="relative">
-              <Phone
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all"
-                size={20}
-                strokeWidth={1.8}
-              />
-              <input
-                type="tel"
-                id="phone"
-                placeholder="Phone Number"
-                className="w-full pl-12 pr-10 py-2.5 rounded-lg border-2 border-gray-200 bg-gray-50 text-sm placeholder:text-sm transition-all focus:border-green-600 focus:bg-white focus:shadow-[0_0_0_4px_rgba(76,175,80,0.1)]"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                style={{
-                  borderColor: phone
-                    ? isPhoneValid
-                      ? "#4CAF50"
-                      : "#f44336"
-                    : "#e0e0e0",
-                }}
-              />
-              {validationIcon(isPhoneValid, phone)}
             </div>
           </div>
           {/* pass */}

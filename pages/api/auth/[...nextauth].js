@@ -4,6 +4,29 @@ import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import LinkedInProvider from "next-auth/providers/linkedin";
 
+const socialAuthApi = `${process.env.NEXT_PUBLIC_API}/api/users/social-auth/`;
+
+async function getSocialTokens({ email, name, provider, provider_id }) {
+  try {
+    const res = await fetch(socialAuthApi, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, name, provider, provider_id }),
+    });
+    if (!res.ok) throw new Error("Social auth failed");
+    const data = await res.json();
+    // console.log("Access token:", data.token?.access),
+    // console.log("Refresh token:", data.token?.refresh);
+    return {
+      accessToken: data.token?.access,
+      refreshToken: data.token?.refresh,
+    };
+  } catch (err) {
+    console.error("Social token error:", err);
+    return {};
+  }
+}
+
 export default NextAuth({
   providers: [
     CredentialsProvider({
@@ -28,23 +51,23 @@ export default NextAuth({
             ...data.user,
             accessToken: data.token?.access,
             refreshToken: data.token?.refresh,
+            provider: "credentials",
+            provider_id: data.user.id,
           };
         }
         throw new Error(data.detail || "Login failed");
       }
     }),
-
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
       authorization: {
         params: {
-          scope: 'public_profile',
+          scope: 'email public_profile',
           auth_type: 'reauthenticate',
           display: 'popup',
         },
@@ -58,7 +81,6 @@ export default NextAuth({
         }
       },
     }),
-
     LinkedInProvider({
       clientId: process.env.LINKEDIN_CLIENT_ID,
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
@@ -86,53 +108,49 @@ export default NextAuth({
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user, account, profile }) {
-      if (account) {
-        if (user?.accessToken) {
-          token.user = { ...user, provider: "credentials" };
-        } else if (account.provider === "google") {
-          token.user = {
+      // Credentials login
+      if (account?.provider === "credentials" && user?.accessToken) {
+        token.user = { ...user, provider: "credentials" };
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+      }
+      // Social logins
+      if (account && ["google", "facebook", "linkedin"].includes(account.provider)) {
+        let socialUser = {};
+        if (account.provider === "google") {
+          socialUser = {
             email: profile?.email ?? user?.email,
             name: profile?.name ?? user?.name,
-            image: profile?.picture ?? user?.image,
             provider: "google",
+            provider_id: profile?.sub ?? account.providerAccountId,
           };
-          token.accessToken = account.access_token;
-          token.refreshToken = account.refresh_token;
-          token.idToken = account.id_token;
-        } else if (account.provider === 'facebook') {
-          token.user = {
-            id: profile.id,
+        } else if (account.provider === "facebook") {
+          socialUser = {
+            email: profile.email,
             name: profile.name || `${profile.first_name} ${profile.last_name}`,
-            email: profile.email,
-            image: profile.picture?.data?.url,
-            provider: 'facebook',
+            provider: "facebook",
+            provider_id: profile.id,
           };
-          token.accessToken = account.access_token;
-          token.refreshToken = account.refresh_token;
-          token.idToken = account.id_token;
-        } else if (account.provider === 'linkedin') {
-          token.user = {
-            id: profile.sub,
+        } else if (account.provider === "linkedin") {
+          socialUser = {
+            email: profile.email,
             name: profile.name,
-            email: profile.email,
-            image: profile.picture,
-            provider: 'linkedin',
+            provider: "linkedin",
+            provider_id: profile.sub,
           };
-          token.accessToken = account.access_token;
-          token.refreshToken = account.refresh_token;
-          token.idToken = account.id_token;
         }
+        const { accessToken, refreshToken } = await getSocialTokens(socialUser);
+        token.user = { ...socialUser, image: profile?.picture };
+        token.accessToken = accessToken;
+        token.refreshToken = refreshToken;
       }
-
       return token;
     },
     async session({ session, token }) {
       if (token?.user) session.user = token.user;
       if (token?.accessToken) session.accessToken = token.accessToken;
       if (token?.refreshToken) session.refreshToken = token.refreshToken;
-      if (token?.idToken) session.idToken = token.idToken;
       console.log("Session :: ", session);
-
       return session;
     },
   },

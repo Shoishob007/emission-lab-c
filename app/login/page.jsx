@@ -63,7 +63,6 @@ export default function Login() {
 
       if (result?.ok) {
         setSuccess(true);
-        const session = await getSession();
         router.push("/");
       }
     } catch (error) {

@@ -46,13 +46,29 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/logout/`, {
-        method: "POST",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/api/users/logout/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            refresh: session?.refreshToken,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Logout failed");
+      }
+
       await signOut({ redirect: false });
       router.push("/");
     } catch (error) {
+      console.error("Logout error:", error);
       await signOut({ redirect: false });
       router.push("/");
     }
@@ -172,7 +188,8 @@ export default function Navbar() {
                 letterSpacing: "0.01em",
               }}
             >
-              Logout <span className="block sm:hidden xl:block">Now</span> <LogOut className="w-5 h-5" />
+              Logout <span className="block sm:hidden xl:block">Now</span>{" "}
+              <LogOut className="w-5 h-5" />
             </button>
           ) : (
             <Link

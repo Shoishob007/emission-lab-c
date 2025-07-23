@@ -1,6 +1,6 @@
 // regex for email and pass
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const phoneRegex = /^[+]?[\d\s\-\(\)]{10,}$/;
+// export const phoneRegex = /^[+]?[\d\s\-\(\)]{10,}$/;
 
 export function checkPasswordStrength(password) {
   let score = 0;
