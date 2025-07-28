@@ -16,8 +16,7 @@ import { RiFacebookFill, RiGoogleFill, RiTwitterXFill } from "@remixicon/react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { checkPasswordStrength, emailRegex, phoneRegex } from "@/utils/helper";
-
+import { checkPasswordStrength, emailRegex } from "@/utils/helper";
 
 const API_URL = process.env.NEXT_PUBLIC_API || "https://api.aiemissionlab.com";
 const leftImage = "/CTA_bg_1.jpg";
@@ -44,14 +43,14 @@ const validationIcon = (valid, value) => {
 export function FloatingLoginModal({ open, onOpenChange }) {
   const [showSignUp, setShowSignUp] = useState(false);
 
-  // --- LOGIN STATE
+  // login states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [loginError, setLoginError] = useState("");
 
-  // --- REGISTER STATE
+  // register states
   const [fullName, setFullName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -69,17 +68,17 @@ export function FloatingLoginModal({ open, onOpenChange }) {
   const isPasswordValid =
     passwordStrength === "strong" || passwordStrength === "medium";
 
-  // Register validation
+  // validation
   const isFullNameValid = fullName.trim().length >= 2;
   const isRegEmailValid = emailRegex.test(regEmail);
-  const isPhoneValid = phoneRegex.test(phone) || phone === "";
+  // const isPhoneValid = phoneRegex.test(phone) || phone === "";
   const regPasswordStrength = checkPasswordStrength(regPassword);
   const isRegPasswordValid =
     regPasswordStrength === "strong" || regPasswordStrength === "medium";
   const isConfirmValid =
     confirmPassword === regPassword && regPassword.length > 0;
 
-  // Login handler
+  // login handler
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setLoginLoading(true);
@@ -110,7 +109,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
     }
   };
 
-  // Register handler
+  // reg handler
   const registerUser = async ({ email, name, password, phone }) => {
     const res = await fetch(`${API_URL}/api/users/register/`, {
       method: "POST",
@@ -119,8 +118,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
         email,
         name,
         password,
-        phone: phone || undefined,
-        role: "individual",
+        role: "business",
       }),
     });
     if (!res.ok) {
@@ -393,7 +391,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                       />
                       {validationIcon(isRegEmailValid, regEmail)}
                     </div>
-                    <div className="relative">
+                    {/* <div className="relative">
                       <Phone
                         className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all"
                         size={20}
@@ -415,7 +413,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                         disabled={regLoading}
                       />
                       {validationIcon(isPhoneValid, phone)}
-                    </div>
+                    </div> */}
                     <div className="relative">
                       <Lock
                         className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all"

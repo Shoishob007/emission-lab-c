@@ -69,7 +69,7 @@ const Register = () => {
         email,
         name,
         password,
-        role: "individual",
+        role: "business",
       }),
     });
     // error

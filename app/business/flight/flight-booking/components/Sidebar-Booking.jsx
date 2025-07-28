@@ -27,13 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { flightDetails } from "./dummyFlightData";
-
-const getEmissionsInMetricTons = (emissionsValue) => {
-  if (!emissionsValue) return 0;
-  const numericValue = parseFloat(emissionsValue.replace(/[^0-9.]/g, ""));
-  return numericValue / 1000;
-};
+import { flightDetailsDummy } from "./dummyFlightData";
 
 const getEmissionCategory = (emissionsInTons) => {
   if (!emissionsInTons) return { category: "unknown", color: "gray" };
@@ -48,26 +42,63 @@ const SidebarBooking = ({
   showEmissionsDetails,
   setShowEmissionsDetails,
   selectedCoupon,
+  flightDetails,
+            carbonEmissions,
+            environmentalImpact,
 }) => {
-  const formatCurrency = (amount, currency = "BDT") => {
+  const formatCurrency = (amount, currency = "$") => {
     return `${amount.toLocaleString()} ${currency}`;
   };
+  console.log("carbon emissions :::: ", carbonEmissions)
 
-  const emissionsInTons = getEmissionsInMetricTons(
-    flightDetails.emissionsValue
-  );
+const emissionsInKGs = carbonEmissions?.co2e_kg ?? 0;
+  const emissionsInTons = carbonEmissions?.co2e_mt
   const emissionCategory = getEmissionCategory(emissionsInTons);
 
-  // Calculate carbon data metrics
-  const carbonData = {
-    totalEmissions: emissionsInTons,
-    treesRequired: Math.ceil(emissionsInTons * 20),
-    homeEquivalent: Math.ceil(emissionsInTons / 8.6),
-    carEquivalent: Math.ceil(emissionsInTons / 4.6),
-    airQualityImprovement: Math.ceil(emissionsInTons * 0.16),
-    waterSaved: Math.ceil(emissionsInTons * 8000),
-    speciesProtected: Math.ceil(emissionsInTons * 0.37),
-  };
+const carbonData = {
+  totalEmissions: carbonEmissions?.co2e_kg ?? 0, // from carbonEmissions prop
+
+  // Trees required from 'carbon_offset_solutions' category "Reforestation"
+  treesRequired:
+    environmentalImpact?.carbon_offset_solutions?.find(
+      (item) => item.category === "Reforestation"
+    )?.emissions ?? 0,
+
+  // Home Equivalent from 'emission_footprint' category "Home Energy"
+  homeEquivalent:
+    Math.ceil(
+      environmentalImpact?.emission_footprint?.find(
+        (item) => item.category === "Home Energy"
+      )?.emissions ?? 0
+    ),
+
+  // Car Equivalent from 'emission_footprint' category "Transportation"
+  carEquivalent:
+    Math.ceil(
+      environmentalImpact?.emission_footprint?.find(
+        (item) => item.category === "Transportation"
+      )?.emissions ?? 0
+    ),
+
+  // Air Quality Improvement from 'positive_environmental_impact', category "Air Quality"
+  airQualityImprovement:
+    environmentalImpact?.positive_environmental_impact?.find(
+      (item) => item.category === "Air Quality"
+    )?.emissions ?? 0,
+
+  // Water Saved from 'positive_environmental_impact', category "Water Saved"
+  waterSaved:
+    environmentalImpact?.positive_environmental_impact?.find(
+      (item) => item.category === "Water Saved"
+    )?.emissions ?? 0,
+
+  // Species Protected from 'positive_environmental_impact', category "Biodiversity"
+  speciesProtected:
+    environmentalImpact?.positive_environmental_impact?.find(
+      (item) => item.category === "Biodiversity"
+    )?.emissions ?? 0,
+};
+
 
   return (
     <>
@@ -81,9 +112,9 @@ const SidebarBooking = ({
             {/* Flight Route Summary */}
             <div className="flex items-center justify-between gap-2 bg-blue-50 p-2 rounded-md">
               <div className="flex items-center gap-4">
-                <span className="font-medium text-sm">DAC</span>
+                <span className="font-medium text-sm">DUB</span>
                 <Plane className="h-4 w-4 text-blue-500" />
-                <span className="font-medium text-sm">DXB</span>
+                <span className="font-medium text-sm">JFK</span>
               </div>
               <Button
                 variant="ghost"
@@ -98,8 +129,8 @@ const SidebarBooking = ({
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-md">
                 <Image
-                  src={flightDetails.logo}
-                  alt={flightDetails.airline}
+                  src={flightDetailsDummy.logo}
+                  alt={flightDetailsDummy.airline}
                   width={40}
                   height={40}
                   className="object-contain"
@@ -107,13 +138,13 @@ const SidebarBooking = ({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <p className="font-medium">{flightDetails.airline}</p>
+                  <p className="font-medium">{flightDetailsDummy.airline}</p>
                   <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs font-medium">
-                    {flightDetails.id}
+                    {flightDetailsDummy.id}
                   </span>
                 </div>
                 <p className="text-xs text-gray-500">
-                  {flightDetails.cabinClass}
+                  {flightDetails?.flight_class || "Economy"}
                 </p>
               </div>
             </div>
@@ -131,23 +162,25 @@ const SidebarBooking = ({
                   <div className="flex-1">
                     <div className="mb-4">
                       <p className="font-medium">
-                        {flightDetails.departure.airport}
+                        Dublin International Airport
                       </p>
                       <div className="flex items-center gap-2 text-sm text-gray-500">
                         <Clock className="h-4 w-4" />
-                        <span>{flightDetails.departure.time}</span>
+                        {/* <span>John F. Kenedy Internation Airport</span> */}
+                                                <span>{flightDetailsDummy.departure.time}</span>
+
                         <span>•</span>
                         <CalendarDays className="h-4 w-4" />
-                        <span>{flightDetails.departure.date}</span>
+                        <span>{flightDetailsDummy.departure.date}</span>
                       </div>
                       <p className="text-sm text-gray-500">
-                        {flightDetails.departure.terminal}
+                        {flightDetailsDummy.departure.terminal}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                {flightDetails.stops.count > 0 && (
+                {flightDetailsDummy.stops.count > 0 && (
                   <div className="flex items-start gap-4 mt-4">
                     <div className="relative">
                       <div className="w-4 h-4 rounded-full bg-orange-500"></div>
@@ -156,11 +189,11 @@ const SidebarBooking = ({
                     <div className="flex-1">
                       <div className="mb-4">
                         <p className="font-medium">
-                          {flightDetails.stops.airport}
+                          {flightDetailsDummy.stops.airport}
                         </p>
                         <div className="flex items-center gap-2 text-sm text-gray-500">
                           <Clock className="h-4 w-4" />
-                          <span>Layover {flightDetails.stops.duration}</span>
+                          <span>Layover {flightDetailsDummy.stops.duration}</span>
                         </div>
                       </div>
                     </div>
@@ -174,17 +207,17 @@ const SidebarBooking = ({
                   <div className="flex-1">
                     <div>
                       <p className="font-medium">
-                        {flightDetails.arrival.airport}
+                        {flightDetailsDummy.arrival.airport}
                       </p>
                       <div className="flex items-center gap-2 text-sm text-gray-500">
                         <Clock className="h-4 w-4" />
-                        <span>{flightDetails.arrival.time}</span>
+                        <span>{flightDetailsDummy.arrival.time}</span>
                         <span>•</span>
                         <CalendarDays className="h-4 w-4" />
-                        <span>{flightDetails.arrival.date}</span>
+                        <span>{flightDetailsDummy.arrival.date}</span>
                       </div>
                       <p className="text-sm text-gray-500">
-                        {flightDetails.arrival.terminal}
+                        {flightDetailsDummy.arrival.terminal}
                       </p>
                     </div>
                   </div>
@@ -196,7 +229,7 @@ const SidebarBooking = ({
                 <div className="flex items-center justify-between">
                   <p className="text-sm">Total duration</p>
                   <p className="text-sm font-medium">
-                    {flightDetails.duration}
+                    {flightDetailsDummy.duration}
                   </p>
                 </div>
               </div>
@@ -220,7 +253,7 @@ const SidebarBooking = ({
                       className={`text-sm font-medium text-${emissionCategory.color}`}
                     >
                       CO2 emissions (
-                      {emissionsInTons.toFixed(2)} MT)
+                      {emissionsInKGs.toFixed(2)} KG)
                     </span>
                   </div>
                   <TooltipProvider>
@@ -409,7 +442,7 @@ const SidebarBooking = ({
                       </Tooltip>
                     </TooltipProvider>
                   </span>
-                  <span>{formatCurrency(flightDetails.price.current)}</span>
+                  <span>{formatCurrency(flightDetailsDummy.price.current)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Taxes & Fees</span>
@@ -433,7 +466,7 @@ const SidebarBooking = ({
                   <span>Total</span>
                   <span className="text-lg">
                     {formatCurrency(
-                      flightDetails.price.current + 5000 + 1500 - 3400
+                      flightDetailsDummy.price.current + 5000 + 1500 - 3400
                     )}
                   </span>
                 </div>
@@ -445,7 +478,7 @@ const SidebarBooking = ({
               <div className="flex items-center gap-2">
                 <span className="font-medium text-sm">Baggage Allowance</span>
                 <span className="text-sm text-gray-500">
-                  {flightDetails.baggage}
+                  {flightDetailsDummy.baggage}
                 </span>
               </div>
             </div>

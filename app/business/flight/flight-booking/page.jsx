@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle } from "lucide-react";
@@ -10,7 +10,8 @@ import Payment from "./components/Payment-tab";
 import Review from "./components/Review-tab";
 import SidebarBooking from "./components/Sidebar-Booking";
 
-// This would typically come from your API or state management
+import {fetchEquivalentValues} from"@/utils/api/AiEquivalentAPI"
+
 export default function FlightBooking() {
   const searchParams = useSearchParams();
   const [activeStep, setActiveStep] = useState("traveler");
@@ -20,9 +21,25 @@ export default function FlightBooking() {
   const [selectedPayment, setSelectedPayment] = useState("visa");
   const [showEmissionsDetails, setShowEmissionsDetails] = useState(false);
 
+    const [carbonData, setCarbonData] = useState(null);
+
+
   // const navigateToStep = (step) => {
   //   setActiveStep(step);
   // };
+
+  useEffect(() => {
+    async function loadCarbonEmissions() {
+      const data = await fetchEquivalentValues();
+      if (data) {
+        console.log("Data flight-booking::", data)
+        setCarbonData(data);
+      }
+    }
+    loadCarbonEmissions();
+  }, []);
+
+  console.log("carbonData?.environmental_impact :: ", carbonData?.environmental_impact)
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -154,6 +171,10 @@ export default function FlightBooking() {
             showEmissionsDetails={showEmissionsDetails}
             setShowEmissionsDetails={setShowEmissionsDetails}
             selectedCoupon={selectedCoupon}
+            // emissions, impact, about, etc as separate props:
+            flightDetails={carbonData?.flight_details}
+            carbonEmissions={carbonData?.carbon_emissions}
+            environmentalImpact={carbonData?.environmental_impact}
           />
         </div>
       </div>

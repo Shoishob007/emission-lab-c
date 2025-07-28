@@ -1,24 +1,24 @@
-export const flightDetails = {
+export const flightDetailsDummy = {
     id: "AA1234",
     airline: "American Airlines",
     logo: "/airline-logos/American_Airlines.svg",
     arrival: {
-        airport: "Dublin Airport (DUB)",
+        airport: "John F Kennedy International (JFK)",
         date: "8 May, Thursday",
         time: "11:15 AM",
         terminal: "Terminal 2",
         day: "+1",
     },
     departure: {
-        airport: "John F Kennedy International (JFK)",
+        airport: "Dublin Airport (DUB)",
         date: "7 May, Wednesday",
         time: "7:30 PM",
         terminal: "Terminal 4",
     },
     duration: "10hr 45min",
     price: {
-        current: 60454,
-        original: 62753,
+        current: 6275,
+        original: 6454,
         currency: "Tk",
     },
     promo: "SAVEONUSD",
