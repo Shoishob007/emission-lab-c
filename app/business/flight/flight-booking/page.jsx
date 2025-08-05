@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -14,6 +15,8 @@ import { fetchEquivalentValues } from "@/utils/api/AiEquivalentAPI";
 
 export default function FlightBooking() {
   const { data: session } = useSession();
+    const emission_lab_key = session?.user?.profile?.emission_lab_key;
+  console.log("Emission lab key :: ", emission_lab_key);
 
   const searchParams = useSearchParams();
   const [activeStep, setActiveStep] = useState("traveler");
@@ -24,26 +27,90 @@ export default function FlightBooking() {
   const [showEmissionsDetails, setShowEmissionsDetails] = useState(false);
 
   const [carbonData, setCarbonData] = useState(null);
-  const emission_lab_key = session?.user?.profile?.emission_lab_key;
-  console.log("Emission lab key :: ", emission_lab_key);
+  const [equivalentData, setEquivalentData] = useState(null);
+  const [loadingEquivalent, setLoadingEquivalent] = useState(false);
+  const [carbonLoading, setCarbonLoading] = useState(true);
 
-  // const navigateToStep = (step) => {
-  //   setActiveStep(step);
-  // };
+  const flightParams = {
+    user_id: "1adfdf",
+    iata_airport_from: "DUB",
+    iata_airport_to: "JFK",
+    number_of_passengers: 1,
+    flight_class: "Economy",
+    round_trip: "Y",
+    aircraft_type: "B777"
+  };
 
   useEffect(() => {
-    if (!session) return;
     async function loadCarbonEmissions() {
-      const data = await fetchEquivalentValues(emission_lab_key);
-      if (data) {
-        console.log("Data flight-booking::", data);
-        setCarbonData(data);
+      try {
+        setCarbonLoading(true);
+        
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/carbon/airAPI/carbon-emission/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(flightParams),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch carbon emissions');
+        }
+
+        const data = await response.json();
+        console.log("Carbon emission response:", data);
+        
+        if (data.result && data.result.success) {
+          setCarbonData(data.result.data);
+        }
+      } catch (error) {
+        console.error("Error fetching carbon emissions:", error);
+      } finally {
+        setCarbonLoading(false);
       }
     }
-    loadCarbonEmissions();
-  }, [emission_lab_key, session]);
 
-  // console.log("carbonData?.environmental_impact :: ", carbonData?.environmental_impact)
+    loadCarbonEmissions();
+  }, []);
+
+  const handleFetchEquivalentValues = async () => {
+    if (!carbonData || loadingEquivalent) return;
+
+    try {
+      setLoadingEquivalent(true);
+      
+      const requestBody = {
+        flight_details: {
+          travel_from: carbonData.airport_from,
+          travel_to: carbonData.airport_to,
+          distance_km: carbonData.distance_km,
+          round_trip: carbonData.round_trip === "Y",
+          number_of_passengers: parseInt(carbonData.number_of_passengers),
+          flight_class: carbonData.flight_class
+        },
+        carbon_emissions: {
+          co2e_gm: carbonData.emissions.co2e_gm,
+          co2e_kg: carbonData.emissions.co2e_kg,
+          co2e_mt: carbonData.emissions.co2e_mt,
+          co2e_lb: carbonData.emissions.co2e_lb
+        }
+      };
+
+      console.log("Fetching equivalent values with:", requestBody);
+      
+      const equivalentResponse = await fetchEquivalentValues(requestBody, emission_lab_key);
+      
+      if (equivalentResponse) {
+        console.log("Equivalent values response:", equivalentResponse);
+        setEquivalentData(equivalentResponse);
+      }
+    } catch (error) {
+      console.error("Error fetching equivalent values:", error);
+    } finally {
+      setLoadingEquivalent(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -175,10 +242,11 @@ export default function FlightBooking() {
             showEmissionsDetails={showEmissionsDetails}
             setShowEmissionsDetails={setShowEmissionsDetails}
             selectedCoupon={selectedCoupon}
-            // emissions, impact, about, etc as separate props:
-            flightDetails={carbonData?.flight_details}
-            carbonEmissions={carbonData?.carbon_emissions}
-            environmentalImpact={carbonData?.environmental_impact}
+            carbonData={carbonData}
+            equivalentData={equivalentData}
+            loadingEquivalent={loadingEquivalent}
+            carbonLoading={carbonLoading}
+            onFetchEquivalentValues={handleFetchEquivalentValues}
           />
         </div>
       </div>
