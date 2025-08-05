@@ -43,62 +43,59 @@ const SidebarBooking = ({
   setShowEmissionsDetails,
   selectedCoupon,
   flightDetails,
-            carbonEmissions,
-            environmentalImpact,
+  carbonEmissions,
+  environmentalImpact,
 }) => {
   const formatCurrency = (amount, currency = "$") => {
     return `${amount.toLocaleString()} ${currency}`;
   };
-  console.log("carbon emissions :::: ", carbonEmissions)
+  console.log("carbon emissions :::: ", carbonEmissions);
 
-const emissionsInKGs = carbonEmissions?.co2e_kg ?? 0;
-  const emissionsInTons = carbonEmissions?.co2e_mt
+  const emissionsInKGs = carbonEmissions?.co2e_kg ?? 0;
+  const emissionsInTons = carbonEmissions?.co2e_mt;
   const emissionCategory = getEmissionCategory(emissionsInTons);
 
-const carbonData = {
-  totalEmissions: carbonEmissions?.co2e_kg ?? 0, // from carbonEmissions prop
+  const carbonData = {
+    totalEmissions: carbonEmissions?.co2e_kg ?? 0, // from carbonEmissions prop
 
-  // Trees required from 'carbon_offset_solutions' category "Reforestation"
-  treesRequired:
-    environmentalImpact?.carbon_offset_solutions?.find(
-      (item) => item.category === "Reforestation"
-    )?.emissions ?? 0,
+    // Trees required from 'carbon_offset_solutions' category "Reforestation"
+    treesRequired:
+      environmentalImpact?.carbon_offset_solutions?.find(
+        (item) => item.category === "Reforestation"
+      )?.emissions ?? 0,
 
-  // Home Equivalent from 'emission_footprint' category "Home Energy"
-  homeEquivalent:
-    Math.ceil(
+    // Home Equivalent from 'emission_footprint' category "Home Energy"
+    homeEquivalent: Math.ceil(
       environmentalImpact?.emission_footprint?.find(
         (item) => item.category === "Home Energy"
       )?.emissions ?? 0
     ),
 
-  // Car Equivalent from 'emission_footprint' category "Transportation"
-  carEquivalent:
-    Math.ceil(
+    // Car Equivalent from 'emission_footprint' category "Transportation"
+    carEquivalent: Math.ceil(
       environmentalImpact?.emission_footprint?.find(
         (item) => item.category === "Transportation"
       )?.emissions ?? 0
     ),
 
-  // Air Quality Improvement from 'positive_environmental_impact', category "Air Quality"
-  airQualityImprovement:
-    environmentalImpact?.positive_environmental_impact?.find(
-      (item) => item.category === "Air Quality"
-    )?.emissions ?? 0,
+    // Air Quality Improvement from 'positive_environmental_impact', category "Air Quality"
+    airQualityImprovement:
+      environmentalImpact?.positive_environmental_impact?.find(
+        (item) => item.category === "Air Quality"
+      )?.emissions ?? 0,
 
-  // Water Saved from 'positive_environmental_impact', category "Water Saved"
-  waterSaved:
-    environmentalImpact?.positive_environmental_impact?.find(
-      (item) => item.category === "Water Saved"
-    )?.emissions ?? 0,
+    // Water Saved from 'positive_environmental_impact', category "Water Saved"
+    waterSaved:
+      environmentalImpact?.positive_environmental_impact?.find(
+        (item) => item.category === "Water Saved"
+      )?.emissions ?? 0,
 
-  // Species Protected from 'positive_environmental_impact', category "Biodiversity"
-  speciesProtected:
-    environmentalImpact?.positive_environmental_impact?.find(
-      (item) => item.category === "Biodiversity"
-    )?.emissions ?? 0,
-};
-
+    // Species Protected from 'positive_environmental_impact', category "Biodiversity"
+    speciesProtected:
+      environmentalImpact?.positive_environmental_impact?.find(
+        (item) => item.category === "Biodiversity"
+      )?.emissions ?? 0,
+  };
 
   return (
     <>
@@ -167,7 +164,7 @@ const carbonData = {
                       <div className="flex items-center gap-2 text-sm text-gray-500">
                         <Clock className="h-4 w-4" />
                         {/* <span>John F. Kenedy Internation Airport</span> */}
-                                                <span>{flightDetailsDummy.departure.time}</span>
+                        <span>{flightDetailsDummy.departure.time}</span>
 
                         <span>•</span>
                         <CalendarDays className="h-4 w-4" />
@@ -193,7 +190,9 @@ const carbonData = {
                         </p>
                         <div className="flex items-center gap-2 text-sm text-gray-500">
                           <Clock className="h-4 w-4" />
-                          <span>Layover {flightDetailsDummy.stops.duration}</span>
+                          <span>
+                            Layover {flightDetailsDummy.stops.duration}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -252,8 +251,7 @@ const carbonData = {
                     <span
                       className={`text-sm font-medium text-${emissionCategory.color}`}
                     >
-                      CO2 emissions (
-                      {emissionsInKGs.toFixed(2)} KG)
+                      CO2 emissions ({emissionsInKGs.toFixed(2)} KG)
                     </span>
                   </div>
                   <TooltipProvider>
@@ -442,7 +440,9 @@ const carbonData = {
                       </Tooltip>
                     </TooltipProvider>
                   </span>
-                  <span>{formatCurrency(flightDetailsDummy.price.current)}</span>
+                  <span>
+                    {formatCurrency(flightDetailsDummy.price.current)}
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Taxes & Fees</span>

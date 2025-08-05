@@ -9,10 +9,12 @@ import Traveller from "./components/Traveller-tab";
 import Payment from "./components/Payment-tab";
 import Review from "./components/Review-tab";
 import SidebarBooking from "./components/Sidebar-Booking";
-
-import {fetchEquivalentValues} from"@/utils/api/AiEquivalentAPI"
+import { useSession } from "next-auth/react";
+import { fetchEquivalentValues } from "@/utils/api/AiEquivalentAPI";
 
 export default function FlightBooking() {
+  const { data: session } = useSession();
+
   const searchParams = useSearchParams();
   const [activeStep, setActiveStep] = useState("traveler");
   const [selectedCoupon, setSelectedCoupon] = useState("FLIGHTINT");
@@ -21,25 +23,27 @@ export default function FlightBooking() {
   const [selectedPayment, setSelectedPayment] = useState("visa");
   const [showEmissionsDetails, setShowEmissionsDetails] = useState(false);
 
-    const [carbonData, setCarbonData] = useState(null);
-
+  const [carbonData, setCarbonData] = useState(null);
+  const emission_lab_key = session?.user?.profile?.emission_lab_key;
+  console.log("Emission lab key :: ", emission_lab_key);
 
   // const navigateToStep = (step) => {
   //   setActiveStep(step);
   // };
 
   useEffect(() => {
+    if (!session) return;
     async function loadCarbonEmissions() {
-      const data = await fetchEquivalentValues();
+      const data = await fetchEquivalentValues(emission_lab_key);
       if (data) {
-        console.log("Data flight-booking::", data)
+        console.log("Data flight-booking::", data);
         setCarbonData(data);
       }
     }
     loadCarbonEmissions();
-  }, []);
+  }, [emission_lab_key, session]);
 
-  console.log("carbonData?.environmental_impact :: ", carbonData?.environmental_impact)
+  // console.log("carbonData?.environmental_impact :: ", carbonData?.environmental_impact)
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">

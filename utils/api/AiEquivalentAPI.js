@@ -1,11 +1,13 @@
-export async function fetchEquivalentValues() {
+export async function fetchEquivalentValues(emission_lab_key) {
+  console.log("emission-lab-key: ",emission_lab_key)
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API}/api/carbon/airAPI/carbon-emission-details/`,
+      `${process.env.NEXT_PUBLIC_API}/api/business/airAPI/business-details-carbon-emission/`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-Emission-Lab-Key": `${emission_lab_key}`,
         },
         body: JSON.stringify({
           flight_details: {
