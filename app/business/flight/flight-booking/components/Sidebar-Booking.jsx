@@ -64,21 +64,38 @@ const SidebarBooking = ({
     }
   };
 
-const getEquivalentValues = () => {
+  const getEquivalentValues = () => {
     if (!equivalentData?.environmental_impact) return null;
-    
-    const emissionFootprint = equivalentData.environmental_impact.emission_footprint;
-    const carbonOffset = equivalentData.environmental_impact.carbon_offset_solutions;
-    const positiveImpact = equivalentData.environmental_impact.positive_environmental_impact;
+
+    const emissionFootprint =
+      equivalentData.environmental_impact.emission_footprint;
+    const carbonOffset =
+      equivalentData.environmental_impact.carbon_offset_solutions;
+    const positiveImpact =
+      equivalentData.environmental_impact.positive_environmental_impact;
 
     return {
-      homeEquivalent: emissionFootprint?.find(item => item.category === "Home Energy")?.emissions ?? 0,
-      carEquivalent: emissionFootprint?.find(item => item.category === "Transportation")?.emissions ?? 0,
-      treesRequired: carbonOffset?.find(item => item.category === "Reforestation")?.emissions ?? 0,
-      communityProjects: carbonOffset?.find(item => item.category === "Community Projects")?.emissions ?? 0,
-      airQualityImprovement: positiveImpact?.find(item => item.category === "Air Quality")?.emissions ?? 0,
-      waterSaved: positiveImpact?.find(item => item.category === "Water Saved")?.emissions ?? 0,
-      speciesProtected: positiveImpact?.find(item => item.category === "Biodiversity")?.emissions ?? 0,
+      homeEquivalent:
+        emissionFootprint?.find((item) => item.category === "Home Energy")
+          ?.emissions ?? 0,
+      carEquivalent:
+        emissionFootprint?.find((item) => item.category === "Transportation")
+          ?.emissions ?? 0,
+      treesRequired:
+        carbonOffset?.find((item) => item.category === "Reforestation")
+          ?.emissions ?? 0,
+      communityProjects:
+        carbonOffset?.find((item) => item.category === "Community Projects")
+          ?.emissions ?? 0,
+      airQualityImprovement:
+        positiveImpact?.find((item) => item.category === "Air Quality")
+          ?.emissions ?? 0,
+      waterSaved:
+        positiveImpact?.find((item) => item.category === "Water Saved")
+          ?.emissions ?? 0,
+      speciesProtected:
+        positiveImpact?.find((item) => item.category === "Biodiversity")
+          ?.emissions ?? 0,
     };
   };
 
@@ -165,7 +182,8 @@ const getEquivalentValues = () => {
                   <div className="flex-1">
                     <div className="mb-4">
                       <p className="font-medium">
-                        {carbonData?.airport_from || "Dublin International Airport"}
+                        {carbonData?.airport_from ||
+                          "Dublin International Airport"}
                       </p>
                       <div className="flex items-center gap-2 text-sm text-gray-500">
                         <Clock className="h-4 w-4" />
@@ -210,7 +228,8 @@ const getEquivalentValues = () => {
                   <div className="flex-1">
                     <div>
                       <p className="font-medium">
-                        {carbonData?.airport_to || flightDetailsDummy.arrival.airport}
+                        {carbonData?.airport_to ||
+                          flightDetailsDummy.arrival.airport}
                       </p>
                       <div className="flex items-center gap-2 text-sm text-gray-500">
                         <Clock className="h-4 w-4" />
@@ -247,177 +266,224 @@ const getEquivalentValues = () => {
 
               {/* CO2 Emissions */}
               <div className="mt-3">
-          <div className="flex items-center justify-between">
-            <div className={`flex items-center gap-1 text-${emissionCategory.color}`}>
-              {emissionCategory.category === "Low" && <CheckCircle className="h-4 w-4 mr-1" />}
-              {emissionCategory.category === "Moderate" && <AlertCircle className="h-4 w-4 mr-1" />}
-              {emissionCategory.category === "High" && <Flame className="h-4 w-4 mr-1" />}
-              <span className={`text-sm font-medium text-${emissionCategory.color}`}>
-                CO2 emissions ({emissionsInKGs.toFixed(2)} KG)
-              </span>
-            </div>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2 text-blue-500"
-                    onClick={handleDetailsClick}
-                    disabled={loadingEquivalent}
+                <div className="flex items-center justify-between">
+                  <div
+                    className={`flex items-center gap-1 text-${emissionCategory.color}`}
                   >
-                    {loadingEquivalent ? <Loader2 className="h-3 w-3 animate-spin" /> : "Details"}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-xs">See environmental impact details</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-
-          {showEmissionsDetails && (
-            <div className={`mt-2 bg-${emissionCategory.color}/10 p-4 rounded-md space-y-4`}>
-              {loadingEquivalent ? (
-                <div className="flex items-center justify-center py-8">
-                  <div className="text-center space-y-2">
-                    <Loader2 className="animate-spin w-6 h-6 text-blue-600 mx-auto" />
-                    <p className="text-sm text-gray-600">Calculating environmental impact...</p>
+                    {emissionCategory.category === "Low" && (
+                      <CheckCircle className="h-4 w-4 mr-1" />
+                    )}
+                    {emissionCategory.category === "Moderate" && (
+                      <AlertCircle className="h-4 w-4 mr-1" />
+                    )}
+                    {emissionCategory.category === "High" && (
+                      <Flame className="h-4 w-4 mr-1" />
+                    )}
+                    <span
+                      className={`text-sm font-medium text-${emissionCategory.color}`}
+                    >
+                      CO2 emissions ({emissionsInKGs.toFixed(2)} KG)
+                    </span>
                   </div>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 px-2 text-blue-500"
+                          onClick={handleDetailsClick}
+                          disabled={loadingEquivalent}
+                        >
+                          {loadingEquivalent ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : (
+                            "Details"
+                          )}
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="text-xs">
+                          See environmental impact details
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
-              ) : equivalentData ? (
-                <>
-                  <div>
-                    <h5 className="text-base font-medium mb-2 flex items-center">
-                      <Leaf className="h-4 w-4 mr-1" />
-                      Environmental Impact
-                    </h5>
-                    {/* <p className="text-sm text-gray-700 mb-3">
+
+                {showEmissionsDetails && (
+                  <div
+                    className={`mt-2 bg-${emissionCategory.color}/10 p-4 rounded-md space-y-4`}
+                  >
+                    {loadingEquivalent ? (
+                      <div className="flex items-center justify-center py-8">
+                        <div className="text-center space-y-2">
+                          <Loader2 className="animate-spin w-6 h-6 text-blue-600 mx-auto" />
+                          <p className="text-sm text-gray-600">
+                            Calculating environmental impact...
+                          </p>
+                        </div>
+                      </div>
+                    ) : equivalentData ? (
+                      <>
+                        <div>
+                          <h5 className="text-base font-medium mb-2 flex items-center">
+                            <Leaf className="h-4 w-4 mr-1" />
+                            Environmental Impact
+                          </h5>
+                          {/* <p className="text-sm text-gray-700 mb-3">
                       {equivalentData.about?.understanding_carbon_footprint ||
                         `This flight produces ${emissionsInKGs.toFixed(2)} kg of CO₂, which is ${emissionCategory.category.toLowerCase()} compared to the average for this route.`}
                     </p> */}
 
-                    {/* Impact metrics */}
-                    <div className="space-y-2">
-                      {equivalentValues?.homeEquivalent && (
-                        <div className="flex items-center justify-between pb-1">
-                          <div className="flex items-center gap-2">
-                            <Home className="h-4 w-4 text-red-500" />
-                            <span className="text-sm text-gray-600">Home Energy Equiv.</span>
-                          </div>
-                          <p className="text-sm font-semibold">
-                            {equivalentValues.homeEquivalent} homes
-                          </p>
-                        </div>
-                      )}
+                          {/* Impact metrics */}
+                          <div className="space-y-2">
+                            {equivalentValues?.homeEquivalent && (
+                              <div className="flex items-center justify-between pb-1">
+                                <div className="flex items-center gap-2">
+                                  <Home className="h-4 w-4 text-red-500" />
+                                  <span className="text-sm text-gray-600">
+                                    Home Energy Equiv.
+                                  </span>
+                                </div>
+                                <p className="text-sm font-semibold">
+                                  {equivalentValues.homeEquivalent} homes
+                                </p>
+                              </div>
+                            )}
 
-                      {equivalentValues?.carEquivalent && (
-                        <div className="flex items-center justify-between border-b border-gray-200 pb-1">
-                          <div className="flex items-center gap-2">
-                            <Car className="h-4 w-4 text-red-500" />
-                            <span className="text-sm text-gray-600">Car Equivalent</span>
-                          </div>
-                          <p className="text-sm font-semibold">
-                            {equivalentValues.carEquivalent} cars
-                          </p>
-                        </div>
-                      )}
+                            {equivalentValues?.carEquivalent && (
+                              <div className="flex items-center justify-between border-b border-gray-200 pb-1">
+                                <div className="flex items-center gap-2">
+                                  <Car className="h-4 w-4 text-red-500" />
+                                  <span className="text-sm text-gray-600">
+                                    Car Equivalent
+                                  </span>
+                                </div>
+                                <p className="text-sm font-semibold">
+                                  {equivalentValues.carEquivalent} cars
+                                </p>
+                              </div>
+                            )}
 
-                      {equivalentValues?.treesRequired && (
-                        <div className="flex items-center justify-between border-b border-gray-200 pb-1">
-                          <div className="flex items-center gap-2">
-                            <TreePine className="h-4 w-4 text-primary" />
-                            <span className="text-sm text-gray-600">Trees Needed</span>
-                          </div>
-                          <p className="text-sm font-semibold">
-                            {equivalentValues.treesRequired.toLocaleString()}
-                          </p>
-                        </div>
-                      )}
+                            {equivalentValues?.treesRequired && (
+                              <div className="flex items-center justify-between border-b border-gray-200 pb-1">
+                                <div className="flex items-center gap-2">
+                                  <TreePine className="h-4 w-4 text-primary" />
+                                  <span className="text-sm text-gray-600">
+                                    Trees Needed
+                                  </span>
+                                </div>
+                                <p className="text-sm font-semibold">
+                                  {equivalentValues.treesRequired.toLocaleString()}
+                                </p>
+                              </div>
+                            )}
 
-                      {equivalentValues?.waterSaved && (
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Droplet className="h-4 w-4 text-blue-500" />
-                            <span className="text-sm text-gray-600">Water Impact</span>
-                          </div>
-                          <p className="text-sm font-semibold">
-                            {(equivalentValues.waterSaved / 1000).toFixed(1)}k L
-                          </p>
-                        </div>
-                      )}
+                            {equivalentValues?.waterSaved && (
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <Droplet className="h-4 w-4 text-blue-500" />
+                                  <span className="text-sm text-gray-600">
+                                    Water Impact
+                                  </span>
+                                </div>
+                                <p className="text-sm font-semibold">
+                                  {(equivalentValues.waterSaved / 1000).toFixed(
+                                    1
+                                  )}
+                                  k L
+                                </p>
+                              </div>
+                            )}
 
-                      {equivalentValues?.airQualityImprovement && (
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Wind className="h-4 w-4 text-blue-500" />
-                            <span className="text-sm text-gray-600">Air Quality Improvement</span>
-                          </div>
-                          <p className="text-sm font-semibold">
-                            {equivalentValues.airQualityImprovement.toFixed(1)}%
-                          </p>
-                        </div>
-                      )}
+                            {equivalentValues?.airQualityImprovement && (
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <Wind className="h-4 w-4 text-blue-500" />
+                                  <span className="text-sm text-gray-600">
+                                    Air Quality Improvement
+                                  </span>
+                                </div>
+                                <p className="text-sm font-semibold">
+                                  {equivalentValues.airQualityImprovement.toFixed(
+                                    1
+                                  )}
+                                  %
+                                </p>
+                              </div>
+                            )}
 
-                      {equivalentValues?.speciesProtected && (
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Shell className="h-4 w-4 text-blue-500" />
-                            <span className="text-sm text-gray-600">Species Protected</span>
+                            {equivalentValues?.speciesProtected && (
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <Shell className="h-4 w-4 text-blue-500" />
+                                  <span className="text-sm text-gray-600">
+                                    Species Protected
+                                  </span>
+                                </div>
+                                <p className="text-sm font-semibold">
+                                  {equivalentValues.speciesProtected}
+                                </p>
+                              </div>
+                            )}
                           </div>
-                          <p className="text-sm font-semibold">
-                            {equivalentValues.speciesProtected}
-                          </p>
                         </div>
-                      )}
-                    </div>
-                  </div>
 
-                  {/* Offset options */}
-                  <div>
-                    <h5 className="text-sm font-medium mb-2 flex items-center">
-                      <Users className="h-4 w-4 mr-1" />
-                      Offset Options
-                    </h5>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-white/60 transition-colors">
-                        <div className="flex items-center gap-2">
-                          <TreePine className="h-4 w-4 text-primary" />
-                          <span className="text-sm">Reforestation Project</span>
+                        {/* Offset options */}
+                        <div>
+                          <h5 className="text-sm font-medium mb-2 flex items-center">
+                            <Users className="h-4 w-4 mr-1" />
+                            Offset Options
+                          </h5>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-white/60 transition-colors">
+                              <div className="flex items-center gap-2">
+                                <TreePine className="h-4 w-4 text-primary" />
+                                <span className="text-sm">
+                                  Reforestation Project
+                                </span>
+                              </div>
+                              <p className="text-sm font-medium">
+                                {formatCurrency(
+                                  Math.ceil(emissionsInTons * 500)
+                                )}
+                              </p>
+                            </div>
+                            <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-white/60 transition-colors">
+                              <div className="flex items-center gap-2">
+                                <Users className="h-4 w-4 text-blue-500" />
+                                <span className="text-sm">
+                                  Community Clean Energy
+                                </span>
+                              </div>
+                              <p className="text-sm font-medium">
+                                {formatCurrency(
+                                  Math.ceil(emissionsInTons * 650)
+                                )}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <p className="text-sm font-medium">
-                          {formatCurrency(Math.ceil(emissionsInTons * 500))}
+
+                        <Button
+                          size="sm"
+                          className={`w-full bg-btn-secondary hover:bg-btn-secondary-hover text-white`}
+                        >
+                          Offset Your Carbon Emission
+                        </Button>
+                      </>
+                    ) : (
+                      <div className="text-center py-4">
+                        <p className="text-sm text-gray-600">
+                          Click &quot;Details&quot; to load environmental impact
+                          data
                         </p>
                       </div>
-                      <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-white/60 transition-colors">
-                        <div className="flex items-center gap-2">
-                          <Users className="h-4 w-4 text-blue-500" />
-                          <span className="text-sm">Community Clean Energy</span>
-                        </div>
-                        <p className="text-sm font-medium">
-                          {formatCurrency(Math.ceil(emissionsInTons * 650))}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                   </div>
-
-                  <Button
-                    size="sm"
-                    className={`w-full bg-btn-secondary hover:bg-btn-secondary-hover text-white`}
-                  >
-                    Offset Your Carbon Emission
-                  </Button>
-                </>
-              ) : (
-                <div className="text-center py-4">
-                  <p className="text-sm text-gray-600">
-                    Click &quot;Details&quot; to load environmental impact data
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+                )}
+              </div>
             </div>
 
             <Separator />

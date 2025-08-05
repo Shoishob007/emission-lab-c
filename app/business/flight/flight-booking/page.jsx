@@ -15,7 +15,7 @@ import { fetchEquivalentValues } from "@/utils/api/AiEquivalentAPI";
 
 export default function FlightBooking() {
   const { data: session } = useSession();
-    const emission_lab_key = session?.user?.profile?.emission_lab_key;
+  const emission_lab_key = session?.user?.profile?.emission_lab_key;
   console.log("Emission lab key :: ", emission_lab_key);
 
   const searchParams = useSearchParams();
@@ -38,29 +38,32 @@ export default function FlightBooking() {
     number_of_passengers: 1,
     flight_class: "Economy",
     round_trip: "Y",
-    aircraft_type: "B777"
+    aircraft_type: "B777",
   };
 
   useEffect(() => {
     async function loadCarbonEmissions() {
       try {
         setCarbonLoading(true);
-        
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/carbon/airAPI/carbon-emission/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(flightParams),
-        });
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/api/carbon/airAPI/carbon-emission/`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(flightParams),
+          }
+        );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch carbon emissions');
+          throw new Error("Failed to fetch carbon emissions");
         }
 
         const data = await response.json();
         console.log("Carbon emission response:", data);
-        
+
         if (data.result && data.result.success) {
           setCarbonData(data.result.data);
         }
@@ -79,7 +82,7 @@ export default function FlightBooking() {
 
     try {
       setLoadingEquivalent(true);
-      
+
       const requestBody = {
         flight_details: {
           travel_from: carbonData.airport_from,
@@ -87,20 +90,23 @@ export default function FlightBooking() {
           distance_km: carbonData.distance_km,
           round_trip: carbonData.round_trip === "Y",
           number_of_passengers: parseInt(carbonData.number_of_passengers),
-          flight_class: carbonData.flight_class
+          flight_class: carbonData.flight_class,
         },
         carbon_emissions: {
           co2e_gm: carbonData.emissions.co2e_gm,
           co2e_kg: carbonData.emissions.co2e_kg,
           co2e_mt: carbonData.emissions.co2e_mt,
-          co2e_lb: carbonData.emissions.co2e_lb
-        }
+          co2e_lb: carbonData.emissions.co2e_lb,
+        },
       };
 
       console.log("Fetching equivalent values with:", requestBody);
-      
-      const equivalentResponse = await fetchEquivalentValues(requestBody, emission_lab_key);
-      
+
+      const equivalentResponse = await fetchEquivalentValues(
+        requestBody,
+        emission_lab_key
+      );
+
       if (equivalentResponse) {
         console.log("Equivalent values response:", equivalentResponse);
         setEquivalentData(equivalentResponse);
