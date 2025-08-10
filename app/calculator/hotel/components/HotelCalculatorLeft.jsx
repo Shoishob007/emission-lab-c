@@ -323,17 +323,30 @@ const HotelCalculatorLeft = ({
               type="number"
               className="bg-transparent w-full focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               value={hotelDetails.number_of_nights}
-              min="1"
-              onChange={(e) =>
-                setHotelDetails((prev) => ({
-                  ...prev,
-                  number_of_nights: Math.max(1, Number(e.target.value)),
-                }))
-              }
+              onChange={(e) => {
+                const value = e.target.value;
+                // Allow empty string or numbers ≥ 1
+                if (value === "" || Number(value) >= 1) {
+                  setHotelDetails((prev) => ({
+                    ...prev,
+                    number_of_nights: value === "" ? "" : Number(value),
+                  }));
+                }
+                // Ignore 0 or negative numbers
+              }}
+              onBlur={(e) => {
+                if (e.target.value === "" || Number(e.target.value) < 1) {
+                  setHotelDetails((prev) => ({
+                    ...prev,
+                    number_of_nights: 1,
+                  }));
+                }
+              }}
             />
           </div>
         </div>
 
+        {/* Number of Rooms (Updated) */}
         <div>
           <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Number of Rooms
@@ -344,13 +357,24 @@ const HotelCalculatorLeft = ({
               type="number"
               className="bg-transparent w-full focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               value={hotelDetails.number_of_rooms}
-              min="1"
-              onChange={(e) =>
-                setHotelDetails((prev) => ({
-                  ...prev,
-                  number_of_rooms: Math.max(1, Number(e.target.value)),
-                }))
-              }
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "" || Number(value) >= 1) {
+                  setHotelDetails((prev) => ({
+                    ...prev,
+                    number_of_rooms: value === "" ? "" : Number(value),
+                  }));
+                }
+                // Ignore 0 or negative numbers
+              }}
+              onBlur={(e) => {
+                if (e.target.value === "" || Number(e.target.value) < 1) {
+                  setHotelDetails((prev) => ({
+                    ...prev,
+                    number_of_rooms: 1,
+                  }));
+                }
+              }}
             />
           </div>
         </div>
