@@ -286,12 +286,24 @@ const FlightCalculatorLeft = ({
               type="number"
               className="bg-transparent w-full focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               value={flightDetails.passengers}
-              onChange={(e) =>
-                setFlightDetails((prev) => ({
-                  ...prev,
-                  passengers: Math.max(1, Number(e.target.value)),
-                }))
-              }
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                if (inputValue === "" || Number(inputValue) >= 1) {
+                  setFlightDetails((prev) => ({
+                    ...prev,
+                    passengers: inputValue === "" ? "" : Number(inputValue),
+                  }));
+                }
+                // If 0 is entered, ignore it (don't update state)
+              }}
+              onBlur={(e) => {
+                if (e.target.value === "" || Number(e.target.value) < 1) {
+                  setFlightDetails((prev) => ({
+                    ...prev,
+                    passengers: 1,
+                  }));
+                }
+              }}
             />
           </div>
         </div>

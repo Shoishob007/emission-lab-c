@@ -319,12 +319,24 @@ const TransportCalculatorLeft = ({
               type="number"
               name="passengers"
               value={transportDetails.passengers}
-              onChange={(e) =>
-                setTransportDetails((prev) => ({
-                  ...prev,
-                  passengers: Math.max(1, Number(e.target.value)),
-                }))
-              }
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                if (inputValue === "" || Number(inputValue) >= 1) {
+                  setTransportDetails((prev) => ({
+                    ...prev,
+                    passengers: inputValue === "" ? "" : Number(inputValue),
+                  }));
+                }
+                // If 0 is entered, ignore it
+              }}
+              onBlur={(e) => {
+                if (e.target.value === "" || Number(e.target.value) < 1) {
+                  setTransportDetails((prev) => ({
+                    ...prev,
+                    passengers: 1,
+                  }));
+                }
+              }}
               className="bg-transparent w-full focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
