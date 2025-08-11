@@ -26,6 +26,19 @@ export default function BlogSection() {
     fetchBlogs();
   }, []);
 
+  // function to get image URL with fallback
+  const getImageUrl = (post) => {
+    if (post.image_url) return post.image_url;
+    if (post.image) {
+      if (post.image.startsWith("http")) return post.image;
+      if (post.image.startsWith("/media/")) {
+        return `${process.env.NEXT_PUBLIC_API}${post.image}`;
+      }
+      return post.image;
+    }
+    return null;
+  };
+
   if (loading) {
     return (
       <section className="relative py-20 bg-white flex items-center justify-center">
@@ -93,21 +106,17 @@ export default function BlogSection() {
         {/* Blog grid */}
         {/* Mobile: all three as large cards. Desktop: grid with large + two small cards */}
         <div className="md:hidden flex flex-col gap-8 mt-12">
-          {blogPosts.map((post, idx) => (
+          {blogPosts.map((post) => (
             <div
               key={post.id}
               className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow group flex flex-col h-full min-h-[400px]"
             >
               <div className="h-[280px] w-full overflow-hidden relative">
                 <img
-                  src={post.image}
+                  src={getImageUrl(post)}
                   alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                {/* Sub-category badge */}
-                {/* <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                  {(post.sub_category || post.subCategory || "").toString()}
-                </span> */}
               </div>
               <div className="p-8 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-2">
@@ -120,18 +129,14 @@ export default function BlogSection() {
                   {post.title}
                 </h3>
                 <p className="text-[#767676] text-base mb-4 line-clamp-5">
-                  {/* Strip html tags for preview */}
                   {typeof post.excerpt === "string"
                     ? post.excerpt.replace(/<[^>]+>/g, "").slice(0, 180) +
                       (post.excerpt.length > 180 ? "..." : "")
                     : ""}
                 </p>
-                {/* <span className="text-[#163820] font-semibold text-base mb-5">
-                  {post.author}
-                </span> */}
                 <Link
                   href={`/blog/${post.id}`}
-                  className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-base w-fit"
+                  className="mt-auto font-semibold text-btn-secondary flex items-center gap-2 hover:underline text-base w-fit"
                 >
                   Read More <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -147,17 +152,12 @@ export default function BlogSection() {
             <div className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow group flex flex-col h-full min-h-[400px]">
               <div className="h-[280px] w-full overflow-hidden relative">
                 <img
-                  src={blogPosts[0].image}
+                  src={getImageUrl(blogPosts[0])}
                   alt={blogPosts[0].title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                {/* Sub-category badge */}
                 <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                  {(
-                    blogPosts[0].sub_category ||
-                    blogPosts[0].subCategory ||
-                    ""
-                  ).toString()}
+                  {blogPosts[0].sub_category || ""}
                 </span>
               </div>
               <div className="p-8 flex-1 flex flex-col">
@@ -180,12 +180,9 @@ export default function BlogSection() {
                       (blogPosts[0].excerpt.length > 200 ? "..." : "")
                     : ""}
                 </p>
-                {/* <span className="text-[#163820] font-semibold text-base mb-5">
-                  {blogPosts[0].author}
-                </span> */}
                 <Link
                   href={`/blog/${blogPosts[0].id}`}
-                  className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-base w-fit"
+                  className="mt-auto font-semibold text-btn-secondary flex items-center gap-2 hover:underline text-base w-fit"
                 >
                   Read More <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -194,7 +191,7 @@ export default function BlogSection() {
           </div>
           {/* Right: Two stacked smaller cards */}
           <div className="flex flex-col gap-10 md:col-span-6">
-            {[blogPosts[1], blogPosts[2]].map((post, i) => (
+            {[blogPosts[1], blogPosts[2]].map((post) => (
               <div
                 key={post.id}
                 className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow group flex flex-row min-h-[170px] h-1/2"
@@ -204,14 +201,13 @@ export default function BlogSection() {
               >
                 <div className="w-2/5 min-w-[160px] max-w-[200px] overflow-hidden relative">
                   <img
-                    src={post.image}
+                    src={getImageUrl(post)}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     style={{ height: "100%" }}
                   />
-                  {/* Sub-category badge */}
                   <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                    {(post.sub_category || post.subCategory || "").toString()}
+                    {post.sub_category || ""}
                   </span>
                 </div>
                 <div className="p-6 flex flex-col flex-1">
@@ -230,12 +226,9 @@ export default function BlogSection() {
                         (post.excerpt.length > 110 ? "..." : "")
                       : ""}
                   </p>
-                  {/* <span className="text-[#163820] font-semibold text-sm mb-2">
-                    {post.author}
-                  </span> */}
                   <Link
                     href={`/blog/${post.id}`}
-                    className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-sm w-fit"
+                    className="mt-auto font-semibold text-btn-secondary flex items-center gap-2 hover:underline text-sm w-fit"
                   >
                     Read More <ArrowRight className="w-4 h-4" />
                   </Link>

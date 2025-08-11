@@ -96,15 +96,15 @@ export default function WhatWeDoSection() {
           </div>
         </div>
 
-        {/* Services Grid - Responsive Layout */}
+        {/* Services Grid */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {services.map((service, idx) => (
             <div
               key={service.title}
               className={`
                 group relative rounded-xl border border-[#E0E0E0] bg-white/90
-                transition-all duration-400 hover:bg-[#97D34B] hover:shadow-lg hover:border-[#97D34B]
-                w-full flex flex-col items-center p-5 shadow-sm
+                transition-all duration-400 shadow-lg hover:bg-primary hover:shadow-lg hover:border-primary
+                w-full flex flex-col items-center p-5
                 min-h-[250px] h-full
               `}
               style={{
@@ -112,7 +112,7 @@ export default function WhatWeDoSection() {
               }}
             >
               {/* Icon */}
-              <div className="mb-4 flex items-center justify-center rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-200 w-12 h-12 mx-auto shadow">
+              <div className="mb-4 flex items-center justify-center rounded-full bg-primary/20 group-hover:bg-green-700 transition-colors duration-200 w-12 h-12 mx-auto shadow">
                 <span className="block group-hover:hidden">{service.icon}</span>
                 <span className="hidden group-hover:block">
                   {service.hoverIcon}

@@ -86,7 +86,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 p-6 font-sans">
+    <div className="p-6 font-sans">
       <div className="max-w-6xl mx-auto">
         <div className="relative text-center mb-8">
           <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-emerald-800 inline-block animate-float">

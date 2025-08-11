@@ -141,9 +141,9 @@ const ServicesSection = () => {
           {visibleServices.map((service, i) => (
             <div
               key={`${service.title}-${i}`}
-              className="group relative h-full rounded-3xl border-2 border-[#EAEAEA] bg-white py-6 px-4 transition-all duration-300 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer"
+              className="group relative h-full rounded-3xl border-2 border-[#EAEAEA] bg-white py-6 px-4 transition-all duration-300 hover:bg-primary hover:border-primary hover:shadow-xl cursor-pointer"
             >
-              <div className="mb-6 p-4 rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-300">
+              <div className="mb-6 p-4 rounded-full bg-[#EAFDD5] group-hover:bg-green-700 transition-colors duration-300">
                 <span className="block group-hover:hidden">{service.icon}</span>
                 <span className="hidden group-hover:block">
                   {service.hoverIcon}
@@ -158,7 +158,7 @@ const ServicesSection = () => {
                 {service.description}
               </p>
 
-              <div className="font-semibold text-btn-primary group-hover:text-white transition-colors duration-300 flex items-center">
+              <div className="font-semibold text-btn-secondary group-hover:text-white transition-colors duration-300 flex items-center">
                 Read More
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </div>

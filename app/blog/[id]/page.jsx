@@ -7,6 +7,18 @@ import { useParams } from "next/navigation";
 import parse from "html-react-parser";
 import { getBlogById } from "@/utils/api/getBlogById";
 
+const getImageUrl = (post) => {
+  if (post.image_url) return post.image_url;
+  if (post.image) {
+    if (post.image.startsWith('http')) return post.image;
+    if (post.image.startsWith('/media/')) {
+      return `${process.env.NEXT_PUBLIC_API}${post.image}`;
+    }
+    return post.image;
+  }
+  return null;
+};
+
 export default function BlogDetailPage() {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -59,17 +71,15 @@ export default function BlogDetailPage() {
           {/* Image */}
           <div className="relative w-full">
             <img
-              src={post.image}
+              src={getImageUrl(post)}
               alt={post.title}
               className="w-full h-[400px] sm:h-full object-cover object-center"
               style={{ borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
+              onError={(e) => {
+                const target = e.target;
+                target.src = '/placeholder-blog.jpg';
+              }}
             />
-            {/* Sub-category badge */}
-            {/* {post.sub_category || post.subCategory ? (
-              <span className="absolute top-4 left-4 bg-btn-primary text-white rounded-full px-4 py-2 text-xs font-bold uppercase shadow z-10">
-                {(post.sub_category || post.subCategory || "").toString()}
-              </span>
-            ) : null} */}
           </div>
 
           {/* Main Content */}
@@ -86,9 +96,6 @@ export default function BlogDetailPage() {
             <h1 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 flex items-center gap-2">
               {post.title}
             </h1>
-            {/* <span className="text-[#163820] font-semibold text-sm mb-6 block">
-              {post.author}
-            </span> */}
 
             {/* Blog Content */}
             <div
@@ -133,7 +140,6 @@ export default function BlogDetailPage() {
           margin: 1.5rem 0 !important;
           border-radius: 1em;
         }
-        /* Add extra gap between all blocks and lists for more breathing room */
         .prose-green p,
         .prose-green ul,
         .prose-green ol,
