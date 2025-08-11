@@ -113,8 +113,8 @@ export default function SolutionsSection() {
               key={solution.title}
               href={solution.href}
               className={`
-      group relative rounded-3xl border-2 border-[#EAEAEA] bg-white
-      transition-all duration-500 hover:bg-[#97D34B] hover:border-[#97D34B] hover:shadow-xl cursor-pointer
+      group relative rounded-3xl border-2 border-[#EAEAEA] bg-white shadow-lg
+      transition-all duration-500 hover:bg-primary hover:border-primary hover:shadow-xl cursor-pointer
       w-[340px] min-h-[350px] flex flex-col
       no-underline
     `}
@@ -123,7 +123,7 @@ export default function SolutionsSection() {
             >
               <div className="p-6 flex flex-col h-full">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 rounded-full bg-[#EAFDD5] group-hover:bg-[#78B943] transition-colors duration-300 w-fit">
+                  <div className="p-3 rounded-full bg-primary/20 group-hover:bg-green-700 transition-colors duration-300 w-fit">
                     <span className="block group-hover:hidden">
                       {solution.icon}
                     </span>
@@ -149,7 +149,7 @@ export default function SolutionsSection() {
                 <div className="flex-1 flex flex-col gap-2 mb-4">
                   {solution.features.map((feature, i) => (
                     <div key={i} className="flex items-baseline gap-2 text-sm">
-                      <div className="w-2 h-2 bg-[#78B943] group-hover:bg-white/90 rounded-full flex-shrink-0 mt-1"></div>
+                      <div className="w-2 h-2 bg-primary group-hover:bg-white/90 rounded-full flex-shrink-0 mt-1"></div>
                       <span className="text-[#767676] group-hover:text-white/90 transition-colors duration-300 leading-tight">
                         {feature}
                       </span>
@@ -164,7 +164,7 @@ export default function SolutionsSection() {
                 <div className="mt-4 flex justify-end">
                   <span
                     className="
-                    font-semibold text-btn-primary group-hover:text-white 
+                    font-semibold text-btn-secondary group-hover:text-white 
                     transition-colors duration-300 flex items-center
                   "
                   >

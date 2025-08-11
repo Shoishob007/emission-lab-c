@@ -29,6 +29,18 @@ function getExcerpt(html, wordLimit) {
   return words.slice(0, wordLimit).join(" ") + "...";
 }
 
+const getImageUrl = (post) => {
+  if (post.image_url) return post.image_url;
+  if (post.image) {
+    if (post.image.startsWith('http')) return post.image;
+    if (post.image.startsWith('/media/')) {
+      return `${process.env.NEXT_PUBLIC_API}${post.image}`;
+    }
+    return post.image;
+  }
+  return null;
+};
+
 export default function BlogPage() {
   const [blogPosts, setBlogPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -195,14 +207,14 @@ export default function BlogPage() {
               >
                 <div className="h-[220px] w-full overflow-hidden relative">
                   <img
-                    src={post.image}
+                    src={getImageUrl(post)}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      const target = e.target;
+                      target.src = '/placeholder-blog.jpg';
+                    }}
                   />
-                  {/* Sub-category badge */}
-                  {/* <span className="absolute top-3 left-3 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                    {(post.sub_category || post.subCategory || "").toString()}
-                  </span> */}
                 </div>
                 <div className="p-7 flex-1 flex flex-col">
                   <div className="flex items-center justify-between mb-2">
@@ -215,15 +227,11 @@ export default function BlogPage() {
                     {post.title}
                   </h3>
                   <div className="text-[#767676] text-sm mb-3 flex-1 prose prose-sm max-w-none line-clamp-4">
-                    {/* Excerpt with word limit */}
                     {getExcerpt(post.excerpt, WORD_LIMIT)}
                   </div>
-                  {/* <span className="text-[#163820] font-semibold text-sm mb-3">
-                    {post.author}
-                  </span> */}
                   <Link
                     href={`/blog/${post.id}`}
-                    className="mt-auto font-semibold text-btn-primary flex items-center gap-2 hover:underline text-sm w-fit"
+                    className="mt-auto font-semibold text-btn-secondary flex items-center gap-2 hover:underline text-sm w-fit"
                   >
                     Read More <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -239,7 +247,7 @@ export default function BlogPage() {
             <button className="px-4 py-2 rounded-l-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-btn-primary/10 flex items-center gap-1">
               <ArrowLeft size={18} /> Prev
             </button>
-            <button className="px-4 py-2 bg-btn-primary text-white font-bold transition">
+            <button className="px-4 py-2 bg-btn-secondary text-white font-bold transition">
               1
             </button>
             <button className="px-4 py-2 rounded-r-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-btn-primary/10 flex items-center gap-1">

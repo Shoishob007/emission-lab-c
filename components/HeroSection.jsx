@@ -35,7 +35,7 @@ const slides = [
     subheading:
       "Empowering individuals, businesses, and organizations to easily understand and manage their carbon footprint for a greener planet.",
     primary: { text: "Calculate Your Footprint Now", href: "/calculator" },
-    secondary: { text: "Having Trouble?", href: "/contact" },
+    secondary: { text: "Learn More", href: "/calculatorPage" },
   },
   {
     image:

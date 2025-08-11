@@ -134,8 +134,8 @@ export default function NewBusinessPage() {
             <p className="text-base sm:text-lg mt-3 mb-4 max-w-2xl text-white/90">
               At Emission Lab, we understand that modern businesses are expected
               to do more than operate efficiently — they’re expected to operate
-              &nbsp;sustainably. Whether you&apos;re an airline, an online
-              travel agency (OTA), or a global logistics provider, your
+              &nbsp;sustainably. Whether you&apos;re an Airline, an Online
+              Travel Agency (OTA), or a global logistics provider, your
               customers expect transparency, responsibility, and measurable
               impact.
             </p>
@@ -338,7 +338,7 @@ export default function NewBusinessPage() {
               </li>
               <li className="flex items-center gap-2">
                 <ArrowRight className="text-btn-primary min-w-5" size={18} />
-                <span>Flexible pricing plans (Basic, Pro, Enterprise)</span>
+                <span>Secure authentication with API keys & OAuth</span>
               </li>
               <li className="flex items-center gap-2">
                 <ArrowRight className="text-btn-primary min-w-5" size={18} />
