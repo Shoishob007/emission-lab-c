@@ -91,17 +91,20 @@ export default function CalculatorSection() {
         {/* Bottom Row */}
         <div className="flex flex-col lg:flex-row lg:items-center gap-10 items-start">
           {/* Stacked Photos*/}
-          <div className="w-full lg:w-1/2 relative" style={{ minHeight: 340 }}>
-            {/* Mobile stacked, diagonal */}
-            <div
-              className="block lg:hidden"
-              style={{ height: 350, position: "relative" }}
-            >
+          <div
+            className="w-full lg:w-1/2 relative flex items-center justify-center"
+            style={{ minHeight: 340 }}
+          >
+            {/* Mobile stacked */}
+            <div className="block lg:hidden relative" style={{ height: 350 }}>
               <div
-                className="rounded-2xl overflow-hidden absolute left-0 top-0"
+                className="rounded-2xl overflow-hidden absolute"
                 style={{
-                  width: 300,
-                  height: 200,
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-60%, -60%)",
+                  width: 270,
+                  height: 180,
                   background: "#f3f3f3",
                   zIndex: 2,
                   boxShadow: "0 8px 32px 0 rgba(0,0,0,0.14)",
@@ -115,10 +118,13 @@ export default function CalculatorSection() {
                 />
               </div>
               <div
-                className="rounded-2xl overflow-hidden absolute left-14 top-28"
+                className="rounded-2xl overflow-hidden absolute"
                 style={{
-                  width: 300,
-                  height: 200,
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-40%, -20%)",
+                  width: 270,
+                  height: 180,
                   background: "#f3f3f3",
                   zIndex: 1,
                   boxShadow: "0 8px 32px 0 rgba(0,0,0,0.14)",
@@ -133,14 +139,19 @@ export default function CalculatorSection() {
                 />
               </div>
             </div>
+
             {/* Desktop diagonal stack */}
             <div
-              className="hidden lg:block rounded-2xl overflow-hidden absolute right-0 top-20 z-10"
+              className="hidden lg:block rounded-2xl overflow-hidden absolute"
               style={{
+                top: "50%",
+                left: "50%",
+                transform: "translate(-40%, -30%)",
                 width: 330,
                 height: 250,
                 background: "#f3f3f3",
                 boxShadow: "0 8px 32px 0 rgba(0,0,0,0.14)",
+                zIndex: 10,
               }}
             >
               <img
@@ -151,13 +162,16 @@ export default function CalculatorSection() {
               />
             </div>
             <div
-              className="hidden lg:block rounded-2xl overflow-hidden absolute top-0 z-0"
+              className="hidden lg:block rounded-2xl overflow-hidden absolute"
               style={{
+                top: "50%",
+                left: "50%",
+                transform: "translate(-60%, -70%) scale(0.96)",
                 width: 330,
                 height: 250,
-                transform: "scale(0.96)",
                 background: "#f3f3f3",
                 boxShadow: "0 8px 32px 0 rgba(0,0,0,0.14)",
+                zIndex: 0,
               }}
             >
               <img
@@ -169,6 +183,7 @@ export default function CalculatorSection() {
               />
             </div>
           </div>
+
           {/* Features */}
           <div className="w-full lg:w-1/2 bg-[#F7F7F7] rounded-2xl p-4 sm:p-6 flex flex-col gap-4">
             {features.map((feature, i) => (

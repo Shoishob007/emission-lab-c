@@ -18,8 +18,9 @@ const TransportCalculatorLeft = ({
   transportDetails,
   setTransportDetails,
   setEmissionData,
+  setLoading,
+  loading,
 }) => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [distanceUnit, setDistanceUnit] = useState("km");
   const [vehicleCategory, setVehicleCategory] = useState("cars");

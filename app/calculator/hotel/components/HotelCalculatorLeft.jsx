@@ -12,6 +12,8 @@ const HotelCalculatorLeft = ({
   hotelDetails,
   setHotelDetails,
   setEmissionData,
+  setCalculating,
+  calculating,
 }) => {
   const [countryOptions, setCountryOptions] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState([]);
@@ -23,7 +25,6 @@ const HotelCalculatorLeft = ({
     city: null,
     general: null,
   });
-  const [calculating, setCalculating] = useState(false);
   const ALLOWED_COUNTRIES = [
     "AR",
     "AT",

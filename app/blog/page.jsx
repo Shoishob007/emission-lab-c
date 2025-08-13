@@ -209,7 +209,7 @@ export default function BlogPage() {
                   <img
                     src={getImageUrl(post)}
                     alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-fit transition-transform duration-500 group-hover:scale-105"
                     onError={(e) => {
                       const target = e.target;
                       target.src = '/placeholder-blog.jpg';
