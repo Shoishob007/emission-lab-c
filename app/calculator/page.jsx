@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useMemo, useState } from "react";
 import { Plane, Car, Hotel } from "lucide-react";
 import FlightCalculatorLeft from "./flight/components/FlightCalculatorLeft";
 import FlightCalculatorRight from "./flight/components/FlightCalculatorRight";
-import CarCalculatorLeft from "./car/components/TransportCalculatorLeft";
+import TransportCalculatorLeft from "./car/components/TransportCalculatorLeft";
 import TransportCalculatorRight from "./car/components/TransportCalculatorRight";
 import HotelCalculatorLeft from "./hotel/components/HotelCalculatorLeft";
 import HotelCalculatorRight from "./hotel/components/HotelCalculatorRight";
@@ -43,6 +43,7 @@ export default function Calculator() {
   });
   const [emissionData, setEmissionData] = useState(null);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [calculating, setCalculating] = useState(false);
 
   const tabs = useMemo(
     () => [
@@ -81,15 +82,19 @@ export default function Calculator() {
             flightDetails={flightDetails}
             setFlightDetails={setFlightDetails}
             setEmissionData={setEmissionData}
+            setCalculating={setCalculating}
+            calculating={calculating}
           />
         );
       case "transport":
         return (
-          <CarCalculatorLeft
+          <TransportCalculatorLeft
             setCalculated={setCalculated}
             transportDetails={transportDetails}
             setTransportDetails={setTransportDetails}
             setEmissionData={setEmissionData}
+            setLoading={setCalculating}
+            loading={calculating}
           />
         );
       case "hotel":
@@ -99,6 +104,8 @@ export default function Calculator() {
             hotelDetails={hotelDetails}
             setHotelDetails={setHotelDetails}
             setEmissionData={setEmissionData}
+            setCalculating={setCalculating}
+            calculating={calculating}
           />
         );
       default:
@@ -117,6 +124,8 @@ export default function Calculator() {
             showDashboard={showDashboard}
             setShowDashboard={setShowDashboard}
             scrollToDashboard={scrollToDashboard}
+            setCalculating={setCalculating}
+            calculating={calculating}
           />
         );
       case "transport":
@@ -129,6 +138,7 @@ export default function Calculator() {
             setShowDashboard={setShowDashboard}
             scrollToDashboard={scrollToDashboard}
             transportDetails={transportDetails}
+            loading={calculating}
           />
         );
       case "hotel":
@@ -140,6 +150,7 @@ export default function Calculator() {
             showDashboard={showDashboard}
             setShowDashboard={setShowDashboard}
             scrollToDashboard={scrollToDashboard}
+            calculating={calculating}
           />
         );
       default:
@@ -149,10 +160,10 @@ export default function Calculator() {
 
   return (
     <section
-      className="relative py-20 flex justify-center items-center overflow-x-hidden"
+      className="relative py-10 flex justify-center items-center overflow-x-hidden"
       style={{
         minHeight: "650px",
-        backgroundImage: "url('/bg-calc.png')",
+        backgroundImage: "url('/bg_1.jpg')",
         backgroundRepeat: "repeat",
         backgroundSize: "contain",
         backgroundPosition: "center",
@@ -183,7 +194,7 @@ export default function Calculator() {
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {/* Left Panel - Input Form */}
-            <div className="bg-card rounded-lg p-8 shadow-lg">
+            <div className="bg-card rounded-lg p-8 shadow-lg shadow-primary/40">
               <h2 className="text-xl font-semibold mb-6 text-center">
                 {activeTab === "flight" && "Put Your Flight Details"}
                 {activeTab === "transport" && "Put Your Journey Details"}

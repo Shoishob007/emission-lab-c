@@ -1,9 +1,10 @@
-import { Cloud, Sparkles, Building2, ArrowUp } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { Sparkles, Building2, ArrowUp } from "lucide-react";
+import React, { useState } from "react";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
 import Image from "next/image";
 import Link from "next/link";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const HotelCalculatorRight = ({
   calculated,
@@ -12,6 +13,7 @@ const HotelCalculatorRight = ({
   showDashboard,
   setShowDashboard,
   scrollToDashboard,
+  calculating,
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
@@ -54,19 +56,58 @@ const HotelCalculatorRight = ({
 
   return (
     <>
-      <div className="bg-card rounded-lg p-8 shadow-lg">
+      <div className="bg-card rounded-lg p-8 shadow-lg shadow-primary/40">
         <h2 className="text-xl font-semibold mb-2 text-center">
           Your Carbon Footprint
         </h2>
 
         {!calculated || activeTab !== "hotel" ? (
-          <div className="h-[400px] flex flex-col items-center justify-center text-muted-foreground">
-            <Cloud className="h-16 w-16 mb-4" />
-            <p className="text-sm">
-              {activeTab === "hotel"
-                ? "Enter hotel details to calculate emissions"
-                : "Enter details to calculate emissions"}
+          <div className="h-full flex flex-col items-center justify-center text-center px-6">
+            {/* Animation container */}
+            <div className="p-6 rounded-full bg-gradient-to-br from-primary/20 to-primary/20 shadow-inner mb-6">
+              <div className="w-32 h-32 sm:w-40 sm:h-40">
+                <DotLottieReact
+                  key={calculating ? "calc-anim" : "idle-anim"}
+                  src="https://lottie.host/e838794e-eee6-4e3b-996a-2e5e92bbcaa1/4xwYEpmPqj.lottie"
+                  loop={calculating}
+                  autoplay={calculating}
+                />
+              </div>
+            </div>
+
+            {/* Headline */}
+            <h3 className="text-xl font-semibold text-foreground mb-2">
+              {calculating
+                ? "Calculating Your Emissions..."
+                : "Ready to Begin?"}
+            </h3>
+
+            {/* Subtext */}
+            <p className="text-sm text-muted-foreground max-w-sm mb-4">
+              {calculating
+                ? "We're analyzing your flight data to estimate CO₂ emissions."
+                : "Enter your flight details and we'll estimate your carbon footprint instantly."}
             </p>
+
+            {/* Professional Information */}
+            <div className="bg-primary/10 dark:bg-gray-950/20 border border-gray-200/50 dark:border-gray-800/30 rounded-lg p-4 mb-4 max-w-md">
+              <div className="flex items-start space-x-3">
+                <div className="text-left">
+                  <p className="text-sm font-medium text-foreground/70 dark:text-gray-100 mb-1">
+                    Understanding Your Carbon Impact
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-300 leading-relaxed">
+                    Once calculated, view detailed emission breakdowns and
+                    discover equivalent environmental comparisons. Take
+                    immediate climate action through our verified carbon offset
+                    programs.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="w-16 border-t border-muted mb-3" />
           </div>
         ) : (
           <div className="">

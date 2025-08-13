@@ -17,12 +17,13 @@ const FlightCalculatorLeft = ({
   flightDetails,
   setFlightDetails,
   setEmissionData,
+  setCalculating,
+  calculating,
 }) => {
   const [fromAirports, setFromAirports] = useState([]);
   const [toAirports, setToAirports] = useState([]);
   const [loading, setLoading] = useState({ from: false, to: false });
   const [error, setError] = useState({ from: null, to: null });
-  const [calculating, setCalculating] = useState(false);
 
   const fetchAirports = async (keyword = "", fieldType = "from") => {
     setLoading((prev) => ({ ...prev, [fieldType]: true }));
