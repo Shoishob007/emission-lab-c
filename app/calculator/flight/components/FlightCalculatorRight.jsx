@@ -5,6 +5,7 @@ import CarbonFootprintCards from "@/components/carbon-footprint-cards";
 import Image from "next/image";
 import Link from "next/link";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import useEmissionsStore from "@/stores/emissionStore";
 
 const FlightCalculatorRight = ({
   calculated,
@@ -14,11 +15,23 @@ const FlightCalculatorRight = ({
   setShowDashboard,
   scrollToDashboard,
   calculating,
+  pricePerTon,
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
+  // console.log("pricePerTon :: ", pricePerTon);
+  const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
 
-  // dashboard view with loading
+  // store when emission data changes
+  useEffect(() => {
+    if (emissionData && calculated) {
+      setStoreEmissionData({
+        ...emissionData,
+        calculationType: "flight",
+      });
+    }
+  }, [emissionData, calculated, setStoreEmissionData]);
+
   const handleViewDashboard = () => {
     if (showDashboard) {
       setShowDashboard(false);
@@ -272,8 +285,25 @@ const FlightCalculatorRight = ({
             <div className="border-t border-border">
               <CarbonFootprintCards totalEmission={totalEmission} />
 
+              <div className="mt-4 bg-blue-50 dark:bg-blue-200/20 border border-blue-100 dark:border-blue-300 rounded-xl px-4 py-2 shadow-md">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                        Carbon Offset Value
+                      </h4>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-lg font-bold text-green-600 dark:text-green-400">
+                      ${(totalEmission * parseFloat(pricePerTon)).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {isGenerating ? (
-                <div className="w-full mt-6">
+                <div className="w-full mt-4">
                   {/* AI Generation Loading State */}
                   <div className="w-full bg-primary/10 rounded-lg p-4 flex flex-col items-center">
                     <div className="flex items-center space-x-3 mb-3">
@@ -308,27 +338,27 @@ const FlightCalculatorRight = ({
                   </div>
                 </div>
               ) : (
-                <div>
+                <div className="flex gap-4 mt-4">
+                  {/* View / Hide Details */}
                   <button
                     onClick={handleViewDashboard}
-                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors ${
-                      showDashboard ? "mt-10" : "mt-6"
-                    }`}
+                    className={`${
+                      showDashboard ? "w-full" : "w-1/2"
+                    } bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors`}
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
                     {showDashboard ? "Hide Details" : "View Details"}
                   </button>
 
-                  <Link href={"/offsetPage"}>
-                    <button
-                      className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors ${
-                        showDashboard ? "hidden" : ""
-                      }`}
-                    >
-                      <ArrowUp className="h-4 w-4 mr-2" />
-                      Offset Now
-                    </button>
-                  </Link>
+                  {/* Offset Now */}
+                  {!showDashboard && (
+                    <Link href={"/offsetPage"} className="w-1/2">
+                      <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
+                        <ArrowUp className="h-4 w-4 mr-2" />
+                        Offset Now
+                      </button>
+                    </Link>
+                  )}
                 </div>
               )}
             </div>
