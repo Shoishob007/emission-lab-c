@@ -14,6 +14,8 @@ const HotelCalculatorRight = ({
   setShowDashboard,
   scrollToDashboard,
   calculating,
+              pricePerTon
+
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
@@ -189,7 +191,12 @@ const HotelCalculatorRight = ({
                     {showDashboard ? "Hide Details" : "View Details"}
                   </button>
 
-                  <Link href={"/offsetPage"}>
+                  <Link
+                    href={{
+                      pathname: "/offsetPage",
+                      query: { emission: totalEmission.toFixed(2) },
+                    }}
+                  >
                     <button
                       className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors ${
                         showDashboard ? "hidden" : ""

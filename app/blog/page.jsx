@@ -247,7 +247,7 @@ export default function BlogPage() {
             <button className="px-4 py-2 rounded-l-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-btn-primary/10 flex items-center gap-1">
               <ArrowLeft size={18} /> Prev
             </button>
-            <button className="px-4 py-2 bg-btn-secondary text-white font-bold transition">
+            <button className="px-4 py-2 bg-btn-primary text-white font-bold transition">
               1
             </button>
             <button className="px-4 py-2 rounded-r-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-btn-primary/10 flex items-center gap-1">

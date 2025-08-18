@@ -10,6 +10,7 @@ import HotelCalculatorRight from "./hotel/components/HotelCalculatorRight";
 import CarbonImpactDashboard from "./components/CarbonEmissionDash";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableTabs } from "@/components/ui/expandable-tabs";
+import useOffsetStore from "@/stores/offsetStore";
 
 /**
  * Adds a soft city image background (as in SolutionsSection) with a white gradient overlay.
@@ -44,6 +45,7 @@ export default function Calculator() {
   const [emissionData, setEmissionData] = useState(null);
   const [showDashboard, setShowDashboard] = useState(false);
   const [calculating, setCalculating] = useState(false);
+  const { defaultProjects, fetchProjects } = useOffsetStore();
 
   const tabs = useMemo(
     () => [
@@ -57,6 +59,12 @@ export default function Calculator() {
   useEffect(() => {
     setActiveTab(tabs[0]?.value);
   }, [tabs]);
+
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]);
+
+  // console.log("Default Projects: ", defaultProjects);
 
   const handleTabChange = (index) => {
     const selectedTab = tabs[index]?.value;
@@ -113,6 +121,8 @@ export default function Calculator() {
     }
   };
 
+  const pricePerTon = defaultProjects[0]?.price_per_ton || "0.00";
+
   const renderRightPanel = () => {
     switch (activeTab) {
       case "flight":
@@ -126,6 +136,7 @@ export default function Calculator() {
             scrollToDashboard={scrollToDashboard}
             setCalculating={setCalculating}
             calculating={calculating}
+            pricePerTon={pricePerTon}
           />
         );
       case "transport":
@@ -139,6 +150,7 @@ export default function Calculator() {
             scrollToDashboard={scrollToDashboard}
             transportDetails={transportDetails}
             loading={calculating}
+            pricePerTon={pricePerTon}
           />
         );
       case "hotel":
@@ -151,6 +163,7 @@ export default function Calculator() {
             setShowDashboard={setShowDashboard}
             scrollToDashboard={scrollToDashboard}
             calculating={calculating}
+            pricePerTon={pricePerTon}
           />
         );
       default:
