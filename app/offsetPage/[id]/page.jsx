@@ -14,27 +14,39 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DonationModal from "../components/DonationModal.jsx";
-import { useSearchParams } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
+import useEmissionsStore from "@/stores/emissionStore";
 
 export default function ProjectDetailsPage({ params }) {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [quoteData, setQuoteData] = useState(null);
   const projectId = parseInt(params.id);
-  const { projects, loading, error, createOffsetQuote } =
-    useOffsetStore();
+  const { projects, loading, error, createOffsetQuote } = useOffsetStore();
+  const {
+    currentEmission,
+    getFormattedEmission,
+    isDataValid,
+    calculationType,
+  } = useEmissionsStore();
+
   const project = projects.find((p) => p.id === projectId);
 
-  const searchParams = useSearchParams();
-  const emissionValue = searchParams.get("emission");
+  // Check if emission data is valid and available
+  const hasValidEmissionData = currentEmission && isDataValid();
 
-const handleOffset = async () => {
+  const handleOffset = async () => {
+    if (!hasValidEmissionData) {
+      console.error("No valid emission data available");
+      // You could show an error message or redirect back to calculation
+      return;
+    }
+
     try {
       const data = await createOffsetQuote({
         project_id: projectId,
-        carbon_emission_metric_tons: parseFloat(emissionValue),
+        carbon_emission_metric_tons: parseFloat(currentEmission),
       });
       console.log("Offset data after creating in details page :: ", data);
       setQuoteData(data);
@@ -44,7 +56,6 @@ const handleOffset = async () => {
       // Handle error (show toast or error message)
     }
   };
-
 
   // Loading and error states from your store
   if (loading) {
@@ -63,7 +74,7 @@ const handleOffset = async () => {
             {error ? error : "Project Not Found"}
           </h1>
           <Link
-            href="/offset"
+            href="/offsetPage"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors"
           >
             <ArrowLeft size={20} />
@@ -73,6 +84,29 @@ const handleOffset = async () => {
       </div>
     );
   }
+
+  // If no valid emission data, show message to calculate first
+  if (!hasValidEmissionData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-[#163820] mb-4">
+            No Emission Data Available
+          </h1>
+          <p className="text-[#767676] mb-6">
+            Please calculate your carbon footprint first before offsetting.
+          </p>
+          <Link
+            href="/calculator"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors"
+          >
+            Calculate Emissions
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   const formatCurrency = (amount) =>
     new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -93,10 +127,7 @@ const handleOffset = async () => {
 
         {/* Back Button */}
         <Link
-          href={{
-            pathname: "/offsetPage",
-            query: { emission: emissionValue },
-          }}
+          href="/offsetPage"
           className="absolute top-6 left-6 inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm hover:bg-white text-[#163820] font-semibold rounded-lg transition-all shadow-lg"
         >
           <ArrowLeft size={20} />
@@ -117,25 +148,20 @@ const handleOffset = async () => {
                 </span>
               )}
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-              {project.name}
-            </h1>
-            {/* <div className="flex flex-wrap items-center gap-6 text-white/90 text-lg">
-              <div className="flex items-center gap-2">
-                <MapPin size={20} />
-                <span>{project.region || "Various locations"}</span>
+            <div className="flex items-center gap-4 justify-between">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
+                {project.name}
+              </h1>
+              {/* Display current emission info */}
+              <div className="p-4 bg-white/10 backdrop-blur-sm rounded-lg">
+                <p className="text-white/90 text-sm mb-1">
+                  Your {calculationType} footprint:
+                </p>
+                <p className="text-white font-bold text-xl">
+                  {getFormattedEmission()} tonnes CO₂e
+                </p>
               </div>
-              <div className="flex items-center gap-2">
-                <Building size={20} />
-                <span>{project.source || "Unknown"}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Calendar size={20} />
-                <span>
-                  Published {project.publishDate ? formatDate(project.publishDate) : "Unknown"}
-                </span>
-              </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
@@ -218,8 +244,8 @@ const handleOffset = async () => {
             <div className="sticky top-8">
               {/* Donation Card */}
               <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-lg mb-6">
-                <div className="text-center mb-6">
-                  <div className="text-4xl font-bold text-primary mb-2">
+                <div className="text-center mb-4">
+                  <div className="text-2xl sm:text-3xl font-bold text-primary mb-2">
                     {formatCurrency(
                       project.price_per_ton || project.donationValue
                     )}
@@ -227,12 +253,31 @@ const handleOffset = async () => {
                   <div className="text-[#767676] text-lg">per tonne CO₂e</div>
                 </div>
 
+                {/* current emission amount to offset */}
+                <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+                  <div className="text-center">
+                    <p className="text-sm text-[#767676] mb-1">
+                      Offsetting your {calculationType} emissions:
+                    </p>
+                    <p className="text-2xl font-bold text-red-600">
+                      {getFormattedEmission()} tonnes CO₂e
+                    </p>
+                    <p className="text-lg font-semibold text-[#163820] mt-2">
+                      Total:{" "}
+                      {formatCurrency(
+                        (project.price_per_ton || project.donationValue) *
+                          currentEmission
+                      )}
+                    </p>
+                  </div>
+                </div>
+
                 <button
                   onClick={handleOffset}
-                  className="w-full py-4 px-6 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
+                  className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
                 >
-                  <Heart size={24} />
-                  Offset Now
+                  <CheckCircle size={24} />
+                  Offset {getFormattedEmission()} tonnes
                 </button>
 
                 <div className="mt-6 pt-6 border-t border-gray-100">
@@ -277,7 +322,7 @@ const handleOffset = async () => {
         isOpen={isDonationModalOpen}
         onClose={() => setIsDonationModalOpen(false)}
         project={project}
-        emissionValue={emissionValue}
+        emissionValue={currentEmission}
         quoteData={quoteData}
       />
     </div>

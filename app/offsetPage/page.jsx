@@ -17,8 +17,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import DonationModal from "./components/DonationModal";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
+import useEmissionsStore from "@/stores/emissionStore";
+
 const flow = [
   {
     icon: <Settings className="w-7 h-7 text-secondary" />,
@@ -51,6 +53,7 @@ const flow = [
     desc: "Receive certificates & track offset history.",
   },
 ];
+
 function WhyMattersItem({ children }) {
   return (
     <div className="flex items-center gap-2 text-[#767676] text-base sm:text-lg">
@@ -59,6 +62,7 @@ function WhyMattersItem({ children }) {
     </div>
   );
 }
+
 function ProjectFeatureItem({ children }) {
   return (
     <div className="flex items-center gap-3 text-[#767676] text-base">
@@ -70,6 +74,7 @@ function ProjectFeatureItem({ children }) {
     </div>
   );
 }
+
 function OffsetTimeline({ steps }) {
   return (
     <div className="offset-timeline w-full relative mt-4">
@@ -135,11 +140,13 @@ function OffsetTimeline({ steps }) {
     </div>
   );
 }
-function FeaturedProjectCard({ project, onDonate, emissionValue }) {
+
+function FeaturedProjectCard({ project, onDonate }) {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/offsetPage/${project.id}?emission=${emissionValue}`);
+    router.push(`/offsetPage/${project.id}`);
   };
+
   return (
     <motion.div
       className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group cursor-pointer border border-gray-100"
@@ -166,10 +173,10 @@ function FeaturedProjectCard({ project, onDonate, emissionValue }) {
       <div className="p-6">
         {/* Project Name */}
         <div className="flex justify-between items-center">
-        <h3 className="font-bold text-[#163820] text-xl mb-3 line-clamp-2">
-          {project.name}
-        </h3>
-                  <div className="flex items-center text-xl text-primary px-2 sm:px-4 py-1">
+          <h3 className="font-bold text-[#163820] text-xl mb-3 line-clamp-2">
+            {project.name}
+          </h3>
+          <div className="flex items-center text-xl text-primary px-2 sm:px-4 py-1">
             <span>${project.available_amount}</span>
           </div>
         </div>
@@ -204,11 +211,13 @@ function FeaturedProjectCard({ project, onDonate, emissionValue }) {
     </motion.div>
   );
 }
-function ProjectCard({ project, onDonate, emissionValue }) {
+
+function ProjectCard({ project, onDonate }) {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/offsetPage/${project.id}?emission=${emissionValue}`);
+    router.push(`/offsetPage/${project.id}`);
   };
+
   return (
     <motion.div
       className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100"
@@ -235,10 +244,10 @@ function ProjectCard({ project, onDonate, emissionValue }) {
       <div className="p-5">
         {/* Project Name */}
         <div className="flex justify-between items-center">
-        <h3 className="font-bold text-[#163820] text-xl mb-3 line-clamp-2">
-          {project.name}
-        </h3>
-                  <div className="flex items-cente text-xl text-primary px-2 py-1">
+          <h3 className="font-bold text-[#163820] text-xl mb-3 line-clamp-2">
+            {project.name}
+          </h3>
+          <div className="flex items-cente text-xl text-primary px-2 py-1">
             <span>${project.available_amount}</span>
           </div>
         </div>
@@ -271,15 +280,25 @@ function ProjectCard({ project, onDonate, emissionValue }) {
     </motion.div>
   );
 }
+
 export default function OffsetPage() {
   const [visibleProjects, setVisibleProjects] = useState(3);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [quoteData, setQuoteData] = useState(null);
-  const searchParams = useSearchParams();
-  const emissionValue = searchParams.get("emission");
-  const { projects, defaultProjects, loading, error, fetchProjects, createOffsetQuote } =
-    useOffsetStore();
+
+  // emission data
+  const { currentEmission, isDataValid, clearEmissionData } =
+    useEmissionsStore();
+
+  const {
+    projects,
+    defaultProjects,
+    loading,
+    error,
+    fetchProjects,
+    createOffsetQuote,
+  } = useOffsetStore();
 
   useEffect(() => {
     fetchProjects();
@@ -298,21 +317,27 @@ export default function OffsetPage() {
     setVisibleProjects((prev) => Math.max(prev - 6, 3));
   };
 
-  // Updated handleOffset using createOffsetQuote from the store
   const handleOffset = async (project) => {
     setSelectedProject(project);
 
     try {
+      // if emission data is valid
+      if (!isDataValid()) {
+        alert("Your emission data has expired. Please calculate again.");
+        clearEmissionData();
+        return;
+      }
+
       const data = await createOffsetQuote({
         project_id: project.id,
-        carbon_emission_metric_tons: parseFloat(emissionValue),
+        carbon_emission_metric_tons: currentEmission,
       });
       console.log("data response :: ", data);
       setQuoteData(data);
       setIsDonationModalOpen(true);
     } catch (err) {
-      console.error('Error getting offset quote:', err);
-      // Handle error (show toast or error message)
+      console.error("Error getting offset quote:", err);
+      // error (toast or error message)
     }
   };
 
@@ -473,7 +498,6 @@ export default function OffsetPage() {
                       <FeaturedProjectCard
                         project={project}
                         onDonate={() => handleOffset(project)}
-                        emissionValue={emissionValue}
                       />
                     </div>
                   ))}
@@ -496,7 +520,6 @@ export default function OffsetPage() {
                   key={project.id}
                   project={project}
                   onDonate={() => handleOffset(project)}
-                  emissionValue={emissionValue}
                 />
               ))}
             </div>
@@ -562,11 +585,11 @@ export default function OffsetPage() {
               today.
             </p>
             <Link
-              href="/projectsPage"
+              href="/calculator"
               className="inline-flex items-center gap-3 bg-[#FFA726] hover:bg-[#ffb84d] transition text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg shadow-[#FFA72633] focus:ring-4 focus:ring-[#FFA72644] animate-bounce"
               style={{ letterSpacing: "0.02em" }}
             >
-              Donate In Projects <ArrowRight className="w-5 h-5 text-white" />
+              Calculate to Offset <ArrowRight className="w-5 h-5 text-white" />
             </Link>
           </div>
         </div>
@@ -577,7 +600,7 @@ export default function OffsetPage() {
           isOpen={isDonationModalOpen}
           onClose={closeContributionModal}
           project={selectedProject}
-          emissionValue={emissionValue}
+          emissionValue={currentEmission}
           quoteData={quoteData}
         />
       )}

@@ -5,6 +5,7 @@ import CarbonFootprintCards from "@/components/carbon-footprint-cards";
 import Image from "next/image";
 import Link from "next/link";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import useEmissionsStore from "@/stores/emissionStore";
 
 const FlightCalculatorRight = ({
   calculated,
@@ -18,9 +19,19 @@ const FlightCalculatorRight = ({
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
-  console.log("pricePerTon :: ", pricePerTon);
+  // console.log("pricePerTon :: ", pricePerTon);
+  const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
 
-  // dashboard view with loading
+  // store when emission data changes
+  useEffect(() => {
+    if (emissionData && calculated) {
+      setStoreEmissionData({
+        ...emissionData,
+        calculationType: "flight",
+      });
+    }
+  }, [emissionData, calculated, setStoreEmissionData]);
+
   const handleViewDashboard = () => {
     if (showDashboard) {
       setShowDashboard(false);
@@ -274,7 +285,6 @@ const FlightCalculatorRight = ({
             <div className="border-t border-border">
               <CarbonFootprintCards totalEmission={totalEmission} />
 
-              {/* Add this right after the CarbonFootprintCards component in your FlightCalculatorRight */}
               <div className="mt-4 bg-blue-50 dark:bg-blue-200/20 border border-blue-100 dark:border-blue-300 rounded-xl px-4 py-2 shadow-md">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -342,13 +352,7 @@ const FlightCalculatorRight = ({
 
                   {/* Offset Now */}
                   {!showDashboard && (
-                    <Link
-                      href={{
-                        pathname: "/offsetPage",
-                        query: { emission: totalEmission.toFixed(2) },
-                      }}
-                      className="w-1/2"
-                    >
+                    <Link href={"/offsetPage"} className="w-1/2">
                       <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
                         <ArrowUp className="h-4 w-4 mr-2" />
                         Offset Now

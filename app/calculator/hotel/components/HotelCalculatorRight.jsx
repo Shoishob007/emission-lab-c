@@ -1,10 +1,11 @@
 import { Sparkles, Building2, ArrowUp } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EmissionDisplay from "../../components/EmissionDisplay";
 import CarbonFootprintCards from "@/components/carbon-footprint-cards";
 import Image from "next/image";
 import Link from "next/link";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import useEmissionsStore from "@/stores/emissionStore";
 
 const HotelCalculatorRight = ({
   calculated,
@@ -14,11 +15,32 @@ const HotelCalculatorRight = ({
   setShowDashboard,
   scrollToDashboard,
   calculating,
-              pricePerTon
-
+  pricePerTon,
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
+  // console.log("pricePerTon :: ", pricePerTon);
+  const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
+
+  // store when emission data changes
+  useEffect(() => {
+    if (emissionData && calculated) {
+      const storeData = {
+        ...emissionData,
+        result: {
+          ...emissionData.result,
+          data: {
+            ...emissionData.result.data,
+            emissions: {
+              co2e_mt: emissionData.result.data.co2e_mt,
+            },
+          },
+        },
+        calculationType: "transport",
+      };
+      setStoreEmissionData(storeData);
+    }
+  }, [emissionData, calculated, setStoreEmissionData]);
 
   // handle dashboard
   const handleViewDashboard = () => {
@@ -53,8 +75,9 @@ const HotelCalculatorRight = ({
     }, intervalTime);
   };
 
+  // console.log("Hello :: ", emissionData?.result?.data);
+
   const totalEmission = emissionData?.result?.data?.co2e_mt || 0;
-  // console.log("Hello :: ", emissionData?.result?.data)
 
   return (
     <>
@@ -144,6 +167,24 @@ const HotelCalculatorRight = ({
             {/* Call to Action */}
             <div className="border-t border-border flex flex-col">
               <CarbonFootprintCards totalEmission={totalEmission} />
+
+              <div className="mt-4 bg-blue-50 dark:bg-blue-200/20 border border-blue-100 dark:border-blue-300 rounded-xl px-4 py-2 shadow-md">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                        Carbon Offset Value
+                      </h4>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-lg font-bold text-green-600 dark:text-green-400">
+                      ${(totalEmission * parseFloat(pricePerTon)).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {isGenerating ? (
                 <div className="w-full mt-6">
                   {/* AI Loading State */}
@@ -180,32 +221,27 @@ const HotelCalculatorRight = ({
                   </div>
                 </div>
               ) : (
-                <div>
+                <div className="flex gap-4 mt-4">
+                  {/* View / Hide Details */}
                   <button
                     onClick={handleViewDashboard}
-                    className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors ${
-                      showDashboard ? "mt-10" : "mt-6"
-                    }`}
+                    className={`${
+                      showDashboard ? "w-full" : "w-1/2"
+                    } bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors`}
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
                     {showDashboard ? "Hide Details" : "View Details"}
                   </button>
 
-                  <Link
-                    href={{
-                      pathname: "/offsetPage",
-                      query: { emission: totalEmission.toFixed(2) },
-                    }}
-                  >
-                    <button
-                      className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium mt-4 hover:bg-primary/90 transition-colors ${
-                        showDashboard ? "hidden" : ""
-                      }`}
-                    >
-                      <ArrowUp className="h-4 w-4 mr-2" />
-                      Offset Now
-                    </button>
-                  </Link>
+                  {/* Offset Now */}
+                  {!showDashboard && (
+                    <Link href={"/offsetPage"} className="w-1/2">
+                      <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
+                        <ArrowUp className="h-4 w-4 mr-2" />
+                        Offset Now
+                      </button>
+                    </Link>
+                  )}
                 </div>
               )}
             </div>
