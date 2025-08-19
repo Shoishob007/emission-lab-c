@@ -39,7 +39,6 @@ export default function ProjectDetailsPage({ params }) {
   const handleOffset = async () => {
     if (!hasValidEmissionData) {
       console.error("No valid emission data available");
-      // You could show an error message or redirect back to calculation
       return;
     }
 

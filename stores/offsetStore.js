@@ -5,6 +5,13 @@ const useOffsetStore = create((set) => ({
     defaultProjects: [],
     loading: false,
     error: null,
+    quoteData: null,
+    offsetSuccessData: null,
+
+    setQuoteData: (data) => set({ quoteData: data }),
+    
+    // Add new action to set success data
+    setOffsetSuccess: (data) => set({ offsetSuccessData: data }),
 
     fetchProjects: async () => {
         set({ loading: true, error: null });

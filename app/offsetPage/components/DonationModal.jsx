@@ -1,9 +1,17 @@
 import { CheckCircle, Heart, Mail, MapPin, Phone, User, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
 
-const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) => {
+const DonationModal = ({
+  isOpen,
+  onClose,
+  project,
+  emissionValue,
+  quoteData,
+}) => {
+  const router = useRouter();
   const [donationAmount, setDonationAmount] = useState(
     emissionValue ? parseFloat(emissionValue) : 1
   );
@@ -20,15 +28,20 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
     isAnonymous: false,
     marketingEmails: false,
     taxReceipt: true,
-    certificationName: "", 
+    certificationName: "",
   });
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { confirmOffsetQuote } = useOffsetStore();
+  const { confirmOffsetQuote, setOffsetSuccess } = useOffsetStore();
 
   // total amount
-  const pricePerTon = parseFloat(quoteData?.price_per_metric_ton_usd || project.price_per_ton || project.donationValue || 0);
+  const pricePerTon = parseFloat(
+    quoteData?.price_per_metric_ton_usd ||
+      project.price_per_ton ||
+      project.donationValue ||
+      0
+  );
   const totalAmount = donationAmount * pricePerTon;
 
   const handleInputChange = (field, value) => {
@@ -50,7 +63,6 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
 
     setIsSubmitting(true);
     try {
-      // payload
       const confirmPayload = {
         quote_id: quoteData.quote_id,
         payment_method: "stripe",
@@ -60,18 +72,37 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
         amount: quoteData.total_cost_usd,
       };
 
+      console.log("Submitting payload:", confirmPayload);
       const data = await confirmOffsetQuote(confirmPayload);
-      console.log("Offset confirmed:", data);
-      
-      // successful confirmation (redirect to payment)
-      onClose();
+      console.log("Offset confirmed successfully:", data);
+
+      // success data in the store
+      setOffsetSuccess(data);
+
+      // onClose();
+
+      const queryParams = new URLSearchParams({
+        quote_id: quoteData.quote_id,
+        certification_name:
+          data.certification_name ||
+          formData.certificationName ||
+          formData.fullName,
+        project_name: project.name || "",
+        price_per_ton:
+          data.pricing?.price_per_metric_ton_usd ||
+          quoteData.price_per_metric_ton_usd,
+        total_cost: data.pricing?.total_cost_usd || quoteData.total_cost_usd,
+        tonnes_offset: (
+          quoteData.total_cost_usd / quoteData.price_per_metric_ton_usd
+        ).toFixed(2),
+      });
+
+      router.push(`/success?${queryParams.toString()}`);
     } catch (err) {
-      console.error('Error confirming offset:', err);
-      // toast or error message
+      console.error("Error confirming offset:", err);
       setErrors({
         submit: err.message || "Failed to confirm offset. Please try again.",
       });
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -98,7 +129,6 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
           <div className="border-b border-gray-100 p-6 flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold text-[#163820] flex items-center gap-3">
-                {/* <Heart className="text-primary" size={28} /> */}
                 You are offsetting on
               </h2>
               <p className="text-[#767676] mt-1">{project.name}</p>
@@ -116,7 +146,6 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
             {/* Section 1: Impact Summary */}
             <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-100 rounded-xl p-6">
               <h4 className="font-bold text-xl text-[#163820] mb-3 flex items-center gap-2">
-                {/* <CheckCircle className="text-green-600" size={20} /> */}
                 Your Offset Value
               </h4>
               <div className="space-y-2 text-[#767676]">
@@ -131,7 +160,10 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
                     <div className="flex justify-between">
                       <span>Price per tonne:</span>
                       <span className="font-semibold text-[#163820]">
-                        ${parseFloat(quoteData.price_per_metric_ton_usd).toFixed(2)}
+                        $
+                        {parseFloat(quoteData.price_per_metric_ton_usd).toFixed(
+                          2
+                        )}
                       </span>
                     </div>
                     <div className="flex justify-between">
@@ -145,7 +177,7 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
               </div>
             </div>
 
-            {/* Section 2: Personal Information */}
+            {/* Personal Information */}
             <div>
               <h3 className="text-xl font-bold text-[#163820] mb-4">
                 Your Information
@@ -167,10 +199,17 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
                       onChange={(e) =>
                         handleInputChange("fullName", e.target.value)
                       }
-                      className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                      className={`w-full pl-11 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${
+                        errors.fullName ? "border-red-300" : "border-gray-200"
+                      }`}
                       placeholder="John Doe"
                     />
                   </div>
+                  {errors.fullName && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.fullName}
+                    </p>
+                  )}
                 </div>
 
                 {/* Email */}
@@ -189,13 +228,18 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
                       onChange={(e) =>
                         handleInputChange("email", e.target.value)
                       }
-                      className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                      className={`w-full pl-11 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary ${
+                        errors.email ? "border-red-300" : "border-gray-200"
+                      }`}
                       placeholder="john@example.com"
                     />
                   </div>
+                  {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                  )}
                 </div>
 
-                                {/* Certificate Name */}
+                {/* Certificate Name */}
                 <div>
                   <label className="block text-sm font-semibold text-[#163820] mb-2">
                     Certificate Name
@@ -216,96 +260,15 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
                     />
                   </div>
                 </div>
-
-                {/* Phone */}
-                {/* <div>
-                  <label className="block text-sm font-semibold text-[#163820] mb-2">
-                    Phone Number
-                  </label>
-                  <div className="relative">
-                    <Phone
-                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                      size={20}
-                    />
-                    <input
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        handleInputChange("phone", e.target.value)
-                      }
-                      className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                      placeholder="+1 (555) 123-4567"
-                    />
-                  </div>
-                </div> */}
-
-                {/* Address */}
-                {/* <div>
-                  <label className="block text-sm font-semibold text-[#163820] mb-2">
-                    Address *
-                  </label>
-                  <div className="relative">
-                    <MapPin
-                      className="absolute left-3 top-4 text-gray-400"
-                      size={20}
-                    />
-                    <input
-                      type="text"
-                      value={formData.address}
-                      onChange={(e) =>
-                        handleInputChange("address", e.target.value)
-                      }
-                      className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                      placeholder="123 Main Street"
-                    />
-                  </div>
-                </div> */}
-
-                {/* City, State, ZIP */}
-                {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <input
-                    type="text"
-                    placeholder="City"
-                    value={formData.city}
-                    onChange={(e) => handleInputChange("city", e.target.value)}
-                    className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  />
-                  <input
-                    type="text"
-                    placeholder="State/Province"
-                    value={formData.state}
-                    onChange={(e) => handleInputChange("state", e.target.value)}
-                    className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  />
-                  <input
-                    type="text"
-                    placeholder="ZIP Code"
-                    value={formData.zipCode}
-                    onChange={(e) => handleInputChange("zipCode", e.target.value)}
-                    className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  />
-                </div> */}
-
-                {/* Country */}
-                {/* <select
-                  value={formData.country}
-                  onChange={(e) => handleInputChange("country", e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                >
-                  <option value="">Select Country</option>
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="GB">United Kingdom</option>
-                  <option value="AU">Australia</option>
-                  <option value="DE">Germany</option>
-                  <option value="FR">France</option>
-                  <option value="JP">Japan</option>
-                  <option value="BD">Bangladesh</option>
-                  <option value="IN">India</option>
-                  <option value="other">Other</option>
-                </select> */}
               </div>
             </div>
+
+            {/* Error Message */}
+            {errors.submit && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-red-600 text-sm">{errors.submit}</p>
+              </div>
+            )}
           </div>
 
           {/* Footer */}
@@ -317,9 +280,25 @@ const DonationModal = ({ isOpen, onClose, project, emissionValue, quoteData }) =
             >
               {isSubmitting ? (
                 <>
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Processing...
                 </>
