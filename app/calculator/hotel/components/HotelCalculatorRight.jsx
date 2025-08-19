@@ -173,7 +173,7 @@ const HotelCalculatorRight = ({
                   <div className="flex items-center gap-3">
                     <div>
                       <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Carbon Offset Value
+                        Your Carbon Offset Value
                       </h4>
                     </div>
                   </div>

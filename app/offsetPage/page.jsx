@@ -173,19 +173,29 @@ function FeaturedProjectCard({ project, onDonate }) {
       <div className="p-6">
         {/* Project Name */}
         <div className="flex justify-between items-center">
-          <h3 className="font-bold text-[#163820] text-xl mb-3 line-clamp-2">
+          <h3 className="font-bold text-[#163820] text-xl mb-2 line-clamp-2">
             {project.name}
           </h3>
-          <div className="flex items-center text-xl text-primary px-2 sm:px-4 py-1">
-            <span>${project.available_amount}</span>
-          </div>
         </div>
         {/* Project Info */}
         <div className="flex items-center justify-between mb-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-sm text-[#767676]">
-              <DollarSign size={14} className="text-primary flex-shrink-0" />
-              <span>${project.price_per_ton} per tonne CO₂e</span>
+              {/* <DollarSign size={14} className="text-primary flex-shrink-0" /> */}
+              <p>
+                <span className="text-base sm:text-lg text-primary">
+                  ${project.price_per_ton}
+                </span>{" "}
+                per ton CO₂ emission
+              </p>
+            </div>
+            <div className="flex items-center gap-1">
+              <p className="text-[#767676] text-sm">
+                <span className="text-base sm:text-lg text-primary">
+                  {project.available_amount}
+                </span>{" "}
+                {project.available_amount > 1 ? "tons" : "ton"} of CO<sub>2</sub>e to offset
+              </p>
             </div>
             <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
               {project.description}
@@ -247,16 +257,26 @@ function ProjectCard({ project, onDonate }) {
           <h3 className="font-bold text-[#163820] text-xl mb-3 line-clamp-2">
             {project.name}
           </h3>
-          <div className="flex items-cente text-xl text-primary px-2 py-1">
-            <span>${project.available_amount}</span>
-          </div>
         </div>
         {/* Project Info */}
         <div className="flex items-center justify-between mb-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-sm text-[#767676]">
-              <DollarSign size={14} className="text-primary flex-shrink-0" />
-              <span>${project.price_per_ton} per tonne CO₂e</span>
+              {/* <DollarSign size={14} className="text-primary flex-shrink-0" /> */}
+              <p>
+                <span className="text-base sm:text-lg text-primary">
+                  ${project.price_per_ton}
+                </span>{" "}
+                per ton CO₂ emission
+              </p>
+            </div>
+            <div className="flex items-center gap-1">
+              <p className="text-[#767676] text-sm">
+                <span className="text-base sm:text-lg text-primary">
+                  {project.available_amount}
+                </span>{" "}
+                {project.available_amount > 1 ? "tons" : "ton"} of CO<sub>2</sub>e to offset
+              </p>
             </div>
             <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
               {project.description}
@@ -299,6 +319,8 @@ export default function OffsetPage() {
     fetchProjects,
     createOffsetQuote,
   } = useOffsetStore();
+
+  console.log("defaultProjects :: ", defaultProjects);
 
   useEffect(() => {
     fetchProjects();
@@ -460,7 +482,7 @@ export default function OffsetPage() {
               </h2>
             </div>
             {/* Project Features - Centered */}
-            <div className="bg-green-50/50 border border-green-100 rounded-2xl p-6 mb-12 max-w-4xl mx-auto">
+            <div className="bg-green-50/50 border border-green-100 rounded-2xl px-2 py-4 sm:p-6 mb-8 sm:mb-12 max-w-4xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ProjectFeatureItem>
                   Verified by internationally recognized global climate
@@ -492,37 +514,85 @@ export default function OffsetPage() {
                     maximize your climate contribution
                   </p>
                 </div>
-                <div className="w-full max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {defaultProjects.map((project) => (
-                    <div key={project.id} className="lg:col-span-2 col-span-1">
-                      <FeaturedProjectCard
-                        project={project}
-                        onDonate={() => handleOffset(project)}
-                      />
+
+                {/* Conditional grid layout for default projects */}
+                <div className="w-full mx-auto">
+                  {defaultProjects.length === 1 ? (
+                    // Single default project - full width
+                    <div className="grid grid-cols-1 max-w-4xl mx-auto">
+                      {defaultProjects.map((project) => (
+                        <FeaturedProjectCard
+                          key={project.id}
+                          project={project}
+                          onDonate={() => handleOffset(project)}
+                        />
+                      ))}
                     </div>
-                  ))}
+                  ) : (
+                    // multiple default projects
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl">
+                      {defaultProjects.map((project) => (
+                        <ProjectCard
+                          key={project.id}
+                          project={project}
+                          onDonate={() => handleOffset(project)}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <div className="max-w-4xl mx-auto mt-10 mb-6 text-center">
-                  <h4 className="text-lg text-[#163820] font-medium">
-                    Or explore additional projects to find your perfect match
-                  </h4>
-                  <p className="text-[#767676] text-sm mt-2">
-                    Browse our full portfolio of verified carbon offset
-                    initiatives
-                  </p>
+
+                {/* "explore additional" section if there are regular projects */}
+                {displayedRegularProjects.length > 0 && (
+                  <div className="max-w-4xl mx-auto mt-10 mb-6 text-center">
+                    <h4 className="text-lg text-[#163820] font-medium">
+                      Or explore additional projects to find your perfect match
+                    </h4>
+                    <p className="text-[#767676] text-sm mt-2">
+                      Browse our full portfolio of verified carbon offset
+                      initiatives
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Regular Project Grid */}
+            {displayedRegularProjects.length > 0 && (
+              <div className="w-full">
+                {/* Show header only if there are no default projects */}
+                {defaultProjects.length === 0 && (
+                  <div className="max-w-4xl mx-auto mb-6 text-center">
+                    <h3 className="text-2xl font-bold text-[#163820] mb-2 capitalize">
+                      Our Carbon Offset Projects
+                    </h3>
+                    <p className="text-[#767676]">
+                      Explore our portfolio of verified carbon offset
+                      initiatives
+                    </p>
+                  </div>
+                )}
+
+                {/* grid layout for regular projects */}
+                <div
+                  className={
+                    displayedRegularProjects.length === 1
+                      ? "grid grid-cols-1 max-w-4xl"
+                      : displayedRegularProjects.length === 2
+                      ? "grid grid-cols-1 md:grid-cols-2 max-w-7xl gap-4"
+                      : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl gap-4"
+                  }
+                >
+                  {displayedRegularProjects.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      onDonate={() => handleOffset(project)}
+                    />
+                  ))}
                 </div>
               </div>
             )}
-            {/* Regular Project Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl">
-              {displayedRegularProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onDonate={() => handleOffset(project)}
-                />
-              ))}
-            </div>
             {/* Load More / See Less Button */}
             {(hasMoreProjects || canShowLess) && (
               <motion.button
