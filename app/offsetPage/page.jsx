@@ -9,9 +9,6 @@ import {
   Settings,
   CheckCircle2,
   Lightbulb,
-  MapPin,
-  Calendar,
-  DollarSign,
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -141,7 +138,7 @@ function OffsetTimeline({ steps }) {
   );
 }
 
-function FeaturedProjectCard({ project, onDonate }) {
+function FeaturedProjectCard({ project, onDonate, currentEmission }) {
   const router = useRouter();
   const handleClick = () => {
     router.push(`/offsetPage/${project.id}`);
@@ -179,27 +176,42 @@ function FeaturedProjectCard({ project, onDonate }) {
         </div>
         {/* Project Info */}
         <div className="flex items-center justify-between mb-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm text-[#767676]">
-              {/* <DollarSign size={14} className="text-primary flex-shrink-0" /> */}
-              <p>
-                <span className="text-base sm:text-lg text-primary">
-                  ${project.price_per_ton}
-                </span>{" "}
-                per ton CO₂ emission
+          <div className="flex items-center justify-between gap-2">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 justify-between">
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-[#767676]">
+                    {/* <DollarSign size={14} className="text-primary flex-shrink-0" /> */}
+                    <p>
+                      <span className="text-base sm:text-lg text-primary">
+                        ${project.price_per_ton}
+                      </span>{" "}
+                      per ton CO₂ emission
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <p className="text-[#767676] text-sm">
+                      <span className="text-base sm:text-lg text-primary">
+                        {project.available_amount}
+                      </span>{" "}
+                      {project.available_amount > 1 ? "tons" : "ton"} of CO
+                      <sub>2</sub>e to offset
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center px-4">
+                  {" "}
+                  <p>
+                    <span className="text-base sm:text-lg text-primary">
+                      ${(project.price_per_ton * currentEmission).toFixed(2)}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
+                {project.description}
               </p>
             </div>
-            <div className="flex items-center gap-1">
-              <p className="text-[#767676] text-sm">
-                <span className="text-base sm:text-lg text-primary">
-                  {project.available_amount}
-                </span>{" "}
-                {project.available_amount > 1 ? "tons" : "ton"} of CO<sub>2</sub>e to offset
-              </p>
-            </div>
-            <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
-              {project.description}
-            </p>
           </div>
         </div>
         {/* Action Buttons */}
@@ -222,7 +234,8 @@ function FeaturedProjectCard({ project, onDonate }) {
   );
 }
 
-function ProjectCard({ project, onDonate }) {
+function ProjectCard({ project, onDonate, currentEmission }) {
+  console.log("Current Emission in ProjectCard: ", currentEmission);
   const router = useRouter();
   const handleClick = () => {
     router.push(`/offsetPage/${project.id}`);
@@ -260,27 +273,42 @@ function ProjectCard({ project, onDonate }) {
         </div>
         {/* Project Info */}
         <div className="flex items-center justify-between mb-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm text-[#767676]">
-              {/* <DollarSign size={14} className="text-primary flex-shrink-0" /> */}
-              <p>
-                <span className="text-base sm:text-lg text-primary">
-                  ${project.price_per_ton}
-                </span>{" "}
-                per ton CO₂ emission
+          <div className="flex items-center justify-between gap-2">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 justify-between">
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-[#767676]">
+                    {/* <DollarSign size={14} className="text-primary flex-shrink-0" /> */}
+                    <p>
+                      <span className="text-base sm:text-lg text-primary">
+                        ${project.price_per_ton}
+                      </span>{" "}
+                      per ton CO₂ emission
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <p className="text-[#767676] text-sm">
+                      <span className="text-base sm:text-lg text-primary">
+                        {project.available_amount}
+                      </span>{" "}
+                      {project.available_amount > 1 ? "tons" : "ton"} of CO
+                      <sub>2</sub>e to offset
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center px-2">
+                  {" "}
+                  <p>
+                    <span className="text-base sm:text-lg text-primary">
+                      ${(project.price_per_ton * currentEmission).toFixed(2)}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
+                {project.description}
               </p>
             </div>
-            <div className="flex items-center gap-1">
-              <p className="text-[#767676] text-sm">
-                <span className="text-base sm:text-lg text-primary">
-                  {project.available_amount}
-                </span>{" "}
-                {project.available_amount > 1 ? "tons" : "ton"} of CO<sub>2</sub>e to offset
-              </p>
-            </div>
-            <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
-              {project.description}
-            </p>
           </div>
         </div>
         {/* Action Buttons */}
@@ -320,7 +348,7 @@ export default function OffsetPage() {
     createOffsetQuote,
   } = useOffsetStore();
 
-  console.log("defaultProjects :: ", defaultProjects);
+  // console.log("defaultProjects :: ", defaultProjects);
 
   useEffect(() => {
     fetchProjects();
@@ -525,6 +553,7 @@ export default function OffsetPage() {
                           key={project.id}
                           project={project}
                           onDonate={() => handleOffset(project)}
+                          currentEmission={currentEmission}
                         />
                       ))}
                     </div>
@@ -536,6 +565,7 @@ export default function OffsetPage() {
                           key={project.id}
                           project={project}
                           onDonate={() => handleOffset(project)}
+                          currentEmission={currentEmission}
                         />
                       ))}
                     </div>
@@ -588,6 +618,7 @@ export default function OffsetPage() {
                       key={project.id}
                       project={project}
                       onDonate={() => handleOffset(project)}
+                      currentEmission={currentEmission}
                     />
                   ))}
                 </div>
