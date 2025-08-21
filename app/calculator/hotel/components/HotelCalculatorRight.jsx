@@ -6,6 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import useEmissionsStore from "@/stores/emissionStore";
+import { fetchCarbonEmissionDetailsInHotel } from "@/utils/api/HotelEquivalentAPI";
+
 
 const HotelCalculatorRight = ({
   calculated,
@@ -16,13 +18,16 @@ const HotelCalculatorRight = ({
   scrollToDashboard,
   calculating,
   pricePerTon,
+    setAiAnalysisData,
+
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
   // console.log("pricePerTon :: ", pricePerTon);
+    const [generationStage, setGenerationStage] = useState("");
   const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
 
-  // store when emission data changes
+  // when emission data changes
   useEffect(() => {
     if (emissionData && calculated) {
       const storeData = {
@@ -42,37 +47,62 @@ const HotelCalculatorRight = ({
     }
   }, [emissionData, calculated, setStoreEmissionData]);
 
+  // console.log("emission Data in HotelCalculatorRight: ", emissionData)
+
   // handle dashboard
-  const handleViewDashboard = () => {
+  const handleViewDashboard = async () => {
     if (showDashboard) {
       setShowDashboard(false);
       return;
     }
 
-    // generation process
     setIsGenerating(true);
     setGenerationProgress(0);
+    setGenerationStage("Analyzing flight emissions...");
 
-    const totalTime = 4000;
-    const intervalTime = 100;
-    const steps = totalTime / intervalTime;
-    let currentStep = 0;
+    try {
+      // Start progress animation
+      const progressInterval = setInterval(() => {
+        setGenerationProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + Math.random() * 15;
+        });
+      }, 500);
 
-    const progressInterval = setInterval(() => {
-      currentStep++;
-      // progress percentage
-      const progress = Math.min((currentStep / steps) * 100, 100);
-      setGenerationProgress(progress);
+      // Update stages during generation
+      setTimeout(() => setGenerationStage("Calculating environmental impact..."), 2000);
+      setTimeout(() => setGenerationStage("Preparing detailed insights..."), 4000);
 
-      if (currentStep >= steps) {
-        clearInterval(progressInterval);
+      // Make API call
+      const aiAnalysisData = await fetchCarbonEmissionDetailsInHotel(emissionData);
+      
+      // Complete progress
+      clearInterval(progressInterval);
+      setGenerationProgress(100);
+      setGenerationStage("Analysis complete!");
+      
+      // Set the AI analysis data in parent component
+      setAiAnalysisData(aiAnalysisData);
+      
+      setTimeout(() => {
         setIsGenerating(false);
         setShowDashboard(true);
         setTimeout(() => {
           scrollToDashboard();
         }, 100);
-      }
-    }, intervalTime);
+      }, 1000);
+
+    } catch (error) {
+      console.error('Error generating analysis:', error);
+      setGenerationStage("Error generating analysis. Please try again.");
+      setGenerationProgress(0);
+      setTimeout(() => {
+        setIsGenerating(false);
+      }, 2000);
+    }
   };
 
   // console.log("Hello :: ", emissionData?.result?.data);
@@ -208,15 +238,7 @@ const HotelCalculatorRight = ({
                     </div>
 
                     <p className="text-xs text-muted-foreground">
-                      {generationProgress < 30 &&
-                        "Analyzing hotel emissions..."}
-                      {generationProgress >= 30 &&
-                        generationProgress < 60 &&
-                        "Calculating environmental impact..."}
-                      {generationProgress >= 60 &&
-                        generationProgress < 90 &&
-                        "Preparing detailed insights..."}
-                      {generationProgress >= 90 && "Almost ready..."}
+                      {generationStage}
                     </p>
                   </div>
                 </div>
@@ -230,7 +252,7 @@ const HotelCalculatorRight = ({
                     } bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors`}
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
-                    {showDashboard ? "Hide Details" : "View Details"}
+                    {showDashboard ? "Hide Details" : "View AI Analysis"}
                   </button>
 
                   {/* Offset Now */}

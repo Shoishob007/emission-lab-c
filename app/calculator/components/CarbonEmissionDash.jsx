@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/popover";
 import Link from "next/link";
 
-const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
+const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard }) => {
   const resources = [
     {
       name: "Rapid API Services",
@@ -70,12 +70,14 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
       url: "https://www.ipcc-nggip.iges.or.jp/EFDB/main.php",
     },
   ];
-  const totalEmissions =
-    emissionData?.result?.data?.emissions?.co2e_mt ||
-    emissionData?.result?.data?.co2e_mt ||
-    "N/A";
 
-  const carbonData = {
+  // Use AI analysis data if available, otherwise fallback to static calculations
+  const totalEmissions = aiAnalysisData?.carbon_emissions?.co2e_mt || 
+    emissionData?.result?.data?.emissions?.co2e_mt || 
+    emissionData?.result?.data?.co2e_mt || 0;
+
+  // Fallback calculations for when AI data is not available
+  const fallbackData = {
     totalEmissions: totalEmissions,
     treesRequired: Math.ceil(totalEmissions * 20),
     homeEquivalent: Math.ceil(totalEmissions / 8.6),
@@ -84,6 +86,70 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
     waterSaved: Math.ceil(totalEmissions * 8000),
     speciesProtected: Math.ceil(totalEmissions * 0.37),
   };
+
+  // Extract data from AI analysis or use fallback
+  const getEmissionFootprintData = () => {
+    if (aiAnalysisData?.environmental_impact?.emission_footprint) {
+      return aiAnalysisData.environmental_impact.emission_footprint;
+    }
+    return [
+      {
+        category: "Home Energy",
+        emissions: fallbackData.homeEquivalent,
+        description: `Your footprint equals to emission of ${fallbackData.homeEquivalent} average home throughout a year. Residential emissions primarily come from electricity (60%), heating (25%), and appliances (15%).`
+      },
+      {
+        category: "Transportation",
+        emissions: fallbackData.carEquivalent,
+        description: `Your total emissions match ${fallbackData.carEquivalent} vehicles driving the average annual mileage. Transportation emissions account for nearly 30% of greenhouse gases.`
+      }
+    ];
+  };
+
+  const getCarbonOffsetData = () => {
+    if (aiAnalysisData?.environmental_impact?.carbon_offset_solutions) {
+      return aiAnalysisData.environmental_impact.carbon_offset_solutions;
+    }
+    return [
+      {
+        category: "Reforestation",
+        emissions: fallbackData.treesRequired,
+        description: `Planting ${fallbackData.treesRequired.toLocaleString()} native trees will fully offset your emissions over their 40-year lifespan. These projects restore biodiversity while creating natural carbon sinks.`
+      },
+      {
+        category: "Community Projects",
+        emissions: Math.ceil(totalEmissions * 2),
+        description: `Your offset can provide clean energy solutions for ${Math.ceil(totalEmissions * 2)} people in developing regions. Projects include efficient cookstoves and solar lanterns.`
+      }
+    ];
+  };
+
+  const getEnvironmentalImpactData = () => {
+    if (aiAnalysisData?.environmental_impact?.positive_environmental_impact) {
+      return aiAnalysisData.environmental_impact.positive_environmental_impact;
+    }
+    return [
+      {
+        category: "Air Quality",
+        emissions: fallbackData.airQualityImprovement,
+        description: `Offset projects may reduce particulate pollution by ${fallbackData.airQualityImprovement}% in local areas, preventing respiratory illnesses.`
+      },
+      {
+        category: "Water Saved",
+        emissions: fallbackData.waterSaved,
+        description: `Conserves ${Math.round(fallbackData.waterSaved / 1000)} thousand liters by avoiding water-intensive energy production.`
+      },
+      {
+        category: "Biodiversity",
+        emissions: fallbackData.speciesProtected,
+        description: `Protects habitat for ${fallbackData.speciesProtected} plant and animal species, with restoration projects increasing biodiversity by 35% on average.`
+      }
+    ];
+  };
+
+  const emissionFootprintData = getEmissionFootprintData();
+  const carbonOffsetData = getCarbonOffsetData();
+  const environmentalImpactData = getEnvironmentalImpactData();
 
   return (
     <div className="p-6 font-sans">
@@ -143,7 +209,7 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
             <div className="bg-[url('/co2-emission-bg.png')] bg-cover bg-center text-white rounded-l-xl shadow-lg overflow-hidden p-8 md:w-1/2 flex flex-col justify-center items-center relative">
               <div className="backdrop-blur-sm bg-black/40 p-6 rounded-xl">
                 <h2 className="text-5xl font-bold mb-2 animate-bounce text-center">
-                  {carbonData?.totalEmissions?.toFixed(2)}
+                  {totalEmissions?.toFixed(2)}
                 </h2>
                 <p className="text-2xl font-light">
                   Metric Tons CO<sub>2</sub>
@@ -162,28 +228,16 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
                 Understanding Your Carbon Footprint
               </h3>
               <p className="text-gray-600 mb-4">
-                Your current carbon footprint is{" "}
-                <span className="font-bold text-lg">
-                  {carbonData.totalEmissions.toFixed(2)} metric tons of CO₂.{" "}
-                </span>
-                This amount of carbon dioxide contributes significantly to
-                climate change and has a negative impact on the environment,
-                including global warming, extreme weather events, and loss of
-                biodiversity.
+                {aiAnalysisData?.about?.understanding_carbon_footprint || 
+                `Your current carbon footprint is ${totalEmissions.toFixed(2)} metric tons of CO₂. This amount of carbon dioxide contributes significantly to climate change and has a negative impact on the environment, including global warming, extreme weather events, and loss of biodiversity.`}
               </p>
               <h3 className="text-xl font-semibold mb-3 text-gray-600 flex items-center">
                 <Globe className="w-6 h-6 mr-2 text-primary" />
                 Mitigating Through Carbon Offsetting
               </h3>
               <p className="text-gray-600">
-                Carbon offsetting means balancing your emissions by funding
-                projects that reduce or remove an equivalent amount of
-                greenhouse gases. These initiatives can range from reforestation
-                and renewable energy to methane capture and sustainable energy
-                solution for communal use. By offsetting your carbon footprint,
-                you contribute to environmental projects that create tangible
-                benefits. In the cards below, it explains how your contribution
-                makes a difference!
+                {aiAnalysisData?.about?.mitigating_through_carbon_offsetting ||
+                `Carbon offsetting means balancing your emissions by funding projects that reduce or remove an equivalent amount of greenhouse gases. These initiatives can range from reforestation and renewable energy to methane capture and sustainable energy solution for communal use.`}
               </p>
             </div>
           </div>
@@ -200,86 +254,48 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
-          {/* Home Energy Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
-            <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden">
-              <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                {[...Array(8)].map((_, i) => (
-                  <Home
-                    key={i}
-                    className="absolute"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      transform: `scale(${0.5 + Math.random()})`,
-                      opacity: 0.3 + Math.random() * 0.7,
-                    }}
-                  />
-                ))}
+          {emissionFootprintData.map((item, index) => (
+            <div key={index} className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
+              <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden">
+                <div className="absolute inset-0 flex justify-center items-center opacity-20">
+                  {[...Array(8)].map((_, i) => {
+                    const Icon = item.category === "Home Energy" ? Home : Car;
+                    return (
+                      <Icon
+                        key={i}
+                        className="absolute"
+                        style={{
+                          top: `${Math.random() * 100}%`,
+                          left: `${Math.random() * 100}%`,
+                          transform: `scale(${0.5 + Math.random()})`,
+                          opacity: 0.3 + Math.random() * 0.7,
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+                <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden flex justify-center items-center">
+                  <h3 className="font-semibold text-white flex items-center">
+                    {item.category === "Home Energy" ? <Home className="w-8 h-8 mr-4" /> : <Car className="w-8 h-8 mr-4" />}
+                    {item.category}
+                  </h3>
+                </div>
               </div>
-              <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden flex justify-center items-center">
-                <h3 className="font-semibold text-white flex items-center">
-                  <Home className="w-8 h-8 mr-4" />
-                  Home Energy
-                </h3>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="flex items-baseline mb-2">
-                <span className="text-4xl font-bold text-gray-800">
-                  {carbonData.homeEquivalent}
-                </span>
-                <span className="ml-2 text-gray-600">homes</span>
-              </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Your footprint equals to emission of {carbonData.homeEquivalent}{" "}
-                average home throughout a year. Residential emissions primarily
-                come from electricity (60%), heating (25%), and appliances
-                (15%). This includes all the lights, devices, and climate
-                control systems running in your living space.
-              </p>
-            </div>
-          </div>
-
-          {/* Car Emissions Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
-            <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden">
-              <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                {[...Array(8)].map((_, i) => (
-                  <Car
-                    key={i}
-                    className="absolute"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      transform: `scale(${0.5 + Math.random()})`,
-                      opacity: 0.3 + Math.random() * 0.7,
-                    }}
-                  />
-                ))}
-              </div>
-              <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden flex justify-center items-center">
-                <h3 className="font-semibold text-white flex items-center">
-                  <Car className="w-8 h-8 mr-4" />
-                  Transportation
-                </h3>
+              <div className="p-6">
+                <div className="flex items-baseline mb-2">
+                  <span className="text-4xl font-bold text-gray-800">
+                    {Math.round(item.emissions).toLocaleString()}
+                  </span>
+                  <span className="ml-2 text-gray-600">
+                    {item.category === "Home Energy" ? "homes" : "cars"}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-600 mb-4">
+                  {item.description}
+                </p>
               </div>
             </div>
-            <div className="p-6">
-              <div className="flex items-baseline mb-2">
-                <span className="text-4xl font-bold text-gray-800">
-                  {carbonData.carEquivalent}
-                </span>
-                <span className="ml-2 text-gray-600">cars</span>
-              </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Your total emissions match {carbonData.carEquivalent} vehicles
-                driving the average annual mileage. Transportation emissions
-                account for nearly 30% of greenhouse gases, with passenger
-                vehicles being the largest contributor in this category.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Offset Section */}
@@ -292,87 +308,48 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
-          {/* Trees Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
-            <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
-              <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                {[...Array(12)].map((_, i) => (
-                  <TreePine
-                    key={i}
-                    className="absolute"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      transform: `scale(${0.5 + Math.random() * 0.5})`,
-                      opacity: 0.3 + Math.random() * 0.7,
-                    }}
-                  />
-                ))}
+          {carbonOffsetData.map((item, index) => (
+            <div key={index} className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
+              <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
+                <div className="absolute inset-0 flex justify-center items-center opacity-20">
+                  {[...Array(12)].map((_, i) => {
+                    const Icon = item.category === "Reforestation" ? TreePine : Users;
+                    return (
+                      <Icon
+                        key={i}
+                        className="absolute"
+                        style={{
+                          top: `${Math.random() * 100}%`,
+                          left: `${Math.random() * 100}%`,
+                          transform: `scale(${0.5 + Math.random() * 0.5})`,
+                          opacity: 0.3 + Math.random() * 0.7,
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+                <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden flex justify-center items-center">
+                  <h3 className="font-semibold text-white flex items-center">
+                    {item.category === "Reforestation" ? <TreePine className="w-8 h-8 mr-4" /> : <Users className="w-8 h-8 mr-4" />}
+                    {item.category}
+                  </h3>
+                </div>
               </div>
-              <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden flex justify-center items-center">
-                <h3 className="font-semibold text-white flex items-center">
-                  <TreePine className="w-8 h-8 mr-4" />
-                  Reforestation
-                </h3>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="flex items-baseline mb-2">
-                <span className="text-4xl font-bold text-gray-800">
-                  {carbonData.treesRequired.toLocaleString()}
-                </span>
-                <span className="ml-2 text-gray-600">trees</span>
-              </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Planting {carbonData.treesRequired.toLocaleString()} native
-                trees will fully offset your emissions over their 40-year
-                lifespan. These projects restore biodiversity while creating
-                natural carbon sinks. Each tree absorbs about 48 pounds of CO₂
-                annually while improving soil and air quality.
-              </p>
-            </div>
-          </div>
-
-          {/* Community Projects Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
-            <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
-              <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                {[...Array(12)].map((_, i) => (
-                  <Users
-                    key={i}
-                    className="absolute"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      transform: `scale(${0.5 + Math.random() * 0.5})`,
-                      opacity: 0.3 + Math.random() * 0.7,
-                    }}
-                  />
-                ))}
-              </div>
-              <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden flex justify-center items-center">
-                <h3 className="font-semibold text-white flex items-center">
-                  <Users className="w-8 h-8 mr-4" />
-                  Community Projects
-                </h3>
+              <div className="p-6">
+                <div className="flex items-baseline mb-2">
+                  <span className="text-4xl font-bold text-gray-800">
+                    {Math.round(item.emissions).toLocaleString()}
+                  </span>
+                  <span className="ml-2 text-gray-600">
+                    {item.category === "Reforestation" ? "trees" : "people"}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-600 mb-4">
+                  {item.description}
+                </p>
               </div>
             </div>
-            <div className="p-6">
-              <div className="flex items-baseline mb-2">
-                <span className="text-4xl font-bold text-gray-800">
-                  {Math.ceil(carbonData.totalEmissions * 2).toLocaleString()}
-                </span>
-                <span className="ml-2 text-gray-600">people</span>
-              </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Your offset can provide clean energy solutions for{" "}
-                {Math.ceil(carbonData.totalEmissions * 2)} people in developing
-                regions. Projects include efficient cookstoves (reducing wood
-                use by 60%), solar lanterns replacing kerosene, and water
-                purification systems - improving lives while cutting emissions.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Environmental Impact Section */}
@@ -385,130 +362,69 @@ const CarbonImpactDashboard = ({ emissionData, setShowDashboard }) => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8 max-w-6xl mx-auto">
-          {/* Air Quality Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
-            <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
-              <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                {[...Array(8)].map((_, i) => (
-                  <Cloud
-                    key={i}
-                    className="absolute"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      transform: `scale(${0.5 + Math.random()})`,
-                      opacity: 0.3 + Math.random() * 0.7,
-                    }}
-                  />
-                ))}
-              </div>
-              <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden flex justify-center items-center">
-                <h3 className="font-semibold text-white flex items-center">
-                  <Wind className="w-8 h-8 mr-4" />
-                  Air Quality
-                </h3>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="flex items-baseline mb-2">
-                <span className="text-4xl font-bold text-gray-800">
-                  {carbonData.airQualityImprovement}%
-                </span>
-                <span className="ml-2 text-gray-600">improvement</span>
-              </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Offset projects may reduce particulate pollution by{" "}
-                {carbonData.airQualityImprovement}% in local areas, preventing
-                respiratory illnesses. Cleaner air leads to fewer asthma cases
-                and cardiovascular diseases, with health benefits valued at
-                approximately $200 per ton of CO₂ reduced.
-              </p>
-            </div>
-          </div>
+          {environmentalImpactData.map((item, index) => {
+            const getIcon = (category) => {
+              switch(category) {
+                case "Air Quality": return Wind;
+                case "Water Saved": return Droplet;
+                case "Biodiversity": return Shell;
+                default: return Leaf;
+              }
+            };
+            
+            const getUnit = (category) => {
+              switch(category) {
+                case "Air Quality": return "%";
+                case "Water Saved": return "liters";
+                case "Biodiversity": return "species";
+                default: return "";
+              }
+            };
 
-          {/* Water Saved Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
-            <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
-              <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                {[...Array(12)].map((_, i) => (
-                  <Droplet
-                    key={i}
-                    className="absolute"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      transform: `scale(${0.5 + Math.random() * 0.5})`,
-                      opacity: 0.3 + Math.random() * 0.7,
-                    }}
-                  />
-                ))}
+            const Icon = getIcon(item.category);
+            
+            return (
+              <div key={index} className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
+                <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
+                  <div className="absolute inset-0 flex justify-center items-center opacity-20">
+                    {[...Array(8)].map((_, i) => (
+                      <Icon
+                        key={i}
+                        className="absolute"
+                        style={{
+                          top: `${Math.random() * 100}%`,
+                          left: `${Math.random() * 100}%`,
+                          transform: `scale(${0.5 + Math.random()})`,
+                          opacity: 0.3 + Math.random() * 0.7,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden flex justify-center items-center">
+                    <h3 className="font-semibold text-white flex items-center">
+                      <Icon className="w-8 h-8 mr-4" />
+                      {item.category}
+                    </h3>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-baseline mb-2">
+                    <span className="text-4xl font-bold text-gray-800">
+                      {item.category === "Air Quality" ? 
+                        `${Math.round(item.emissions)}` : 
+                        Math.round(item.emissions).toLocaleString()}
+                    </span>
+                    <span className="ml-2 text-gray-600">
+                      {getUnit(item.category)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">
+                    {item.description}
+                  </p>
+                </div>
               </div>
-              <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden flex justify-center items-center">
-                <h3 className="font-semibold text-white flex items-center">
-                  <Droplet className="w-8 h-8 mr-4" />
-                  Water Saved
-                </h3>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="flex items-baseline mb-2">
-                <span className="text-4xl font-bold text-gray-800">
-                  {carbonData.waterSaved.toLocaleString()}
-                </span>
-                <span className="ml-2 text-gray-600">liters</span>
-              </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Conserves {Math.round(carbonData.waterSaved / 1000)} thousand
-                liters by avoiding water-intensive energy production. Fossil
-                fuel power plants use 3-5 liters of water per kWh produced,
-                while offset projects typically use renewable energy with
-                minimal water requirements.
-              </p>
-            </div>
-          </div>
-
-          {/* Biodiversity Card */}
-          <div className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
-            <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
-              <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                {[...Array(12)].map((_, i) => (
-                  <Leaf
-                    key={i}
-                    className="absolute"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      transform: `rotate(${Math.random() * 360}deg) scale(${
-                        0.5 + Math.random() * 0.5
-                      })`,
-                      opacity: 0.3 + Math.random() * 0.7,
-                    }}
-                  />
-                ))}
-              </div>
-              <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden flex justify-center items-center">
-                <h3 className="font-semibold text-white flex items-center">
-                  <Shell className="w-8 h-8 mr-4" />
-                  Biodiversity
-                </h3>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="flex items-baseline mb-2">
-                <span className="text-4xl font-bold text-gray-800">
-                  {carbonData.speciesProtected}
-                </span>
-                <span className="ml-2 text-gray-600">species</span>
-              </div>
-              <p className="text-sm text-gray-600 mb-4">
-                Protects habitat for {carbonData.speciesProtected} plant and
-                animal species, with restoration projects increasing
-                biodiversity by 35% on average. Healthy ecosystems are more
-                resilient to climate change and provide critical services like
-                pollination and water filtration.
-              </p>
-            </div>
-          </div>
+            );
+          })}
         </div>
 
         {/* Call to Action */}

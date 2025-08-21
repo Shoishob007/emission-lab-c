@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import useEmissionsStore from "@/stores/emissionStore";
+import { fetchCarbonEmissionDetailsInAir } from "@/utils/api/AirEquivalentAPI";
 
 const FlightCalculatorRight = ({
   calculated,
@@ -16,13 +17,14 @@ const FlightCalculatorRight = ({
   scrollToDashboard,
   calculating,
   pricePerTon,
+  setAiAnalysisData,
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
-  // console.log("pricePerTon :: ", pricePerTon);
+  const [generationStage, setGenerationStage] = useState("");
   const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
 
-  // store when emission data changes
+  // when emission data changes
   useEffect(() => {
     if (emissionData && calculated) {
       setStoreEmissionData({
@@ -31,8 +33,9 @@ const FlightCalculatorRight = ({
       });
     }
   }, [emissionData, calculated, setStoreEmissionData]);
+  // console.log("emission Data in FlightCalculatorRight: ", emissionData)
 
-  const handleViewDashboard = () => {
+  const handleViewDashboard = async () => {
     if (showDashboard) {
       setShowDashboard(false);
       return;
@@ -40,32 +43,54 @@ const FlightCalculatorRight = ({
 
     setIsGenerating(true);
     setGenerationProgress(0);
+    setGenerationStage("Analyzing flight emissions...");
 
-    // AI generation process
-    const totalTime = 4000;
-    const intervalTime = 100;
-    const steps = totalTime / intervalTime;
-    let currentStep = 0;
+    try {
+      // Start progress animation
+      const progressInterval = setInterval(() => {
+        setGenerationProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + Math.random() * 15;
+        });
+      }, 500);
 
-    const progressInterval = setInterval(() => {
-      currentStep++;
-      // progress percentage
-      const progress = Math.min((currentStep / steps) * 100, 100);
-      setGenerationProgress(progress);
+      // Update stages during generation
+      setTimeout(() => setGenerationStage("Calculating environmental impact..."), 2000);
+      setTimeout(() => setGenerationStage("Preparing detailed insights..."), 4000);
 
-      if (currentStep >= steps) {
-        clearInterval(progressInterval);
+      // Make API call
+      const aiAnalysisData = await fetchCarbonEmissionDetailsInAir(emissionData);
+      
+      // Complete progress
+      clearInterval(progressInterval);
+      setGenerationProgress(100);
+      setGenerationStage("Analysis complete!");
+      
+      // Set the AI analysis data in parent component
+      setAiAnalysisData(aiAnalysisData);
+      
+      setTimeout(() => {
         setIsGenerating(false);
         setShowDashboard(true);
         setTimeout(() => {
           scrollToDashboard();
         }, 100);
-      }
-    }, intervalTime);
+      }, 1000);
+
+    } catch (error) {
+      console.error('Error generating analysis:', error);
+      setGenerationStage("Error generating analysis. Please try again.");
+      setGenerationProgress(0);
+      setTimeout(() => {
+        setIsGenerating(false);
+      }, 2000);
+    }
   };
 
   const totalEmission = emissionData?.result?.data?.emissions.co2e_mt || 0;
-  // console.log("Hello :: ", emissionData?.result?.data);
 
   return (
     <>
@@ -128,129 +153,7 @@ const FlightCalculatorRight = ({
 
             {/* Flight Details */}
             <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-2 justify-center sm:items-center">
-              {/* <div className="flex flex-col gap-2 sm:items-center">
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                  <p className="font-semibold">From:</p>
-                  <Popover
-                    open={fromPopoverOpen}
-                    onOpenChange={setFromPopoverOpen}
-                  >
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="link"
-                        className="p-0 h-2 text-sm text-muted-foreground hover:text-primary"
-                      >
-                        {emissionData?.result?.data?.airport_from}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-80 p-4">
-                      {fromAirportDetails && (
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2">
-                            <MapPin className="h-5 w-5 text-primary" />
-                            <div>
-                              <h3 className="font-semibold">
-                                {fromAirportDetails.name}
-                              </h3>
-                              <p className="text-sm text-muted-foreground">
-                                {fromAirportDetails.location}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Globe className="h-5 w-5 text-primary" />
-                            <div>
-                              <p className="text-sm">
-                                {fromAirportDetails.city},{" "}
-                                {fromAirportDetails.country}
-                              </p>
-                              <p className="text-sm text-muted-foreground">
-                                {fromAirportDetails.latitude},{" "}
-                                {fromAirportDetails.longitude}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Phone className="h-5 w-5 text-primary" />
-                            <p className="text-sm">
-                              {fromAirportDetails.phone}
-                            </p>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Link className="h-5 w-5 text-primary" />
-                            <a
-                              href={fromAirportDetails?.website || "#"}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-sm text-primary hover:underline"
-                            >
-                              Visit Website
-                            </a>
-                          </div>
-                        </div>
-                      )}
-                    </PopoverContent>
-                  </Popover>
-                </div>
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                  <p className="font-semibold">To:</p>
-                  <Popover open={toPopoverOpen} onOpenChange={setToPopoverOpen}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="link"
-                        className="p-0 h-2 text-sm text-muted-foreground hover:text-primary"
-                      >
-                        {emissionData?.result?.data?.airport_to}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-80 p-4">
-                      {toAirportDetails && (
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2">
-                            <MapPin className="h-5 w-5 text-primary" />
-                            <div>
-                              <h3 className="font-semibold">
-                                {toAirportDetails.name}
-                              </h3>
-                              <p className="text-sm text-muted-foreground">
-                                {toAirportDetails.location}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Globe className="h-5 w-5 text-primary" />
-                            <div>
-                              <p className="text-sm">
-                                {toAirportDetails.city},{" "}
-                                {toAirportDetails.country}
-                              </p>
-                              <p className="text-sm text-muted-foreground">
-                                {toAirportDetails.latitude},{" "}
-                                {toAirportDetails.longitude}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Phone className="h-5 w-5 text-primary" />
-                            <p className="text-sm">{toAirportDetails.phone}</p>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Link className="h-5 w-5 text-primary" />
-                            <a
-                              href={toAirportDetails.website}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-sm text-primary hover:underline"
-                            >
-                              Visit Website
-                            </a>
-                          </div>
-                        </div>
-                      )}
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div> */}
+              {/* Flight details content remains the same */}
             </div>
 
             {/* Emission Details */}
@@ -312,7 +215,7 @@ const FlightCalculatorRight = ({
                         <span className="absolute -top-1 -right-1 h-2 w-2 bg-green-500 rounded-full animate-ping"></span>
                       </div>
                       <p className="text-sm font-medium">
-                        Generating carbon impact analysis...
+                        Generating AI-powered carbon impact analysis...
                       </p>
                     </div>
 
@@ -324,16 +227,8 @@ const FlightCalculatorRight = ({
                       ></div>
                     </div>
 
-                    <p className="text-xs text-muted-foreground">
-                      {generationProgress < 30 &&
-                        "Analyzing flight emissions..."}
-                      {generationProgress >= 30 &&
-                        generationProgress < 60 &&
-                        "Calculating environmental impact..."}
-                      {generationProgress >= 60 &&
-                        generationProgress < 90 &&
-                        "Preparing detailed insights..."}
-                      {generationProgress >= 90 && "Almost ready..."}
+                    <p className="text-xs text-muted-foreground text-center">
+                      {generationStage}
                     </p>
                   </div>
                 </div>
@@ -347,7 +242,7 @@ const FlightCalculatorRight = ({
                     } bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors`}
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
-                    {showDashboard ? "Hide Details" : "View Details"}
+                    {showDashboard ? "Hide Details" : "View AI Analysis"}
                   </button>
 
                   {/* Offset Now */}

@@ -138,7 +138,12 @@ function OffsetTimeline({ steps }) {
   );
 }
 
-function FeaturedProjectCard({ project, onDonate, currentEmission }) {
+function FeaturedProjectCard({
+  project,
+  onDonate,
+  currentEmission,
+  hasValidEmission,
+}) {
   const router = useRouter();
   const handleClick = () => {
     router.push(`/offsetPage/${project.id}`);
@@ -199,14 +204,15 @@ function FeaturedProjectCard({ project, onDonate, currentEmission }) {
                     </p>
                   </div>
                 </div>
-                <div className="flex justify-center items-center px-4">
-                  {" "}
-                  <p>
-                    <span className="text-base sm:text-lg text-primary">
-                      ${(project.price_per_ton * currentEmission).toFixed(2)}
-                    </span>
-                  </p>
-                </div>
+                {hasValidEmission && (
+                  <div className="flex justify-center items-center px-2">
+                    <p>
+                      <span className="text-base sm:text-lg text-primary">
+                        ${(project.price_per_ton * currentEmission).toFixed(2)}
+                      </span>
+                    </p>
+                  </div>
+                )}
               </div>
               <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
                 {project.description}
@@ -234,7 +240,7 @@ function FeaturedProjectCard({ project, onDonate, currentEmission }) {
   );
 }
 
-function ProjectCard({ project, onDonate, currentEmission }) {
+function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
   console.log("Current Emission in ProjectCard: ", currentEmission);
   const router = useRouter();
   const handleClick = () => {
@@ -296,14 +302,15 @@ function ProjectCard({ project, onDonate, currentEmission }) {
                     </p>
                   </div>
                 </div>
-                <div className="flex justify-center items-center px-2">
-                  {" "}
-                  <p>
-                    <span className="text-base sm:text-lg text-primary">
-                      ${(project.price_per_ton * currentEmission).toFixed(2)}
-                    </span>
-                  </p>
-                </div>
+                {hasValidEmission && (
+                  <div className="flex justify-center items-center px-2">
+                    <p>
+                      <span className="text-base sm:text-lg text-primary">
+                        ${(project.price_per_ton * currentEmission).toFixed(2)}
+                      </span>
+                    </p>
+                  </div>
+                )}
               </div>
               <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
                 {project.description}
@@ -338,6 +345,8 @@ export default function OffsetPage() {
   // emission data
   const { currentEmission, isDataValid, clearEmissionData } =
     useEmissionsStore();
+
+  const hasValidEmission = currentEmission && isDataValid();
 
   const {
     projects,
@@ -554,6 +563,7 @@ export default function OffsetPage() {
                           project={project}
                           onDonate={() => handleOffset(project)}
                           currentEmission={currentEmission}
+                          hasValidEmission={hasValidEmission}
                         />
                       ))}
                     </div>
@@ -566,6 +576,7 @@ export default function OffsetPage() {
                           project={project}
                           onDonate={() => handleOffset(project)}
                           currentEmission={currentEmission}
+                          hasValidEmission={hasValidEmission}
                         />
                       ))}
                     </div>
@@ -619,6 +630,7 @@ export default function OffsetPage() {
                       project={project}
                       onDonate={() => handleOffset(project)}
                       currentEmission={currentEmission}
+                      hasValidEmission={hasValidEmission}
                     />
                   ))}
                 </div>
@@ -703,6 +715,7 @@ export default function OffsetPage() {
           project={selectedProject}
           emissionValue={currentEmission}
           quoteData={quoteData}
+          clearEmissionData={clearEmissionData}
         />
       )}
     </section>

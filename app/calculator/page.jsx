@@ -43,6 +43,7 @@ export default function Calculator() {
     cluster_name: null,
   });
   const [emissionData, setEmissionData] = useState(null);
+  const [aiAnalysisData, setAiAnalysisData] = useState(null);
   const [showDashboard, setShowDashboard] = useState(false);
   const [calculating, setCalculating] = useState(false);
   const { defaultProjects, fetchProjects } = useOffsetStore();
@@ -64,14 +65,14 @@ export default function Calculator() {
     fetchProjects();
   }, [fetchProjects]);
 
-  // console.log("Default Projects: ", defaultProjects);
-
   const handleTabChange = (index) => {
     const selectedTab = tabs[index]?.value;
     if (selectedTab) {
       setActiveTab(selectedTab);
       setCalculated(false);
       setEmissionData(null);
+      setAiAnalysisData(null);
+      setShowDashboard(false);
     }
   };
 
@@ -137,6 +138,7 @@ export default function Calculator() {
             setCalculating={setCalculating}
             calculating={calculating}
             pricePerTon={pricePerTon}
+            setAiAnalysisData={setAiAnalysisData}
           />
         );
       case "transport":
@@ -151,6 +153,7 @@ export default function Calculator() {
             transportDetails={transportDetails}
             loading={calculating}
             pricePerTon={pricePerTon}
+            setAiAnalysisData={setAiAnalysisData}
           />
         );
       case "hotel":
@@ -164,6 +167,7 @@ export default function Calculator() {
             scrollToDashboard={scrollToDashboard}
             calculating={calculating}
             pricePerTon={pricePerTon}
+            setAiAnalysisData={setAiAnalysisData}
           />
         );
       default:
@@ -229,6 +233,7 @@ export default function Calculator() {
             >
               <CarbonImpactDashboard
                 emissionData={emissionData}
+                aiAnalysisData={aiAnalysisData}
                 calculatorType={activeTab}
                 setShowDashboard={setShowDashboard}
               />
