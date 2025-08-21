@@ -1,10 +1,5 @@
 "use client";
 import {
-  CheckCircle,
-  Download,
-  Home,
-  Leaf,
-  Calendar,
   Award,
   DollarSign,
 } from "lucide-react";
@@ -157,12 +152,12 @@ const OffsetSuccessPage = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
+              {/* <button
                 onClick={handleBackToProjects}
                 className="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors font-semibold"
               >
                 Back to Projects
-              </button>
+              </button> */}
               <button
                 onClick={handleBackToHome}
                 className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors font-semibold"

@@ -42,6 +42,7 @@ const TransportCalculatorRight = ({
       setStoreEmissionData(storeData);
     }
   }, [emissionData, calculated, setStoreEmissionData]);
+  console.log("Emission data in transport :: ", emissionData)
 
   const getVehicleImage = () => {
     const transportType = transportDetails?.transportType || "";
