@@ -17,6 +17,7 @@ import DonationModal from "./components/DonationModal";
 import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
+import { useSession } from "next-auth/react";
 
 const flow = [
   {
@@ -341,6 +342,8 @@ export default function OffsetPage() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [quoteData, setQuoteData] = useState(null);
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
 
   // emission data
   const { currentEmission, isDataValid, clearEmissionData } =
@@ -396,7 +399,7 @@ export default function OffsetPage() {
       setIsDonationModalOpen(true);
     } catch (err) {
       console.error("Error getting offset quote:", err);
-      // error (toast or error message)
+      //(toast or error message)
     }
   };
 
@@ -428,7 +431,7 @@ export default function OffsetPage() {
   return (
     <section className="min-h-[100vh] py-14 px-2 bg-transparent">
       <div className="max-w-6xl mx-auto px-4">
-        {/* HEADER & WHY OFFSETTING MATTERS */}
+        {/* HEADER */}
         <div className="w-full max-w-5xl mx-auto mb-16">
           <div className="flex justify-center items-center gap-2 mb-2">
             <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
@@ -601,7 +604,6 @@ export default function OffsetPage() {
             {/* Regular Project Grid */}
             {displayedRegularProjects.length > 0 && (
               <div className="w-full">
-                {/* Show header only if there are no default projects */}
                 {defaultProjects.length === 0 && (
                   <div className="max-w-4xl mx-auto mb-6 text-center">
                     <h3 className="text-2xl font-bold text-[#163820] mb-2 capitalize">
@@ -636,7 +638,7 @@ export default function OffsetPage() {
                 </div>
               </div>
             )}
-            {/* Load More / See Less Button */}
+            {/* Load More / See Less */}
             {(hasMoreProjects || canShowLess) && (
               <motion.button
                 onClick={hasMoreProjects ? loadMoreProjects : showLessProjects}
@@ -715,7 +717,6 @@ export default function OffsetPage() {
           project={selectedProject}
           emissionValue={currentEmission}
           quoteData={quoteData}
-          clearEmissionData={clearEmissionData}
         />
       )}
     </section>

@@ -18,10 +18,13 @@ import { useState, useEffect } from "react";
 import DonationModal from "../components/DonationModal.jsx";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
+import { useSession } from "next-auth/react";
 
 export default function ProjectDetailsPage({ params }) {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [quoteData, setQuoteData] = useState(null);
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
   const projectId = parseInt(params.id);
   const { projects, loading, error, createOffsetQuote } = useOffsetStore();
   const {

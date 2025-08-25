@@ -10,22 +10,17 @@ const useOffsetStore = create((set) => ({
 
     setQuoteData: (data) => set({ quoteData: data }),
     
-    // Add new action to set success data
     setOffsetSuccess: (data) => set({ offsetSuccessData: data }),
 
     fetchProjects: async () => {
         set({ loading: true, error: null });
         try {
-            // Fetch active projects
             const projectsRes = await fetch(`${process.env.NEXT_PUBLIC_API}/api/offset/projects/?is_active=true`);
             if (!projectsRes.ok) throw new Error('Failed to fetch projects');
-
             const projectsData = await projectsRes.json();
 
-            // default projects
             const defaultRes = await fetch(`${process.env.NEXT_PUBLIC_API}/api/offset/projects/?is_active=true&is_default=true`);
             if (!defaultRes.ok) throw new Error('Failed to fetch default projects');
-
             const defaultData = await defaultRes.json();
 
             set({
@@ -39,7 +34,6 @@ const useOffsetStore = create((set) => ({
         }
     },
 
-    // <----  QUOTE FUNCTION ---->
     createOffsetQuote: async ({ project_id, carbon_emission_metric_tons }) => {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/offset/quote/`, {
@@ -54,6 +48,7 @@ const useOffsetStore = create((set) => ({
             });
             if (!response.ok) throw new Error('Failed to get offset quote');
             const data = await response.json();
+            console.log("Create quote response :: ", data)
             return data;
         } catch (err) {
             console.error('Error getting offset quote:', err);
@@ -61,7 +56,6 @@ const useOffsetStore = create((set) => ({
         }
     },
 
-    // Confirm function
     confirmOffsetQuote: async (payload) => {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/offset/confirm/`, {
@@ -73,9 +67,31 @@ const useOffsetStore = create((set) => ({
             });
             if (!response.ok) throw new Error('Failed to confirm offset quote');
             const data = await response.json();
+                        console.log("Confirm quote response :: ", data)
+
             return data;
         } catch (err) {
             console.error('Error confirming offset quote:', err);
+            throw err;
+        }
+    },
+
+    createStripeCheckoutSession: async (payload) => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/offset/stripe/checkout/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+            if (!response.ok) throw new Error('Failed to create Stripe checkout session');
+            const data = await response.json();
+                        console.log("Stripe Checkout response :: ", data)
+
+            return data;
+        } catch (err) {
+            console.error('Error creating Stripe checkout session:', err);
             throw err;
         }
     },

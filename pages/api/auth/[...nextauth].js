@@ -46,6 +46,7 @@ export default NextAuth({
         });
 
         const data = await res.json();
+        console.log("Data . User :: ", data.user)
         if (res.ok && data && data.user && data.user.email) {
           return {
             ...data.user,
