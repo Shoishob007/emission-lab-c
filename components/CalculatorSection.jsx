@@ -21,7 +21,7 @@ const features = [
     icon: <TrainTrack strokeWidth={2} />,
     title: "Track Your Travel",
     description:
-      "Estimate emissions for where you go with flight, bus, train and where you stay at hotels.",
+      "Estimate emissions for any way you plan to travel and/or stay.",
   },
   {
     icon: <EarthIcon strokeWidth={2} />,
@@ -33,13 +33,13 @@ const features = [
     icon: <TrendingDown strokeWidth={2} />,
     title: "Reduction Tracking",
     description:
-      "Monitor your progress with real-time tracking and personalized improvement suggestions.",
+      "Monitor progress with real-time tracking and personalized improvement suggestions.",
   },
   {
     icon: <Zap strokeWidth={2} />,
     title: "Instant Results",
     description:
-      "Get your results in real-time and start your sustainability journey within seconds.",
+      "Get results in real-time and start your sustainability journey within seconds.",
   },
 ];
 
@@ -74,9 +74,7 @@ export default function CalculatorSection() {
               No login required — calculate anytime, anywhere.
             </p>
             <p className="text-base md:text-lg text-[#767676] mb-6 leading-relaxed">
-              Take the first step towards carbon neutrality with our AI-Powered
-              footprint calculator. Analyze you consumption pattern on your
-              travel and get your most accurate carbon assessment.
+              Take the first step towards carbon neutrality with our AI-Powered footprint calculator. Analyze your travel consumption pattern and get the most accurate carbon assessment.
             </p>
           </div>
           <div className="items-center p-6">

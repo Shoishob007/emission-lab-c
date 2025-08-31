@@ -15,7 +15,7 @@ const solutions = [
     title: "Calculate",
     subtitle: "Understand Your Impact",
     description:
-      "Comprehensive carbon footprint analysis across all areas of your life and business.",
+      "Discover AI powered carbon footprint analysis whether you are individual or business entity.",
     features: [
       "Track emissions across individuals, teams, or entire businesses.",
       "Real-time dashboard with actionable insights.",
@@ -99,10 +99,7 @@ export default function SolutionsSection() {
               for Business & Individuals
             </h2>
             <p className="text-lg text-[#767676] mt-4 max-w-7xl">
-              From measurement to action; our platform enables you to measure
-              carbon emissions, track environmental impact, provide
-              recommendations and offset their carbon footprint by supporting
-              certified climate protection projects around the world.
+              A comprehensive suite of tools, from measurement to action. The application enables you to calculate carbon emissions, track their environmental impact, provide recommendations for reduction and offset their carbon footprint by supporting certified climate protection projects worldwide.
             </p>
           </div>
         </div>
