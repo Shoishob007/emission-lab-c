@@ -88,7 +88,7 @@ export default function ContactSection({ isPage = false }) {
   return (
     <section
       id={isPage ? undefined : "contact"}
-      className={`w-full bg-white py-16 px-4 flex items-center justify-center ${
+      className={`w-full bg-white py-16 md:py-20 px-4 flex items-center justify-center ${
         isPage ? "min-h-screen" : ""
       }`}
     >

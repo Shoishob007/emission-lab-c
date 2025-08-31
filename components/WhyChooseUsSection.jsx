@@ -41,9 +41,7 @@ const WhyChooseUsSection = () => {
             solutions
           </h2>
           <p className="text-base md:text-lg text-[#767676] mb-8 leading-relaxed max-w-xl">
-            We are committed to delivering innovative and sustainable
-            environmental solutions. Our team of experts helps you minimize
-            environmental impact.
+            Our team of experts are committed to delivering innovative solutions to minimize environmental impact.
           </p>
           <div className="bg-[#F7F7F7] rounded-2xl py-7 px-4 mb-8 flex flex-col gap-5">
             {reasons.map((reason, i) => (
