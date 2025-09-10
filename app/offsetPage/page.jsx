@@ -195,7 +195,7 @@ function FeaturedProjectCard({
                       per ton CO₂ emission
                     </p>
                   </div>
-                  <div className="flex items-center gap-1">
+                  {/* <div className="flex items-center gap-1">
                     <p className="text-[#767676] text-sm">
                       <span className="text-base sm:text-lg text-primary">
                         {project.available_amount}
@@ -203,7 +203,7 @@ function FeaturedProjectCard({
                       {project.available_amount > 1 ? "tons" : "ton"} of CO
                       <sub>2</sub>e to offset
                     </p>
-                  </div>
+                  </div> */}
                 </div>
                 {hasValidEmission && (
                   <div className="flex justify-center items-center px-2">
@@ -293,7 +293,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
                       per ton CO₂ emission
                     </p>
                   </div>
-                  <div className="flex items-center gap-1">
+                  {/* <div className="flex items-center gap-1">
                     <p className="text-[#767676] text-sm">
                       <span className="text-base sm:text-lg text-primary">
                         {project.available_amount}
@@ -301,7 +301,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
                       {project.available_amount > 1 ? "tons" : "ton"} of CO
                       <sub>2</sub>e to offset
                     </p>
-                  </div>
+                  </div> */}
                 </div>
                 {hasValidEmission && (
                   <div className="flex justify-center items-center px-2">

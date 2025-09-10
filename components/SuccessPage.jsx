@@ -46,6 +46,7 @@ const OffsetSuccessPage = () => {
         };
 
         const data = await confirmOffsetQuote(confirmPayload);
+        // console.log("Quote Success :: ", data)
 
         // clearing emission data after confirmation
         if (clearEmissionData) {
@@ -283,13 +284,13 @@ const OffsetSuccessPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="bg-blue-50 border border-blue-200 rounded-2xl p-6"
+                  className="bg-green-50 border border-green-200 rounded-2xl p-6"
                 >
-                  <h3 className="font-bold text-xl text-blue-800 mb-4 flex items-center gap-2">
-                    <FileText className="text-blue-600" size={24} />
+                  <h3 className="font-bold text-xl text-[#163820] mb-4 flex items-center gap-2">
+                    <FileText className="text-emerald-600" size={24} />
                     Next Steps
                   </h3>
-                  <p className="text-blue-700">
+                  <p className="text-gray-600">
                     Your carbon offset certificate has been generated
                     successfully. You will receive an email confirmation with
                     your certificate attached. Thank you for contributing to a
