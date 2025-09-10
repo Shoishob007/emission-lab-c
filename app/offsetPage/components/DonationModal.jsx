@@ -1,4 +1,4 @@
-import { Heart, X, FileText, CreditCard } from "lucide-react";
+import { Heart, X, FileText, CreditCard, CheckCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -198,7 +198,7 @@ const DonationModal = ({
                 </>
               ) : (
                 <>
-                  <Heart size={18} />
+                  <CheckCircle size={18} />
                   Proceed to Payment
                 </>
               )}

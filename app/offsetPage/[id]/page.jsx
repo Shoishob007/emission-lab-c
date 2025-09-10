@@ -261,7 +261,7 @@ export default function ProjectDetailsPage({ params }) {
                     <p className="text-sm text-[#767676] mb-1">
                       Offsetting your {calculationType} emissions:
                     </p>
-                    <p className="text-2xl font-bold text-red-600">
+                    <p className="text-2xl font-bold text-orange-400">
                       {getFormattedEmission()} tonnes CO₂e
                     </p>
                     <p className="text-lg font-semibold text-[#163820] mt-2">
@@ -282,7 +282,7 @@ export default function ProjectDetailsPage({ params }) {
                   Offset {getFormattedEmission()} tonnes
                 </button>
 
-                <div className="mt-6 pt-6 border-t border-gray-100">
+                {/* <div className="mt-6 pt-6 border-t border-gray-100">
                   <h3 className="text-lg font-bold text-[#163820] mb-4">
                     Quick Impact Calculator
                   </h3>
@@ -312,7 +312,7 @@ export default function ProjectDetailsPage({ params }) {
                       </span>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
