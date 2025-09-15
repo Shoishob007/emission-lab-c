@@ -20,50 +20,53 @@ export default function FlightSearchResults() {
   const [durationFilter, setDurationFilter] = useState(720);
   const [filteredFlights, setFilteredFlights] = useState(mockFlights);
 
-const tripType = searchParams.get('tripType') || 'roundTrip';
+  const tripType = searchParams.get("tripType") || "roundTrip";
 
-const getValidValue = (val, fallback) =>
-  val !== null && val.trim() !== '' ? val : fallback;
+  const getValidValue = (val, fallback) =>
+    val !== null && val.trim() !== "" ? val : fallback;
 
-const origin = getValidValue(searchParams.get('origin'), 'Not specified');
-const destination = getValidValue(searchParams.get('destination'), 'Not specified');
-const departDate = getValidValue(searchParams.get('depart'), 'Not selected');
-console.log("departDate :: ", departDate)
-const returnDate = tripType === 'roundTrip'
-  ? getValidValue(searchParams.get('return'), 'Not selected')
-  : '';
+  const origin = getValidValue(searchParams.get("origin"), "Not specified");
+  const destination = getValidValue(
+    searchParams.get("destination"),
+    "Not specified"
+  );
+  const departDate = getValidValue(searchParams.get("depart"), "Not selected");
+  console.log("departDate :: ", departDate);
+  const returnDate =
+    tripType === "roundTrip"
+      ? getValidValue(searchParams.get("return"), "Not selected")
+      : "";
 
-const adultCount = parseInt(searchParams.get('adult') || '1', 10);
-const flightClass = getValidValue(searchParams.get('class'), 'Economy');
+  const adultCount = parseInt(searchParams.get("adult") || "1", 10);
+  const flightClass = getValidValue(searchParams.get("class"), "Economy");
 
+  const formatDisplayDate = (dateString) => {
+    if (!dateString || dateString === "Not selected") return dateString;
 
-const formatDisplayDate = (dateString) => {
-  if (!dateString || dateString === 'Not selected') return dateString;
-  
-  try {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return 'Invalid date';
-    
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric',
-      year: 'numeric'
-    });
-  } catch {
-    return 'Invalid date';
-  }
-};
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return "Invalid date";
 
-const formatDateForInput = (dateString) => {
-  if (!dateString) return '';
-  try {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return '';
-    return date.toISOString().split('T')[0];
-  } catch {
-    return '';
-  }
-};
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    } catch {
+      return "Invalid date";
+    }
+  };
+
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return "";
+      return date.toISOString().split("T")[0];
+    } catch {
+      return "";
+    }
+  };
 
   // filtering flights
   const applyFilters = () => {
@@ -171,17 +174,19 @@ const formatDateForInput = (dateString) => {
         <div className="mb-6 bg-secondary text-white rounded-lg p-4 shadow-md">
           <div className="flex items-center justify-between">
             <div>
-        <h2 className="text-lg font-bold">
-          {origin} → {destination}
-          {tripType === 'roundTrip' && ` → ${origin}`}
-        </h2>
-        <p className="text-sm">
-          {formatDisplayDate(departDate)}
-          {tripType === 'roundTrip' && returnDate && ` — ${formatDisplayDate(returnDate)}`}
-          {` • ${adultCount} ${adultCount > 1 ? 'Adults' : 'Adult'}`}
-          {` • ${flightClass}`}
-        </p>
-      </div>
+              <h2 className="text-lg font-bold">
+                {origin} → {destination}
+                {tripType === "roundTrip" && ` → ${origin}`}
+              </h2>
+              <p className="text-sm">
+                {formatDisplayDate(departDate)}
+                {tripType === "roundTrip" &&
+                  returnDate &&
+                  ` — ${formatDisplayDate(returnDate)}`}
+                {` • ${adultCount} ${adultCount > 1 ? "Adults" : "Adult"}`}
+                {` • ${flightClass}`}
+              </p>
+            </div>
             <Button
               variant="outline"
               className="border-white bg-secondary text-white hover:text-white hover:bg-blue-600"
