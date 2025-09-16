@@ -113,51 +113,88 @@ export default function BlogDetailPage() {
 
       {/* Custom prose styles */}
       <style jsx global>{`
-        .prose-green ul > li::marker,
-        .prose-green ol > li::marker {
-          color: #179c3a;
-          font-size: 1.1em;
-        }
-        .prose-green h2,
-        .prose-green h3 {
-          color: #179c3a;
-          margin-top: 1.5rem;
-          margin-bottom: 0.7em;
-          font-weight: bold;
-        }
-        .prose-green strong {
-          color: #163820;
-          font-weight: 700;
-        }
-        .prose-green a {
-          color: #179c3a;
-          text-decoration: underline;
-        }
-        .prose-green a:hover {
-          color: #145c23;
-        }
-        .prose-green img {
-          margin: 1.5rem 0 !important;
-          border-radius: 1em;
-        }
-        .prose-green p,
-        .prose-green ul,
-        .prose-green ol,
-        .prose-green pre,
-        .prose-green blockquote,
-        .prose-green h2,
-        .prose-green h3,
-        .prose-green h4 {
-          margin-bottom: 1.4em;
-        }
-        .prose-green ul,
-        .prose-green ol {
-          padding-left: 1.35em;
-        }
-        .prose-green li {
-          margin-bottom: 0.5em;
-        }
-      `}</style>
+  .prose-green ul > li::marker,
+  .prose-green ol > li::marker {
+    color: #179c3a;
+    font-size: 1.1em;
+  }
+
+  .prose-green ul {
+    list-style-type: disc;
+    list-style-position: outside;
+    padding-left: 1.5em;
+    margin-left: 0;
+  }
+
+  .prose-green ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+    padding-left: 1.5em;
+    margin-left: 0;
+  }
+
+  .prose-green ul li,
+  .prose-green ol li {
+    margin-bottom: 0.5em;
+    padding-left: 0.25em;
+    display: list-item;
+  }
+
+  /* Nested lists */
+  .prose-green ul ul {
+    list-style-type: circle;
+  }
+  .prose-green ul ul ul {
+    list-style-type: square;
+  }
+  .prose-green ol ol {
+    list-style-type: lower-alpha;
+  }
+  .prose-green ol ol ol {
+    list-style-type: lower-roman;
+  }
+  .prose-green ul ol {
+    list-style-type: decimal;
+  }
+  .prose-green ol ul {
+    list-style-type: disc;
+  }
+
+  /* Existing styles remain unchanged */
+  .prose-green h2,
+  .prose-green h3 {
+    color: #179c3a;
+    margin-top: 1.5rem;
+    margin-bottom: 0.7em;
+    font-weight: bold;
+  }
+  .prose-green strong {
+    color: #163820;
+    font-weight: 700;
+  }
+  .prose-green a {
+    color: #179c3a;
+    text-decoration: underline;
+  }
+  .prose-green a:hover {
+    color: #145c23;
+  }
+  .prose-green img {
+    margin: 1.5rem 0 !important;
+    border-radius: 1em;
+  }
+  .prose-green p,
+  .prose-green ul,
+  .prose-green ol,
+  .prose-green pre,
+  .prose-green blockquote,
+  .prose-green h2,
+  .prose-green h3,
+  .prose-green h4 {
+    margin-bottom: 1.4em;
+  }
+`}</style>
+
     </section>
   );
 }
