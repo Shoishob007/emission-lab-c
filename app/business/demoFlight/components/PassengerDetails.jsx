@@ -12,17 +12,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge";
 import {
   User,
-  Phone,
   Mail,
   Users,
-  Plane,
   ArrowRight,
   UserCheck,
   Globe,
-  Calendar
+  Plane,
 } from "lucide-react";
 
 export function PassengerDetails({
@@ -31,6 +28,14 @@ export function PassengerDetails({
   onBack,
   canGoBack,
 }) {
+  // default dates
+  const defaultDOB = "1998-01-01";
+  const oneYearLater = new Date();
+  oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+  const expiryDate = oneYearLater.toISOString().split("T")[0];
+  const { outbound, inbound, passengers, searchParams, tripType } = bookingData;
+
+  // default passengers
   const [passengerList, setPassengerList] = useState(
     Array.from({ length: bookingData.passengers }, (_, index) => ({
       id: index + 1,
@@ -38,17 +43,18 @@ export function PassengerDetails({
       firstName: "",
       lastName: "",
       gender: "",
-      dateOfBirth: "",
+      dateOfBirth: defaultDOB,
       documentType: "passport",
-      documentNumber: "",
-      issuingCountry: "",
-      documentExpiry: "",
+      documentNumber: "A00000000",
+      issuingCountry: "BD",
+      documentExpiry: expiryDate,
       mobility: false,
     }))
   );
 
+  // default contact info
   const [contactInfo, setContactInfo] = useState({
-    phone: "+94",
+    phone: "+8801234567890",
     email: "",
     whatsapp: false,
   });
@@ -59,39 +65,44 @@ export function PassengerDetails({
     setPassengerList((prev) =>
       prev.map((p, i) => (i === index ? { ...p, [field]: value } : p))
     );
-    
-    // Clear error when user starts typing
+
     if (errors[`passenger${index}_${field}`]) {
-      setErrors(prev => ({ ...prev, [`passenger${index}_${field}`]: null }));
+      setErrors((prev) => ({ ...prev, [`passenger${index}_${field}`]: null }));
     }
   };
 
   const handleContactChange = (field, value) => {
-    setContactInfo(prev => ({ ...prev, [field]: value }));
+    setContactInfo((prev) => ({ ...prev, [field]: value }));
     if (errors[`contact_${field}`]) {
-      setErrors(prev => ({ ...prev, [`contact_${field}`]: null }));
+      setErrors((prev) => ({ ...prev, [`contact_${field}`]: null }));
     }
   };
 
   const validateForm = () => {
     const newErrors = {};
-    
-    // Validate passengers
+
     passengerList.forEach((passenger, index) => {
-      const requiredFields = ['firstName', 'lastName', 'gender', 'dateOfBirth', 'documentNumber', 'issuingCountry', 'documentExpiry'];
-      requiredFields.forEach(field => {
+      const requiredFields = [
+        "firstName",
+        "lastName",
+        "gender",
+        "dateOfBirth",
+        "documentNumber",
+        "issuingCountry",
+        "documentExpiry",
+      ];
+      requiredFields.forEach((field) => {
         if (!passenger[field]) {
-          newErrors[`passenger${index}_${field}`] = 'This field is required';
+          newErrors[`passenger${index}_${field}`] = "This field is required";
         }
       });
     });
 
-    // Validate contact info
     if (!contactInfo.email) {
-      newErrors.contact_email = 'Email is required';
+      newErrors.contact_email = "Email is required";
     }
     if (contactInfo.phone.length < 4) {
-      newErrors.contact_phone = 'Valid phone number is required';
+      newErrors.contact_phone = "Valid phone number is required";
     }
 
     setErrors(newErrors);
@@ -107,16 +118,17 @@ export function PassengerDetails({
     }
   };
 
-  const { outbound, inbound, searchParams } = bookingData;
-
   return (
     <div className="min-h-full bg-gray-50">
       <div className="max-w-6xl mx-auto p-8">
-        {/* Header Section */}
+        {/* Header */}
         <div className="mb-8">
-          <h3 className="text-3xl font-bold text-gray-900 mb-2">Passenger Information</h3>
+          <h3 className="text-3xl font-bold text-gray-900 mb-2">
+            Passenger Information
+          </h3>
           <p className="text-gray-600 text-lg">
-            Please provide accurate information as it appears on your travel documents
+            Please provide accurate information as it appears on your travel
+            documents
           </p>
         </div>
 
@@ -130,8 +142,12 @@ export function PassengerDetails({
                     <User className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="font-semibold text-lg">Passenger {index + 1}</span>
-                    <div className="text-blue-100 text-sm">{passenger.type}</div>
+                    <span className="font-semibold text-lg">
+                      Passenger {index + 1}
+                    </span>
+                    <div className="text-blue-100 text-sm">
+                      {passenger.type}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -139,39 +155,79 @@ export function PassengerDetails({
               <div className="p-6">
                 {/* Personal Information */}
                 <div className="mb-8">
-                  <h5 className="text-lg font-semibold mb-4 text-gray-900">Personal Information</h5>
+                  <h5 className="text-lg font-semibold mb-4 text-gray-900">
+                    Personal Information
+                  </h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">First Name *</Label>
+                      <Label className="text-sm font-medium text-gray-700">
+                        First Name *
+                      </Label>
                       <Input
                         value={passenger.firstName}
-                        onChange={(e) => handlePassengerChange(index, "firstName", e.target.value)}
-                        className={`mt-1 ${errors[`passenger${index}_firstName`] ? 'border-red-500' : ''}`}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            index,
+                            "firstName",
+                            e.target.value
+                          )
+                        }
+                        className={`mt-1 ${
+                          errors[`passenger${index}_firstName`]
+                            ? "border-red-500"
+                            : ""
+                        }`}
                         placeholder="Enter first name"
                       />
                       {errors[`passenger${index}_firstName`] && (
-                        <p className="text-red-500 text-xs mt-1">{errors[`passenger${index}_firstName`]}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[`passenger${index}_firstName`]}
+                        </p>
                       )}
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">Last Name *</Label>
+                      <Label className="text-sm font-medium text-gray-700">
+                        Last Name *
+                      </Label>
                       <Input
                         value={passenger.lastName}
-                        onChange={(e) => handlePassengerChange(index, "lastName", e.target.value)}
-                        className={`mt-1 ${errors[`passenger${index}_lastName`] ? 'border-red-500' : ''}`}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            index,
+                            "lastName",
+                            e.target.value
+                          )
+                        }
+                        className={`mt-1 ${
+                          errors[`passenger${index}_lastName`]
+                            ? "border-red-500"
+                            : ""
+                        }`}
                         placeholder="Enter last name"
                       />
                       {errors[`passenger${index}_lastName`] && (
-                        <p className="text-red-500 text-xs mt-1">{errors[`passenger${index}_lastName`]}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[`passenger${index}_lastName`]}
+                        </p>
                       )}
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">Gender *</Label>
+                      <Label className="text-sm font-medium text-gray-700">
+                        Gender *
+                      </Label>
                       <Select
                         value={passenger.gender}
-                        onValueChange={(value) => handlePassengerChange(index, "gender", value)}
+                        onValueChange={(value) =>
+                          handlePassengerChange(index, "gender", value)
+                        }
                       >
-                        <SelectTrigger className={`mt-1 ${errors[`passenger${index}_gender`] ? 'border-red-500' : ''}`}>
+                        <SelectTrigger
+                          className={`mt-1 ${
+                            errors[`passenger${index}_gender`]
+                              ? "border-red-500"
+                              : ""
+                          }`}
+                        >
                           <SelectValue placeholder="Select gender" />
                         </SelectTrigger>
                         <SelectContent>
@@ -181,19 +237,35 @@ export function PassengerDetails({
                         </SelectContent>
                       </Select>
                       {errors[`passenger${index}_gender`] && (
-                        <p className="text-red-500 text-xs mt-1">{errors[`passenger${index}_gender`]}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[`passenger${index}_gender`]}
+                        </p>
                       )}
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">Date of Birth *</Label>
+                      <Label className="text-sm font-medium text-gray-700">
+                        Date of Birth *
+                      </Label>
                       <Input
                         type="date"
                         value={passenger.dateOfBirth}
-                        onChange={(e) => handlePassengerChange(index, "dateOfBirth", e.target.value)}
-                        className={`mt-1 ${errors[`passenger${index}_dateOfBirth`] ? 'border-red-500' : ''}`}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            index,
+                            "dateOfBirth",
+                            e.target.value
+                          )
+                        }
+                        className={`mt-1 ${
+                          errors[`passenger${index}_dateOfBirth`]
+                            ? "border-red-500"
+                            : ""
+                        }`}
                       />
                       {errors[`passenger${index}_dateOfBirth`] && (
-                        <p className="text-red-500 text-xs mt-1">{errors[`passenger${index}_dateOfBirth`]}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[`passenger${index}_dateOfBirth`]}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -207,10 +279,14 @@ export function PassengerDetails({
                   </h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">Document Type *</Label>
+                      <Label className="text-sm font-medium text-gray-700">
+                        Document Type *
+                      </Label>
                       <Select
                         value={passenger.documentType}
-                        onValueChange={(value) => handlePassengerChange(index, "documentType", value)}
+                        onValueChange={(value) =>
+                          handlePassengerChange(index, "documentType", value)
+                        }
                       >
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select document type" />
@@ -222,24 +298,48 @@ export function PassengerDetails({
                       </Select>
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">Document Number *</Label>
+                      <Label className="text-sm font-medium text-gray-700">
+                        Document Number *
+                      </Label>
                       <Input
                         value={passenger.documentNumber}
-                        onChange={(e) => handlePassengerChange(index, "documentNumber", e.target.value.toUpperCase())}
-                        className={`mt-1 ${errors[`passenger${index}_documentNumber`] ? 'border-red-500' : ''}`}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            index,
+                            "documentNumber",
+                            e.target.value.toUpperCase()
+                          )
+                        }
+                        className={`mt-1 ${
+                          errors[`passenger${index}_documentNumber`]
+                            ? "border-red-500"
+                            : ""
+                        }`}
                         placeholder="Enter document number"
                       />
                       {errors[`passenger${index}_documentNumber`] && (
-                        <p className="text-red-500 text-xs mt-1">{errors[`passenger${index}_documentNumber`]}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[`passenger${index}_documentNumber`]}
+                        </p>
                       )}
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">Issuing Country *</Label>
+                      <Label className="text-sm font-medium text-gray-700">
+                        Issuing Country *
+                      </Label>
                       <Select
                         value={passenger.issuingCountry}
-                        onValueChange={(value) => handlePassengerChange(index, "issuingCountry", value)}
+                        onValueChange={(value) =>
+                          handlePassengerChange(index, "issuingCountry", value)
+                        }
                       >
-                        <SelectTrigger className={`mt-1 ${errors[`passenger${index}_issuingCountry`] ? 'border-red-500' : ''}`}>
+                        <SelectTrigger
+                          className={`mt-1 ${
+                            errors[`passenger${index}_issuingCountry`]
+                              ? "border-red-500"
+                              : ""
+                          }`}
+                        >
                           <SelectValue placeholder="Select country" />
                         </SelectTrigger>
                         <SelectContent>
@@ -251,19 +351,35 @@ export function PassengerDetails({
                         </SelectContent>
                       </Select>
                       {errors[`passenger${index}_issuingCountry`] && (
-                        <p className="text-red-500 text-xs mt-1">{errors[`passenger${index}_issuingCountry`]}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[`passenger${index}_issuingCountry`]}
+                        </p>
                       )}
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-700">Document Expiry *</Label>
+                      <Label className="text-sm font-medium text-gray-700">
+                        Document Expiry *
+                      </Label>
                       <Input
                         type="date"
                         value={passenger.documentExpiry}
-                        onChange={(e) => handlePassengerChange(index, "documentExpiry", e.target.value)}
-                        className={`mt-1 ${errors[`passenger${index}_documentExpiry`] ? 'border-red-500' : ''}`}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            index,
+                            "documentExpiry",
+                            e.target.value
+                          )
+                        }
+                        className={`mt-1 ${
+                          errors[`passenger${index}_documentExpiry`]
+                            ? "border-red-500"
+                            : ""
+                        }`}
                       />
                       {errors[`passenger${index}_documentExpiry`] && (
-                        <p className="text-red-500 text-xs mt-1">{errors[`passenger${index}_documentExpiry`]}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[`passenger${index}_documentExpiry`]}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -271,14 +387,25 @@ export function PassengerDetails({
 
                 {/* Special Assistance */}
                 <div className="border-t pt-6">
-                  <h5 className="text-lg font-semibold mb-4 text-gray-900">Special Assistance</h5>
+                  <h5 className="text-lg font-semibold mb-4 text-gray-900">
+                    Special Assistance
+                  </h5>
                   <div className="flex items-center space-x-3">
                     <Checkbox
                       id={`mobility-${index}`}
                       checked={passenger.mobility}
-                      onCheckedChange={(checked) => handlePassengerChange(index, "mobility", Boolean(checked))}
+                      onCheckedChange={(checked) =>
+                        handlePassengerChange(
+                          index,
+                          "mobility",
+                          Boolean(checked)
+                        )
+                      }
                     />
-                    <Label htmlFor={`mobility-${index}`} className="text-sm text-gray-700">
+                    <Label
+                      htmlFor={`mobility-${index}`}
+                      className="text-sm text-gray-700"
+                    >
                       Passenger requires mobility assistance
                     </Label>
                   </div>
@@ -302,18 +429,24 @@ export function PassengerDetails({
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               <div>
-                <Label className="text-sm font-medium text-gray-700">Phone Number *</Label>
+                <Label className="text-sm font-medium text-gray-700">
+                  Phone Number *
+                </Label>
                 <div className="flex mt-1">
                   <Select
-                    value={contactInfo.phone.substring(0, 3)}
+                    value={contactInfo.phone.substring(0, 4)}
                     onValueChange={(val) =>
-                      handleContactChange("phone", val + contactInfo.phone.substring(3))
+                      handleContactChange(
+                        "phone",
+                        val + contactInfo.phone.substring(4)
+                      )
                     }
                   >
-                    <SelectTrigger className="w-24 rounded-r-none">
+                    <SelectTrigger className="w-28 rounded-r-none">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="+880">+880</SelectItem>
                       <SelectItem value="+94">+94</SelectItem>
                       <SelectItem value="+1">+1</SelectItem>
                       <SelectItem value="+44">+44</SelectItem>
@@ -322,32 +455,47 @@ export function PassengerDetails({
                   </Select>
                   <Input
                     placeholder="Phone Number"
-                    className={`rounded-l-none border-l-0 ${errors.contact_phone ? 'border-red-500' : ''}`}
-                    value={contactInfo.phone.substring(3)}
+                    className={`rounded-l-none border-l-0 ${
+                      errors.contact_phone ? "border-red-500" : ""
+                    }`}
+                    value={contactInfo.phone.substring(4)}
                     onChange={(e) =>
-                      handleContactChange("phone", contactInfo.phone.substring(0, 3) + e.target.value)
+                      handleContactChange(
+                        "phone",
+                        contactInfo.phone.substring(0, 4) + e.target.value
+                      )
                     }
                   />
                 </div>
                 {errors.contact_phone && (
-                  <p className="text-red-500 text-xs mt-1">{errors.contact_phone}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.contact_phone}
+                  </p>
                 )}
               </div>
               <div>
-                <Label className="text-sm font-medium text-gray-700">Email Address *</Label>
+                <Label className="text-sm font-medium text-gray-700">
+                  Email Address *
+                </Label>
                 <Input
                   type="email"
                   value={contactInfo.email}
                   onChange={(e) => handleContactChange("email", e.target.value)}
-                  className={`mt-1 ${errors.contact_email ? 'border-red-500' : ''}`}
+                  className={`mt-1 ${
+                    errors.contact_email ? "border-red-500" : ""
+                  }`}
                   placeholder="Enter your email"
                 />
                 {errors.contact_email && (
-                  <p className="text-red-500 text-xs mt-1">{errors.contact_email}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.contact_email}
+                  </p>
                 )}
               </div>
               <div>
-                <Label className="text-sm font-medium text-gray-700">Booking Contact</Label>
+                <Label className="text-sm font-medium text-gray-700">
+                  Booking Contact
+                </Label>
                 <Select defaultValue="passenger1">
                   <SelectTrigger className="mt-1">
                     <SelectValue />
@@ -363,25 +511,15 @@ export function PassengerDetails({
               </div>
             </div>
 
-            <div className="flex items-center space-x-3 mb-6">
-              <Checkbox
-                id="whatsapp"
-                checked={contactInfo.whatsapp}
-                onCheckedChange={(checked) => handleContactChange("whatsapp", Boolean(checked))}
-              />
-              <Label htmlFor="whatsapp" className="text-sm text-gray-700">
-                I confirm my phone number is linked to WhatsApp and consent to receiving flight updates.
-              </Label>
-            </div>
-
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <div className="flex items-start gap-3">
                 <div className="text-blue-600 mt-1">
                   <UserCheck className="h-5 w-5" />
                 </div>
                 <div className="text-sm text-blue-700">
-                  <strong>Important:</strong> Please ensure all passenger information matches exactly with your travel documents. 
-                  Any discrepancies may result in denied boarding.
+                  <strong>Important:</strong> Please ensure all passenger
+                  information matches exactly with your travel documents. Any
+                  discrepancies may result in denied boarding.
                 </div>
               </div>
             </div>
@@ -391,14 +529,38 @@ export function PassengerDetails({
         {/* Bottom Action Bar */}
         <div className="sticky bottom-0 bg-white border-t p-6">
           <div className="max-w-6xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col gap-2 text-sm text-gray-700">
+              {/* Outbound Flight Info */}
               <div className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-gray-600" />
-                <span className="font-medium">Passengers: {bookingData.passengers}</span>
+                <Plane className="h-4 w-4 text-blue-600" />
+                <span className="font-medium">
+                  Outbound: {searchParams.origin} → {searchParams.destination}
+                </span>
+                <span>
+                  {outbound.flight.departure.time} -{" "}
+                  {outbound.flight.arrival.time}
+                </span>
+                <span className="text-gray-500">
+                  {outbound.flight.flightNumber}
+                </span>
               </div>
-              <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50">
-                Flight Details
-              </Button>
+
+              {/* Inbound Flight Info */}
+              {inbound && (
+                <div className="flex items-center gap-2">
+                  <Plane className="h-4 w-4 text-blue-600 rotate-180" />
+                  <span className="font-medium">
+                    Return: {searchParams.destination} → {searchParams.origin}
+                  </span>
+                  <span>
+                    {inbound.flight.departure.time} -{" "}
+                    {inbound.flight.arrival.time}
+                  </span>
+                  <span className="text-gray-500">
+                    {inbound.flight.flightNumber}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center gap-6">
