@@ -4,46 +4,51 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { 
-  Luggage, 
-  Wheat as Seat, 
-  Utensils, 
-  Users, 
-  Plane, 
-  Plus, 
-  Leaf, 
-  Info, 
-  ChevronDown, 
+import {
+  Luggage,
+  Wheat as Seat,
+  Utensils,
+  Users,
+  Plane,
+  Plus,
+  Leaf,
+  Info,
+  ChevronDown,
   ArrowRight,
   ShoppingBag,
-  Coffee
+  Coffee,
 } from "lucide-react";
 
-export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack }) {
+export function AdditionalServices({
+  bookingData,
+  onComplete,
+  onBack,
+  canGoBack,
+}) {
   // Determine passenger count and names robustly
   const passengerCount = Array.isArray(bookingData.passengers)
     ? bookingData.passengers.length
     : bookingData.passengers;
 
   const passengerNames = Array.isArray(bookingData.passengers)
-    ? bookingData.passengers.map((p, i) =>
-        `${p.firstName || "Passenger"} ${p.lastName || i + 1}`
+    ? bookingData.passengers.map(
+        (p, i) => `${p.firstName || "Passenger"} ${p.lastName || i + 1}`
       )
     : Array.from({ length: passengerCount }, (_, i) => `Passenger ${i + 1}`);
 
   const [selectedServices, setSelectedServices] = useState({
     extraBaggage: {
       outbound: null,
-      inbound: null
+      inbound: null,
     },
     seatSelection: {
       outbound: null,
-      inbound: null
+      inbound: null,
     },
     specialMeals: null,
     carbonOffset: false,
     priorityBoarding: false,
-    loungeAccess: false
+    loungeAccess: false,
   });
 
   // Defensive null checks for outbound/inbound
@@ -58,14 +63,14 @@ export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack 
   const totalEmission =
     (carbonEmissionPerPerson + inboundEmission) * passengerCount;
   const offsetPricePerPerson = Math.round(
-    (carbonEmissionPerPerson + inboundEmission) * 0.02
+    (carbonEmissionPerPerson + inboundEmission) * 20
   );
   const totalOffsetPrice = offsetPricePerPerson * passengerCount;
 
   const handleServiceChange = (service, value) => {
     setSelectedServices((prev) => ({
       ...prev,
-      [service]: value
+      [service]: value,
     }));
   };
 
@@ -86,8 +91,8 @@ export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack 
         emissionPerPerson: carbonEmissionPerPerson + inboundEmission,
         totalEmission,
         pricePerPerson: offsetPricePerPerson,
-        totalPrice: selectedServices.carbonOffset ? totalOffsetPrice : 0
-      }
+        totalPrice: selectedServices.carbonOffset ? totalOffsetPrice : 0,
+      },
     });
   };
 
@@ -139,9 +144,7 @@ export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack 
                     <div className="flex items-center gap-4 p-4 bg-green-50 rounded-lg border border-green-200">
                       <Luggage className="h-8 w-8 text-green-600" />
                       <div className="flex-1">
-                        <div className="font-semibold text-gray-900">
-                          2 × 32 kg
-                        </div>
+                        <div className="font-semibold text-gray-900">15 kg</div>
                         <div className="text-sm text-green-600 font-medium">
                           Included with {outbound.class} class
                         </div>
@@ -169,7 +172,7 @@ export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack 
                         <Luggage className="h-8 w-8 text-green-600" />
                         <div className="flex-1">
                           <div className="font-semibold text-gray-900">
-                            2 × 32 kg
+                            15 kg
                           </div>
                           <div className="text-sm text-green-600 font-medium">
                             Included with {inbound.class} class
@@ -377,7 +380,7 @@ export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack 
                             {totalEmission}
                           </div>
                           <div className="text-xs text-gray-600">
-                            kg CO₂e total
+                            MT CO₂e total
                           </div>
                         </div>
                         <div>
@@ -510,9 +513,7 @@ export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack 
                     Priority Boarding ({passengerCount} passenger
                     {passengerCount > 1 ? "s" : ""})
                   </span>
-                  <span className="font-semibold">
-                    ${25 * passengerCount}
-                  </span>
+                  <span className="font-semibold">${25 * passengerCount}</span>
                 </div>
               )}
               {selectedServices.loungeAccess && (
@@ -521,9 +522,7 @@ export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack 
                     Lounge Access ({passengerCount} passenger
                     {passengerCount > 1 ? "s" : ""})
                   </span>
-                  <span className="font-semibold">
-                    ${45 * passengerCount}
-                  </span>
+                  <span className="font-semibold">${45 * passengerCount}</span>
                 </div>
               )}
               <div className="border-t pt-2">
@@ -541,19 +540,38 @@ export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack 
         {/* Bottom Action Bar */}
         <div className="sticky bottom-0 bg-white border-t p-6">
           <div className="max-w-6xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col gap-2 text-sm text-gray-700">
+              {/* Outbound Flight Info */}
               <div className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-gray-600" />
+                <Plane className="h-4 w-4 text-blue-600" />
                 <span className="font-medium">
-                  Passengers: {passengerCount}
+                  Outbound: {searchParams.origin} → {searchParams.destination}
+                </span>
+                <span>
+                  {outbound.flight.departure.time} -{" "}
+                  {outbound.flight.arrival.time}
+                </span>
+                <span className="text-gray-500">
+                  {outbound.flight.flightNumber}
                 </span>
               </div>
-              <Button
-                variant="outline"
-                className="border-blue-200 text-blue-600 hover:bg-blue-50"
-              >
-                Flight Details
-              </Button>
+
+              {/* Inbound Flight Info */}
+              {inbound && (
+                <div className="flex items-center gap-2">
+                  <Plane className="h-4 w-4 text-blue-600 rotate-180" />
+                  <span className="font-medium">
+                    Return: {searchParams.destination} → {searchParams.origin}
+                  </span>
+                  <span>
+                    {inbound.flight.departure.time} -{" "}
+                    {inbound.flight.arrival.time}
+                  </span>
+                  <span className="text-gray-500">
+                    {inbound.flight.flightNumber}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center gap-6">
@@ -561,15 +579,14 @@ export function AdditionalServices({ bookingData, onComplete, onBack, canGoBack 
                 <div className="text-2xl font-bold text-blue-600">
                   $
                   {(
-                    (bookingData.totalPrice || 0) +
-                    calculateServicesTotal()
+                    (bookingData.totalPrice || 0) + calculateServicesTotal()
                   ).toFixed(2)}
                 </div>
                 <div className="text-sm text-gray-600">
                   Total for all passengers
                   {calculateServicesTotal() > 0 && (
                     <div className="text-xs text-green-600">
-                      +${calculateServicesTotal()} services
+                      +${calculateServicesTotal()} additional services included
                     </div>
                   )}
                 </div>
