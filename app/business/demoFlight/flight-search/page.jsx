@@ -25,7 +25,7 @@ const generateFlights = (origin, destination, date, isReturn = false) => {
   const baseFlights = [
     {
       id: isReturn ? "FL001-R" : "FL001",
-      airline: "Emirates Airways",
+      airline: "ABC Airlines",
       flightNumber: "EM401",
       departure: {
         time: isReturn ? "08:15" : "06:15",
@@ -50,7 +50,7 @@ const generateFlights = (origin, destination, date, isReturn = false) => {
     },
     {
       id: isReturn ? "FL002-R" : "FL002",
-      airline: "Emirates Airways",
+      airline: "ABC Airlines",
       flightNumber: "EM403",
       departure: {
         time: isReturn ? "16:30" : "14:30",
@@ -75,7 +75,7 @@ const generateFlights = (origin, destination, date, isReturn = false) => {
     },
     {
       id: isReturn ? "FL003-R" : "FL003",
-      airline: "Emirates Airways",
+      airline: "ABC Airlines",
       flightNumber: "EM405",
       departure: {
         time: isReturn ? "20:20" : "18:20",
@@ -119,8 +119,8 @@ export default function FlightSearch() {
 
   // Get search parameters
   const tripType = searchParams.get("tripType") || "roundTrip";
-  const origin = searchParams.get("origin") || "Dubai";
-  const destination = searchParams.get("destination") || "Istanbul";
+  const origin = searchParams.get("origin") || "DXB";
+  const destination = searchParams.get("destination") || "IST";
   const departDate = searchParams.get("depart");
   const returnDate = searchParams.get("return");
   const passengers = parseInt(searchParams.get("adult")) || 1;

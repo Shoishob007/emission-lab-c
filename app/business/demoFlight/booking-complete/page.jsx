@@ -76,7 +76,7 @@ export default function BookingComplete() {
     {
       step: 3,
       title: "Carbon Offset Applied",
-      description: "Your flight emissions will be offset automatically",
+      description: "Offset Certificate will be set to passengers email",
       icon: Leaf,
       color: "green",
     },
