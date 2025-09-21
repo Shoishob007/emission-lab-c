@@ -120,7 +120,7 @@ export default function FlightSearch() {
   // Get search parameters
   const tripType = searchParams.get("tripType") || "roundTrip";
   const origin = searchParams.get("origin") || "DXB";
-  const destination = searchParams.get("destination") || "Istanbul";
+  const destination = searchParams.get("destination") || "IST";
   const departDate = searchParams.get("depart");
   const returnDate = searchParams.get("return");
   const passengers = parseInt(searchParams.get("adult")) || 1;
