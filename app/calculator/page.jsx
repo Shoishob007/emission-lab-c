@@ -1,12 +1,14 @@
 "use client";
 import React, { useRef, useEffect, useMemo, useState } from "react";
-import { Plane, Car, Hotel } from "lucide-react";
+import { Plane, Car, Hotel, Ship } from "lucide-react";
 import FlightCalculatorLeft from "./flight/components/FlightCalculatorLeft";
 import FlightCalculatorRight from "./flight/components/FlightCalculatorRight";
 import TransportCalculatorLeft from "./car/components/TransportCalculatorLeft";
 import TransportCalculatorRight from "./car/components/TransportCalculatorRight";
 import HotelCalculatorLeft from "./hotel/components/HotelCalculatorLeft";
 import HotelCalculatorRight from "./hotel/components/HotelCalculatorRight";
+import ShipCalculatorLeft from "./ship/components/ShipCalculatorLeft";
+import ShipCalculatorRight from "./ship/components/ShipCalculatorRight";
 import CarbonImpactDashboard from "./components/CarbonEmissionDash";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableTabs } from "@/components/ui/expandable-tabs";
@@ -42,6 +44,11 @@ export default function Calculator() {
     number_of_rooms: 1,
     cluster_name: null,
   });
+    const [freightDetails, setFreightDetails] = useState({
+    freight_weight: 0, // Weight in Kilograms (KG)
+    distance_value: 0, // Journey distance in Kilometers (KM)
+    cluster_name: null
+  });
   const [emissionData, setEmissionData] = useState(null);
   const [aiAnalysisData, setAiAnalysisData] = useState(null);
   const [showDashboard, setShowDashboard] = useState(false);
@@ -53,6 +60,8 @@ export default function Calculator() {
       { title: "Flight", icon: Plane, value: "flight" },
       { title: "Transport", icon: Car, value: "transport" },
       { title: "Hotel", icon: Hotel, value: "hotel" },
+            { title: "Ship", icon: Ship, value: "DeepSea" },
+
     ],
     []
   );
@@ -117,6 +126,17 @@ export default function Calculator() {
             calculating={calculating}
           />
         );
+      case "DeepSea":
+        return (
+          <ShipCalculatorLeft
+            setCalculated={setCalculated}
+            freightDetails={freightDetails}
+            setFreightDetails={setFreightDetails}
+            setEmissionData={setEmissionData}
+            setLoading={setCalculating}
+            loading={calculating}
+          />
+        );
       default:
         return null;
     }
@@ -170,6 +190,21 @@ export default function Calculator() {
             setAiAnalysisData={setAiAnalysisData}
           />
         );
+        case "DeepSea":
+        return (
+          <ShipCalculatorRight
+            calculated={calculated}
+            activeTab={activeTab}
+            emissionData={emissionData}
+            showDashboard={showDashboard}
+            setShowDashboard={setShowDashboard}
+            scrollToDashboard={scrollToDashboard}
+            // setCalculating={setCalculating}
+            calculating={calculating}
+            pricePerTon={pricePerTon}
+            setAiAnalysisData={setAiAnalysisData}
+          />
+        );
       default:
         return null;
     }
@@ -211,11 +246,12 @@ export default function Calculator() {
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {/* Left Panel - Input Form */}
-            <div className="bg-card rounded-lg p-8 shadow-lg shadow-primary/40">
+            <div className="rounded-lg p-8 shadow-lg shadow-primary/40">
               <h2 className="text-xl font-semibold mb-6 text-center">
                 {activeTab === "flight" && "Put Your Flight Details"}
                 {activeTab === "transport" && "Put Your Journey Details"}
                 {activeTab === "hotel" && "Put Your Hotel Details"}
+                {activeTab === "DeepSea" && "Put Your Ship and Journey Details"}
               </h2>
               <div className="space-y-6">{renderCalculatorContent()}</div>
             </div>
