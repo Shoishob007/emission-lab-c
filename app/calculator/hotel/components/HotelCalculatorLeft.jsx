@@ -2,7 +2,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import { ComboBox } from "../../../../components/ui/calculator-combobox";
-import { Calculator, Moon, Bed } from "lucide-react";
+import { Calculator, Moon, Bed, Star } from "lucide-react";
 import { countries } from "countries-list";
 // import { City } from "country-state-city";
 // import cityData from './allowed-countries-cities.json';
@@ -20,6 +20,7 @@ const HotelCalculatorLeft = ({
   const [cities, setCities] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
   const [loading, setLoading] = useState({ country: false, city: false });
+  const [hover, setHover] = useState(null);
   const [error, setError] = useState({
     country: null,
     city: null,
@@ -84,6 +85,13 @@ const HotelCalculatorLeft = ({
     "VN",
     "ZA",
   ];
+  //   const ratingLabels = {
+  //   1: "Very Bad",
+  //   2: "Bad",
+  //   3: "Average",
+  //   4: "Good",
+  //   5: "Excellent",
+  // };
 
   // countries list on mount
   useEffect(() => {
@@ -285,32 +293,50 @@ const HotelCalculatorLeft = ({
       </div>
 
       {/* Hotel Rating */}
-      <div>
-        <label className="block text-sm font-semibold mb-2 text-muted-foreground">
-          Hotel Rating
-        </label>
-        <div className="flex flex-wrap gap-2 sm:gap-3">
-          {[1, 2, 3, 4, 5].map((rating) => (
-            <label key={rating} className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                className="h-4 w-4 border-gray-300 text-primary focus:ring-primary cursor-pointer rounded-full border checked:border-primary checked:after:content-[''] checked:after:block checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:bg-primary checked:after:m-1"
-                checked={hotelDetails.hotel_rating === rating.toString()}
-                onChange={() =>
-                  setHotelDetails((prev) => ({
-                    ...prev,
-                    hotel_rating: rating.toString(),
-                  }))
-                }
-                value={rating.toString()}
+<div>
+      <label className="block text-sm font-semibold mb-2 text-muted-foreground">
+        Hotel Rating
+      </label>
+      <div className="flex gap-1 sm:gap-2">
+        {[1, 2, 3, 4, 5].map((rating) => {
+          const filled =
+            hover >= rating || hotelDetails.hotel_rating >= rating.toString();
+
+          return (
+            <button
+              key={rating}
+              type="button"
+              className="focus:outline-none"
+              onClick={() =>
+                setHotelDetails((prev) => ({
+                  ...prev,
+                  hotel_rating: rating.toString(),
+                }))
+              }
+              onMouseEnter={() => setHover(rating)}
+              onMouseLeave={() => setHover(null)}
+            >
+              <Star
+                className={`h-7 w-7 transition-colors ${
+                  filled ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                }`}
               />
-              <span className="px-4 py-2 flex items-center text-sm font-medium">
-                {rating} Star{rating !== 1 ? "s" : ""}
-              </span>
-            </label>
-          ))}
-        </div>
+            </button>
+          );
+        })}
       </div>
+
+      {/* Hover or selected label */}
+      <div className="mt-2 text-sm font-medium text-muted-foreground min-h-[20px]">
+        {hover
+          ? `${hover} Star${hover > 1 ? "s" : ""}`
+          : hotelDetails.hotel_rating
+          ? `${hotelDetails.hotel_rating} Star${
+              hotelDetails.hotel_rating !== "1" ? "s" : ""
+            }`
+          : "No rating selected"}
+      </div>
+    </div>
 
       {/* Number of Nights and Rooms */}
       <div className="grid grid-cols-1 gap-4">

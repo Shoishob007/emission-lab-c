@@ -95,7 +95,7 @@ const TransportCalculatorRight = ({
 
   return (
     <>
-      <div className="bg-card rounded-lg p-8 shadow-lg shadow-primary/40">
+      <div className="rounded-lg p-8 shadow-lg shadow-primary/40">
         <h2 className="text-xl font-semibold mb-2 text-center">
           Your Carbon Footprint
         </h2>

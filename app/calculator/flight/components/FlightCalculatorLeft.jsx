@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSession } from "next-auth/react";
 
 const FlightCalculatorLeft = ({
   setCalculated,
@@ -24,6 +25,7 @@ const FlightCalculatorLeft = ({
   const [toAirports, setToAirports] = useState([]);
   const [loading, setLoading] = useState({ from: false, to: false });
   const [error, setError] = useState({ from: null, to: null });
+  const { data: session } = useSession();
 
   const fetchAirports = async (keyword = "", fieldType = "from") => {
     setLoading((prev) => ({ ...prev, [fieldType]: true }));
@@ -70,6 +72,7 @@ const FlightCalculatorLeft = ({
   );
 
   const aircraftTypes = [
+    { id: 0, value: "not_sure", label: "No Aircraft Specified" },
     { id: 9, value: "B777", label: "B777 - Boeing 777 (Long-haul)" },
     { id: 10, value: "A380", label: "A380 - Airbus A380 (Super Jumbo)" },
     { id: 11, value: "B787", label: "B787 - Boeing 787 Dreamliner" },
@@ -86,18 +89,23 @@ const FlightCalculatorLeft = ({
   const handleCalculate = async () => {
     try {
       setCalculating(true);
+      const userId =
+        session?.user?.id?.toString() ??
+        `guest-${Math.floor(100000 + Math.random() * 900000)}`;
 
+      console.log("User ID :: ", userId);
       const requestData = {
-        user_id: "1adfdf",
+        user_id: userId,
         iata_airport_from: flightDetails.from,
         iata_airport_to: flightDetails.to,
         number_of_passengers: flightDetails.passengers,
         flight_class: mapFlightClass(flightDetails.class),
         round_trip: flightDetails.tripType === "roundTrip" ? "Y" : "N",
-        aircraft_type: flightDetails.aircraft,
+        aircraft_type:
+          flightDetails.aircraft === "not_sure" ? "" : flightDetails.aircraft,
       };
 
-      console.log("requestData :: ", requestData);
+      console.log("requestData from flight :: ", requestData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API}/api/carbon/airAPI/carbon-emission/`,

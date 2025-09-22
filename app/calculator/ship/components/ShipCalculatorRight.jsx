@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import useEmissionsStore from "@/stores/emissionStore";
-import { fetchCarbonEmissionDetailsInAir } from "@/utils/api/AirEquivalentAPI";
+import { fetchCarbonEmissionDetailsInShip } from "@/utils/api/ShipEquivalentAPI";
 
 const FlightCalculatorRight = ({
   calculated,
@@ -29,7 +29,7 @@ const FlightCalculatorRight = ({
     if (emissionData && calculated) {
       setStoreEmissionData({
         ...emissionData,
-        calculationType: "flight",
+        calculationType: "DeepSea",
       });
     }
   }, [emissionData, calculated, setStoreEmissionData]);
@@ -62,7 +62,7 @@ const FlightCalculatorRight = ({
       setTimeout(() => setGenerationStage("Preparing detailed insights..."), 4000);
 
       // Make API call
-      const aiAnalysisData = await fetchCarbonEmissionDetailsInAir(emissionData);
+      const aiAnalysisData = await fetchCarbonEmissionDetailsInShip(emissionData);
       
       // Complete progress
       clearInterval(progressInterval);
@@ -90,7 +90,11 @@ const FlightCalculatorRight = ({
     }
   };
 
-  const totalEmission = emissionData?.result?.data?.emissions.co2e_mt || 0;
+//   const co2e_kg = emissionData?.result?.data?.co2e_kg || 0;
+// const co2e_mt = co2e_kg / 1000;
+console.log("Emission data :: ", emissionData)
+
+  const totalEmission = ((emissionData?.result?.data?.co2e_kg)/1000) || 0;
 
   return (
     <>
@@ -99,7 +103,7 @@ const FlightCalculatorRight = ({
           Your Carbon Footprint
         </h2>
 
-        {!calculated || activeTab !== "flight" ? (
+        {!calculated || activeTab !== "DeepSea" ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-6">
             {/* Animation container */}
             <div className="p-6 rounded-full bg-gradient-to-br from-primary/10 to-primary/10 shadow-inner mb-6">
@@ -123,8 +127,8 @@ const FlightCalculatorRight = ({
             {/* Subtext */}
             <p className="text-sm text-muted-foreground max-w-sm mb-4">
               {calculating
-                ? "We're analyzing your flight data to estimate CO₂ emissions."
-                : "Enter your flight details and we'll estimate your carbon footprint instantly."}
+                ? "We're analyzing your journey data to estimate CO₂ emissions."
+                : "Enter your journey details and we'll estimate your carbon footprint instantly."}
             </p>
 
             {/* Professional Information */}
@@ -151,9 +155,8 @@ const FlightCalculatorRight = ({
           <div className="">
             <EmissionDisplay totalEmission={totalEmission} />
 
-            {/* Flight Details */}
+            {/* Ship Details */}
             <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-2 justify-center sm:items-center">
-              {/* Flight details content remains the same */}
             </div>
 
             {/* Emission Details */}
@@ -162,7 +165,7 @@ const FlightCalculatorRight = ({
                 <div className="absolute inset-0">
                   <div className="plane-track">
                     <Image
-                      src="/airplane.png"
+                      src="/cruise.png"
                       alt="Flying Plane"
                       width={100}
                       height={64}
@@ -176,12 +179,12 @@ const FlightCalculatorRight = ({
               <div className="flex flex-col sm:flex-row sm:space-x-4 justify-center items-center mb-3">
                 <p className="text-sm text-muted-foreground">
                   <span className="font-semibold">Distance Traveled: </span>
-                  {emissionData?.result?.data?.distance_km || 0} km
+                  {emissionData?.result?.data?.distance_value || 0} km
                 </p>
-                <p className="text-sm text-muted-foreground">
+                {/* <p className="text-sm text-muted-foreground">
                   <span className="font-semibold">Total Passengers:</span>{" "}
                   {emissionData?.result?.data?.number_of_passengers}
-                </p>
+                </p> */}
               </div>
             </div>
 

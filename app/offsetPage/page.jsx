@@ -205,7 +205,7 @@ function FeaturedProjectCard({
                     </p>
                   </div> */}
                 </div>
-                {hasValidEmission && (
+                {/* {hasValidEmission && (
                   <div className="flex justify-center items-center px-2">
                     <p>
                       <span className="text-base sm:text-lg text-primary">
@@ -213,7 +213,7 @@ function FeaturedProjectCard({
                       </span>
                     </p>
                   </div>
-                )}
+                )} */}
               </div>
               <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
                 {project.description}
@@ -303,7 +303,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
                     </p>
                   </div> */}
                 </div>
-                {hasValidEmission && (
+                {/* {hasValidEmission && (
                   <div className="flex justify-center items-center px-2">
                     <p>
                       <span className="text-base sm:text-lg text-primary">
@@ -311,7 +311,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
                       </span>
                     </p>
                   </div>
-                )}
+                )} */}
               </div>
               <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
                 {project.description}
