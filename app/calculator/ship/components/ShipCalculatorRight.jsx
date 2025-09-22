@@ -8,7 +8,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import useEmissionsStore from "@/stores/emissionStore";
 import { fetchCarbonEmissionDetailsInShip } from "@/utils/api/ShipEquivalentAPI";
 
-const FlightCalculatorRight = ({
+const ShipCalculatorRight = ({
   calculated,
   activeTab,
   emissionData,
@@ -48,7 +48,7 @@ const FlightCalculatorRight = ({
     try {
       // Start progress animation
       const progressInterval = setInterval(() => {
-        setGenerationProgress(prev => {
+        setGenerationProgress((prev) => {
           if (prev >= 90) {
             clearInterval(progressInterval);
             return 90;
@@ -58,20 +58,28 @@ const FlightCalculatorRight = ({
       }, 500);
 
       // Update stages during generation
-      setTimeout(() => setGenerationStage("Calculating environmental impact..."), 2000);
-      setTimeout(() => setGenerationStage("Preparing detailed insights..."), 4000);
+      setTimeout(
+        () => setGenerationStage("Calculating environmental impact..."),
+        2000
+      );
+      setTimeout(
+        () => setGenerationStage("Preparing detailed insights..."),
+        4000
+      );
 
       // Make API call
-      const aiAnalysisData = await fetchCarbonEmissionDetailsInShip(emissionData);
-      
+      const aiAnalysisData = await fetchCarbonEmissionDetailsInShip(
+        emissionData
+      );
+
       // Complete progress
       clearInterval(progressInterval);
       setGenerationProgress(100);
       setGenerationStage("Analysis complete!");
-      
+
       // Set the AI analysis data in parent component
       setAiAnalysisData(aiAnalysisData);
-      
+
       setTimeout(() => {
         setIsGenerating(false);
         setShowDashboard(true);
@@ -79,9 +87,8 @@ const FlightCalculatorRight = ({
           scrollToDashboard();
         }, 100);
       }, 1000);
-
     } catch (error) {
-      console.error('Error generating analysis:', error);
+      console.error("Error generating analysis:", error);
       setGenerationStage("Error generating analysis. Please try again.");
       setGenerationProgress(0);
       setTimeout(() => {
@@ -90,11 +97,11 @@ const FlightCalculatorRight = ({
     }
   };
 
-//   const co2e_kg = emissionData?.result?.data?.co2e_kg || 0;
-// const co2e_mt = co2e_kg / 1000;
-console.log("Emission data :: ", emissionData)
+  //   const co2e_kg = emissionData?.result?.data?.co2e_kg || 0;
+  // const co2e_mt = co2e_kg / 1000;
+  console.log("Emission data :: ", emissionData);
 
-  const totalEmission = ((emissionData?.result?.data?.co2e_kg)/1000) || 0;
+  const totalEmission = emissionData?.result?.data?.co2e_kg / 1000 || 0;
 
   return (
     <>
@@ -156,8 +163,7 @@ console.log("Emission data :: ", emissionData)
             <EmissionDisplay totalEmission={totalEmission} />
 
             {/* Ship Details */}
-            <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-2 justify-center sm:items-center">
-            </div>
+            <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-2 justify-center sm:items-center"></div>
 
             {/* Emission Details */}
             <div className="mt-6 sm:mt-0">
@@ -290,4 +296,4 @@ console.log("Emission data :: ", emissionData)
   );
 };
 
-export default FlightCalculatorRight;
+export default ShipCalculatorRight;

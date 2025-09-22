@@ -6,6 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import useEmissionsStore from "@/stores/emissionStore";
+import { fetchCarbonEmissionDetailsInTransport } from "@/utils/api/TransportEquivalentAPI";
+import { useSession } from "next-auth/react";
 
 const TransportCalculatorRight = ({
   calculated,
@@ -17,32 +19,40 @@ const TransportCalculatorRight = ({
   transportDetails,
   loading,
   pricePerTon,
+  setAiAnalysisData,
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
-  // console.log("pricePerTon :: ", pricePerTon);
+  const [generationStage, setGenerationStage] = useState("");
+  console.log("emissionData :: ", emissionData);
   const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
+  const { data: session } = useSession();
 
   // store when emission data changes
   useEffect(() => {
     if (emissionData && calculated) {
-      const storeData = {
-        ...emissionData,
-        result: {
-          ...emissionData.result,
-          data: {
-            ...emissionData.result.data,
-            emissions: {
-              co2e_mt: emissionData.result.data.co2e_mt,
+      const typeEmissionData = emissionData?.typeResult?.result?.data;
+
+      if (typeEmissionData) {
+        const storeData = {
+          ...emissionData,
+          result: {
+            ...emissionData.typeResult.result,
+            data: {
+              ...typeEmissionData,
+              emissions: {
+                co2e_mt: typeEmissionData.co2e_mt,
+              },
             },
           },
-        },
-        calculationType: "transport",
-      };
-      setStoreEmissionData(storeData);
+          calculationType: "transport",
+        };
+        setStoreEmissionData(storeData);
+      }
     }
   }, [emissionData, calculated, setStoreEmissionData]);
-  console.log("Emission data in transport :: ", emissionData)
+
+  // console.log("Emission data in transport :: ", emissionData)
 
   const getVehicleImage = () => {
     const transportType = transportDetails?.transportType || "";
@@ -60,38 +70,78 @@ const TransportCalculatorRight = ({
     return "/car.png";
   };
 
-  const handleViewDashboard = () => {
+  const handleViewDashboard = async () => {
     if (showDashboard) {
       setShowDashboard(false);
       return;
     }
 
-    // AI generation process
     setIsGenerating(true);
     setGenerationProgress(0);
+    setGenerationStage("Analyzing flight emissions...");
 
-    const totalTime = 4000;
-    const intervalTime = 100;
-    const steps = totalTime / intervalTime;
-    let currentStep = 0;
+    try {
+      // progress animation
+      const progressInterval = setInterval(() => {
+        setGenerationProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + Math.random() * 15;
+        });
+      }, 500);
 
-    const progressInterval = setInterval(() => {
-      currentStep++;
-      const progress = Math.min((currentStep / steps) * 100, 100);
-      setGenerationProgress(progress);
+      // stages during generation
+      setTimeout(
+        () => setGenerationStage("Calculating environmental impact..."),
+        2000
+      );
+      setTimeout(
+        () => setGenerationStage("Preparing detailed insights..."),
+        4000
+      );
 
-      if (currentStep >= steps) {
-        clearInterval(progressInterval);
+      const userId =
+        session?.user?.id?.toString() ??
+        `guest-${Math.floor(100000 + Math.random() * 900000)}`;
+
+      console.log("User ID :: ", userId);
+
+      const aiAnalysisData = await fetchCarbonEmissionDetailsInTransport(
+        emissionData,
+        userId
+      );
+
+      // Complete progress
+      clearInterval(progressInterval);
+      setGenerationProgress(100);
+      setGenerationStage("Analysis complete!");
+
+      // Set the AI analysis data in parent component
+      setAiAnalysisData(aiAnalysisData);
+
+      setTimeout(() => {
         setIsGenerating(false);
         setShowDashboard(true);
         setTimeout(() => {
           scrollToDashboard();
         }, 100);
-      }
-    }, intervalTime);
+      }, 1000);
+    } catch (error) {
+      console.error("Error generating analysis:", error);
+      setGenerationStage("Error generating analysis. Please try again.");
+      setGenerationProgress(0);
+      setTimeout(() => {
+        setIsGenerating(false);
+      }, 2000);
+    }
   };
 
-  const totalEmission = emissionData?.result?.data?.co2e_mt || 0;
+  // emission data correctly from typeResult
+  const typeEmissionData = emissionData?.typeResult?.result?.data;
+
+  const totalEmission = typeEmissionData?.co2e_mt || 0;
 
   return (
     <>
@@ -168,12 +218,14 @@ const TransportCalculatorRight = ({
             <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-4 mb-3">
               <p className="text-sm text-muted-foreground">
                 <span className="font-semibold">Vehicle Type: </span>
-                {transportDetails?.transportType || "N/A"}
+                {transportDetails?.transportType ||
+                  typeEmissionData?.vehicle_type ||
+                  "N/A"}
               </p>
               <p className="text-sm text-muted-foreground">
                 <span className="font-semibold">Distance: </span>
-                {emissionData?.result?.data?.distance_value || 0}{" "}
-                {emissionData?.result?.data?.distance_unit || "km"}
+                {typeEmissionData?.distance_value || 0}{" "}
+                {typeEmissionData?.distance_unit || "km"}
               </p>
             </div>
 
@@ -219,15 +271,7 @@ const TransportCalculatorRight = ({
                     </div>
 
                     <p className="text-xs text-muted-foreground">
-                      {generationProgress < 30 &&
-                        "Analyzing transport emissions..."}
-                      {generationProgress >= 30 &&
-                        generationProgress < 60 &&
-                        "Calculating environmental impact..."}
-                      {generationProgress >= 60 &&
-                        generationProgress < 90 &&
-                        "Preparing detailed insights..."}
-                      {generationProgress >= 90 && "Almost ready..."}
+                      {generationStage}
                     </p>
                   </div>
                 </div>
