@@ -12,6 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { VehicleComboBox } from "@/components/ui/VehicleComboBox";
+import { useSession } from "next-auth/react";
 
 const TransportCalculatorLeft = ({
   setCalculated,
@@ -25,6 +27,12 @@ const TransportCalculatorLeft = ({
   const [distanceUnit, setDistanceUnit] = useState("km");
   const [vehicleCategory, setVehicleCategory] = useState("cars");
   const [vehicleTypes, setVehicleTypes] = useState([]);
+
+  const [vehicleMakes, setVehicleMakes] = useState([]);
+  const [vehicleModels, setVehicleModels] = useState([]);
+  const [selectedMake, setSelectedMake] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const { data: session } = useSession();
 
   // Vehicle categories
   const vehicleCategories = [
@@ -110,40 +118,106 @@ const TransportCalculatorLeft = ({
     }
   }, [vehicleCategory]);
 
+  useEffect(() => {
+    const fetchMakes = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/api/carbon/transportAPI/get-makes`
+        );
+        const data = await res.json();
+        const makes =
+          data?.result?.data?.map((m) => ({ value: m.make, label: m.make })) ||
+          [];
+        setVehicleMakes(makes);
+      } catch (err) {
+        console.error("Error fetching vehicle makes:", err);
+      }
+    };
+    fetchMakes();
+  }, []);
+
+  // Fetch models when make is selected
+  useEffect(() => {
+    const fetchModels = async () => {
+      if (!selectedMake) return;
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/api/carbon/transportAPI/get-models-by-make?make=${selectedMake}`
+        );
+        const data = await res.json();
+        const models =
+          data?.result?.data?.map((m) => ({
+            value: m.model,
+            label: m.model,
+          })) || [];
+        setVehicleModels(models);
+      } catch (err) {
+        console.error("Error fetching vehicle models:", err);
+      }
+    };
+    fetchModels();
+  }, [selectedMake]);
+
   const handleCalculate = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const requestData = {
+      // type/fuel calculation
+      const requestDataType = {
         vehicle_type: transportDetails.transportType,
-        fuel_type:
-          vehicleCategory === "train" ? "Diesel" : transportDetails.fuelType,
+        fuel_type: transportDetails.fuelType,
         distance_value: transportDetails.distance,
         distance_unit: distanceUnit,
       };
 
-      const response = await fetch(
+      const typeRes = await fetch(
         `${process.env.NEXT_PUBLIC_API}/api/carbon/transportAPI/carbon-emission-by-vehicle-type/`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestDataType),
         }
       );
 
-      if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
+      if (!typeRes.ok) throw new Error(`Type API failed: ${typeRes.status}`);
+      const typeResult = await typeRes.json();
+
+      // Model-based calculation
+      let modelResult = null;
+
+      const userId =
+        session?.user?.id?.toString() ??
+        `guest-${Math.floor(100000 + Math.random() * 900000)}`;
+
+      if (selectedMake && selectedModel) {
+        const requestDataModel = {
+          user_id: userId,
+          vehicle_make: selectedMake,
+          vehicle_model: selectedModel,
+          distance_value: transportDetails.distance,
+          distance_unit: distanceUnit,
+        };
+
+        const modelRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/api/carbon/transportAPI/carbon-emission-by-vehicle-model/`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestDataModel),
+          }
+        );
+
+        if (!modelRes.ok)
+          throw new Error(`Model API failed: ${modelRes.status}`);
+        modelResult = await modelRes.json();
       }
 
-      const result = await response.json();
-      setEmissionData(result);
+      setEmissionData({ typeResult, modelResult });
       setCalculated(true);
-    } catch (error) {
-      console.error("Error calculating emissions:", error);
-      setError(error.message || "Failed to calculate emissions");
+    } catch (err) {
+      console.error("Error calculating emissions:", err);
+      setError(err.message || "Failed to calculate emissions");
     } finally {
       setLoading(false);
     }
@@ -270,6 +344,31 @@ const TransportCalculatorLeft = ({
           </div>
         </div>
       )}
+
+      <VehicleComboBox
+        label="Vehicle Make"
+        placeholder="Select Make"
+        searchPlaceholder="Search makes..."
+        emptyText="No makes found"
+        options={vehicleMakes}
+        value={selectedMake}
+        onSelect={(val) => {
+          setSelectedMake(val);
+          setSelectedModel("");
+        }}
+      />
+
+      {/* Vehicle Model ComboBox */}
+      <VehicleComboBox
+        label="Vehicle Model"
+        placeholder="Select Model"
+        searchPlaceholder="Search models..."
+        emptyText="No models found"
+        options={vehicleModels}
+        value={selectedModel}
+        onSelect={setSelectedModel}
+        disabled={!selectedMake}
+      />
 
       {/* Distance Input */}
       <div>
