@@ -380,7 +380,7 @@ export function AdditionalServices({
                             {totalEmission}
                           </div>
                           <div className="text-xs text-gray-600">
-                            MT CO₂e total
+                            Metric tons CO₂e total
                           </div>
                         </div>
                         <div>
@@ -435,7 +435,7 @@ export function AdditionalServices({
                   <div
                     className={`p-6 rounded-xl transition-all duration-300 ${
                       selectedServices.carbonOffset
-                        ? "bg-green-100 border-2 border-green-400"
+                        ? "bg-green-50 border-2 border-green-300"
                         : "bg-gray-50 border border-gray-200"
                     }`}
                   >
@@ -583,7 +583,6 @@ export function AdditionalServices({
                   ).toFixed(2)}
                 </div>
                 <div className="text-sm text-gray-600">
-                  Total for all passengers
                   {calculateServicesTotal() > 0 && (
                     <div className="text-xs text-green-600">
                       +${calculateServicesTotal()} additional services included

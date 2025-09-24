@@ -172,69 +172,66 @@ const OffsetSuccessPage = () => {
             ) : successData ? (
               <>
                 {/* Certification Details */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6"
-                >
-                  <h3 className="font-bold text-xl text-[#163820] mb-4 flex items-center gap-2">
-                    <Award className="text-green-600" size={24} />
-                    Your Carbon Offset Certificate
-                  </h3>
+                {/* Certification Details */}
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.1 }}
+  className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6"
+>
+  <h3 className="font-bold text-xl text-[#163820] flex items-center gap-2">
+    <Award className="text-primary" size={24} />
+    Your Carbon Offset Certificate
+  </h3>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                    <div className="space-y-4">
-                      <div>
-                        <span className="text-gray-600">
-                          Certification Name:
-                        </span>
-                        <p className="font-semibold text-[#163820]">
-                          {successData.certification_name}
-                        </p>
-                      </div>
+    {/* Disclaimer */}
+  <p className="mt-2 text-xs text-gray-600 italic mb-4">
+    Disclaimer: Currently we are issuing only test certificates, not the official ones.
+  </p>
 
-                      <div>
-                        <span className="text-gray-600">Project:</span>
-                        <p className="font-semibold text-[#163820]">
-                          {successData.project_name}
-                        </p>
-                      </div>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+    <div className="space-y-4">
+      <div>
+        <span className="text-gray-600">Certification Name:</span>
+        <p className="font-semibold text-[#163820]">
+          {successData.certification_name}
+        </p>
+      </div>
 
-                      <div>
-                        <span className="text-gray-600">Gold Standard:</span>
-                        <p className="font-semibold text-green-600 flex items-center gap-1">
-                          <BadgeCheck size={16} />
-                          {successData.gold_standard_confirmation}
-                        </p>
-                      </div>
-                    </div>
+      <div>
+        <span className="text-gray-600">Project:</span>
+        <p className="font-semibold text-[#163820]">
+          {successData.project_name}
+        </p>
+      </div>
 
-                    <div className="space-y-4">
-                      <div>
-                        <span className="text-gray-600">Confirmation #:</span>
-                        <p className="font-semibold text-[#163820]">
-                          {successData.confirmation_number}
-                        </p>
-                      </div>
+      <div>
+        <span className="text-gray-600">Gold Standard:</span>
+        <p className="font-semibold text-primary flex items-center gap-1">
+          <BadgeCheck size={16} />
+          {successData.gold_standard_confirmation}
+        </p>
+      </div>
+    </div>
 
-                      <div>
-                        <span className="text-gray-600">Certificate #:</span>
-                        <p className="font-semibold text-[#163820]">
-                          {successData.certificate_number}
-                        </p>
-                      </div>
+    <div className="space-y-4">
+      <div>
+        <span className="text-gray-600">Confirmation #:</span>
+        <p className="font-semibold text-[#163820]">
+          {successData.confirmation_number}
+        </p>
+      </div>
 
-                      <div>
-                        <span className="text-gray-600">Expiration Date:</span>
-                        <p className="font-semibold text-[#163820] flex items-center gap-1">
-                          <Calendar size={16} />
-                          {formatDate(successData.carbon_expiration_date)}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+      <div>
+        <span className="text-gray-600">Certificate #:</span>
+        <p className="font-semibold text-[#163820]">
+          {successData.certificate_number}
+        </p>
+      </div>
+    </div>
+  </div>
+</motion.div>
+
 
                 {/* Pricing Summary */}
                 <motion.div
@@ -244,7 +241,7 @@ const OffsetSuccessPage = () => {
                   className="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-2xl p-6"
                 >
                   <h3 className="font-bold text-xl text-[#163820] mb-4 flex items-center gap-2">
-                    <DollarSign className="text-emerald-600" size={24} />
+                    <DollarSign className="text-primary" size={24} />
                     Payment Summary
                   </h3>
 
@@ -262,9 +259,9 @@ const OffsetSuccessPage = () => {
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Tonnes Offset:</span>
+                      <span className="text-gray-600">Total Offset Amount:</span>
                       <span className="font-semibold text-[#163820]">
-                        {successData.tonnes_offset} tonnes
+                        {successData.tonnes_offset} metric tons
                       </span>
                     </div>
 
@@ -272,7 +269,7 @@ const OffsetSuccessPage = () => {
                       <span className="font-bold text-[#163820]">
                         Total Amount Paid:
                       </span>
-                      <span className="font-bold text-green-600 text-2xl">
+                      <span className="font-bold text-primary text-2xl">
                         ${successData.pricing.total_cost_usd.toFixed(2)}
                       </span>
                     </div>
@@ -287,7 +284,7 @@ const OffsetSuccessPage = () => {
                   className="bg-green-50 border border-green-200 rounded-2xl p-6"
                 >
                   <h3 className="font-bold text-xl text-[#163820] mb-4 flex items-center gap-2">
-                    <FileText className="text-emerald-600" size={24} />
+                    <FileText className="text-primary" size={24} />
                     Next Steps
                   </h3>
                   <p className="text-gray-600">

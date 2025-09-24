@@ -118,13 +118,13 @@ const DonationModal = ({
                     <div className="flex justify-between">
                       <span>CO₂e Offset:</span>
                       <span className="font-semibold text-[#163820]">
-                        {emissionValue} tonne{emissionValue !== 1 ? "s" : ""}
+                        {emissionValue} metric ton{emissionValue !== 1 ? "s" : ""}
                       </span>
                     </div>
                     {quoteData && (
                       <>
                         <div className="flex justify-between">
-                          <span>Price per tonne:</span>
+                          <span>Price per metric ton:</span>
                           <span className="font-semibold text-[#163820]">
                             $
                             {parseFloat(

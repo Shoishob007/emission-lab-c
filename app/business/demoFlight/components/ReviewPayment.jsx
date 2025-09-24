@@ -374,14 +374,14 @@ export function ReviewPayment({ bookingData, onComplete, onBack, canGoBack }) {
                     </Label>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                {/* <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
                   <Shield className="h-5 w-5 text-blue-600" />
                   <div className="text-sm text-blue-700">
                     <span className="font-medium">Secure Payment:</span> Your
                     payment information is protected with 256-bit SSL encryption
                     and is PCI DSS compliant.
                   </div>
-                </div>
+                </div> */}
               </div>
             </Card>
           </div>
@@ -519,12 +519,12 @@ export function ReviewPayment({ bookingData, onComplete, onBack, canGoBack }) {
                   Secure Payment
                 </span>
               </div>
-              <Button
+              {/* <Button
                 variant="outline"
                 className="border-blue-200 text-blue-600 hover:bg-blue-50"
               >
                 Modify Booking
-              </Button>
+              </Button> */}
             </div>
             <div className="flex items-center gap-6">
               <div className="text-right">

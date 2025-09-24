@@ -124,11 +124,11 @@ const PaymentForm = ({
               {(paymentData.amount / (paymentData.price_per_ton || 1)).toFixed(
                 2
               )}{" "}
-              tonnes
+              Metric tons
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-[#767676]">Price per tonne:</span>
+            <span className="text-[#767676]">Price per metric ton:</span>
             <span className="font-semibold text-[#163820]">
               ${(paymentData.price_per_ton || 0).toFixed(2)}
             </span>

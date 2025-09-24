@@ -439,13 +439,15 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
               improving lives worldwide.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-not-allowed">
+              <Link href={"/offsetPage"}>
+              <button className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center">
                 <ArrowUp className="h-5 w-5 mr-2" />
                 Offset Now
               </button>
+              </Link>
               <button
                 onClick={() => setShowDashboard((prev) => !prev)}
-                className="bg-black/30 text-white px-6 py-3 border border-gray-100 rounded-lg font-semibold hover:bg-black/50 transition-colors flex items-center justify-center cursor-not-allowed"
+                className="bg-black/30 text-white px-6 py-3 border border-gray-100 rounded-lg font-semibold hover:bg-black/50 transition-colors flex items-center justify-center"
               >
                 <Clock className="h-5 w-5 mr-2" />
                 Remind Me Later

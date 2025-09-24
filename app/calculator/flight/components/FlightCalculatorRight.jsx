@@ -193,12 +193,12 @@ const FlightCalculatorRight = ({
                   <div className="flex items-center gap-3">
                     <div>
                       <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Your Carbon Offset Value
+                        Your Carbon Offset Amount
                       </h4>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-bold text-green-600 dark:text-green-400">
+                    <p className="text-lg font-bold text-primary dark:text-green-400">
                       ${(totalEmission * parseFloat(pricePerTon)).toFixed(2)}
                     </p>
                   </div>
