@@ -224,7 +224,7 @@ const TransportCalculatorLeft = ({
   };
 
   return (
-    <div className="space-y-4 min-w-[450px]">
+    <div className="space-y-4">
       {/* Category Selection */}
       <div>
         {/* <label className="block text-sm font-semibold mb-2 text-muted-foreground">
@@ -346,10 +346,10 @@ const TransportCalculatorLeft = ({
       )}
 
       <VehicleComboBox
-        label="Vehicle Make"
-        placeholder="Select Make"
-        searchPlaceholder="Search makes..."
-        emptyText="No makes found"
+        label="Vehicle Brand"
+        placeholder="Select Brand"
+        searchPlaceholder="Search brands..."
+        emptyText="No brands found"
         options={vehicleMakes}
         value={selectedMake}
         onSelect={(val) => {

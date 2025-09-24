@@ -232,9 +232,9 @@ export default function Calculator() {
       />
       {/* content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-10">
-        <div className="py-8">
+        <div className="py-2 sm:py-8">
           {/* Tabs */}
-          <div className="mb-8">
+          <div className="mb-2 sm:mb-8">
             <ExpandableTabs
               tabs={tabs}
               activeTabIndex={tabs.findIndex((tab) => tab.value === activeTab)}
@@ -251,7 +251,7 @@ export default function Calculator() {
                 {activeTab === "flight" && "Put Your Flight Details"}
                 {activeTab === "transport" && "Put Your Journey Details"}
                 {activeTab === "hotel" && "Put Your Hotel Details"}
-                {activeTab === "DeepSea" && "Put Your Ship and Journey Details"}
+                {activeTab === "DeepSea" && "Put Your Journey Details"}
               </h2>
               <div className="space-y-6">{renderCalculatorContent()}</div>
             </div>

@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calculator, Scale, Ruler, Ship } from "lucide-react";
+import { Calculator, Scale, Ruler } from "lucide-react";
 import { useSession } from "next-auth/react";
 import {
   Select,
@@ -12,7 +12,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import portsData from "sea-ports"; // sea-ports library
-import { ShipCombobox } from "@/components/ui/portlist-combobox";
+import { ShipCombobox } from "@/components/ui/portlist-combobox.tsx";
+
+function haversineDistance(coord1, coord2) {
+  const R = 6371; // Earth radius in km
+  const toRad = (deg) => (deg * Math.PI) / 180;
+
+  const dLat = toRad(coord2.lat - coord1.lat);
+  const dLon = toRad(coord2.lon - coord1.lon);
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(coord1.lat)) *
+      Math.cos(toRad(coord2.lat)) *
+      Math.sin(dLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // distance in km
+}
 
 const ShipCalculatorLeft = ({
   setCalculated,
@@ -25,32 +42,22 @@ const ShipCalculatorLeft = ({
   const { data: session } = useSession();
   const [error, setError] = useState(null);
 
-  // Convert portsData to an array suitable for ComboBox
-  const portsList = Object.values(portsData)
-  .filter((port) => port.coordinates && port.coordinates.length === 2) // ✅ only valid coords
+  console.log("port data :: ", portsData)
+
+  // Convert portsData to ComboBox list
+const portsList = Object.values(portsData.JSON)
+  .filter((port) => port.coordinates && port.coordinates.length === 2)
   .map((port) => ({
-    value: port.UNLOCODE,
+    value: port.unlocs?.[0] || port.code || port.name, // UNLOCODE preferred
     label: port.name,
-    lat: port.coordinates[1], // latitude
-    lon: port.coordinates[0], // longitude
+    lat: port.coordinates[1], // latitude is second element
+    lon: port.coordinates[0], // longitude is first element
   }));
 
-  // Calculate distance using Haversine formula
-  const calculateDistance = (portA, portB) => {
-    if (!portA || !portB) return 0;
-    const R = 6371; // km
-    const dLat = ((portB.lat - portA.lat) * Math.PI) / 180;
-    const dLon = ((portB.lon - portA.lon) * Math.PI) / 180;
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos((portA.lat * Math.PI) / 180) *
-        Math.cos((portB.lat * Math.PI) / 180) *
-        Math.sin(dLon / 2) ** 2;
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // km
-  };
 
-  // Auto-calculate distance when both ports are selected
+    console.log("Port List : ", portsList)
+
+  // Auto-calculate distance using haversineDistance when ports change
   useEffect(() => {
     const fromPort = portsList.find(
       (p) => p.value === freightDetails.port_of_loading
@@ -60,7 +67,7 @@ const ShipCalculatorLeft = ({
     );
 
     if (fromPort && toPort) {
-      const dist = calculateDistance(fromPort, toPort);
+      const dist = haversineDistance(fromPort, toPort);
       setFreightDetails((prev) => ({
         ...prev,
         distance_value: parseFloat(dist.toFixed(2)),
@@ -85,7 +92,7 @@ const ShipCalculatorLeft = ({
         cluster_name: freightDetails.cluster_name || null,
       };
 
-      console.log("Request BOdy :: ", requestData)
+      console.log("Request Body :: ", requestData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API}/api/carbon/freightAPI/carbon-emission/`,
@@ -103,7 +110,7 @@ const ShipCalculatorLeft = ({
       }
 
       const result = await response.json();
-      console.log("Result :: ", result)
+      console.log("Result :: ", result);
       setEmissionData(result);
       setCalculated(true);
     } catch (error) {
@@ -114,7 +121,7 @@ const ShipCalculatorLeft = ({
   };
 
   return (
-    <div className="space-y-4 min-w-[450px]">
+    <div className="space-y-4">
       {/* Transport Mode */}
       <div>
         <label className="block text-sm font-semibold mb-2 text-muted-foreground">
@@ -148,7 +155,7 @@ const ShipCalculatorLeft = ({
       </div>
 
       {/* Port Selection */}
-      <div className="grid md:grid-cols-2 gap-4">
+      {/* <div className="grid md:grid-cols-2 gap-4">
         <div>
           <ShipCombobox
             label="Port of Loading"
@@ -158,7 +165,10 @@ const ShipCalculatorLeft = ({
             options={portsList}
             value={freightDetails.port_of_loading || ""}
             onSelect={(val) =>
-              setFreightDetails((prev) => ({ ...prev, port_of_loading: val }))
+              setFreightDetails((prev) => ({
+                ...prev,
+                port_of_loading: val,
+              }))
             }
           />
         </div>
@@ -171,11 +181,14 @@ const ShipCalculatorLeft = ({
             options={portsList}
             value={freightDetails.destination_port || ""}
             onSelect={(val) =>
-              setFreightDetails((prev) => ({ ...prev, destination_port: val }))
+              setFreightDetails((prev) => ({
+                ...prev,
+                destination_port: val,
+              }))
             }
           />
         </div>
-      </div>
+      </div> */}
 
       {/* Freight Weight */}
       <div>
@@ -202,7 +215,7 @@ const ShipCalculatorLeft = ({
         </div>
       </div>
 
-      {/* Distance (manual if ports not selected) */}
+      {/* Distance */}
       <div>
         <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Distance (km)
@@ -222,7 +235,9 @@ const ShipCalculatorLeft = ({
               }
               placeholder="Enter distance"
               className="bg-transparent focus:outline-none w-full placeholder:text-muted-foreground"
-              disabled={freightDetails.port_of_loading && freightDetails.destination_port}
+              disabled={
+                freightDetails.port_of_loading && freightDetails.destination_port
+              }
             />
           </div>
         </div>

@@ -461,7 +461,7 @@ export default function FlightSearch() {
                         onMouseLeave={() => setHoveredEmission(null)}
                       >
                         <span className="text-green-600 font-semibold">
-                          {flight.carbonEmission} MT CO₂e
+                          {flight.carbonEmission} Metric tons CO₂e
                         </span>
                         <Info className="h-3 w-3 text-green-600" />
 
@@ -472,7 +472,7 @@ export default function FlightSearch() {
                             </div>
                             <div>
                               This flight will emit approximately{" "}
-                              {flight.carbonEmission} MT of CO₂ per passenger.
+                              {flight.carbonEmission} Metric tons of CO₂ per passenger.
                             </div>
                           </div>
                         )}

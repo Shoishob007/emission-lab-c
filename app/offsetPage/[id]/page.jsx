@@ -160,7 +160,7 @@ export default function ProjectDetailsPage({ params }) {
                   Your {calculationType} footprint:
                 </p>
                 <p className="text-white font-bold text-xl">
-                  {getFormattedEmission()} tonnes CO₂e
+                  {getFormattedEmission()} MT of CO₂e
                 </p>
               </div>
             </div>
@@ -252,7 +252,7 @@ export default function ProjectDetailsPage({ params }) {
                       project.price_per_ton || project.donationValue
                     )}
                   </div>
-                  <div className="text-[#767676] text-lg">per tonne CO₂e</div>
+                  <div className="text-[#767676] text-lg">per metric ton CO₂e</div>
                 </div>
 
                 {/* current emission amount to offset */}
@@ -262,7 +262,7 @@ export default function ProjectDetailsPage({ params }) {
                       Offsetting your {calculationType} emissions:
                     </p>
                     <p className="text-2xl font-bold text-orange-400">
-                      {getFormattedEmission()} tonnes CO₂e
+                      {getFormattedEmission()} MT of CO₂e
                     </p>
                     <p className="text-lg font-semibold text-[#163820] mt-2">
                       Total:{" "}
@@ -279,7 +279,7 @@ export default function ProjectDetailsPage({ params }) {
                   className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
                 >
                   <CheckCircle size={24} />
-                  Offset {getFormattedEmission()} tonnes
+                  Offset {getFormattedEmission()} MT
                 </button>
 
                 {/* <div className="mt-6 pt-6 border-t border-gray-100">

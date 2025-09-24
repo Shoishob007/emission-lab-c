@@ -241,7 +241,7 @@ const HotelCalculatorLeft = ({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 min-w-[450px]">
+      <div className="grid grid-cols-1 gap-4">
         <ComboBox
           options={filteredCountries}
           value={hotelDetails.country_code}

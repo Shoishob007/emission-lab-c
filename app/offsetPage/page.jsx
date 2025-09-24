@@ -486,7 +486,7 @@ export default function OffsetPage() {
           </div>
         </div>
         {/* HOW TO OFFSET - Timeline */}
-        <div className="w-full flex flex-col items-center mb-20">
+        {/* <div className="w-full flex flex-col items-center mb-20">
           <div className="max-w-4xl w-full">
             <div className="flex items-center justify-center gap-2 mb-2">
               <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
@@ -502,12 +502,12 @@ export default function OffsetPage() {
             </h2>
             <OffsetTimeline steps={flow} />
           </div>
-        </div>
+        </div> */}
         {/* OUR OFFSET PROJECTS */}
         <div className="mb-16">
           <div className="flex flex-col items-center">
             {/* Header Section */}
-            <div className="text-center mb-10">
+            <div className="text-center mb-4">
               <div className="flex items-center justify-center gap-2 mb-3">
                 <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
                   <Globe2 size={22} strokeWidth={2} className="text-primary" />
@@ -516,13 +516,13 @@ export default function OffsetPage() {
                   Our Projects
                 </span>
               </div>
-              <h2 className="font-bold text-[#163820] text-2xl sm:text-3xl mb-4 capitalize">
+              {/* <h2 className="font-bold text-[#163820] text-2xl sm:text-3xl mb-4 capitalize">
                 Verified.{" "}
                 <span className="text-[#37c048]">Transparent. Impactful</span>
-              </h2>
+              </h2> */}
             </div>
             {/* Project Features - Centered */}
-            <div className="bg-green-50/50 border border-green-100 rounded-2xl px-2 py-4 sm:p-6 mb-8 sm:mb-12 max-w-4xl mx-auto">
+            {/* <div className="bg-green-50/50 border border-green-100 rounded-2xl px-2 py-4 sm:p-6 mb-8 sm:mb-12 max-w-4xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ProjectFeatureItem>
                   Verified by internationally recognized global climate
@@ -541,7 +541,7 @@ export default function OffsetPage() {
                   offset
                 </ProjectFeatureItem>
               </div>
-            </div>
+            </div> */}
             {/* Default Projects Section */}
             {defaultProjects.length > 0 && (
               <div className="w-full mb-6">

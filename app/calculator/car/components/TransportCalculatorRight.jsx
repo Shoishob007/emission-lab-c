@@ -24,7 +24,7 @@ const TransportCalculatorRight = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [generationStage, setGenerationStage] = useState("");
-  console.log("emissionData :: ", emissionData);
+  // console.log("emissionData :: ", emissionData);
   const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
   const { data: session } = useSession();
 
@@ -238,7 +238,7 @@ const TransportCalculatorRight = ({
                   <div className="flex items-center gap-3">
                     <div>
                       <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Your Carbon Offset Value
+                        Your Carbon Offset Amount
                       </h4>
                     </div>
                   </div>
