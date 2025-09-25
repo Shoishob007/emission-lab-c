@@ -440,7 +440,7 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href={"/offsetPage"}>
-              <button className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center">
+              <button disabled className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-not-allowed">
                 <ArrowUp className="h-5 w-5 mr-2" />
                 Offset Now
               </button>
