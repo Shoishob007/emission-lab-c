@@ -19,38 +19,38 @@ import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
 import { useSession } from "next-auth/react";
 
-const flow = [
-  {
-    icon: <Settings className="w-7 h-7 text-secondary" />,
-    color: "text-gray-700",
-    title: "Calculate",
-    desc: "Estimate your emissions for free.",
-  },
-  {
-    icon: <BadgeCheck className="w-7 h-7 text-secondary" />,
-    color: "text-gray-700",
-    title: "Review",
-    desc: "Get tailored offset suggestions.",
-  },
-  {
-    icon: <Globe2 className="w-7 h-7 text-secondary" />,
-    color: "text-gray-700",
-    title: "Choose",
-    desc: "Pick a project or let us auto-match.",
-  },
-  {
-    icon: <HandCoins className="w-7 h-7 text-secondary" />,
-    color: "text-gray-700",
-    title: "Offset",
-    desc: "Support with one-time or recurring payment.",
-  },
-  {
-    icon: <CheckCircle2 className="w-7 h-7 text-secondary" />,
-    color: "text-gray-700",
-    title: "Get Certified",
-    desc: "Receive certificates & track offset history.",
-  },
-];
+// const flow = [
+//   {
+//     icon: <Settings className="w-7 h-7 text-secondary" />,
+//     color: "text-gray-700",
+//     title: "Calculate",
+//     desc: "Estimate your emissions for free.",
+//   },
+//   {
+//     icon: <BadgeCheck className="w-7 h-7 text-secondary" />,
+//     color: "text-gray-700",
+//     title: "Review",
+//     desc: "Get tailored offset suggestions.",
+//   },
+//   {
+//     icon: <Globe2 className="w-7 h-7 text-secondary" />,
+//     color: "text-gray-700",
+//     title: "Choose",
+//     desc: "Pick a project or let us auto-match.",
+//   },
+//   {
+//     icon: <HandCoins className="w-7 h-7 text-secondary" />,
+//     color: "text-gray-700",
+//     title: "Offset",
+//     desc: "Support with one-time or recurring payment.",
+//   },
+//   {
+//     icon: <CheckCircle2 className="w-7 h-7 text-secondary" />,
+//     color: "text-gray-700",
+//     title: "Get Certified",
+//     desc: "Receive certificates & track offset history.",
+//   },
+// ];
 
 function WhyMattersItem({ children }) {
   return (
@@ -61,83 +61,83 @@ function WhyMattersItem({ children }) {
   );
 }
 
-function ProjectFeatureItem({ children }) {
-  return (
-    <div className="flex items-center gap-3 text-[#767676] text-base">
-      <ArrowRight
-        className="text-btn-primary min-w-5 flex-shrink-0"
-        size={18}
-      />
-      <span>{children}</span>
-    </div>
-  );
-}
+// function ProjectFeatureItem({ children }) {
+//   return (
+//     <div className="flex items-center gap-3 text-[#767676] text-base">
+//       <ArrowRight
+//         className="text-btn-primary min-w-5 flex-shrink-0"
+//         size={18}
+//       />
+//       <span>{children}</span>
+//     </div>
+//   );
+// }
 
-function OffsetTimeline({ steps }) {
-  return (
-    <div className="offset-timeline w-full relative mt-4">
-      {/* Mobile Layout */}
-      <div className="flex flex-col md:hidden">
-        {steps.map((step, i) => (
-          <div key={i} className="flex items-start gap-4 w-full mb-8">
-            <div className="flex flex-col items-center">
-              <span className="mb-2">{step.icon}</span>
-              {i !== steps.length - 1 && (
-                <span
-                  className="w-1 h-16"
-                  style={{
-                    background:
-                      "linear-gradient(180deg,#16bf2f 40%,#16bf2f 100%)",
-                    zIndex: 0,
-                  }}
-                />
-              )}
-            </div>
-            {/* Content column */}
-            <div className="flex-1 pt-1">
-              <div className={`font-bold ${step.color} text-lg mb-1`}>
-                {step.title}
-              </div>
-              <div className="text-[#767676] text-sm">{step.desc}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* Desktop Layout */}
-      <div className="hidden md:flex">
-        {steps.map((step, i) => (
-          <div
-            key={i}
-            className="relative flex flex-col items-center flex-1 min-w-[120px]"
-          >
-            <div className="relative flex flex-col items-center">
-              <span className="mb-2">{step.icon}</span>
-              {/* Horizontal line */}
-              {i !== steps.length - 1 && (
-                <span
-                  className="absolute left-full top-1/2 -translate-y-1/2 h-1 w-[100px] md:w-[140px]"
-                  style={{
-                    background:
-                      "linear-gradient(90deg,#e2f0e4 40%,#FFA726 100%)",
-                    zIndex: 0,
-                  }}
-                />
-              )}
-            </div>
-            <div
-              className={`font-bold ${step.color} text-lg text-center mb-1 mt-2`}
-            >
-              {step.title}
-            </div>
-            <div className="text-[#767676] text-sm text-center max-w-[170px]">
-              {step.desc}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+// function OffsetTimeline({ steps }) {
+//   return (
+//     <div className="offset-timeline w-full relative mt-4">
+//       {/* Mobile Layout */}
+//       <div className="flex flex-col md:hidden">
+//         {steps.map((step, i) => (
+//           <div key={i} className="flex items-start gap-4 w-full mb-8">
+//             <div className="flex flex-col items-center">
+//               <span className="mb-2">{step.icon}</span>
+//               {i !== steps.length - 1 && (
+//                 <span
+//                   className="w-1 h-16"
+//                   style={{
+//                     background:
+//                       "linear-gradient(180deg,#16bf2f 40%,#16bf2f 100%)",
+//                     zIndex: 0,
+//                   }}
+//                 />
+//               )}
+//             </div>
+//             {/* Content column */}
+//             <div className="flex-1 pt-1">
+//               <div className={`font-bold ${step.color} text-lg mb-1`}>
+//                 {step.title}
+//               </div>
+//               <div className="text-[#767676] text-sm">{step.desc}</div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//       {/* Desktop Layout */}
+//       <div className="hidden md:flex">
+//         {steps.map((step, i) => (
+//           <div
+//             key={i}
+//             className="relative flex flex-col items-center flex-1 min-w-[120px]"
+//           >
+//             <div className="relative flex flex-col items-center">
+//               <span className="mb-2">{step.icon}</span>
+//               {/* Horizontal line */}
+//               {i !== steps.length - 1 && (
+//                 <span
+//                   className="absolute left-full top-1/2 -translate-y-1/2 h-1 w-[100px] md:w-[140px]"
+//                   style={{
+//                     background:
+//                       "linear-gradient(90deg,#e2f0e4 40%,#FFA726 100%)",
+//                     zIndex: 0,
+//                   }}
+//                 />
+//               )}
+//             </div>
+//             <div
+//               className={`font-bold ${step.color} text-lg text-center mb-1 mt-2`}
+//             >
+//               {step.title}
+//             </div>
+//             <div className="text-[#767676] text-sm text-center max-w-[170px]">
+//               {step.desc}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
 
 function FeaturedProjectCard({
   project,
