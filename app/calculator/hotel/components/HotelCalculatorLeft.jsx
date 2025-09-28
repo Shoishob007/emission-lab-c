@@ -121,7 +121,7 @@ const HotelCalculatorLeft = ({
 
     try {
       const response = await fetch(
-        `https://secure.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=1000&username=shoishob554`
+        `https://secure.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=500&username=shoishob554`
       );
 
       if (!response.ok) throw new Error("Failed to fetch cities");
