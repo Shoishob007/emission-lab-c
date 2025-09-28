@@ -126,7 +126,9 @@ const HotelCalculatorLeft = ({
       if (!response.ok) throw new Error("Failed to fetch cities");
 
       const data = await response.json();
+      console.log("City data response :: ", data)
       const citiesList = data.geonames.map((city) => city.name);
+      console.log("City name response :: ", citiesList)
 
       setCities(citiesList.map((city) => ({ value: city, label: city })));
       setFilteredCities(
@@ -190,6 +192,8 @@ const HotelCalculatorLeft = ({
     }, 300),
     [cities]
   );
+
+  console.log("Cities ::  ", cities)
 
   const handleCalculate = async () => {
     try {
@@ -293,50 +297,50 @@ const HotelCalculatorLeft = ({
       </div>
 
       {/* Hotel Rating */}
-<div>
-      <label className="block text-sm font-semibold mb-2 text-muted-foreground">
-        Hotel Rating
-      </label>
-      <div className="flex gap-1 sm:gap-2">
-        {[1, 2, 3, 4, 5].map((rating) => {
-          const filled =
-            hover >= rating || hotelDetails.hotel_rating >= rating.toString();
+      <div>
+        <label className="block text-sm font-semibold mb-2 text-muted-foreground">
+          Hotel Rating
+        </label>
+        <div className="flex gap-1 sm:gap-2">
+          {[1, 2, 3, 4, 5].map((rating) => {
+            const filled =
+              hover >= rating || hotelDetails.hotel_rating >= rating.toString();
 
-          return (
-            <button
-              key={rating}
-              type="button"
-              className="focus:outline-none"
-              onClick={() =>
-                setHotelDetails((prev) => ({
-                  ...prev,
-                  hotel_rating: rating.toString(),
-                }))
-              }
-              onMouseEnter={() => setHover(rating)}
-              onMouseLeave={() => setHover(null)}
-            >
-              <Star
-                className={`h-7 w-7 transition-colors ${
-                  filled ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-                }`}
-              />
-            </button>
-          );
-        })}
-      </div>
+            return (
+              <button
+                key={rating}
+                type="button"
+                className="focus:outline-none"
+                onClick={() =>
+                  setHotelDetails((prev) => ({
+                    ...prev,
+                    hotel_rating: rating.toString(),
+                  }))
+                }
+                onMouseEnter={() => setHover(rating)}
+                onMouseLeave={() => setHover(null)}
+              >
+                <Star
+                  className={`h-7 w-7 transition-colors ${
+                    filled ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                  }`}
+                />
+              </button>
+            );
+          })}
+        </div>
 
-      {/* Hover or selected label */}
-      <div className="mt-2 text-sm font-medium text-muted-foreground min-h-[20px]">
-        {hover
-          ? `${hover} Star${hover > 1 ? "s" : ""}`
-          : hotelDetails.hotel_rating
-          ? `${hotelDetails.hotel_rating} Star${
-              hotelDetails.hotel_rating !== "1" ? "s" : ""
-            }`
-          : "No rating selected"}
+        {/* Hover or selected label */}
+        <div className="mt-2 text-sm font-medium text-muted-foreground min-h-[20px]">
+          {hover
+            ? `${hover} Star${hover > 1 ? "s" : ""}`
+            : hotelDetails.hotel_rating
+            ? `${hotelDetails.hotel_rating} Star${
+                hotelDetails.hotel_rating !== "1" ? "s" : ""
+              }`
+            : "No rating selected"}
+        </div>
       </div>
-    </div>
 
       {/* Number of Nights and Rooms */}
       <div className="grid grid-cols-1 gap-4">

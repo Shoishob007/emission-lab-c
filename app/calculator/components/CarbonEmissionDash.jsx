@@ -31,7 +31,11 @@ import {
 } from "@/components/ui/popover";
 import Link from "next/link";
 
-const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard }) => {
+const CarbonImpactDashboard = ({
+  emissionData,
+  aiAnalysisData,
+  setShowDashboard,
+}) => {
   const resources = [
     {
       name: "Rapid API Services",
@@ -71,10 +75,49 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
     },
   ];
 
+  function formatDynamicDuration(value, currentUnit) {
+    // Accepts a numeric value and the unit provided by the API
+    // e.g. value = 0.02, currentUnit = "years"
+
+    if (currentUnit === "years") {
+      if (value >= 1) {
+        return `${value.toFixed(1)} year${value >= 2 ? "s" : ""}`;
+      } else if (value >= 1 / 12) {
+        const months = value * 12;
+        return `${months.toFixed(1)} month${months >= 2 ? "s" : ""}`;
+      } else if (value >= 1 / 365) {
+        const days = value * 365;
+        return `${days.toFixed(0)} day${days !== 1 ? "s" : ""}`;
+      } else {
+        const hours = value * 365 * 24;
+        return `${hours.toFixed(0)} hour${hours !== 1 ? "s" : ""}`;
+      }
+    }
+
+    if (currentUnit === "months") {
+      if (value >= 12) {
+        const years = value / 12;
+        return `${years.toFixed(1)} year${years >= 2 ? "s" : ""}`;
+      } else if (value >= 1) {
+        return `${value.toFixed(1)} month${value >= 2 ? "s" : ""}`;
+      } else if (value >= 1 / 30) {
+        const days = value * 30;
+        return `${days.toFixed(0)} day${days !== 1 ? "s" : ""}`;
+      } else {
+        const hours = value * 30 * 24;
+        return `${hours.toFixed(0)} hour${hours !== 1 ? "s" : ""}`;
+      }
+    }
+
+    return `${value}`; // fallback
+  }
+
   // Use AI analysis data if available, otherwise fallback to static calculations
-  const totalEmissions = aiAnalysisData?.carbon_emissions?.co2e_mt || 
-    emissionData?.result?.data?.emissions?.co2e_mt || 
-    emissionData?.result?.data?.co2e_mt || 0;
+  const totalEmissions =
+    aiAnalysisData?.carbon_emissions?.co2e_mt ||
+    emissionData?.result?.data?.emissions?.co2e_mt ||
+    emissionData?.result?.data?.co2e_mt ||
+    0;
 
   // Fallback calculations for when AI data is not available
   const fallbackData = {
@@ -89,67 +132,69 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
 
   // Extract data from AI analysis or use fallback
   const getEmissionFootprintData = () => {
-    if (aiAnalysisData?.environmental_impact?.emission_footprint) {
-      return aiAnalysisData.environmental_impact.emission_footprint;
-    }
-    return [
-      {
-        category: "Home Energy",
-        emissions: fallbackData.homeEquivalent,
-        description: `Your footprint equals to emission of ${fallbackData.homeEquivalent} average home throughout a year. Residential emissions primarily come from electricity (60%), heating (25%), and appliances (15%).`
-      },
-      {
-        category: "Transportation",
-        emissions: fallbackData.carEquivalent,
-        description: `Your total emissions match ${fallbackData.carEquivalent} vehicles driving the average annual mileage. Transportation emissions account for nearly 30% of greenhouse gases.`
-      }
-    ];
+    return (
+      aiAnalysisData?.environmental_impact?.emission_footprint || [
+        {
+          category: "Home Energy",
+          emissions: fallbackData.homeEquivalent,
+          description: `Your footprint equals to emission of ${fallbackData.homeEquivalent} average home throughout a year. Residential emissions primarily come from electricity (60%), heating (25%), and appliances (15%).`,
+        },
+        {
+          category: "Transportation",
+          emissions: fallbackData.carEquivalent,
+          description: `Your total emissions match ${fallbackData.carEquivalent} vehicles driving the average annual mileage. Transportation emissions account for nearly 30% of greenhouse gases.`,
+        },
+      ]
+    );
   };
 
   const getCarbonOffsetData = () => {
-    if (aiAnalysisData?.environmental_impact?.carbon_offset_solutions) {
-      return aiAnalysisData.environmental_impact.carbon_offset_solutions;
-    }
-    return [
-      {
-        category: "Reforestation",
-        emissions: fallbackData.treesRequired,
-        description: `Planting ${fallbackData.treesRequired.toLocaleString()} native trees will fully offset your emissions over their 40-year lifespan. These projects restore biodiversity while creating natural carbon sinks.`
-      },
-      {
-        category: "Community Projects",
-        emissions: Math.ceil(totalEmissions * 2),
-        description: `Your offset can provide clean energy solutions for ${Math.ceil(totalEmissions * 2)} people in developing regions. Projects include efficient cookstoves and solar lanterns.`
-      }
-    ];
+    return (
+      aiAnalysisData?.environmental_impact?.carbon_offset_solutions || [
+        {
+          category: "Reforestation",
+          emissions: fallbackData.treesRequired,
+          description: `Planting ${fallbackData.treesRequired.toLocaleString()} native trees will fully offset your emissions over their 40-year lifespan. These projects restore biodiversity while creating natural carbon sinks.`,
+        },
+        {
+          category: "Community Projects",
+          emissions: Math.ceil(totalEmissions * 2),
+          description: `Your offset can provide clean energy solutions for ${Math.ceil(
+            totalEmissions * 2
+          )} people in developing regions. Projects include efficient cookstoves and solar lanterns.`,
+        },
+      ]
+    );
   };
 
   const getEnvironmentalImpactData = () => {
-    if (aiAnalysisData?.environmental_impact?.positive_environmental_impact) {
-      return aiAnalysisData.environmental_impact.positive_environmental_impact;
-    }
-    return [
-      {
-        category: "Air Quality",
-        emissions: fallbackData.airQualityImprovement,
-        description: `Offset projects may reduce particulate pollution by ${fallbackData.airQualityImprovement}% in local areas, preventing respiratory illnesses.`
-      },
-      {
-        category: "Water Saved",
-        emissions: fallbackData.waterSaved,
-        description: `Conserves ${Math.round(fallbackData.waterSaved / 1000)} thousand liters by avoiding water-intensive energy production.`
-      },
-      {
-        category: "Biodiversity",
-        emissions: fallbackData.speciesProtected,
-        description: `Protects habitat for ${fallbackData.speciesProtected} plant and animal species, with restoration projects increasing biodiversity by 35% on average.`
-      }
-    ];
+    return (
+      aiAnalysisData?.environmental_impact?.positive_environmental_impact || [
+        {
+          category: "Air Quality",
+          emissions: fallbackData.airQualityImprovement,
+          description: `Offset projects may reduce particulate pollution by ${fallbackData.airQualityImprovement}% in local areas, preventing respiratory illnesses.`,
+        },
+        {
+          category: "Water Saved",
+          emissions: fallbackData.waterSaved,
+          description: `Conserves ${Math.round(
+            fallbackData.waterSaved / 1000
+          )} thousand liters by avoiding water-intensive energy production.`,
+        },
+        {
+          category: "Biodiversity",
+          emissions: fallbackData.speciesProtected,
+          description: `Protects habitat for ${fallbackData.speciesProtected} plant and animal species, with restoration projects increasing biodiversity by 35% on average.`,
+        },
+      ]
+    );
   };
 
   const emissionFootprintData = getEmissionFootprintData();
   const carbonOffsetData = getCarbonOffsetData();
   const environmentalImpactData = getEnvironmentalImpactData();
+  console.log("environmentalImpactData Data :: ", environmentalImpactData);
 
   return (
     <div className="p-6 font-sans">
@@ -228,8 +273,10 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
                 Understanding Your Carbon Footprint
               </h3>
               <p className="text-gray-600 mb-4">
-                {aiAnalysisData?.about?.understanding_carbon_footprint || 
-                `Your current carbon footprint is ${totalEmissions.toFixed(2)} metric tons of CO₂. This amount of carbon dioxide contributes significantly to climate change and has a negative impact on the environment, including global warming, extreme weather events, and loss of biodiversity.`}
+                {aiAnalysisData?.about?.understanding_carbon_footprint ||
+                  `Your current carbon footprint is ${totalEmissions.toFixed(
+                    2
+                  )} metric tons of CO₂. This amount of carbon dioxide contributes significantly to climate change and has a negative impact on the environment, including global warming, extreme weather events, and loss of biodiversity.`}
               </p>
               <h3 className="text-xl font-semibold mb-3 text-gray-600 flex items-center">
                 <Globe className="w-6 h-6 mr-2 text-primary" />
@@ -237,7 +284,7 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
               </h3>
               <p className="text-gray-600">
                 {aiAnalysisData?.about?.mitigating_through_carbon_offsetting ||
-                `Carbon offsetting means balancing your emissions by funding projects that reduce or remove an equivalent amount of greenhouse gases. These initiatives can range from reforestation and renewable energy to methane capture and sustainable energy solution for communal use.`}
+                  `Carbon offsetting means balancing your emissions by funding projects that reduce or remove an equivalent amount of greenhouse gases. These initiatives can range from reforestation and renewable energy to methane capture and sustainable energy solution for communal use.`}
               </p>
             </div>
           </div>
@@ -254,48 +301,83 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
-          {emissionFootprintData.map((item, index) => (
-            <div key={index} className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
-              <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden">
-                <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                  {[...Array(8)].map((_, i) => {
-                    const Icon = item.category === "Home Energy" ? Home : Car;
-                    return (
-                      <Icon
-                        key={i}
-                        className="absolute"
-                        style={{
-                          top: `${Math.random() * 100}%`,
-                          left: `${Math.random() * 100}%`,
-                          transform: `scale(${0.5 + Math.random()})`,
-                          opacity: 0.3 + Math.random() * 0.7,
-                        }}
-                      />
-                    );
-                  })}
+          {emissionFootprintData.map((item, index) => {
+            const getHeadlineParts = (item) => {
+              switch (item.category) {
+                case "Home Energy":
+                  return [
+                    "Energy use of an average home for",
+                    formatDynamicDuration(item.emissions, "months"),
+                    "",
+                  ];
+                case "Transportation":
+                  return [
+                    "Driving a typical gasoline car for",
+                    item.emissions.toLocaleString(),
+                    "kilometers",
+                  ];
+                default:
+                  return [
+                    "",
+                    formatDynamicDuration(item.emissions, "months"),
+                    "",
+                  ];
+              }
+            };
+
+            const [textBefore, value, textAfter] = getHeadlineParts(item);
+
+            return (
+              <div
+                key={index}
+                className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full"
+              >
+                <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden">
+                  <div className="absolute inset-0 flex justify-center items-center opacity-20">
+                    {[...Array(8)].map((_, i) => {
+                      const Icon = item.category === "Home Energy" ? Home : Car;
+                      return (
+                        <Icon
+                          key={i}
+                          className="absolute"
+                          style={{
+                            top: `${Math.random() * 100}%`,
+                            left: `${Math.random() * 100}%`,
+                            transform: `scale(${0.5 + Math.random()})`,
+                            opacity: 0.3 + Math.random() * 0.7,
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                  <div className="h-20 relative flex justify-center items-center">
+                    <h3 className="font-semibold text-white flex items-center">
+                      {item.category === "Home Energy" ? (
+                        <Home className="w-8 h-8 mr-4" />
+                      ) : (
+                        <Car className="w-8 h-8 mr-4" />
+                      )}
+                      {item.category}
+                    </h3>
+                  </div>
                 </div>
-                <div className="h-20 bg-gradient-to-r from-red-500 to-red-600 relative overflow-hidden flex justify-center items-center">
-                  <h3 className="font-semibold text-white flex items-center">
-                    {item.category === "Home Energy" ? <Home className="w-8 h-8 mr-4" /> : <Car className="w-8 h-8 mr-4" />}
-                    {item.category}
-                  </h3>
+
+                <div className="p-6">
+                  <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1 mb-2 font-semibold text-gray-800">
+                    <span>{textBefore}</span>
+                    <span className="text-4xl font-bold text-gray-800">
+                      {value}
+                    </span>
+                    <span>{textAfter}</span>
+                  </div>
+
+                  <p className="text-sm text-gray-600 mb-4">
+                    {item.description}
+                  </p>
                 </div>
               </div>
-              <div className="p-6">
-                <div className="flex items-baseline mb-2">
-                  <span className="text-4xl font-bold text-gray-800">
-                    {Math.round(item.emissions).toLocaleString()}
-                  </span>
-                  <span className="ml-2 text-gray-600">
-                    {item.category === "Home Energy" ? "homes" : "cars"}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-600 mb-4">
-                  {item.description}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Offset Section */}
@@ -308,48 +390,84 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
-          {carbonOffsetData.map((item, index) => (
-            <div key={index} className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
-              <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
-                <div className="absolute inset-0 flex justify-center items-center opacity-20">
-                  {[...Array(12)].map((_, i) => {
-                    const Icon = item.category === "Reforestation" ? TreePine : Users;
-                    return (
-                      <Icon
-                        key={i}
-                        className="absolute"
-                        style={{
-                          top: `${Math.random() * 100}%`,
-                          left: `${Math.random() * 100}%`,
-                          transform: `scale(${0.5 + Math.random() * 0.5})`,
-                          opacity: 0.3 + Math.random() * 0.7,
-                        }}
-                      />
-                    );
-                  })}
+          {carbonOffsetData.map((item, index) => {
+            const getHeadlineParts = (item) => {
+              switch (item.category) {
+                case "Reforestation":
+                  return [
+                    "Supporting the planting of",
+                    Math.ceil(item.emissions.toLocaleString()),
+                    "trees",
+                  ];
+                case "Community Projects":
+                  return [
+                    "Investing in improved cookstoves for",
+                    formatDynamicDuration(item.emissions, "years"),
+                    "",
+                  ];
+                default:
+                  return [
+                    "",
+                    formatDynamicDuration(item.emissions, "months"),
+                    "",
+                  ];
+              }
+            };
+
+            const [textBefore, value, textAfter] = getHeadlineParts(item);
+
+            return (
+              <div
+                key={index}
+                className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full"
+              >
+                <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
+                  <div className="absolute inset-0 flex justify-center items-center opacity-20">
+                    {[...Array(12)].map((_, i) => {
+                      const Icon =
+                        item.category === "Reforestation" ? TreePine : Users;
+                      return (
+                        <Icon
+                          key={i}
+                          className="absolute"
+                          style={{
+                            top: `${Math.random() * 100}%`,
+                            left: `${Math.random() * 100}%`,
+                            transform: `scale(${0.5 + Math.random() * 0.5})`,
+                            opacity: 0.3 + Math.random() * 0.7,
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                  <div className="h-20 relative flex justify-center items-center">
+                    <h3 className="font-semibold text-white flex items-center">
+                      {item.category === "Reforestation" ? (
+                        <TreePine className="w-8 h-8 mr-4" />
+                      ) : (
+                        <Users className="w-8 h-8 mr-4" />
+                      )}
+                      {item.category}
+                    </h3>
+                  </div>
                 </div>
-                <div className="h-20 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden flex justify-center items-center">
-                  <h3 className="font-semibold text-white flex items-center">
-                    {item.category === "Reforestation" ? <TreePine className="w-8 h-8 mr-4" /> : <Users className="w-8 h-8 mr-4" />}
-                    {item.category}
-                  </h3>
+
+                <div className="p-6">
+                  <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1 mb-2 font-semibold text-gray-800">
+                    <span>{textBefore}</span>
+                    <span className="text-4xl font-bold text-gray-800">
+                      {value}
+                    </span>
+                    <span>{textAfter}</span>
+                  </div>
+
+                  <p className="text-sm text-gray-600 mb-4">
+                    {item.description}
+                  </p>
                 </div>
               </div>
-              <div className="p-6">
-                <div className="flex items-baseline mb-2">
-                  <span className="text-4xl font-bold text-gray-800">
-                    {Math.round(item.emissions).toLocaleString()}
-                  </span>
-                  <span className="ml-2 text-gray-600">
-                    {item.category === "Reforestation" ? "trees" : "people"}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-600 mb-4">
-                  {item.description}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Environmental Impact Section */}
@@ -364,27 +482,47 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8 max-w-6xl mx-auto">
           {environmentalImpactData.map((item, index) => {
             const getIcon = (category) => {
-              switch(category) {
-                case "Air Quality": return Wind;
-                case "Water Saved": return Droplet;
-                case "Biodiversity": return Shell;
-                default: return Leaf;
+              switch (category) {
+                case "Air Quality":
+                  return Wind;
+                case "Water Saved":
+                  return Droplet;
+                case "Biodiversity":
+                  return Shell;
+                default:
+                  return Leaf;
               }
             };
-            
-            const getUnit = (category) => {
-              switch(category) {
-                case "Air Quality": return "%";
-                case "Water Saved": return "liters";
-                case "Biodiversity": return "species";
-                default: return "";
+
+            const getHeadlineParts = (item) => {
+              switch (item.category) {
+                case "Air Quality":
+                  return ["Air quality impact score of", item.emissions, ""];
+                case "Water Saved":
+                  return [
+                    "Saving",
+                    item.emissions.toLocaleString(),
+                    "litres of water per year",
+                  ];
+                case "Biodiversity":
+                  return [
+                    "Protecting",
+                    item.emissions.toLocaleString(),
+                    "m² forest habitat",
+                  ];
+                default:
+                  return ["", item.emissions, ""];
               }
             };
 
             const Icon = getIcon(item.category);
-            
+            const [textBefore, value, textAfter] = getHeadlineParts(item);
+
             return (
-              <div key={index} className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full">
+              <div
+                key={index}
+                className="group bg-white rounded-xl shadow-md overflow-hidden transition-all transform w-full"
+              >
                 <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
                   <div className="absolute inset-0 flex justify-center items-center opacity-20">
                     {[...Array(8)].map((_, i) => (
@@ -400,24 +538,23 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
                       />
                     ))}
                   </div>
-                  <div className="h-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden flex justify-center items-center">
+                  <div className="h-20 relative flex justify-center items-center">
                     <h3 className="font-semibold text-white flex items-center">
                       <Icon className="w-8 h-8 mr-4" />
                       {item.category}
                     </h3>
                   </div>
                 </div>
+
                 <div className="p-6">
-                  <div className="flex items-baseline mb-2">
+                  <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1 mb-2 font-semibold text-gray-800">
+                    <span>{textBefore}</span>
                     <span className="text-4xl font-bold text-gray-800">
-                      {item.category === "Air Quality" ? 
-                        `${Math.round(item.emissions)}` : 
-                        Math.round(item.emissions).toLocaleString()}
+                      {value}
                     </span>
-                    <span className="ml-2 text-gray-600">
-                      {getUnit(item.category)}
-                    </span>
+                    <span>{textAfter}</span>
                   </div>
+
                   <p className="text-sm text-gray-600 mb-4">
                     {item.description}
                   </p>
@@ -426,7 +563,6 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
             );
           })}
         </div>
-
         {/* Call to Action */}
         <div className="bg-[url('/CTA_bg_1.jpg')] bg-cover bg-center text-white rounded-xl shadow-lg overflow-hidden backdrop-blur-md p-8">
           <div className="max-w-2xl mx-auto text-center">
@@ -440,10 +576,13 @@ const CarbonImpactDashboard = ({ emissionData, aiAnalysisData, setShowDashboard 
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href={"/offsetPage"}>
-              <button disabled className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-not-allowed">
-                <ArrowUp className="h-5 w-5 mr-2" />
-                Offset Now
-              </button>
+                <button
+                  disabled
+                  className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-not-allowed"
+                >
+                  <ArrowUp className="h-5 w-5 mr-2" />
+                  Offset Now
+                </button>
               </Link>
               <button
                 onClick={() => setShowDashboard((prev) => !prev)}

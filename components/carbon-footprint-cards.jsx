@@ -7,6 +7,10 @@ import {
   IcBaselineHomeWork,
 } from "@/public/icons/Iconify-icons";
 
+const HOME_ENERGY_T_CO2_PER_HOME_YEAR = 7.45;
+const CAR_G_CO2_PER_KM = 251.0;
+const TREE_KG_CO2_PER_YEAR = 60.0
+
 const CarbonFootprintCard = ({ item, index, isOffset = false, isVertical = false }) => (
   <motion.div
     key={index}
@@ -45,11 +49,13 @@ const CarbonFootprintCard = ({ item, index, isOffset = false, isVertical = false
   </motion.div>
 );
 
-export default function CarbonFootprintCards({ totalEmission }) {
+export default function CarbonFootprintCards({ emissionData }) {
+  console.log("Total emission data  :: ", emissionData.result.data)
+  
   const carbonData = {
-    treesRequired: Math.ceil(totalEmission * 20),
-    homeEquivalent: Math.ceil(totalEmission / 8.6),
-    carEquivalent: Math.ceil(totalEmission / 4.6),
+    treesRequired: Math.round(emissionData.result.data.co2e_kg / TREE_KG_CO2_PER_YEAR, 2),
+    homeEquivalent: Math.round((emissionData.result.data.co2e_kg / (HOME_ENERGY_T_CO2_PER_HOME_YEAR * 1000)) * 12, 2),
+    carEquivalent: (Math.round(emissionData.result.data.co2e_gm / CAR_G_CO2_PER_KM)),
   };
 
   const pluralize = (count, singular, plural) => 
@@ -57,15 +63,15 @@ export default function CarbonFootprintCards({ totalEmission }) {
 
   const footprintData = [
     {
-      description: (<>emit equivalent amount of CO<sub>2</sub> throughout a year.</>),
+      description: (<>of energy use of an average home</>),
       value: carbonData.homeEquivalent,
-      unit: pluralize(carbonData.homeEquivalent, "home", "homes"),
+      unit: pluralize(carbonData.homeEquivalent, "month", "months"),
       icon: <IcBaselineHomeWork className="size-10" />,
     },
     {
-      description:(<>annual emission is equivalent to your carbon footprint.</>),
+      description:(<>typical run for a gasoline car</>),
       value: carbonData.carEquivalent,
-      unit: pluralize(carbonData.carEquivalent, "car", "cars"),
+      unit: pluralize(carbonData.carEquivalent, "kilometer", "kilometers"),
       icon: <IxCarFilled className="size-10" />,
     },
     {

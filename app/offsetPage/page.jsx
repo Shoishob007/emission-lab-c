@@ -229,8 +229,7 @@ function FeaturedProjectCard({
               e.stopPropagation();
               onDonate();
             }}
-            disabled
-            className="px-10 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg cursor-not-allowed"
+            className="px-10 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -461,7 +460,7 @@ export default function OffsetPage() {
           </p>
           <div className="flex flex-col gap-2 mb-6 mt-6 max-w-2xl">
             <WhyMattersItem>
-              Helps neutralize unavoidable emissions
+              Helps neutralize unavoidable emissions.
             </WhyMattersItem>
             <WhyMattersItem>
               Supports global climate action aligned with the{" "}
