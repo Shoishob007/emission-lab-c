@@ -1,0 +1,415 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%; /* White */
+    --foreground: 240 10% 3.9%; /* Zinc-950 */
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 120 60% 45%; /* Your custom green */
+    --primary-foreground: 0 0% 98%; /* Zinc-50 */
+    --secondary: 213 71% 55%; /* Your custom blue */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 4.8% 95.9%; /* Zinc-100 */
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%; /* Zinc-200 */
+    --input: 240 5.9% 90%;
+    --ring: 120 60% 45%;
+    --radius: 0.5rem;
+    --btn-primary: 34 94% 56%; /* #FFA726 in HSL: h=34, s=94%, l=56% */
+    --btn-primary-foreground: 0 0% 100%; /* white */
+    --btn-secondary: 120 60% 45%; /* Matches your --primary from earlier (custom green) */
+    --btn-secondary-foreground: 0 0% 98%; /* Zinc-50 */
+  }
+
+  .dark {
+    --background: 240 10% 3.9%; /* Zinc-950 */
+    --foreground: 0 0% 98%; /* Zinc-50 */
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 120 60% 45%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 213 71% 55%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%; /* Zinc-800 */
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 120 60% 45%;
+    --btn-primary: 34 94% 56%; /* #FFA726 */
+    --btn-primary-foreground: 0 0% 10%; /* almost black for contrast if needed */
+    --btn-secondary: 120 60% 45%; /* green as secondary in dark too */
+    --btn-secondary-foreground: 240 5.9% 10%; /* for contrast */
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+  scroll-behavior: smooth;
+}
+
+  body {
+    @apply text-foreground;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes float-leaf {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    transform: translateY(-50%) scale(0);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.2);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateY(-50%) translateX(-4px);
+  }
+  40%,
+  80% {
+    transform: translateY(-50%) translateX(4px);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.8s ease-out;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-grow {
+  animation: grow 2s ease-in-out infinite alternate;
+}
+
+.animate-float-leaf {
+  animation: float-leaf 6s ease-in-out infinite;
+}
+
+.animate-checkmark {
+  animation: checkmark 0.5s ease-out;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-out;
+}
+
+/* #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+} */
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.8);
+}
+
+pre, code {
+  white-space: pre-wrap !important;
+  word-break: break-word;
+  /* optional: for better wrapping of long words/lines */
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes float-leaf {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    transform: translateY(-50%) scale(0);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.2);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateY(-50%) translateX(-4px);
+  }
+  40%,
+  80% {
+    transform: translateY(-50%) translateX(4px);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.8s ease-out;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-grow {
+  animation: grow 2s ease-in-out infinite alternate;
+}
+
+.animate-float-leaf {
+  animation: float-leaf 6s ease-in-out infinite;
+}
+
+.animate-checkmark {
+  animation: checkmark 0.5s ease-out;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-out;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+}
+
+.bg-green-gradient {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.1) 0%,
+    hsl(var(--primary) / 0.05) 100%
+  );
+}
+
+.bg-blue-gradient {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--secondary) / 0.1) 0%,
+    hsl(var(--secondary) / 0.05) 100%
+  );
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap");
+
+html,
+body {
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.font-extrabold {
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* why choose us mobile */
+
+@media (max-width: 640px) {
+  #why-choose-us .grid {
+    grid-template-columns: 1fr !important;
+  }
+  #why-choose-us .flex-col > div {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+}
+
+/* offset page */
+.offset-timeline {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: flex-end;
+          width: 100%;
+          position: relative;
+          gap: 0;
+        }
+        @media (max-width: 900px) {
+          .offset-timeline {
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+          }
+        }
