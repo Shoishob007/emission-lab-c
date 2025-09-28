@@ -150,6 +150,8 @@ function FeaturedProjectCard({
     router.push(`/offsetPage/${project.id}`);
   };
 
+  console.log("Project in the card :: ", project)
+
   return (
     <motion.div
       className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group cursor-pointer border border-gray-100"

@@ -102,7 +102,7 @@ const FlightCalculatorRight = ({
         {!calculated || activeTab !== "flight" ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-6">
             {/* Animation container */}
-            <div className="p-6 rounded-full bg-gradient-to-br from-primary/10 to-primary/10 shadow-inner mb-6">
+            <div className="p-6 rounded-full bg-gradient-to-br from-primary/20 to-primary/20 shadow-inner mb-6">
               <div className="w-32 h-32 sm:w-40 sm:h-40">
                 <DotLottieReact
                   key={calculating ? "calc-anim" : "idle-anim"}
