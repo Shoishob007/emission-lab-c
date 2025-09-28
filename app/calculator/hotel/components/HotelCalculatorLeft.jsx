@@ -115,6 +115,7 @@ const HotelCalculatorLeft = ({
 
   // cities for a specific country
   const loadCitiesForCountry = useCallback(async (countryCode) => {
+    console.log("Called the city api")
     setLoading((prev) => ({ ...prev, city: true }));
     setError((prev) => ({ ...prev, city: null }));
 

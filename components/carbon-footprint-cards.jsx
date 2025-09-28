@@ -53,9 +53,9 @@ export default function CarbonFootprintCards({ emissionData }) {
   console.log("Total emission data  :: ", emissionData)
   
   const carbonData = {
-    treesRequired: Math.round((emissionData.result.data.co2e_kg || emissionData.result.data.emissions.co2e_kg) / TREE_KG_CO2_PER_YEAR, 2),
-    homeEquivalent: Math.round(((emissionData.result.data.co2e_kg || emissionData.result.data.emissions.co2e_kg)/ (HOME_ENERGY_T_CO2_PER_HOME_YEAR * 1000)) * 12, 2),
-    carEquivalent: (Math.round((emissionData.result.data.co2e_gm || emissionData.result.data.emissions.co2e_gm )/ CAR_G_CO2_PER_KM)),
+    treesRequired: Math.round((emissionData?.result?.data?.co2e_kg || emissionData?.result?.data?.emissions?.co2e_kg || emissionData?.modelResult?.result?.data?.co2e_kg) / TREE_KG_CO2_PER_YEAR, 2),
+    homeEquivalent: Math.round(((emissionData?.result?.data?.co2e_kg || emissionData?.result?.data?.emissions?.co2e_kg || emissionData?.modelResult?.result?.data?.co2e_kg)/ (HOME_ENERGY_T_CO2_PER_HOME_YEAR * 1000)) * 12, 2),
+    carEquivalent: (Math.round((emissionData?.result?.data?.co2e_gm || emissionData?.result?.data?.emissions?.co2e_gm || emissionData?.modelResult?.result?.data?.co2e_kg)/ CAR_G_CO2_PER_KM)),
   };
 
   const pluralize = (count, singular, plural) => 
