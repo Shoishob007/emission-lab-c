@@ -153,7 +153,7 @@ const TransportCalculatorRight = ({
         {!calculated || activeTab !== "transport" ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-6">
             {/* Animation container */}
-            <div className="p-6 rounded-full bg-gradient-to-br from-primary/20 to-primary/20 shadow-inner mb-6">
+            <div className="p-6 rounded-full bg-gradient-to-br from-primary/10 to-primary/10 shadow-inner mb-6">
               <div className="w-32 h-32 sm:w-40 sm:h-40">
                 <DotLottieReact
                   key={loading ? "calc-anim" : "idle-anim"}
@@ -177,7 +177,7 @@ const TransportCalculatorRight = ({
             </p>
 
             {/* Professional Information */}
-            <div className="bg-primary/10 dark:bg-gray-950/20 border border-gray-200/50 dark:border-gray-800/30 rounded-lg p-4 mb-4 max-w-md">
+            <div className="bg-primary/20 dark:bg-gray-950/20 border border-gray-200/50 dark:border-gray-800/30 rounded-lg p-4 mb-4 max-w-md">
               <div className="flex items-start space-x-3">
                 <div className="text-left">
                   <p className="text-sm font-medium text-foreground/70 dark:text-gray-100 mb-1">

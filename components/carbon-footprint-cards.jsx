@@ -47,7 +47,7 @@ const CarbonFootprintCard = ({
             isOffset ? "justify-center" : ""
           }`}
         >
-          <span className="text-xl font-bold text-primary">{item.value}</span>
+          <span className="text-lg font-bold text-primary">{item.value}</span>
           {/* <span className="text-sm text-gray-600 dark:text-gray-300">{item.unit}</span> */}
         </div>
         <p className="text-[13px] text-gray-600 dark:text-gray-300">
@@ -66,10 +66,40 @@ export default function CarbonFootprintCards({ emissionData }) {
 
     if (currentUnit === "years") {
       if (value >= 1) {
-        return `${value.toFixed(1)} year${value >= 2 ? "s" : ""}`;
+        if (value >= 2) {
+          // For 2+ years, show whole years with remaining months
+          const wholeYears = Math.floor(value);
+          const remainingMonths = Math.round((value - wholeYears) * 12);
+          if (remainingMonths > 0) {
+            return `${wholeYears} year${wholeYears !== 1 ? "s" : ""}, ${remainingMonths} month${remainingMonths !== 1 ? "s" : ""}`;
+          } else {
+            return `${wholeYears} year${wholeYears !== 1 ? "s" : ""}`;
+          }
+        } else {
+          return `${value.toFixed(1)} year`;
+        }
       } else if (value >= 1 / 12) {
         const months = value * 12;
-        return `${months.toFixed(1)} month${months >= 2 ? "s" : ""}`;
+        if (months >= 2) {
+          // For 2+ months, show whole months with remaining days
+          const wholeMonths = Math.floor(months);
+          const remainingDays = Math.round((months - wholeMonths) * 30);
+          if (remainingDays > 7) {
+            return `${wholeMonths} month${wholeMonths !== 1 ? "s" : ""}, ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`;
+          } else {
+            return `${wholeMonths} month${wholeMonths !== 1 ? "s" : ""}`;
+          }
+        } else if (months >= 1) {
+          return "1 month";
+        } else {
+          const days = Math.round(months * 30);
+          if (days >= 14) {
+            const weeks = Math.round(days / 7);
+            return `${weeks} week${weeks !== 1 ? "s" : ""}`;
+          } else {
+            return `${days} day${days !== 1 ? "s" : ""}`;
+          }
+        }
       } else if (value >= 1 / 365) {
         const days = value * 365;
         return `${days.toFixed(0)} day${days !== 1 ? "s" : ""}`;
@@ -82,15 +112,44 @@ export default function CarbonFootprintCards({ emissionData }) {
     if (currentUnit === "months") {
       if (value >= 12) {
         const years = value / 12;
-        return `${years.toFixed(1)} year${years >= 2 ? "s" : ""}`;
+        if (years >= 2) {
+          // For 2+ years, show whole years with remaining months
+          const wholeYears = Math.floor(years);
+          const remainingMonths = Math.round((years - wholeYears) * 12);
+          if (remainingMonths > 0) {
+            return `${wholeYears} year${wholeYears !== 1 ? "s" : ""}, ${remainingMonths} month${remainingMonths !== 1 ? "s" : ""}`;
+          } else {
+            return `${wholeYears} year${wholeYears !== 1 ? "s" : ""}`;
+          }
+        } else {
+          return `${years.toFixed(1)} year${years >= 2 ? "s" : ""}`;
+        }
+      } else if (value >= 2) {
+        // For 2+ months, show whole months with remaining days
+        const wholeMonths = Math.floor(value);
+        const remainingDays = Math.round((value - wholeMonths) * 30);
+        if (remainingDays > 7) {
+          return `${wholeMonths} month${wholeMonths !== 1 ? "s" : ""}, ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`;
+        } else {
+          return `${wholeMonths} month${wholeMonths !== 1 ? "s" : ""}`;
+        }
       } else if (value >= 1) {
-        return `${value.toFixed(1)} month${value >= 2 ? "s" : ""}`;
-      } else if (value >= 1 / 30) {
-        const days = value * 30;
-        return `${days.toFixed(0)} day${days !== 1 ? "s" : ""}`;
+        // For 1-2 months, show as weeks for better readability
+        const weeks = Math.round(value * 4.33); // 4.33 weeks per month
+        if (weeks >= 4) {
+          return "1 month";
+        } else {
+          return `${weeks} week${weeks !== 1 ? "s" : ""}`;
+        }
       } else {
-        const hours = value * 30 * 24;
-        return `${hours.toFixed(0)} hour${hours !== 1 ? "s" : ""}`;
+        // For less than 1 month, show as days
+        const days = Math.round(value * 30);
+        if (days >= 14) {
+          const weeks = Math.round(days / 7);
+          return `${weeks} week${weeks !== 1 ? "s" : ""}`;
+        } else {
+          return `${days} day${days !== 1 ? "s" : ""}`;
+        }
       }
     }
 
@@ -112,7 +171,7 @@ export default function CarbonFootprintCards({ emissionData }) {
   // numeric equivalents
   const rawHomeEnergyMonths =
     (co2e_kg / (HOME_ENERGY_T_CO2_PER_HOME_YEAR * 1000)) * 12;
-  const rawCarKm = Math.ceil(co2e_gm / CAR_G_CO2_PER_KM);
+  const rawCarKm = Math.round(co2e_gm / CAR_G_CO2_PER_KM);
 
   const carbonData = {
     treesRequired: Math.ceil(co2e_kg / TREE_KG_CO2_PER_YEAR),
@@ -120,30 +179,24 @@ export default function CarbonFootprintCards({ emissionData }) {
     carEquivalent: `${rawCarKm.toLocaleString()} km`,
   };
 
-  const pluralize = (count, singular, plural) =>
-    count === 1 ? singular : plural;
-
   const footprintData = [
     {
       description: <>of energy use of an average home</>,
       value: carbonData.homeEquivalent,
-      unit: pluralize(carbonData.homeEquivalent, "month", "months"),
       icon: <IcBaselineHomeWork className="size-10" />,
     },
     {
       description: <>typical run for a gasoline car</>,
       value: carbonData.carEquivalent,
-      unit: pluralize(carbonData.carEquivalent, "kilometer", "kilometers"),
       icon: <IxCarFilled className="size-10" />,
     },
     {
       description: (
         <>
-          trees required to offset this amount of CO<sub>2</sub>.
+          trees required to offset this amount of CO<sub>2</sub>
         </>
       ),
       value: carbonData.treesRequired,
-      unit: pluralize(carbonData.treesRequired, "tree", "trees"),
       icon: <FoundationTrees className="size-10" />,
       isOffset: true,
     },

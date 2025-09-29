@@ -118,7 +118,7 @@ const HotelCalculatorRight = ({
         {!calculated || activeTab !== "hotel" ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-6">
             {/* Animation container */}
-            <div className="p-6 rounded-full bg-gradient-to-br from-primary/20 to-primary/20 shadow-inner mb-6">
+            <div className="p-6 rounded-full bg-gradient-to-br from-primary/10 to-primary/10 shadow-inner mb-6">
               <div className="w-32 h-32 sm:w-40 sm:h-40">
                 <DotLottieReact
                   key={calculating ? "calc-anim" : "idle-anim"}
@@ -195,7 +195,7 @@ const HotelCalculatorRight = ({
 
             {/* Call to Action */}
             <div className="border-t border-border flex flex-col">
-              <CarbonFootprintCards totalEmission={totalEmission} />
+              <CarbonFootprintCards emissionData={emissionData} />
 
               <div className="mt-4 bg-blue-50 dark:bg-blue-200/20 border border-blue-100 dark:border-blue-300 rounded-xl px-4 py-2 shadow-md">
                 <div className="flex items-center justify-between">

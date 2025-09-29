@@ -27,7 +27,7 @@ export default function Calculator() {
     to: "",
     tripType: "oneWay",
     class: "economy",
-    aircraft: "",
+    aircraft: "not_sure",
     passengers: 1,
   });
   const [transportDetails, setTransportDetails] = useState({
