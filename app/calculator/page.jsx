@@ -27,7 +27,7 @@ export default function Calculator() {
     to: "",
     tripType: "oneWay",
     class: "economy",
-    aircraft: "not_sure",
+    aircraft: "",
     passengers: 1,
   });
   const [transportDetails, setTransportDetails] = useState({
@@ -45,8 +45,8 @@ export default function Calculator() {
     cluster_name: null,
   });
   const [freightDetails, setFreightDetails] = useState({
-    freight_weight: 0, // Weight in Kilograms (KG)
-    distance_value: 0, // Journey distance in Kilometers (KM)
+    freight_weight: 0,
+    distance_value: 0,
     cluster_name: null,
   });
   const [emissionData, setEmissionData] = useState(null);
@@ -61,6 +61,7 @@ export default function Calculator() {
       { title: "Transport", icon: Car, value: "transport" },
       { title: "Hotel", icon: Hotel, value: "hotel" },
       { title: "Ship", icon: Ship, value: "DeepSea" },
+
     ],
     []
   );
@@ -189,7 +190,7 @@ export default function Calculator() {
             setAiAnalysisData={setAiAnalysisData}
           />
         );
-      case "DeepSea":
+        case "DeepSea":
         return (
           <ShipCalculatorRight
             calculated={calculated}

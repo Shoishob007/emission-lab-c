@@ -85,13 +85,6 @@ const HotelCalculatorLeft = ({
     "VN",
     "ZA",
   ];
-  //   const ratingLabels = {
-  //   1: "Very Bad",
-  //   2: "Bad",
-  //   3: "Average",
-  //   4: "Good",
-  //   5: "Excellent",
-  // };
 
   // countries list on mount
   useEffect(() => {
@@ -115,21 +108,18 @@ const HotelCalculatorLeft = ({
 
   // cities for a specific country
   const loadCitiesForCountry = useCallback(async (countryCode) => {
-    console.log("Called the city api")
     setLoading((prev) => ({ ...prev, city: true }));
     setError((prev) => ({ ...prev, city: null }));
 
     try {
       const response = await fetch(
-        `https://secure.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=200&username=shoishob554`
+        `https://secure.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=1000&username=shoishob554`
       );
 
       if (!response.ok) throw new Error("Failed to fetch cities");
 
       const data = await response.json();
-      console.log("City data response :: ", data)
       const citiesList = data.geonames.map((city) => city.name);
-      console.log("City name response :: ", citiesList)
 
       setCities(citiesList.map((city) => ({ value: city, label: city })));
       setFilteredCities(
@@ -194,13 +184,11 @@ const HotelCalculatorLeft = ({
     [cities]
   );
 
-  console.log("Cities ::  ", cities)
-
   const handleCalculate = async () => {
     try {
       setCalculating(true);
 
-      const requestData = {
+      const currentHotelDetails = {
         country_code: hotelDetails.country_code,
         city_name: hotelDetails.city_name,
         hotel_rating: hotelDetails.hotel_rating,
@@ -209,16 +197,14 @@ const HotelCalculatorLeft = ({
         cluster_name: hotelDetails.cluster_name || null,
       };
 
-      console.log("requestData :: ", requestData);
+      console.log("requestData:", currentHotelDetails);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API}/api/carbon/hotelAPI/hotel-stay-carbon-estimate/`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(currentHotelDetails),
         }
       );
 
@@ -241,6 +227,7 @@ const HotelCalculatorLeft = ({
   const isFormValid =
     hotelDetails.country_code &&
     hotelDetails.city_name &&
+    hotelDetails.hotel_rating &&
     hotelDetails.number_of_nights > 0 &&
     hotelDetails.number_of_rooms > 0;
 
@@ -305,7 +292,7 @@ const HotelCalculatorLeft = ({
         <div className="flex gap-1 sm:gap-2">
           {[1, 2, 3, 4, 5].map((rating) => {
             const filled =
-              hover >= rating || hotelDetails.hotel_rating >= rating.toString();
+              hover >= rating || Number(hotelDetails.hotel_rating) >= rating;
 
             return (
               <button

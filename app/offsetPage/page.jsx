@@ -329,8 +329,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
               e.stopPropagation();
               onDonate();
             }}
-            disabled
-            className="w-full py-2 px-4 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold text-sm rounded-lg transition-all duration-200 cursor-not-allowed"
+            className="w-full py-2 px-4 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold text-sm rounded-lg transition-all duration-200"
           >
             Offset Now
           </button>

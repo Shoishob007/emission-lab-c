@@ -48,7 +48,7 @@ const FlightCalculatorRight = ({
     try {
       // Start progress animation
       const progressInterval = setInterval(() => {
-        setGenerationProgress(prev => {
+        setGenerationProgress((prev) => {
           if (prev >= 90) {
             clearInterval(progressInterval);
             return 90;
@@ -58,20 +58,28 @@ const FlightCalculatorRight = ({
       }, 500);
 
       // Update stages during generation
-      setTimeout(() => setGenerationStage("Calculating environmental impact..."), 2000);
-      setTimeout(() => setGenerationStage("Preparing detailed insights..."), 4000);
+      setTimeout(
+        () => setGenerationStage("Calculating environmental impact..."),
+        2000
+      );
+      setTimeout(
+        () => setGenerationStage("Preparing detailed insights..."),
+        4000
+      );
 
       // Make API call
-      const aiAnalysisData = await fetchCarbonEmissionDetailsInAir(emissionData);
-      
+      const aiAnalysisData = await fetchCarbonEmissionDetailsInAir(
+        emissionData
+      );
+
       // Complete progress
       clearInterval(progressInterval);
       setGenerationProgress(100);
       setGenerationStage("Analysis complete!");
-      
+
       // Set the AI analysis data in parent component
       setAiAnalysisData(aiAnalysisData);
-      
+
       setTimeout(() => {
         setIsGenerating(false);
         setShowDashboard(true);
@@ -79,9 +87,8 @@ const FlightCalculatorRight = ({
           scrollToDashboard();
         }, 100);
       }, 1000);
-
     } catch (error) {
-      console.error('Error generating analysis:', error);
+      console.error("Error generating analysis:", error);
       setGenerationStage("Error generating analysis. Please try again.");
       setGenerationProgress(0);
       setTimeout(() => {
@@ -102,7 +109,7 @@ const FlightCalculatorRight = ({
         {!calculated || activeTab !== "flight" ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-6">
             {/* Animation container */}
-            <div className="p-6 rounded-full bg-gradient-to-br from-primary/20 to-primary/20 shadow-inner mb-6">
+            <div className="p-6 rounded-full bg-gradient-to-br from-primary/10 to-primary/10 shadow-inner mb-6">
               <div className="w-32 h-32 sm:w-40 sm:h-40">
                 <DotLottieReact
                   key={calculating ? "calc-anim" : "idle-anim"}
@@ -186,7 +193,7 @@ const FlightCalculatorRight = ({
             </div>
 
             <div className="border-t border-border">
-              <CarbonFootprintCards emissionData={emissionData} />
+              <CarbonFootprintCards totalEmission={totalEmission} />
 
               <div className="mt-4 bg-blue-50 dark:bg-blue-200/20 border border-blue-100 dark:border-blue-300 rounded-xl px-4 py-2 shadow-md">
                 <div className="flex items-center justify-between">
@@ -248,7 +255,10 @@ const FlightCalculatorRight = ({
                   {/* Offset Now */}
                   {!showDashboard && (
                     <Link href={"/offsetPage"} className="w-1/2">
-                      <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
+                      <button
+                        disabled
+                        className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors cursor-not-allowed"
+                      >
                         <ArrowUp className="h-4 w-4 mr-2" />
                         Offset Now
                       </button>

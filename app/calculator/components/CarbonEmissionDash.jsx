@@ -75,43 +75,6 @@ const CarbonImpactDashboard = ({
     },
   ];
 
-  function formatDynamicDuration(value, currentUnit) {
-    // Accepts a numeric value and the unit provided by the API
-    // e.g. value = 0.02, currentUnit = "years"
-
-    if (currentUnit === "years") {
-      if (value >= 1) {
-        return `${value.toFixed(1)} year${value >= 2 ? "s" : ""}`;
-      } else if (value >= 1 / 12) {
-        const months = value * 12;
-        return `${months.toFixed(1)} month${months >= 2 ? "s" : ""}`;
-      } else if (value >= 1 / 365) {
-        const days = value * 365;
-        return `${days.toFixed(0)} day${days !== 1 ? "s" : ""}`;
-      } else {
-        const hours = value * 365 * 24;
-        return `${hours.toFixed(0)} hour${hours !== 1 ? "s" : ""}`;
-      }
-    }
-
-    if (currentUnit === "months") {
-      if (value >= 12) {
-        const years = value / 12;
-        return `${years.toFixed(1)} year${years >= 2 ? "s" : ""}`;
-      } else if (value >= 1) {
-        return `${value.toFixed(1)} month${value >= 2 ? "s" : ""}`;
-      } else if (value >= 1 / 30) {
-        const days = value * 30;
-        return `${days.toFixed(0)} day${days !== 1 ? "s" : ""}`;
-      } else {
-        const hours = value * 30 * 24;
-        return `${hours.toFixed(0)} hour${hours !== 1 ? "s" : ""}`;
-      }
-    }
-
-    return `${value}`; // fallback
-  }
-
   // Use AI analysis data if available, otherwise fallback to static calculations
   const totalEmissions =
     aiAnalysisData?.carbon_emissions?.co2e_mt ||
@@ -307,8 +270,8 @@ const CarbonImpactDashboard = ({
                 case "Home Energy":
                   return [
                     "Energy use of an average home for",
-                    formatDynamicDuration(item.emissions, "months"),
-                    "",
+                    item.emissions.toLocaleString(),
+                    "months",
                   ];
                 case "Transportation":
                   return [
@@ -317,11 +280,7 @@ const CarbonImpactDashboard = ({
                     "kilometers",
                   ];
                 default:
-                  return [
-                    "",
-                    formatDynamicDuration(item.emissions, "months"),
-                    "",
-                  ];
+                  return ["", item.emissions.toLocaleString(), ""];
               }
             };
 
@@ -363,9 +322,9 @@ const CarbonImpactDashboard = ({
                 </div>
 
                 <div className="p-6">
-                  <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1 mb-2 font-semibold text-gray-800">
+                  <div className="flex items-baseline mb-2 font-semibold text-gray-800">
                     <span>{textBefore}</span>
-                    <span className="text-4xl font-bold text-gray-800">
+                    <span className="mx-1 text-4xl font-bold text-gray-800">
                       {value}
                     </span>
                     <span>{textAfter}</span>
@@ -396,21 +355,17 @@ const CarbonImpactDashboard = ({
                 case "Reforestation":
                   return [
                     "Supporting the planting of",
-                    Math.ceil(item.emissions.toLocaleString()),
+                    item.emissions.toLocaleString(),
                     "trees",
                   ];
                 case "Community Projects":
                   return [
                     "Investing in improved cookstoves for",
-                    formatDynamicDuration(item.emissions, "years"),
-                    "",
+                    item.emissions.toLocaleString(),
+                    "years",
                   ];
                 default:
-                  return [
-                    "",
-                    formatDynamicDuration(item.emissions, "months"),
-                    "",
-                  ];
+                  return ["", item.emissions.toLocaleString(), ""];
               }
             };
 
@@ -453,9 +408,9 @@ const CarbonImpactDashboard = ({
                 </div>
 
                 <div className="p-6">
-                  <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1 mb-2 font-semibold text-gray-800">
+                  <div className="flex items-baseline mb-2 font-semibold text-gray-800">
                     <span>{textBefore}</span>
-                    <span className="text-4xl font-bold text-gray-800">
+                    <span className="mx-1 text-4xl font-bold text-gray-800">
                       {value}
                     </span>
                     <span>{textAfter}</span>
@@ -547,17 +502,15 @@ const CarbonImpactDashboard = ({
                 </div>
 
                 <div className="p-6">
-                  <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1 mb-2 font-semibold text-gray-800">
+                  <div className="flex items-baseline mb-2 font-semibold text-gray-800">
                     <span>{textBefore}</span>
-                    <span className="text-4xl font-bold text-gray-800">
+                    <span className="mx-1 text-4xl font-bold text-gray-800">
                       {value}
                     </span>
                     <span>{textAfter}</span>
                   </div>
 
-                  <p className="text-sm text-gray-600 mb-4">
-                    {item.description}
-                  </p>
+                  <p className="text-sm text-gray-600">{item.description}</p>
                 </div>
               </div>
             );
@@ -576,10 +529,7 @@ const CarbonImpactDashboard = ({
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href={"/offsetPage"}>
-                <button
-                  disabled
-                  className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-not-allowed"
-                >
+                <button className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center">
                   <ArrowUp className="h-5 w-5 mr-2" />
                   Offset Now
                 </button>
