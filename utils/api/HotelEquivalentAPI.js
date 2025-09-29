@@ -19,8 +19,8 @@ export const fetchCarbonEmissionDetailsInHotel = async (emissionData) => {
       country_code: isValidCountry ? countryCode : "",
       city_name: emissionData?.result?.data?.city_name || "",
       hotel_rating: emissionData?.result?.data?.hotel_rating || null,
-      number_of_nights: parseInt(emissionData?.result?.data?.number_of_nights) || 0,
-      number_of_rooms: parseInt(emissionData?.result?.data?.number_of_rooms) || 0,
+      number_of_nights: emissionData?.result?.data?.number_of_nights || "",
+      number_of_rooms: emissionData?.result?.data?.number_of_rooms || "",
       cluster_name: null
     };
 
