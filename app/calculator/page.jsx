@@ -61,6 +61,7 @@ export default function Calculator() {
       { title: "Transport", icon: Car, value: "transport" },
       { title: "Hotel", icon: Hotel, value: "hotel" },
       { title: "Ship", icon: Ship, value: "DeepSea" },
+
     ],
     []
   );
@@ -189,7 +190,7 @@ export default function Calculator() {
             setAiAnalysisData={setAiAnalysisData}
           />
         );
-      case "DeepSea":
+        case "DeepSea":
         return (
           <ShipCalculatorRight
             calculated={calculated}

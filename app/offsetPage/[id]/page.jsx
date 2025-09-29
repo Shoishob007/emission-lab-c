@@ -252,7 +252,9 @@ export default function ProjectDetailsPage({ params }) {
                       project.price_per_ton || project.donationValue
                     )}
                   </div>
-                  <div className="text-[#767676] text-lg">per metric ton CO₂e</div>
+                  <div className="text-[#767676] text-lg">
+                    per metric ton CO₂e
+                  </div>
                 </div>
 
                 {/* current emission amount to offset */}
