@@ -195,7 +195,7 @@ const ShipCalculatorRight = ({
             </div>
 
             <div className="border-t border-border">
-              <CarbonFootprintCards totalEmission={totalEmission} />
+              <CarbonFootprintCards emissionData={emissionData} />
 
               <div className="mt-4 bg-blue-50 dark:bg-blue-200/20 border border-blue-100 dark:border-blue-300 rounded-xl px-4 py-2 shadow-md">
                 <div className="flex items-center justify-between">

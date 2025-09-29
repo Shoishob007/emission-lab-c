@@ -75,6 +75,130 @@ const CarbonImpactDashboard = ({
     },
   ];
 
+function formatDynamicDuration(value, currentUnit) {
+  // Accepts a numeric value and the unit provided by the API
+  // Returns an object with separate numeric value and text unit
+
+  if (currentUnit === "years") {
+    if (value >= 1) {
+      return {
+        value: value.toFixed(1),
+        unit: `year${value >= 2 ? "s" : ""}`
+      };
+    } else if (value >= 1 / 12) {
+      const months = value * 12;
+      if (months >= 2) {
+        // For 2+ months, show whole months with remaining days
+        const wholeMonths = Math.floor(months);
+        const remainingDays = Math.round((months - wholeMonths) * 30);
+        if (remainingDays > 0) {
+          return {
+            value: wholeMonths.toString(),
+            unit: `month${wholeMonths !== 1 ? "s" : ""} and ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`
+          };
+        } else {
+          return {
+            value: wholeMonths.toString(),
+            unit: `month${wholeMonths !== 1 ? "s" : ""}`
+          };
+        }
+      } else {
+        // For less than 2 months, show as days for more precision
+        const days = Math.round(months * 30);
+        return {
+          value: days.toString(),
+          unit: `day${days !== 1 ? "s" : ""}`
+        };
+      }
+    } else if (value >= 1 / 365) {
+      const days = value * 365;
+      return {
+        value: days.toFixed(0),
+        unit: `day${days !== 1 ? "s" : ""}`
+      };
+    } else {
+      const hours = value * 365 * 24;
+      return {
+        value: hours.toFixed(0),
+        unit: `hour${hours !== 1 ? "s" : ""}`
+      };
+    }
+  }
+
+  if (currentUnit === "months") {
+    if (value >= 12) {
+      const years = value / 12;
+      if (years >= 2) {
+        // For 2+ years, show whole years with remaining months
+        const wholeYears = Math.floor(years);
+        const remainingMonths = Math.round((years - wholeYears) * 12);
+        if (remainingMonths > 0) {
+          return {
+            value: wholeYears.toString(),
+            unit: `year${wholeYears !== 1 ? "s" : ""} and ${remainingMonths} month${remainingMonths !== 1 ? "s" : ""}`
+          };
+        } else {
+          return {
+            value: wholeYears.toString(),
+            unit: `year${wholeYears !== 1 ? "s" : ""}`
+          };
+        }
+      } else {
+        return {
+          value: years.toFixed(1),
+          unit: `year${years >= 2 ? "s" : ""}`
+        };
+      }
+    } else if (value >= 2) {
+      // For 2+ months, show whole months with remaining days
+      const wholeMonths = Math.floor(value);
+      const remainingDays = Math.round((value - wholeMonths) * 30);
+      if (remainingDays > 7) { // Only show days if it's more than a week
+        return {
+          value: wholeMonths.toString(),
+          unit: `month${wholeMonths !== 1 ? "s" : ""} and ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`
+        };
+      } else {
+        return {
+          value: wholeMonths.toString(),
+          unit: `month${wholeMonths !== 1 ? "s" : ""}`
+        };
+      }
+    } else if (value >= 1) {
+      // For 1-2 months, show as weeks for better readability
+      const weeks = Math.round(value * 4.33); // 4.33 weeks per month
+      if (weeks >= 4) {
+        return {
+          value: "1",
+          unit: "month"
+        };
+      } else {
+        return {
+          value: weeks.toString(),
+          unit: `week${weeks !== 1 ? "s" : ""}`
+        };
+      }
+    } else {
+      // For less than 1 month, show as days
+      const days = Math.round(value * 30);
+      if (days >= 14) {
+        const weeks = Math.round(days / 7);
+        return {
+          value: weeks.toString(),
+          unit: `week${weeks !== 1 ? "s" : ""}`
+        };
+      } else {
+        return {
+          value: days.toString(),
+          unit: `day${days !== 1 ? "s" : ""}`
+        };
+      }
+    }
+  }
+
+  return { value: value.toString(), unit: "" }; // fallback
+}
+
   // Use AI analysis data if available, otherwise fallback to static calculations
   const totalEmissions =
     aiAnalysisData?.carbon_emissions?.co2e_mt ||
@@ -82,82 +206,29 @@ const CarbonImpactDashboard = ({
     emissionData?.result?.data?.co2e_mt ||
     0;
 
-  // Fallback calculations for when AI data is not available
-  const fallbackData = {
-    totalEmissions: totalEmissions,
-    treesRequired: Math.ceil(totalEmissions * 20),
-    homeEquivalent: Math.ceil(totalEmissions / 8.6),
-    carEquivalent: Math.ceil(totalEmissions / 4.6),
-    airQualityImprovement: Math.ceil(totalEmissions * 0.16),
-    waterSaved: Math.ceil(totalEmissions * 8000),
-    speciesProtected: Math.ceil(totalEmissions * 0.37),
-  };
-
   // Extract data from AI analysis or use fallback
   const getEmissionFootprintData = () => {
     return (
-      aiAnalysisData?.environmental_impact?.emission_footprint || [
-        {
-          category: "Home Energy",
-          emissions: fallbackData.homeEquivalent,
-          description: `Your footprint equals to emission of ${fallbackData.homeEquivalent} average home throughout a year. Residential emissions primarily come from electricity (60%), heating (25%), and appliances (15%).`,
-        },
-        {
-          category: "Transportation",
-          emissions: fallbackData.carEquivalent,
-          description: `Your total emissions match ${fallbackData.carEquivalent} vehicles driving the average annual mileage. Transportation emissions account for nearly 30% of greenhouse gases.`,
-        },
-      ]
+      aiAnalysisData?.environmental_impact?.emission_footprint
     );
   };
 
   const getCarbonOffsetData = () => {
     return (
-      aiAnalysisData?.environmental_impact?.carbon_offset_solutions || [
-        {
-          category: "Reforestation",
-          emissions: fallbackData.treesRequired,
-          description: `Planting ${fallbackData.treesRequired.toLocaleString()} native trees will fully offset your emissions over their 40-year lifespan. These projects restore biodiversity while creating natural carbon sinks.`,
-        },
-        {
-          category: "Community Projects",
-          emissions: Math.ceil(totalEmissions * 2),
-          description: `Your offset can provide clean energy solutions for ${Math.ceil(
-            totalEmissions * 2
-          )} people in developing regions. Projects include efficient cookstoves and solar lanterns.`,
-        },
-      ]
+      aiAnalysisData?.environmental_impact?.carbon_offset_solutions
     );
   };
 
   const getEnvironmentalImpactData = () => {
     return (
-      aiAnalysisData?.environmental_impact?.positive_environmental_impact || [
-        {
-          category: "Air Quality",
-          emissions: fallbackData.airQualityImprovement,
-          description: `Offset projects may reduce particulate pollution by ${fallbackData.airQualityImprovement}% in local areas, preventing respiratory illnesses.`,
-        },
-        {
-          category: "Water Saved",
-          emissions: fallbackData.waterSaved,
-          description: `Conserves ${Math.round(
-            fallbackData.waterSaved / 1000
-          )} thousand liters by avoiding water-intensive energy production.`,
-        },
-        {
-          category: "Biodiversity",
-          emissions: fallbackData.speciesProtected,
-          description: `Protects habitat for ${fallbackData.speciesProtected} plant and animal species, with restoration projects increasing biodiversity by 35% on average.`,
-        },
-      ]
+      aiAnalysisData?.environmental_impact?.positive_environmental_impact
     );
   };
 
   const emissionFootprintData = getEmissionFootprintData();
   const carbonOffsetData = getCarbonOffsetData();
   const environmentalImpactData = getEnvironmentalImpactData();
-  console.log("environmentalImpactData Data :: ", environmentalImpactData);
+  console.log("emissionFootprintData Data :: ", emissionFootprintData);
 
   return (
     <div className="p-6 font-sans">
@@ -268,23 +339,29 @@ const CarbonImpactDashboard = ({
             const getHeadlineParts = (item) => {
               switch (item.category) {
                 case "Home Energy":
-                  return [
-                    "Energy use of an average home for",
-                    item.emissions.toLocaleString(),
-                    "months",
-                  ];
+                  const duration = formatDynamicDuration(item.emissions, "months");
+                  return {
+                    textBefore: "Energy use of an average home for",
+                    value: duration.value,
+                    textAfter: duration.unit,
+                  };
                 case "Transportation":
-                  return [
-                    "Driving a typical gasoline car for",
-                    item.emissions.toLocaleString(),
-                    "kilometers",
-                  ];
+                  return {
+                    textBefore: "Driving a typical gasoline car for",
+                    value: item.emissions.toLocaleString(),
+                    textAfter: "kilometers",
+                  };
                 default:
-                  return ["", item.emissions.toLocaleString(), ""];
+                  const defaultDuration = formatDynamicDuration(item.emissions, "months");
+                  return {
+                    textBefore: "",
+                    value: defaultDuration.value,
+                    textAfter: defaultDuration.unit,
+                  };
               }
             };
 
-            const [textBefore, value, textAfter] = getHeadlineParts(item);
+            const { textBefore, value, textAfter } = getHeadlineParts(item);
 
             return (
               <div
@@ -322,12 +399,12 @@ const CarbonImpactDashboard = ({
                 </div>
 
                 <div className="p-6">
-                  <div className="flex items-baseline mb-2 font-semibold text-gray-800">
-                    <span>{textBefore}</span>
-                    <span className="mx-1 text-4xl font-bold text-gray-800">
+                  <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1 mb-2 text-gray-800">
+                    <span className="font-semibold">{textBefore}</span>
+                    <span className="text-4xl font-bold text-gray-800">
                       {value}
                     </span>
-                    <span>{textAfter}</span>
+                    <span className="font-semibold">{textAfter}</span>
                   </div>
 
                   <p className="text-sm text-gray-600 mb-4">
@@ -350,26 +427,33 @@ const CarbonImpactDashboard = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
           {carbonOffsetData.map((item, index) => {
-            const getHeadlineParts = (item) => {
-              switch (item.category) {
-                case "Reforestation":
-                  return [
-                    "Supporting the planting of",
-                    item.emissions.toLocaleString(),
-                    "trees",
-                  ];
-                case "Community Projects":
-                  return [
-                    "Investing in improved cookstoves for",
-                    item.emissions.toLocaleString(),
-                    "years",
-                  ];
-                default:
-                  return ["", item.emissions.toLocaleString(), ""];
-              }
-            };
+// In your CarbonOffsetData section, update the getHeadlineParts function:
+const getHeadlineParts = (item) => {
+  switch (item.category) {
+    case "Reforestation":
+      return {
+        textBefore: "Supporting the planting of",
+        value: Math.ceil(item.emissions).toString(),
+        textAfter: "trees",
+      };
+    case "Community Projects":
+      const duration = formatDynamicDuration(item.emissions, "years");
+      return {
+        textBefore: "Providing cleaner cooking for",
+        value: duration.value,
+        textAfter: duration.unit,
+      };
+    default:
+      const defaultDuration = formatDynamicDuration(item.emissions, "months");
+      return {
+        textBefore: "",
+        value: defaultDuration.value,
+        textAfter: defaultDuration.unit,
+      };
+  }
+};
 
-            const [textBefore, value, textAfter] = getHeadlineParts(item);
+            const { textBefore, value, textAfter } = getHeadlineParts(item);
 
             return (
               <div
@@ -408,12 +492,12 @@ const CarbonImpactDashboard = ({
                 </div>
 
                 <div className="p-6">
-                  <div className="flex items-baseline mb-2 font-semibold text-gray-800">
-                    <span>{textBefore}</span>
-                    <span className="mx-1 text-4xl font-bold text-gray-800">
+                  <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1 mb-2 text-gray-800">
+                    <span className="font-semibold">{textBefore}</span>
+                    <span className="text-4xl font-bold text-gray-800">
                       {value}
                     </span>
-                    <span>{textAfter}</span>
+                    <span className="font-semibold">{textAfter}</span>
                   </div>
 
                   <p className="text-sm text-gray-600 mb-4">
@@ -452,26 +536,34 @@ const CarbonImpactDashboard = ({
             const getHeadlineParts = (item) => {
               switch (item.category) {
                 case "Air Quality":
-                  return ["Air quality impact score of", item.emissions, ""];
+                  return {
+                    textBefore: "Air quality impact score of",
+                    value: item.emissions.toString(),
+                    textAfter: "",
+                  };
                 case "Water Saved":
-                  return [
-                    "Saving",
-                    item.emissions.toLocaleString(),
-                    "litres of water per year",
-                  ];
+                  return {
+                    textBefore: "Saving",
+                    value: item.emissions.toLocaleString(),
+                    textAfter: "litres of water per year",
+                  };
                 case "Biodiversity":
-                  return [
-                    "Protecting",
-                    item.emissions.toLocaleString(),
-                    "m² forest habitat",
-                  ];
+                  return {
+                    textBefore: "Protecting",
+                    value: item.emissions.toLocaleString(),
+                    textAfter: "m² forest habitat",
+                  };
                 default:
-                  return ["", item.emissions, ""];
+                  return {
+                    textBefore: "",
+                    value: item.emissions.toString(),
+                    textAfter: "",
+                  };
               }
             };
 
             const Icon = getIcon(item.category);
-            const [textBefore, value, textAfter] = getHeadlineParts(item);
+            const { textBefore, value, textAfter } = getHeadlineParts(item);
 
             return (
               <div
@@ -502,15 +594,17 @@ const CarbonImpactDashboard = ({
                 </div>
 
                 <div className="p-6">
-                  <div className="flex items-baseline mb-2 font-semibold text-gray-800">
-                    <span>{textBefore}</span>
-                    <span className="mx-1 text-4xl font-bold text-gray-800">
+                  <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1 mb-2 text-gray-800">
+                    <span className="font-semibold">{textBefore}</span>
+                    <span className="text-4xl font-bold text-gray-800">
                       {value}
                     </span>
-                    <span>{textAfter}</span>
+                    <span className="font-semibold">{textAfter}</span>
                   </div>
 
-                  <p className="text-sm text-gray-600">{item.description}</p>
+                  <p className="text-sm text-gray-600 mb-4">
+                    {item.description}
+                  </p>
                 </div>
               </div>
             );
@@ -529,7 +623,9 @@ const CarbonImpactDashboard = ({
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href={"/offsetPage"}>
-                <button className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center">
+                <button
+                  className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center"
+                >
                   <ArrowUp className="h-5 w-5 mr-2" />
                   Offset Now
                 </button>
