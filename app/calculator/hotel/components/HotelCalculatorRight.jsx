@@ -8,7 +8,6 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import useEmissionsStore from "@/stores/emissionStore";
 import { fetchCarbonEmissionDetailsInHotel } from "@/utils/api/HotelEquivalentAPI";
 
-
 const HotelCalculatorRight = ({
   calculated,
   activeTab,
@@ -18,13 +17,12 @@ const HotelCalculatorRight = ({
   scrollToDashboard,
   calculating,
   pricePerTon,
-    setAiAnalysisData,
-
+  setAiAnalysisData,
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
-  // console.log("pricePerTon :: ", pricePerTon);
-    const [generationStage, setGenerationStage] = useState("");
+  console.log("emissionData :: ", emissionData);
+  const [generationStage, setGenerationStage] = useState("");
   const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
 
   // when emission data changes
@@ -63,7 +61,7 @@ const HotelCalculatorRight = ({
     try {
       // Start progress animation
       const progressInterval = setInterval(() => {
-        setGenerationProgress(prev => {
+        setGenerationProgress((prev) => {
           if (prev >= 90) {
             clearInterval(progressInterval);
             return 90;
@@ -73,20 +71,22 @@ const HotelCalculatorRight = ({
       }, 500);
 
       // Update stages during generation
-      setTimeout(() => setGenerationStage("Calculating environmental impact..."), 2000);
-      setTimeout(() => setGenerationStage("Preparing detailed insights..."), 4000);
+      // setTimeout(() => setGenerationStage("Calculating environmental impact..."), 2000);
+      // setTimeout(() => setGenerationStage("Preparing detailed insights..."), 4000);
 
       // Make API call
-      const aiAnalysisData = await fetchCarbonEmissionDetailsInHotel(emissionData);
-      
+      const aiAnalysisData = await fetchCarbonEmissionDetailsInHotel(
+        emissionData
+      );
+
       // Complete progress
       clearInterval(progressInterval);
       setGenerationProgress(100);
       setGenerationStage("Analysis complete!");
-      
+
       // Set the AI analysis data in parent component
       setAiAnalysisData(aiAnalysisData);
-      
+
       setTimeout(() => {
         setIsGenerating(false);
         setShowDashboard(true);
@@ -94,9 +94,8 @@ const HotelCalculatorRight = ({
           scrollToDashboard();
         }, 100);
       }, 1000);
-
     } catch (error) {
-      console.error('Error generating analysis:', error);
+      console.error("Error generating analysis:", error);
       setGenerationStage("Error generating analysis. Please try again.");
       setGenerationProgress(0);
       setTimeout(() => {
@@ -258,7 +257,9 @@ const HotelCalculatorRight = ({
                   {/* Offset Now */}
                   {!showDashboard && (
                     <Link href={"/offsetPage"} className="w-1/2">
-                      <button disabled className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors cursor-not-allowed">
+                      <button
+                        className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors"
+                      >
                         <ArrowUp className="h-4 w-4 mr-2" />
                         Offset Now
                       </button>

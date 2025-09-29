@@ -275,9 +275,8 @@ export default function ProjectDetailsPage({ params }) {
                 </div>
 
                 <button
-                disabled
                   onClick={handleOffset}
-                  className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3 cursor-not-allowed"
+                  className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
                 >
                   <CheckCircle size={24} />
                   Offset {getFormattedEmission()} MT

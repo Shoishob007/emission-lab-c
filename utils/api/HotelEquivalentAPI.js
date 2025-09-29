@@ -13,6 +13,9 @@ export const fetchCarbonEmissionDetailsInHotel = async (emissionData) => {
     const countryCode = getCountryCode(emissionData?.result?.data?.country);
     const isValidCountry = ALLOWED_COUNTRIES.includes(countryCode);
 
+      console.log("Emission Data :: ", emissionData)
+
+
     const hotelDetails = {
       country_code: isValidCountry ? countryCode : "",
       city_name: emissionData?.result?.data?.city_name || "",

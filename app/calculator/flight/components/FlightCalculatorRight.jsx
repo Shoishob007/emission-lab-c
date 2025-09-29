@@ -248,7 +248,7 @@ const FlightCalculatorRight = ({
                   {/* Offset Now */}
                   {!showDashboard && (
                     <Link href={"/offsetPage"} className="w-1/2">
-                      <button disabled className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors cursor-not-allowed">
+                      <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
                         <ArrowUp className="h-4 w-4 mr-2" />
                         Offset Now
                       </button>
