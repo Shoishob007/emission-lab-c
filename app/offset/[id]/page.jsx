@@ -39,9 +39,6 @@ export default function ProjectDetailsPage({ params }) {
   // Check if emission data is valid and available
   const hasValidEmissionData = currentEmission && isDataValid();
 
-  console.log("Current Emission in details page :: ", currentEmission);
-  console.log("Is it valid??", hasValidEmissionData);
-
   const handleOffset = async () => {
     if (!hasValidEmissionData) {
       console.error("No valid emission data available");
@@ -79,11 +76,11 @@ export default function ProjectDetailsPage({ params }) {
             {error ? error : "Project Not Found"}
           </h1>
           <Link
-            href="/offsetPage"
+            href="/offset"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors"
           >
             <ArrowLeft size={20} />
-            Back to Offset Page
+            Back to Projects
           </Link>
         </div>
       </div>
@@ -91,26 +88,26 @@ export default function ProjectDetailsPage({ params }) {
   }
 
   // If no valid emission data, show message to calculate first
-  // if (!hasValidEmissionData) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center">
-  //       <div className="text-center">
-  //         <h1 className="text-2xl font-bold text-[#163820] mb-4">
-  //           No Emission Data Available
-  //         </h1>
-  //         <p className="text-[#767676] mb-6">
-  //           Please calculate your carbon footprint first before offsetting.
-  //         </p>
-  //         <Link
-  //           href="/calculator"
-  //           className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors"
-  //         >
-  //           Calculate Emissions
-  //         </Link>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (!hasValidEmissionData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-[#163820] mb-4">
+            No Emission Data Available
+          </h1>
+          <p className="text-[#767676] mb-6">
+            Please calculate your carbon footprint first before offsetting.
+          </p>
+          <Link
+            href="/calculator"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors"
+          >
+            Calculate Emissions
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const formatCurrency = (amount) =>
     new Intl.NumberFormat("en-US", {
@@ -132,11 +129,11 @@ export default function ProjectDetailsPage({ params }) {
 
         {/* Back Button */}
         <Link
-          href="/offsetPage"
+          href="/offset"
           className="absolute top-6 left-6 inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm hover:bg-white text-[#163820] font-semibold rounded-lg transition-all shadow-lg"
         >
           <ArrowLeft size={20} />
-          Back to Offset Page
+          Back to Projects
         </Link>
 
         {/* Project Header */}
@@ -153,22 +150,20 @@ export default function ProjectDetailsPage({ params }) {
                 </span>
               )}
             </div>
-            {hasValidEmissionData && (
-              <div className="flex items-center gap-4 justify-between">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
-                  {project.name}
-                </h1>
-                {/* Display current emission info */}
-                <div className="p-4 bg-white/10 backdrop-blur-sm rounded-lg">
-                  <p className="text-white/90 text-sm mb-1">
-                    Your {calculationType} footprint:
-                  </p>
-                  <p className="text-white font-bold text-xl">
-                    {getFormattedEmission()} MT of CO₂e
-                  </p>
-                </div>
+            <div className="flex items-center gap-4 justify-between">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
+                {project.name}
+              </h1>
+              {/* Display current emission info */}
+              <div className="p-4 bg-white/10 backdrop-blur-sm rounded-lg">
+                <p className="text-white/90 text-sm mb-1">
+                  Your {calculationType} footprint:
+                </p>
+                <p className="text-white font-bold text-xl">
+                  {getFormattedEmission()} MT of CO₂e
+                </p>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
@@ -263,58 +258,31 @@ export default function ProjectDetailsPage({ params }) {
                 </div>
 
                 {/* current emission amount to offset */}
-                {hasValidEmissionData ? (
-                  <div className="mb-4 p-4 rounded-lg">
-                    <div className="text-center">
-                      <p className="text-sm text-[#767676] mb-1">
-                        Offsetting your {calculationType} emissions:
-                      </p>
-                      <p className="text-2xl font-bold text-orange-400">
-                        {getFormattedEmission()} MT of CO₂e
-                      </p>
-                      <p className="text-lg font-semibold text-[#163820] mt-2">
-                        Total:{" "}
-                        {formatCurrency(
-                          (project.price_per_ton || project.donationValue) *
-                            currentEmission
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="mb-4 p-4 rounded-lg bg-gray-50 text-center border border-gray-100 shadow-sm">
-                    <p className="text-lg font-semibold text-[#163820] mb-2">
-                      Ready to Take Climate Action?
+                <div className="mb-4 p-4 rounded-lg">
+                  <div className="text-center">
+                    <p className="text-sm text-[#767676] mb-1">
+                      Offsetting your {calculationType} emissions:
                     </p>
-                    <p className="text-sm text-[#767676] leading-relaxed">
-                      To support this project, you first need to understand your
-                      carbon footprint. <br />
-                      <span className="italic text-primary font-medium">
-                        &quot;You can’t offset what you don’t measure.&quot;
-                      </span>
-                      <br />
-                      Calculate your emissions to discover how much CO₂e you
-                      should offset.
+                    <p className="text-2xl font-bold text-orange-400">
+                      {getFormattedEmission()} MT of CO₂e
+                    </p>
+                    <p className="text-lg font-semibold text-[#163820] mt-2">
+                      Total:{" "}
+                      {formatCurrency(
+                        (project.price_per_ton || project.donationValue) *
+                          currentEmission
+                      )}
                     </p>
                   </div>
-                )}
+                </div>
 
-                {hasValidEmissionData ? (
-                  <button
-                    onClick={handleOffset}
-                    className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
-                  >
-                    <CheckCircle size={24} />
-                    Offset {getFormattedEmission()} MT
-                  </button>
-                ) : (
-                  <Link
-                    href="/calculator"
-                    className="w-full block py-2 px-4 bg-btn-secondary hover:bg-btn-secondary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-secondary/20 hover:shadow-xl hover:shadow-btn-secondary/30 text-center"
-                  >
-                    Calculate Your Footprint
-                  </Link>
-                )}
+                <button
+                  onClick={handleOffset}
+                  className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
+                >
+                  <CheckCircle size={24} />
+                  Offset {getFormattedEmission()} MT
+                </button>
 
                 {/* <div className="mt-6 pt-6 border-t border-gray-100">
                   <h3 className="text-lg font-bold text-[#163820] mb-4">

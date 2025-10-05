@@ -622,7 +622,7 @@ const getHeadlineParts = (item) => {
               improving lives worldwide.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href={"/offsetPage"}>
+              <Link href={"/offset"}>
                 <button
                   className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center"
                 >
