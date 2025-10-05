@@ -177,7 +177,7 @@ const TransportCalculatorRight = ({
             </p>
 
             {/* Professional Information */}
-            <div className="bg-primary/20 dark:bg-gray-950/20 border border-gray-200/50 dark:border-gray-800/30 rounded-lg p-4 mb-4 max-w-md">
+            <div className="bg-primary/10 dark:bg-gray-950/20 border border-gray-200/50 dark:border-gray-800/30 rounded-lg p-4 mb-4 max-w-md">
               <div className="flex items-start space-x-3">
                 <div className="text-left">
                   <p className="text-sm font-medium text-foreground/70 dark:text-gray-100 mb-1">

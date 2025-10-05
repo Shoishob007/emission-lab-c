@@ -12,7 +12,7 @@ const useEmissionsStore = create(
 
       // Set emission data
       setEmissionData: (data) => set({
-        currentEmission: data?.result?.data?.emissions?.co2e_mt || 0,
+        currentEmission: data?.result?.data?.emissions?.co2e_mt || data?.result?.data?.co2e_mt|| 0,
         emissionData: data,
         calculationType: data?.calculationType || 'flight',
         timestamp: new Date().toISOString()
