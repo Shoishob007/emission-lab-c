@@ -22,7 +22,7 @@ export default function TermsAndConditions() {
     <section
       className="relative py-20 flex justify-center items-center min-h-screen overflow-x-hidden bg-white"
       style={{
-        backgroundImage: "url('/bg-calc.png')",
+        backgroundImage: "url('/bg_1.jpg')",
         backgroundRepeat: "repeat",
         backgroundSize: "contain",
         backgroundPosition: "center",
@@ -114,7 +114,7 @@ export default function TermsAndConditions() {
             </div>
 
             {/* Compliance */}
-            <div>
+            {/* <div>
               <div className="flex items-center gap-3 mb-2">
                 <Globe className="w-6 h-6 text-secondary" />
                 <span className="font-semibold text-lg text-[#163820]">
@@ -129,10 +129,10 @@ export default function TermsAndConditions() {
                 sustainability practices, please refer to our environmental
                 policy.
               </p>
-            </div>
+            </div> */}
 
             {/* GDPR Privacy Notice */}
-            <div>
+            {/* <div>
               <div className="flex items-center gap-3 mb-3">
                 <Lock className="w-6 h-6 text-secondary" />
                 <span className="font-semibold text-lg text-[#163820]">
@@ -140,7 +140,6 @@ export default function TermsAndConditions() {
                 </span>
               </div>
               <div className="pl-1">
-                {/* Personal Data */}
                 <div className="mb-2">
                   <div className="flex items-center gap-2">
                     <UserCheck className="w-5 h-5 text-primary" />
@@ -156,7 +155,6 @@ export default function TermsAndConditions() {
                     confidentiality in line with GDPR principles.
                   </p>
                 </div>
-                {/* Usage of Personal Data */}
                 <div className="mb-2">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-primary" />
@@ -172,7 +170,6 @@ export default function TermsAndConditions() {
                     communication unless you decide otherwise.
                   </p>
                 </div>
-                {/* Cookies */}
                 <div className="mb-2">
                   <div className="flex items-center gap-2">
                     <Cookie className="w-5 h-5 text-primary" />
@@ -186,7 +183,6 @@ export default function TermsAndConditions() {
                     do not use cookies to personally identify visitors.
                   </p>
                 </div>
-                {/* Legal Basis for Processing */}
                 <div className="mb-2">
                   <div className="flex items-center gap-2">
                     <BadgeCheck className="w-5 h-5 text-primary" />
@@ -201,7 +197,6 @@ export default function TermsAndConditions() {
                     regulations.
                   </p>
                 </div>
-                {/* Consent and Rights */}
                 <div className="mb-2">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-primary" />
@@ -222,7 +217,7 @@ export default function TermsAndConditions() {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Copyright and Intellectual Property */}
             <div>

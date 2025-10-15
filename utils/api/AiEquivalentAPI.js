@@ -12,15 +12,16 @@ export async function fetchEquivalentValues(requestBody, emission_lab_key) {
       }
     );
 
+    // return the status code
     if (!response.ok) {
       console.error("Failed to fetch carbon emission details");
-      return null;
+      return { errorCode: response.status };
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching carbon emission details:", error);
-    return null;
+    return { errorCode: 500 };
   }
 }

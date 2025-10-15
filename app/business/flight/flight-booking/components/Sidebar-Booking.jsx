@@ -49,6 +49,7 @@ const SidebarBooking = ({
   loadingEquivalent,
   carbonLoading,
   onFetchEquivalentValues,
+  equivalentErrorCode,
 }) => {
   const formatCurrency = (amount, currency = "$") => {
     return `${amount.toLocaleString()} ${currency}`;
@@ -462,10 +463,16 @@ const SidebarBooking = ({
                       </>
                     ) : (
                       <div className="text-center py-4">
-                        <p className="text-sm text-gray-600">
-                          Click &quot;Details&quot; to load environmental impact
-                          data
-                        </p>
+                        {equivalentErrorCode === 401 ? (
+                          <p className="text-sm text-red-600 font-medium">
+                            Please log in to view environmental impact details.
+                          </p>
+                        ) : (
+                          <p className="text-sm text-gray-600">
+                            Click &quot;Details&quot; to load environmental
+                            impact data.
+                          </p>
+                        )}
                       </div>
                     )}
                   </div>
