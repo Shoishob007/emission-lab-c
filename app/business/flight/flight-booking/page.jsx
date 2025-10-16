@@ -31,6 +31,8 @@ export default function FlightBooking() {
   const [loadingEquivalent, setLoadingEquivalent] = useState(false);
   const [carbonLoading, setCarbonLoading] = useState(true);
 
+  const [equivalentErrorCode, setEquivalentErrorCode] = useState(null);
+
   const flightParams = {
     user_id: "1adfdf",
     iata_airport_from: "DUB",
@@ -82,6 +84,7 @@ export default function FlightBooking() {
 
     try {
       setLoadingEquivalent(true);
+      setEquivalentErrorCode(null);
 
       const requestBody = {
         flight_details: {
@@ -100,15 +103,23 @@ export default function FlightBooking() {
         },
       };
 
-      console.log("Fetching equivalent values with:", requestBody);
+      // console.log("Fetching equivalent values with:", requestBody);
 
       const equivalentResponse = await fetchEquivalentValues(
         requestBody,
         emission_lab_key
       );
 
-      if (equivalentResponse) {
-        console.log("Equivalent values response:", equivalentResponse);
+      console.log("Equivalent Response :: ", equivalentResponse);
+
+      if (equivalentResponse?.errorCode === 401) {
+        setEquivalentErrorCode(401);
+        setEquivalentData(null);
+      } else if (equivalentResponse?.errorCode) {
+        setEquivalentErrorCode(equivalentResponse.errorCode);
+        setEquivalentData(null);
+      } else {
+        setEquivalentErrorCode(null);
         setEquivalentData(equivalentResponse);
       }
     } catch (error) {
@@ -253,6 +264,7 @@ export default function FlightBooking() {
             loadingEquivalent={loadingEquivalent}
             carbonLoading={carbonLoading}
             onFetchEquivalentValues={handleFetchEquivalentValues}
+            equivalentErrorCode={equivalentErrorCode}
           />
         </div>
       </div>

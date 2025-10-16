@@ -153,7 +153,7 @@ const TransportCalculatorRight = ({
         {!calculated || activeTab !== "transport" ? (
           <div className="h-full flex flex-col items-center justify-center text-center px-6">
             {/* Animation container */}
-            <div className="p-6 rounded-full bg-gradient-to-br from-primary/20 to-primary/20 shadow-inner mb-6">
+            <div className="p-6 rounded-full bg-gradient-to-br from-primary/10 to-primary/10 shadow-inner mb-6">
               <div className="w-32 h-32 sm:w-40 sm:h-40">
                 <DotLottieReact
                   key={loading ? "calc-anim" : "idle-anim"}
@@ -231,7 +231,7 @@ const TransportCalculatorRight = ({
 
             {/* Call to Action */}
             <div className="border-t border-border">
-              <CarbonFootprintCards totalEmission={totalEmission} />
+              <CarbonFootprintCards emissionData={emissionData} />
 
               <div className="mt-4 bg-blue-50 dark:bg-blue-200/20 border border-blue-100 dark:border-blue-300 rounded-xl px-4 py-2 shadow-md">
                 <div className="flex items-center justify-between">
@@ -290,8 +290,8 @@ const TransportCalculatorRight = ({
 
                   {/* Offset Now */}
                   {!showDashboard && (
-                    <Link href={"/offsetPage"} className="w-1/2">
-                      <button disabled className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors cursor-not-allowed">
+                    <Link href={"/offset"} className="w-1/2">
+                      <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
                         <ArrowUp className="h-4 w-4 mr-2" />
                         Offset Now
                       </button>

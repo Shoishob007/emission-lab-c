@@ -195,7 +195,7 @@ const ShipCalculatorRight = ({
             </div>
 
             <div className="border-t border-border">
-              <CarbonFootprintCards totalEmission={totalEmission} />
+              <CarbonFootprintCards emissionData={emissionData} />
 
               <div className="mt-4 bg-blue-50 dark:bg-blue-200/20 border border-blue-100 dark:border-blue-300 rounded-xl px-4 py-2 shadow-md">
                 <div className="flex items-center justify-between">
@@ -256,8 +256,8 @@ const ShipCalculatorRight = ({
 
                   {/* Offset Now */}
                   {!showDashboard && (
-                    <Link href={"/offsetPage"} className="w-1/2">
-                      <button disabled className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors cursor-not-allowed">
+                    <Link href={"/offset"} className="w-1/2">
+                      <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
                         <ArrowUp className="h-4 w-4 mr-2" />
                         Offset Now
                       </button>

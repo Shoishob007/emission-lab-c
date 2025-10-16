@@ -69,7 +69,7 @@ export default function PaymentCancel() {
                     Home
                   </Button>
                 </Link>
-                <Link href="/offsetPage">
+                <Link href="/offset">
                   <Button variant="ghost" size="sm">
                     <Home className="w-4 h-4 mr-2" />
                     Back to Projects

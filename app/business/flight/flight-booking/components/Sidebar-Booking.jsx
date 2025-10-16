@@ -29,6 +29,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { flightDetailsDummy } from "./dummyFlightData";
+import { RiCommunityFill } from "@remixicon/react";
 
 const getEmissionCategory = (emissionsInTons) => {
   if (!emissionsInTons) return { category: "unknown", color: "gray" };
@@ -48,6 +49,7 @@ const SidebarBooking = ({
   loadingEquivalent,
   carbonLoading,
   onFetchEquivalentValues,
+  equivalentErrorCode,
 }) => {
   const formatCurrency = (amount, currency = "$") => {
     return `${amount.toLocaleString()} ${currency}`;
@@ -100,6 +102,7 @@ const SidebarBooking = ({
   };
 
   const equivalentValues = getEquivalentValues();
+  console.log("Equivalent Values: ", equivalentValues);
 
   if (carbonLoading) {
     return (
@@ -115,6 +118,24 @@ const SidebarBooking = ({
       </div>
     );
   }
+
+  const MetricRow = ({
+    icon: Icon,
+    label,
+    value,
+    unit,
+    color = "text-gray-600",
+  }) => (
+    <div className="flex items-center justify-between py-1">
+      <div className="flex items-center gap-2">
+        <Icon className={`h-4 w-4 ${color}`} />
+        <span className="text-sm text-gray-600">{label}</span>
+      </div>
+      <p className="text-sm font-semibold">
+        {value} {unit || ""}
+      </p>
+    </div>
+  );
 
   return (
     <>
@@ -282,7 +303,7 @@ const SidebarBooking = ({
                     <span
                       className={`text-sm font-medium text-${emissionCategory.color}`}
                     >
-                      CO2 emissions ({emissionsInKGs.toFixed(2)} KG)
+                      CO₂e emissions ({emissionsInTons.toFixed(2)} MT)
                     </span>
                   </div>
                   <TooltipProvider>
@@ -313,7 +334,7 @@ const SidebarBooking = ({
 
                 {showEmissionsDetails && (
                   <div
-                    className={`mt-2 bg-${emissionCategory.color}/10 p-4 rounded-md space-y-4`}
+                    className={`bg-${emissionCategory.color}/10 p-4 rounded-md space-y-4`}
                   >
                     {loadingEquivalent ? (
                       <div className="flex items-center justify-center py-8">
@@ -327,10 +348,10 @@ const SidebarBooking = ({
                     ) : equivalentData ? (
                       <>
                         <div>
-                          <h5 className="text-base font-medium mb-2 flex items-center">
-                            <Leaf className="h-4 w-4 mr-1" />
-                            Environmental Impact
-                          </h5>
+                          {/* <h5 className="text-sm text-gray-900 font-semibold mb-2 flex items-center">
+                            <Leaf className="h-4 w-4 mr-1" strokeWith={4} />
+                            Emission, Footprint, Environmental Impact
+                          </h5> */}
                           {/* <p className="text-sm text-gray-700 mb-3">
                       {equivalentData.about?.understanding_carbon_footprint ||
                         `This flight produces ${emissionsInKGs.toFixed(2)} kg of CO₂, which is ${emissionCategory.category.toLowerCase()} compared to the average for this route.`}
@@ -338,133 +359,100 @@ const SidebarBooking = ({
 
                           {/* Impact metrics */}
                           <div className="space-y-2">
-                            {equivalentValues?.homeEquivalent && (
-                              <div className="flex items-center justify-between pb-1">
-                                <div className="flex items-center gap-2">
-                                  <Home className="h-4 w-4 text-red-500" />
-                                  <span className="text-sm text-gray-600">
-                                    Home Energy Equiv.
-                                  </span>
-                                </div>
-                                <p className="text-sm font-semibold">
-                                  {equivalentValues.homeEquivalent} homes
-                                </p>
-                              </div>
+                            {equivalentValues?.homeEquivalent > 0 && (
+                              <MetricRow
+                                icon={Home}
+                                label="Home Energy Equiv."
+                                value={equivalentValues.homeEquivalent}
+                                unit="months"
+                                color="text-red-500"
+                              />
                             )}
 
-                            {equivalentValues?.carEquivalent && (
-                              <div className="flex items-center justify-between border-b border-gray-200 pb-1">
-                                <div className="flex items-center gap-2">
-                                  <Car className="h-4 w-4 text-red-500" />
-                                  <span className="text-sm text-gray-600">
-                                    Car Equivalent
-                                  </span>
-                                </div>
-                                <p className="text-sm font-semibold">
-                                  {equivalentValues.carEquivalent} cars
-                                </p>
-                              </div>
+                            {equivalentValues?.carEquivalent > 0 && (
+                              <MetricRow
+                                icon={Car}
+                                label="Car Run Equivalent"
+                                value={equivalentValues.carEquivalent}
+                                unit="kilometers"
+                                color="text-red-500"
+                              />
+                            )}
+                            {equivalentValues?.communityProjects > 0 && (
+                              <MetricRow
+                                icon={RiCommunityFill}
+                                label="Community Project Support"
+                                value={equivalentValues.communityProjects}
+                                unit="year"
+                                color="text-green-500"
+                              />
                             )}
 
-                            {equivalentValues?.treesRequired && (
-                              <div className="flex items-center justify-between border-b border-gray-200 pb-1">
-                                <div className="flex items-center gap-2">
-                                  <TreePine className="h-4 w-4 text-primary" />
-                                  <span className="text-sm text-gray-600">
-                                    Trees Needed
-                                  </span>
-                                </div>
-                                <p className="text-sm font-semibold">
-                                  {equivalentValues.treesRequired.toLocaleString()}
-                                </p>
-                              </div>
+                            {equivalentValues?.treesRequired > 0 && (
+                              <MetricRow
+                                icon={TreePine}
+                                label="Trees Needed"
+                                value={Math.ceil(
+                                  equivalentValues.treesRequired.toLocaleString()
+                                )}
+                                color="text-green-600"
+                              />
                             )}
 
-                            {equivalentValues?.waterSaved && (
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <Droplet className="h-4 w-4 text-blue-500" />
-                                  <span className="text-sm text-gray-600">
-                                    Water Impact
-                                  </span>
-                                </div>
-                                <p className="text-sm font-semibold">
-                                  {(equivalentValues.waterSaved / 1000).toFixed(
-                                    1
-                                  )}
-                                  k L
-                                </p>
-                              </div>
+                            {equivalentValues?.waterSaved > 0 && (
+                              <MetricRow
+                                icon={Droplet}
+                                label="Water Saved"
+                                value={equivalentValues.waterSaved}
+                                unit="Liters"
+                                color="text-blue-500"
+                              />
                             )}
 
-                            {equivalentValues?.airQualityImprovement && (
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <Wind className="h-4 w-4 text-blue-500" />
-                                  <span className="text-sm text-gray-600">
-                                    Air Quality Improvement
-                                  </span>
-                                </div>
-                                <p className="text-sm font-semibold">
-                                  {equivalentValues.airQualityImprovement.toFixed(
-                                    1
-                                  )}
-                                  %
-                                </p>
-                              </div>
+                            {equivalentValues?.airQualityImprovement > 0 && (
+                              <MetricRow
+                                icon={Wind}
+                                label="Air Quality Impact Score"
+                                value={equivalentValues.airQualityImprovement.toFixed(
+                                  1
+                                )}
+                                color="text-blue-500"
+                              />
                             )}
 
-                            {equivalentValues?.speciesProtected && (
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <Shell className="h-4 w-4 text-blue-500" />
-                                  <span className="text-sm text-gray-600">
-                                    Species Protected
-                                  </span>
-                                </div>
-                                <p className="text-sm font-semibold">
-                                  {equivalentValues.speciesProtected}
-                                </p>
-                              </div>
+                            {equivalentValues?.speciesProtected > 0 && (
+                              <MetricRow
+                                icon={Shell}
+                                label="Species Protected"
+                                value={equivalentValues.speciesProtected}
+                                unit={"m²/year"}
+                                color="text-purple-500"
+                              />
                             )}
                           </div>
                         </div>
 
                         {/* Offset options */}
-                        <div>
-                          <h5 className="text-sm font-medium mb-2 flex items-center">
-                            <Users className="h-4 w-4 mr-1" />
-                            Offset Options
-                          </h5>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-white/60 transition-colors">
-                              <div className="flex items-center gap-2">
-                                <TreePine className="h-4 w-4 text-primary" />
-                                <span className="text-sm">
-                                  Reforestation Project
-                                </span>
-                              </div>
-                              <p className="text-sm font-medium">
-                                {formatCurrency(
-                                  Math.ceil(emissionsInTons * 500)
-                                )}
-                              </p>
-                            </div>
-                            <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-white/60 transition-colors">
-                              <div className="flex items-center gap-2">
-                                <Users className="h-4 w-4 text-blue-500" />
-                                <span className="text-sm">
-                                  Community Clean Energy
-                                </span>
-                              </div>
-                              <p className="text-sm font-medium">
-                                {formatCurrency(
-                                  Math.ceil(emissionsInTons * 650)
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
+                        {/* <div>
+  <h5 className="text-sm font-medium mb-2 flex items-center">
+    <Users className="h-4 w-4 mr-1" />
+    Offset Options
+  </h5>
+
+  <MetricRow
+    icon={TreePine}
+    label="Reforestation Project"
+    value={formatCurrency(Math.ceil(emissionsInTons * 500))}
+    color="text-green-600"
+  />
+
+  <MetricRow
+    icon={Users}
+    label="Community Clean Energy"
+    value={formatCurrency(Math.ceil(emissionsInTons * 650))}
+    color="text-blue-600"
+  />
+</div> */}
 
                         <Button
                           size="sm"
@@ -475,10 +463,16 @@ const SidebarBooking = ({
                       </>
                     ) : (
                       <div className="text-center py-4">
-                        <p className="text-sm text-gray-600">
-                          Click &quot;Details&quot; to load environmental impact
-                          data
-                        </p>
+                        {equivalentErrorCode === 401 ? (
+                          <p className="text-sm text-red-600 font-medium">
+                            Please log in to view environmental impact details.
+                          </p>
+                        ) : (
+                          <p className="text-sm text-gray-600">
+                            Click &quot;Details&quot; to load environmental
+                            impact data.
+                          </p>
+                        )}
                       </div>
                     )}
                   </div>

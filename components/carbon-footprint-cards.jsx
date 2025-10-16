@@ -7,7 +7,16 @@ import {
   IcBaselineHomeWork,
 } from "@/public/icons/Iconify-icons";
 
-const CarbonFootprintCard = ({ item, index, isOffset = false, isVertical = false }) => (
+const HOME_ENERGY_T_CO2_PER_HOME_YEAR = 7.45;
+const CAR_G_CO2_PER_KM = 251.0;
+const TREE_KG_CO2_PER_YEAR = 60.0;
+
+const CarbonFootprintCard = ({
+  item,
+  index,
+  isOffset = false,
+  isVertical = false,
+}) => (
   <motion.div
     key={index}
     initial={{ opacity: 0, y: 20 }}
@@ -31,11 +40,15 @@ const CarbonFootprintCard = ({ item, index, isOffset = false, isVertical = false
       >
         {item.icon}
       </div>
-      
+
       <div className={`${isVertical ? "mt-3 text-center" : "ml-3"}`}>
-        <div className={`flex items-center gap-1 ${isOffset ? "justify-center" : ""}`}>
-          <span className="text-xl font-bold text-primary">{item.value}</span>
-          <span className="text-sm text-gray-600 dark:text-gray-300">{item.unit}</span>
+        <div
+          className={`flex items-center gap-1 ${
+            isOffset ? "justify-center" : ""
+          }`}
+        >
+          <span className="text-lg font-bold text-primary">{item.value}</span>
+          {/* <span className="text-sm text-gray-600 dark:text-gray-300">{item.unit}</span> */}
         </div>
         <p className="text-[13px] text-gray-600 dark:text-gray-300">
           {item.description}
@@ -45,33 +58,145 @@ const CarbonFootprintCard = ({ item, index, isOffset = false, isVertical = false
   </motion.div>
 );
 
-export default function CarbonFootprintCards({ totalEmission }) {
-  const carbonData = {
-    treesRequired: Math.ceil(totalEmission * 20),
-    homeEquivalent: Math.ceil(totalEmission / 8.6),
-    carEquivalent: Math.ceil(totalEmission / 4.6),
-  };
+export default function CarbonFootprintCards({ emissionData }) {
+  console.log("Total emission data  :: ", emissionData);
 
-  const pluralize = (count, singular, plural) => 
-    count === 1 ? singular : plural;
+  function formatDynamicDuration(value, currentUnit) {
+    // e.g. value = 0.02, currentUnit = "years"
+
+    if (currentUnit === "years") {
+      if (value >= 1) {
+        if (value >= 2) {
+          // For 2+ years, show whole years with remaining months
+          const wholeYears = Math.floor(value);
+          const remainingMonths = Math.round((value - wholeYears) * 12);
+          if (remainingMonths > 0) {
+            return `${wholeYears} year${wholeYears !== 1 ? "s" : ""}, ${remainingMonths} month${remainingMonths !== 1 ? "s" : ""}`;
+          } else {
+            return `${wholeYears} year${wholeYears !== 1 ? "s" : ""}`;
+          }
+        } else {
+          return `${value.toFixed(1)} year`;
+        }
+      } else if (value >= 1 / 12) {
+        const months = value * 12;
+        if (months >= 2) {
+          // For 2+ months, show whole months with remaining days
+          const wholeMonths = Math.floor(months);
+          const remainingDays = Math.round((months - wholeMonths) * 30);
+          if (remainingDays > 7) {
+            return `${wholeMonths} month${wholeMonths !== 1 ? "s" : ""}, ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`;
+          } else {
+            return `${wholeMonths} month${wholeMonths !== 1 ? "s" : ""}`;
+          }
+        } else if (months >= 1) {
+          return "1 month";
+        } else {
+          const days = Math.round(months * 30);
+          if (days >= 14) {
+            const weeks = Math.round(days / 7);
+            return `${weeks} week${weeks !== 1 ? "s" : ""}`;
+          } else {
+            return `${days} day${days !== 1 ? "s" : ""}`;
+          }
+        }
+      } else if (value >= 1 / 365) {
+        const days = value * 365;
+        return `${days.toFixed(0)} day${days !== 1 ? "s" : ""}`;
+      } else {
+        const hours = value * 365 * 24;
+        return `${hours.toFixed(0)} hour${hours !== 1 ? "s" : ""}`;
+      }
+    }
+
+    if (currentUnit === "months") {
+      if (value >= 12) {
+        const years = value / 12;
+        if (years >= 2) {
+          // For 2+ years, show whole years with remaining months
+          const wholeYears = Math.floor(years);
+          const remainingMonths = Math.round((years - wholeYears) * 12);
+          if (remainingMonths > 0) {
+            return `${wholeYears} year${wholeYears !== 1 ? "s" : ""}, ${remainingMonths} month${remainingMonths !== 1 ? "s" : ""}`;
+          } else {
+            return `${wholeYears} year${wholeYears !== 1 ? "s" : ""}`;
+          }
+        } else {
+          return `${years.toFixed(1)} year${years >= 2 ? "s" : ""}`;
+        }
+      } else if (value >= 2) {
+        // For 2+ months, show whole months with remaining days
+        const wholeMonths = Math.floor(value);
+        const remainingDays = Math.round((value - wholeMonths) * 30);
+        if (remainingDays > 7) {
+          return `${wholeMonths} month${wholeMonths !== 1 ? "s" : ""}, ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`;
+        } else {
+          return `${wholeMonths} month${wholeMonths !== 1 ? "s" : ""}`;
+        }
+      } else if (value >= 1) {
+        // For 1-2 months, show as weeks for better readability
+        const weeks = Math.round(value * 4.33); // 4.33 weeks per month
+        if (weeks >= 4) {
+          return "1 month";
+        } else {
+          return `${weeks} week${weeks !== 1 ? "s" : ""}`;
+        }
+      } else {
+        // For less than 1 month, show as days
+        const days = Math.round(value * 30);
+        if (days >= 14) {
+          const weeks = Math.round(days / 7);
+          return `${weeks} week${weeks !== 1 ? "s" : ""}`;
+        } else {
+          return `${days} day${days !== 1 ? "s" : ""}`;
+        }
+      }
+    }
+
+    return `${value}`;
+  }
+
+  const co2e_kg =
+    emissionData?.result?.data?.co2e_kg ??
+    emissionData?.result?.data?.emissions?.co2e_kg ??
+    emissionData?.modelResult?.result?.data?.co2e_kg ??
+    0;
+
+  const co2e_gm =
+    emissionData?.result?.data?.co2e_gm ??
+    emissionData?.result?.data?.emissions?.co2e_gm ??
+    emissionData?.modelResult?.result?.data?.co2e_gm ??
+    0;
+
+  // numeric equivalents
+  const rawHomeEnergyMonths =
+    (co2e_kg / (HOME_ENERGY_T_CO2_PER_HOME_YEAR * 1000)) * 12;
+  const rawCarKm = Math.round(co2e_gm / CAR_G_CO2_PER_KM);
+
+  const carbonData = {
+    treesRequired: Math.ceil(co2e_kg / TREE_KG_CO2_PER_YEAR),
+    homeEquivalent: formatDynamicDuration(rawHomeEnergyMonths, "months"),
+    carEquivalent: `${rawCarKm.toLocaleString()} km`,
+  };
 
   const footprintData = [
     {
-      description: (<>emit equivalent amount of CO<sub>2</sub> throughout a year.</>),
+      description: <>of energy use of an average home</>,
       value: carbonData.homeEquivalent,
-      unit: pluralize(carbonData.homeEquivalent, "home", "homes"),
       icon: <IcBaselineHomeWork className="size-10" />,
     },
     {
-      description:(<>annual emission is equivalent to your carbon footprint.</>),
+      description: <>typical run for a gasoline car</>,
       value: carbonData.carEquivalent,
-      unit: pluralize(carbonData.carEquivalent, "car", "cars"),
       icon: <IxCarFilled className="size-10" />,
     },
     {
-      description: (<>required to offset this amount of CO<sub>2</sub>.</>),
+      description: (
+        <>
+          trees required to offset this amount of CO<sub>2</sub>
+        </>
+      ),
       value: carbonData.treesRequired,
-      unit: pluralize(carbonData.treesRequired, "tree", "trees"),
       icon: <FoundationTrees className="size-10" />,
       isOffset: true,
     },

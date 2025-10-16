@@ -147,7 +147,7 @@ function FeaturedProjectCard({
 }) {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/offsetPage/${project.id}`);
+    router.push(`/offset/${project.id}`);
   };
 
   console.log("Project in the card :: ", project);
@@ -224,7 +224,7 @@ function FeaturedProjectCard({
           </div>
         </div>
         {/* Action Buttons */}
-        {/* <div className="flex justify-center">
+        <div className="flex justify-center">
           <motion.button
             onClick={(e) => {
               e.preventDefault();
@@ -237,7 +237,7 @@ function FeaturedProjectCard({
           >
             Offset Now
           </motion.button>
-        </div> */}
+        </div>
       </div>
     </motion.div>
   );
@@ -247,7 +247,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
   console.log("Current Emission in ProjectCard: ", currentEmission);
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/offsetPage/${project.id}`);
+    router.push(`/offset/${project.id}`);
   };
 
   return (
@@ -322,7 +322,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
           </div>
         </div>
         {/* Action Buttons */}
-        {/* <div className="flex gap-3">
+        <div className="flex gap-3">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -333,7 +333,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
           >
             Offset Now
           </button>
-        </div> */}
+        </div>
       </div>
     </motion.div>
   );
@@ -434,7 +434,7 @@ export default function OffsetPage() {
     <section className="min-h-[100vh] py-14 px-2 bg-transparent">
       <div className="max-w-6xl mx-auto px-4">
         {/* HEADER */}
-        <div className="w-full max-w-5xl mx-auto mb-16">
+        {/* <div className="w-full max-w-5xl mx-auto mb-16">
           <div className="flex justify-center items-center gap-2 mb-2">
             <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <TrendingUp size={22} strokeWidth={2} className="text-primary" />
@@ -486,9 +486,9 @@ export default function OffsetPage() {
               organizations.
             </WhyMattersItem>
           </div>
-        </div>
+        </div> */}
         {/* HOW TO OFFSET - Timeline */}
-        <div className="w-full flex flex-col items-center mb-20">
+        {/* <div className="w-full flex flex-col items-center mb-20">
           <div className="max-w-4xl w-full">
             <div className="flex items-center justify-center gap-2 mb-2">
               <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
@@ -504,7 +504,7 @@ export default function OffsetPage() {
             </h2>
             <OffsetTimeline steps={flow} />
           </div>
-        </div>
+        </div> */}
         {/* OUR OFFSET PROJECTS */}
         <div className="mb-16">
           <div className="flex flex-col items-center">
@@ -692,7 +692,7 @@ export default function OffsetPage() {
           </div>
         </div>
         {/* CTA SECTION */}
-        <div className="w-full flex flex-col items-center justify-center mb-2">
+        {/* <div className="w-full flex flex-col items-center justify-center mb-2">
           <div className="bg-primary/20 border border-[#e2f0e4] rounded-3xl py-10 px-6 shadow flex flex-col items-center w-full max-w-2xl mx-auto">
             <h3 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center capitalize">
               Take Responsibility. Make a Difference.
@@ -709,7 +709,7 @@ export default function OffsetPage() {
               Calculate to Offset <ArrowRight className="w-5 h-5 text-white" />
             </Link>
           </div>
-        </div>
+        </div> */}
       </div>
       {/* Donation Modal */}
       {selectedProject && (

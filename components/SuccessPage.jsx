@@ -185,7 +185,7 @@ const OffsetSuccessPage = () => {
   </h3>
 
     {/* Disclaimer */}
-  <p className="mt-2 text-xs text-gray-600 italic mb-4">
+  <p className="mt-2 text-sm text-blue-500 italic mb-4 ">
     Disclaimer: Currently we are issuing only test certificates, not the official ones.
   </p>
 

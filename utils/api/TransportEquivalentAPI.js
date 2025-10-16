@@ -17,7 +17,7 @@ export const fetchCarbonEmissionDetailsInTransport = async (emissionData, userId
     };
 
     const carbonEmissions = {
-      co2e_gm: Number(typeData.co2e_gm || modelData.co2e_gm || 0),
+      co2e_gm: Math.round(Number(typeData.co2e_gm || modelData.co2e_gm || 0)),
       co2e_kg: Number(typeData.co2e_kg || modelData.co2e_kg || 0),
       co2e_mt: Number(typeData.co2e_mt || modelData.co2e_mt || 0),
       co2e_lb: Number(typeData.co2e_lb || modelData.co2e_lb || 0)

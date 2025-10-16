@@ -13,12 +13,14 @@ export const fetchCarbonEmissionDetailsInHotel = async (emissionData) => {
     const countryCode = getCountryCode(emissionData?.result?.data?.country);
     const isValidCountry = ALLOWED_COUNTRIES.includes(countryCode);
 
+    console.log("Emission Data :: ", emissionData)
+
     const hotelDetails = {
       country_code: isValidCountry ? countryCode : "",
       city_name: emissionData?.result?.data?.city_name || "",
       hotel_rating: emissionData?.result?.data?.hotel_rating || null,
-      number_of_nights: parseInt(emissionData?.result?.data?.number_of_nights) || 0,
-      number_of_rooms: parseInt(emissionData?.result?.data?.number_of_rooms) || 0,
+      number_of_nights: emissionData?.result?.data?.number_of_nights || "",
+      number_of_rooms: emissionData?.result?.data?.number_of_rooms || "",
       cluster_name: null
     };
 
@@ -60,7 +62,7 @@ export const fetchCarbonEmissionDetailsInHotel = async (emissionData) => {
 // Helper function to convert country name to country code
 const getCountryCode = (countryName) => {
   if (!countryName) return "";
-  
+
   const countryMap = {
     'argentina': 'AR',
     'austria': 'AT',
@@ -128,7 +130,7 @@ const getCountryCode = (countryName) => {
     'vietnam': 'VN',
     'south africa': 'ZA'
   };
-  
+
   const normalizedCountryName = countryName.toLowerCase().trim();
   return countryMap[normalizedCountryName] || "";
 };
