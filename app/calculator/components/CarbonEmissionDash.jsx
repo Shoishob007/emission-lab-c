@@ -75,129 +75,138 @@ const CarbonImpactDashboard = ({
     },
   ];
 
-function formatDynamicDuration(value, currentUnit) {
-  // Accepts a numeric value and the unit provided by the API
-  // Returns an object with separate numeric value and text unit
+  function formatDynamicDuration(value, currentUnit) {
+    // Accepts a numeric value and the unit provided by the API
+    // Returns an object with separate numeric value and text unit
 
-  if (currentUnit === "years") {
-    if (value >= 1) {
-      return {
-        value: value.toFixed(1),
-        unit: `year${value >= 2 ? "s" : ""}`
-      };
-    } else if (value >= 1 / 12) {
-      const months = value * 12;
-      if (months >= 2) {
+    if (currentUnit === "years") {
+      if (value >= 1) {
+        return {
+          value: value.toFixed(1),
+          unit: `year${value >= 2 ? "s" : ""}`,
+        };
+      } else if (value >= 1 / 12) {
+        const months = value * 12;
+        if (months >= 2) {
+          // For 2+ months, show whole months with remaining days
+          const wholeMonths = Math.floor(months);
+          const remainingDays = Math.round((months - wholeMonths) * 30);
+          if (remainingDays > 0) {
+            return {
+              value: wholeMonths.toString(),
+              unit: `month${
+                wholeMonths !== 1 ? "s" : ""
+              } and ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`,
+            };
+          } else {
+            return {
+              value: wholeMonths.toString(),
+              unit: `month${wholeMonths !== 1 ? "s" : ""}`,
+            };
+          }
+        } else {
+          // For less than 2 months, show as days for more precision
+          const days = Math.round(months * 30);
+          return {
+            value: days.toString(),
+            unit: `day${days !== 1 ? "s" : ""}`,
+          };
+        }
+      } else if (value >= 1 / 365) {
+        const days = value * 365;
+        return {
+          value: days.toFixed(0),
+          unit: `day${days !== 1 ? "s" : ""}`,
+        };
+      } else {
+        const hours = value * 365 * 24;
+        return {
+          value: hours.toFixed(0),
+          unit: `hour${hours !== 1 ? "s" : ""}`,
+        };
+      }
+    }
+
+    if (currentUnit === "months") {
+      if (value >= 12) {
+        const years = value / 12;
+        if (years >= 2) {
+          // For 2+ years, show whole years with remaining months
+          const wholeYears = Math.floor(years);
+          const remainingMonths = Math.round((years - wholeYears) * 12);
+          if (remainingMonths > 0) {
+            return {
+              value: wholeYears.toString(),
+              unit: `year${
+                wholeYears !== 1 ? "s" : ""
+              } and ${remainingMonths} month${
+                remainingMonths !== 1 ? "s" : ""
+              }`,
+            };
+          } else {
+            return {
+              value: wholeYears.toString(),
+              unit: `year${wholeYears !== 1 ? "s" : ""}`,
+            };
+          }
+        } else {
+          return {
+            value: years.toFixed(1),
+            unit: `year${years >= 2 ? "s" : ""}`,
+          };
+        }
+      } else if (value >= 2) {
         // For 2+ months, show whole months with remaining days
-        const wholeMonths = Math.floor(months);
-        const remainingDays = Math.round((months - wholeMonths) * 30);
-        if (remainingDays > 0) {
+        const wholeMonths = Math.floor(value);
+        const remainingDays = Math.round((value - wholeMonths) * 30);
+        if (remainingDays > 7) {
+          // Only show days if it's more than a week
           return {
             value: wholeMonths.toString(),
-            unit: `month${wholeMonths !== 1 ? "s" : ""} and ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`
+            unit: `month${
+              wholeMonths !== 1 ? "s" : ""
+            } and ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`,
           };
         } else {
           return {
             value: wholeMonths.toString(),
-            unit: `month${wholeMonths !== 1 ? "s" : ""}`
+            unit: `month${wholeMonths !== 1 ? "s" : ""}`,
           };
         }
-      } else {
-        // For less than 2 months, show as days for more precision
-        const days = Math.round(months * 30);
-        return {
-          value: days.toString(),
-          unit: `day${days !== 1 ? "s" : ""}`
-        };
-      }
-    } else if (value >= 1 / 365) {
-      const days = value * 365;
-      return {
-        value: days.toFixed(0),
-        unit: `day${days !== 1 ? "s" : ""}`
-      };
-    } else {
-      const hours = value * 365 * 24;
-      return {
-        value: hours.toFixed(0),
-        unit: `hour${hours !== 1 ? "s" : ""}`
-      };
-    }
-  }
-
-  if (currentUnit === "months") {
-    if (value >= 12) {
-      const years = value / 12;
-      if (years >= 2) {
-        // For 2+ years, show whole years with remaining months
-        const wholeYears = Math.floor(years);
-        const remainingMonths = Math.round((years - wholeYears) * 12);
-        if (remainingMonths > 0) {
+      } else if (value >= 1) {
+        // For 1-2 months, show as weeks for better readability
+        const weeks = Math.round(value * 4.33); // 4.33 weeks per month
+        if (weeks >= 4) {
           return {
-            value: wholeYears.toString(),
-            unit: `year${wholeYears !== 1 ? "s" : ""} and ${remainingMonths} month${remainingMonths !== 1 ? "s" : ""}`
+            value: "1",
+            unit: "month",
           };
         } else {
           return {
-            value: wholeYears.toString(),
-            unit: `year${wholeYears !== 1 ? "s" : ""}`
+            value: weeks.toString(),
+            unit: `week${weeks !== 1 ? "s" : ""}`,
           };
         }
       } else {
-        return {
-          value: years.toFixed(1),
-          unit: `year${years >= 2 ? "s" : ""}`
-        };
-      }
-    } else if (value >= 2) {
-      // For 2+ months, show whole months with remaining days
-      const wholeMonths = Math.floor(value);
-      const remainingDays = Math.round((value - wholeMonths) * 30);
-      if (remainingDays > 7) { // Only show days if it's more than a week
-        return {
-          value: wholeMonths.toString(),
-          unit: `month${wholeMonths !== 1 ? "s" : ""} and ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`
-        };
-      } else {
-        return {
-          value: wholeMonths.toString(),
-          unit: `month${wholeMonths !== 1 ? "s" : ""}`
-        };
-      }
-    } else if (value >= 1) {
-      // For 1-2 months, show as weeks for better readability
-      const weeks = Math.round(value * 4.33); // 4.33 weeks per month
-      if (weeks >= 4) {
-        return {
-          value: "1",
-          unit: "month"
-        };
-      } else {
-        return {
-          value: weeks.toString(),
-          unit: `week${weeks !== 1 ? "s" : ""}`
-        };
-      }
-    } else {
-      // For less than 1 month, show as days
-      const days = Math.round(value * 30);
-      if (days >= 14) {
-        const weeks = Math.round(days / 7);
-        return {
-          value: weeks.toString(),
-          unit: `week${weeks !== 1 ? "s" : ""}`
-        };
-      } else {
-        return {
-          value: days.toString(),
-          unit: `day${days !== 1 ? "s" : ""}`
-        };
+        // For less than 1 month, show as days
+        const days = Math.round(value * 30);
+        if (days >= 14) {
+          const weeks = Math.round(days / 7);
+          return {
+            value: weeks.toString(),
+            unit: `week${weeks !== 1 ? "s" : ""}`,
+          };
+        } else {
+          return {
+            value: days.toString(),
+            unit: `day${days !== 1 ? "s" : ""}`,
+          };
+        }
       }
     }
-  }
 
-  return { value: value.toString(), unit: "" }; // fallback
-}
+    return { value: value.toString(), unit: "" }; // fallback
+  }
 
   // Use AI analysis data if available, otherwise fallback to static calculations
   const totalEmissions =
@@ -208,21 +217,15 @@ function formatDynamicDuration(value, currentUnit) {
 
   // Extract data from AI analysis or use fallback
   const getEmissionFootprintData = () => {
-    return (
-      aiAnalysisData?.environmental_impact?.emission_footprint
-    );
+    return aiAnalysisData?.environmental_impact?.emission_footprint;
   };
 
   const getCarbonOffsetData = () => {
-    return (
-      aiAnalysisData?.environmental_impact?.carbon_offset_solutions
-    );
+    return aiAnalysisData?.environmental_impact?.carbon_offset_solutions;
   };
 
   const getEnvironmentalImpactData = () => {
-    return (
-      aiAnalysisData?.environmental_impact?.positive_environmental_impact
-    );
+    return aiAnalysisData?.environmental_impact?.positive_environmental_impact;
   };
 
   const emissionFootprintData = getEmissionFootprintData();
@@ -339,7 +342,10 @@ function formatDynamicDuration(value, currentUnit) {
             const getHeadlineParts = (item) => {
               switch (item.category) {
                 case "Home Energy":
-                  const duration = formatDynamicDuration(item.emissions, "months");
+                  const duration = formatDynamicDuration(
+                    item.emissions,
+                    "months"
+                  );
                   return {
                     textBefore: "Energy use of an average home for",
                     value: duration.value,
@@ -352,7 +358,10 @@ function formatDynamicDuration(value, currentUnit) {
                     textAfter: "kilometers",
                   };
                 default:
-                  const defaultDuration = formatDynamicDuration(item.emissions, "months");
+                  const defaultDuration = formatDynamicDuration(
+                    item.emissions,
+                    "months"
+                  );
                   return {
                     textBefore: "",
                     value: defaultDuration.value,
@@ -427,31 +436,37 @@ function formatDynamicDuration(value, currentUnit) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
           {carbonOffsetData.map((item, index) => {
-// In your CarbonOffsetData section, update the getHeadlineParts function:
-const getHeadlineParts = (item) => {
-  switch (item.category) {
-    case "Reforestation":
-      return {
-        textBefore: "Supporting the planting of",
-        value: Math.ceil(item.emissions).toString(),
-        textAfter: "trees",
-      };
-    case "Community Projects":
-      const duration = formatDynamicDuration(item.emissions, "years");
-      return {
-        textBefore: "Providing cleaner cooking for",
-        value: duration.value,
-        textAfter: duration.unit,
-      };
-    default:
-      const defaultDuration = formatDynamicDuration(item.emissions, "months");
-      return {
-        textBefore: "",
-        value: defaultDuration.value,
-        textAfter: defaultDuration.unit,
-      };
-  }
-};
+            // In your CarbonOffsetData section, update the getHeadlineParts function:
+            const getHeadlineParts = (item) => {
+              switch (item.category) {
+                case "Reforestation":
+                  return {
+                    textBefore: "Supporting the planting of",
+                    value: Math.ceil(item.emissions).toString(),
+                    textAfter: "trees",
+                  };
+                case "Community Projects":
+                  const duration = formatDynamicDuration(
+                    item.emissions,
+                    "years"
+                  );
+                  return {
+                    textBefore: "Providing cleaner cooking for",
+                    value: duration.value,
+                    textAfter: duration.unit,
+                  };
+                default:
+                  const defaultDuration = formatDynamicDuration(
+                    item.emissions,
+                    "months"
+                  );
+                  return {
+                    textBefore: "",
+                    value: defaultDuration.value,
+                    textAfter: defaultDuration.unit,
+                  };
+              }
+            };
 
             const { textBefore, value, textAfter } = getHeadlineParts(item);
 
@@ -624,7 +639,8 @@ const getHeadlineParts = (item) => {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href={"/offset"}>
                 <button
-                  className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center"
+                  disabled
+                  className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-not-allowed"
                 >
                   <ArrowUp className="h-5 w-5 mr-2" />
                   Offset Now
