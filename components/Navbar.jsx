@@ -74,93 +74,111 @@ export default function Navbar() {
     }
   };
 
-  return (
-    <nav className="w-full !bg-transparent border-b border-border">
-      <div className="max-w-[1440px] py-4 mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/">
-            <div className="flex-shrink-0 flex items-center">
-              <img
-                src="/carbon-logo.png"
-                alt="EmissionLab Logo"
-                className="h-12 w-auto cursor-pointer"
-              />
-            </div>
-          </Link>
+  const closeMobileMenu = () => {
+    setIsOpen(false);
+  };
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex flex-1 justify-center">
-            <div className="flex items-center space-x-6 sm:space-x-4 lg:space-x-6">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none flex items-center gap-1",
-                    isActive(item.href) ? "text-primary" : "text-black"
-                  )}
+  return (
+    <>
+      <nav className="w-full bg-transparent border-b border-border relative z-50">
+        <div className="max-w-[1440px] py-4 mx-auto px-4 sm:px-6 bg-transparent">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <Link href="/">
+              <div className="flex-shrink-0 flex items-center">
+                <img
+                  src="/carbon-logo.png"
+                  alt="EmissionLab Logo"
+                  className="h-12 w-auto cursor-pointer"
+                />
+              </div>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex flex-1 justify-center">
+              <div className="flex items-center space-x-6 sm:space-x-4 lg:space-x-6">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      "px-2 py-1 text-base font-semibold transition-colors duration-150 rounded hover:text-primary focus:outline-none flex items-center gap-1",
+                      isActive(item.href) ? "text-primary" : "text-black"
+                    )}
+                    style={{
+                      fontWeight: 600,
+                      letterSpacing: "0.01em",
+                      background: "transparent",
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Start Now / Logout Button - Desktop */}
+            <div className="hidden md:flex">
+              {session?.user ? (
+                <button
+                  onClick={handleLogout}
+                  className="ml-8 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
                   style={{
-                    fontWeight: 600,
+                    fontWeight: 700,
+                    fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
                     letterSpacing: "0.01em",
-                    background: "transparent",
                   }}
                 >
-                  {item.name}
+                  Logout Now <LogOut className="w-5 h-5" />
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="ml-8 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
+                  style={{
+                    fontWeight: 700,
+                    fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
+                    letterSpacing: "0.01em",
+                  }}
+                >
+                  Start Now <ArrowRight className="w-5 h-5" />
                 </Link>
-              ))}
+              )}
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="inline-flex items-center justify-center p-2 text-primary focus:outline-none transition-transform duration-300"
+                style={{
+                  transform: isOpen ? "rotate(90deg)" : "rotate(0deg)",
+                }}
+              >
+                <span className="sr-only">
+                  {isOpen ? "Close menu" : "Open menu"}
+                </span>
+                {isOpen ? (
+                  <X className="block h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                )}
+              </button>
             </div>
           </div>
-
-          {/* Start Now / Logout Button - Desktop */}
-          <div className="hidden md:flex">
-            {session?.user ? (
-              <button
-                onClick={handleLogout}
-                className="ml-8 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
-                style={{
-                  fontWeight: 700,
-                  fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
-                  letterSpacing: "0.01em",
-                }}
-              >
-                Logout Now <LogOut className="w-5 h-5" />
-              </button>
-            ) : (
-              <Link
-                href="/login"
-                className="ml-8 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition"
-                style={{
-                  fontWeight: 700,
-                  fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
-                  letterSpacing: "0.01em",
-                }}
-              >
-                Start Now <ArrowRight className="w-5 h-5" />
-              </Link>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-primary hover:text-primary-foreground hover:bg-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
-            >
-              <span className="sr-only">Open main menu</span>
-              {isOpen ? (
-                <X className="block h-6 w-6" aria-hidden="true" />
-              ) : (
-                <MenuIcon className="block h-6 w-6" aria-hidden="true" />
-              )}
-            </button>
-          </div>
         </div>
-      </div>
+      </nav>
 
-      {/* Mobile menu */}
-      <div className={cn("md:hidden", isOpen ? "block" : "hidden")}>
-        <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-border">
+      {/* Mobile menu overlay */}
+      <div
+        className={cn(
+          "md:hidden fixed inset-x-0 top-[97px] z-40 transition-all duration-300 ease-in-out",
+          isOpen
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-full pointer-events-none"
+        )}
+      >
+        <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-b border-border shadow-lg">
           {navItems.map((item) => (
             <Link
               key={item.name}
@@ -171,16 +189,19 @@ export default function Navbar() {
                   ? "text-primary"
                   : "text-black hover:text-primary"
               )}
-              onClick={() => setIsOpen(false)}
+              onClick={closeMobileMenu}
             >
               <div className="flex items-center">{item.name}</div>
             </Link>
           ))}
 
-          {/* Start Now / Logout Button - Mobile */}
+          {/* Start Now / Logout Button */}
           {session?.user ? (
             <button
-              onClick={handleLogout}
+              onClick={() => {
+                closeMobileMenu();
+                handleLogout();
+              }}
               className="mt-4 w-full px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center justify-center gap-2 shadow-lg transition"
               style={{
                 fontWeight: 700,
@@ -200,13 +221,21 @@ export default function Navbar() {
                 fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
                 letterSpacing: "0.01em",
               }}
-              onClick={() => setIsOpen(false)}
+              onClick={closeMobileMenu}
             >
               Start Now <ArrowRight className="w-5 h-5" />
             </Link>
           )}
         </div>
       </div>
-    </nav>
+
+      {/* Backdrop overlay */}
+      {isOpen && (
+        <div
+          className="md:hidden fixed inset-x-0 top-[97px] bottom-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300"
+          onClick={closeMobileMenu}
+        />
+      )}
+    </>
   );
 }
