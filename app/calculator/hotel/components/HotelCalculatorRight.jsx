@@ -257,7 +257,10 @@ const HotelCalculatorRight = ({
                   {/* Offset Now */}
                   {!showDashboard && (
                     <Link href={"/offset"} className="w-1/2">
-                      <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
+                      <button
+                        disabled
+                        className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors cursor-not-allowed"
+                      >
                         <ArrowUp className="h-4 w-4 mr-2" />
                         Offset Now
                       </button>
