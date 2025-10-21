@@ -292,8 +292,7 @@ const TransportCalculatorRight = ({
                   {!showDashboard && (
                     <Link href={"/offset"} className="w-1/2">
                       <button
-                        disabled
-                        className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-not-allowed"
+                        className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center"
                       >
                         {" "}
                         <ArrowUp className="h-4 w-4 mr-2" />

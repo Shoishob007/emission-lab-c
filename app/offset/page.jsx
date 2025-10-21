@@ -231,8 +231,7 @@ function FeaturedProjectCard({
               e.stopPropagation();
               onDonate();
             }}
-            disabled
-            className="px-10 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg cursor-not-allowed"
+            className="px-10 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -330,8 +329,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
               e.stopPropagation();
               onDonate();
             }}
-            disabled
-            className="w-full py-2 px-4 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold text-sm rounded-lg transition-all duration-200 cursor-not-allowed"
+            className="w-full py-2 px-4 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold text-sm rounded-lg transition-all duration-200"
           >
             Offset Now
           </button>
