@@ -171,7 +171,7 @@ function FeaturedProjectCard({
         />
         {/* Project Type Badge */}
         <span className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-btn-primary text-white shadow">
-          {project.gold_standard_confirmation}
+          {project?.gold_standard_confirmation}
         </span>
       </div>
       {/* Content Section */}
@@ -269,7 +269,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
         />
         {/* Project Type Badge */}
         <span className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold bg-btn-primary text-white shadow">
-          {project.gold_standard_confirmation}
+          {project?.gold_standard_confirmation}
         </span>
       </div>
       {/* Content Section */}
