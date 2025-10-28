@@ -73,11 +73,10 @@ export default function CertificatePDFGenerator({
     }
   }, [autoAction]);
 
-  // dynamic scaling for all screens
   useEffect(() => {
     const handleResize = () => {
       if (!wrapperRef.current) return;
-      const containerWidth = wrapperRef.current.clientWidth;
+      const containerWidth = wrapperRef.current.clientWidth || 0;
       const newScale = Math.min(containerWidth / CERT_W, 1);
       setScale(newScale);
     };
@@ -121,7 +120,7 @@ export default function CertificatePDFGenerator({
           </div>
         </div>
 
-        {/* Right content section - Fixed layout */}
+        {/* Right content section*/}
         <div className="flex flex-col justify-between flex-1 bg-white px-10 py-10">
           {/* Header */}
           <div className="flex flex-row items-center justify-between mb-6">
@@ -210,10 +209,66 @@ export default function CertificatePDFGenerator({
     </div>
   );
 
+  // all images within an element to be loaded OR error
+  const waitForImagesToLoad = (el, timeout = 5000) =>
+    new Promise((resolve) => {
+      const imgs = Array.from(el.querySelectorAll("img"));
+      if (!imgs.length) return resolve(true);
+
+      let remaining = imgs.length;
+      let timedOut = false;
+
+      const onDone = () => {
+        if (timedOut) return;
+        remaining -= 1;
+        if (remaining <= 0) resolve(true);
+      };
+
+      const timer = setTimeout(() => {
+        timedOut = true;
+        // resolve anyway — sometimes images may never load but we still want to try
+        resolve(false);
+      }, timeout);
+
+      imgs.forEach((img) => {
+        // If image already loaded and has dimensions, count it as loaded
+        if (img.complete && img.naturalWidth && img.naturalHeight) {
+          onDone();
+        } else {
+          // attach handlers
+          img.addEventListener(
+            "load",
+            function () {
+              onDone();
+            },
+            { once: true }
+          );
+          img.addEventListener(
+            "error",
+            function () {
+              onDone();
+            },
+            { once: true }
+          );
+        }
+      });
+
+      // If there were no images to wait for
+      if (imgs.length === 0) {
+        clearTimeout(timer);
+        resolve(true);
+      }
+    });
+
   const handleDownload = async () => {
     setIsGenerating(true);
     try {
-      const element = document.getElementById("certificate-content-pdf");
+      let element = document.getElementById("certificate-content-pdf");
+
+      // attempt to use the preview element
+      if (!element) {
+        element = document.getElementById("certificate-content-preview");
+      }
 
       if (!element) {
         alert("Certificate content not found!");
@@ -221,24 +276,107 @@ export default function CertificatePDFGenerator({
         return;
       }
 
+      const rect = element.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) {
+        // finding an offscreen wrapper, If not found, cloning preview node into an offscreen container.
+        let offscreen = document.getElementById("certificate-pdf-offscreen");
+        if (!offscreen) {
+          offscreen = document.createElement("div");
+          offscreen.id = "certificate-pdf-offscreen";
+          offscreen.style.position = "absolute";
+          offscreen.style.left = "-9999px";
+          offscreen.style.top = "-9999px";
+          offscreen.style.width = `${CERT_W}px`;
+          offscreen.style.height = `${CERT_H}px`;
+          document.body.appendChild(offscreen);
+        }
+
+        // if the PDF isnt full-size content inside offscreen, clone the preview into it
+        const existingPdf = offscreen.querySelector("#certificate-content-pdf");
+        if (!existingPdf) {
+          // deep clone preview content
+          const preview = document.getElementById(
+            "certificate-content-preview"
+          );
+          if (!preview) {
+            alert("No certificate preview available to generate PDF from.");
+            setIsGenerating(false);
+            return;
+          }
+          const clone = preview.cloneNode(true);
+          clone.id = "certificate-content-pdf";
+          clone.style.transform = "none";
+          clone.style.transformOrigin = "top left";
+          clone.style.width = `${CERT_W}px`;
+          clone.style.height = `${CERT_H}px`;
+          offscreen.appendChild(clone);
+          element = clone;
+        } else {
+          element = existingPdf;
+        }
+      }
+
+      // Waiting for images inside the element to load
+      await waitForImagesToLoad(element, 8000);
+
+      // html2canvas
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
+        allowTaint: false,
         backgroundColor: "#ffffff",
+        logging: false,
       });
 
-      const imgData = canvas.toDataURL("image/png");
+      // canvas has zero size it's a sign something went wrong
+      if (!canvas || canvas.width === 0 || canvas.height === 0) {
+        console.error("html2canvas produced empty canvas", canvas);
+        throw new Error(
+          "html2canvas produced empty canvas - element was probably hidden or had 0 size"
+        );
+      }
+
+      // PNG export
+      let imgData = canvas.toDataURL("image/png", 1.0);
+
+      // If the dataURL invalid, redrawing to a fresh canvas
+      if (!imgData || !imgData.startsWith("data:image/")) {
+        try {
+          const tmp = document.createElement("canvas");
+          tmp.width = canvas.width;
+          tmp.height = canvas.height;
+          const ctx = tmp.getContext("2d");
+          ctx.drawImage(canvas, 0, 0);
+          imgData = tmp.toDataURL("image/png", 1.0);
+        } catch (convErr) {
+          console.error("Fallback conversion failed", convErr);
+        }
+      }
+
+      if (!imgData || !imgData.startsWith("data:image/")) {
+        console.error(
+          "Invalid image data returned by html2canvas:",
+          imgData && imgData.slice(0, 80)
+        );
+        throw new Error(
+          "Invalid image data - likely a CORS/tainted canvas or unsupported image format."
+        );
+      }
+
+      const mime = imgData.substring(5, imgData.indexOf(";"));
+      const format = mime.split("/")[1].toUpperCase();
+
       const pdf = new jsPDF({
         orientation: "landscape",
         unit: "mm",
         format: "a4",
       });
 
-      pdf.addImage(imgData, "PNG", 0, 0, 297, 210);
+      pdf.addImage(imgData, format, 0, 0, 297, 210);
       pdf.save(`Certificate-${mapped.certificateNumber}.pdf`);
     } catch (err) {
       console.error("Error generating PDF:", err);
-      alert("Failed to generate PDF. Please try again.");
+      alert("Failed to generate PDF. " + (err.message || ""));
     } finally {
       setIsGenerating(false);
     }
@@ -278,12 +416,25 @@ export default function CertificatePDFGenerator({
         </div>
       </div>
 
-      {/* Hidden element for PDF */}
-      <div className="hidden">{renderCertificateContent(true)}</div>
+      <div
+        id="certificate-pdf-offscreen"
+        style={{
+          position: "absolute",
+          left: -9999,
+          top: -9999,
+          width: `${CERT_W}px`,
+          height: `${CERT_H}px`,
+          overflow: "hidden",
+          pointerEvents: "none",
+        }}
+        aria-hidden="true"
+      >
+        {renderCertificateContent(true)}
+      </div>
 
       <div className="text-xs text-gray-500 text-center mt-4">
-        You are previewing the certificate above. Click &quot;Download PDF&quot; to
-        save a printable version.
+        You are previewing the certificate above. Click &quot;Download PDF&quot;
+        to save a printable version.
       </div>
     </div>
   );
