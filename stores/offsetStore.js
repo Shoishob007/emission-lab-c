@@ -67,7 +67,7 @@ const useOffsetStore = create((set) => ({
             });
             if (!response.ok) throw new Error('Failed to confirm offset quote');
             const data = await response.json();
-                        console.log("Confirm quote response :: ", data)
+            console.log("Confirm quote response :: ", data)
 
             return data;
         } catch (err) {
@@ -87,7 +87,7 @@ const useOffsetStore = create((set) => ({
             });
             if (!response.ok) throw new Error('Failed to create Stripe checkout session');
             const data = await response.json();
-                        console.log("Stripe Checkout response :: ", data)
+            console.log("Stripe Checkout response :: ", data)
 
             return data;
         } catch (err) {

@@ -141,7 +141,7 @@ export default function ProjectDetailsPage({ params }) {
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-wrap gap-3 mb-4">
               <span className="px-4 py-2 bg-btn-primary text-white text-sm font-semibold rounded-full shadow-lg">
-                {project.projectType || project.gold_standard_confirmation}
+                {project.projectType || project.gold_standard_confirmation || ""}
               </span>
               {project.verified && (
                 <span className="px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-full shadow-lg flex items-center gap-2">
@@ -200,7 +200,7 @@ export default function ProjectDetailsPage({ params }) {
                   <div>
                     <h3 className="text-xl font-bold text-[#163820]">
                       {project.certificationStandard ||
-                        project.gold_standard_confirmation}
+                        project.gold_standard_confirmation || ""}
                     </h3>
                     <p className="text-[#767676]">
                       Internationally recognized certification
