@@ -89,14 +89,10 @@ const OffsetSuccessPage = () => {
 
   const goToCertificate = (action = "preview") => {
     if (!successData?.certificate_number) {
-      // fallback: just go back home or show error
       setError("Certificate number not available yet.");
       return;
     }
 
-    // Redirect to certificate page. We include action as a query param so the certificate page can auto-preview or auto-download.
-    // The user asked for a path like /certificate/EL20251132 — we use that path and add ?action=download or ?action=preview.
-    // If you prefer to have no query param, we can omit it and rely on UI on the certificate page.
     router.push(
       `/certificate/${successData.certificate_number}?action=${action}`
     );
@@ -143,7 +139,7 @@ const OffsetSuccessPage = () => {
             <p className="text-red-600 mb-4">{error}</p>
             <button
               onClick={handleBackToHome}
-              className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors"
+              className="px-6 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white rounded-lg transition-colors font-semibold"
             >
               Back to Home
             </button>
@@ -154,7 +150,7 @@ const OffsetSuccessPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
+    <div className="min-h-screen py-12 px-4">
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -170,7 +166,7 @@ const OffsetSuccessPage = () => {
             </p>
           </div>
 
-          <div className="p-8 space-y-6">
+          <div className="p-4 sm:p-8 space-y-6">
             {loadingData ? (
               <>
                 <SkeletonCard />
@@ -215,18 +211,18 @@ const OffsetSuccessPage = () => {
                         </p>
                       </div>
 
-                      <div>
-                        <span className="text-gray-600">Gold Standard:</span>
+                      {/* <div>
+                        <span className="text-gray-600">Certified By:</span>
                         <p className="font-semibold text-primary flex items-center gap-1">
                           <BadgeCheck size={16} />
                           {successData?.gold_standard_confirmation}
                         </p>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="space-y-4">
                       <div>
-                        <span className="text-gray-600">Confirmation #:</span>
+                        <span className="text-gray-600">Purchase ID #:</span>
                         <p className="font-semibold text-[#163820]">
                           {successData.confirmation_number}
                         </p>
@@ -256,7 +252,7 @@ const OffsetSuccessPage = () => {
                       onClick={() => goToCertificate("download")}
                       className="text-secondary hover:underline font-semibold text-sm"
                     >
-                      Download Certificate (PDF)
+                      Download Certificate
                     </button>
                   </div>
                 </motion.div>
@@ -336,7 +332,7 @@ const OffsetSuccessPage = () => {
             >
               <button
                 onClick={handleBackToHome}
-                className="px-6 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-gray-800 rounded-lg transition-colors font-semibold"
+                className="px-6 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white rounded-lg transition-colors font-semibold"
               >
                 Back to Home
               </button>
