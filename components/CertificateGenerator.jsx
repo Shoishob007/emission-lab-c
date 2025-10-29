@@ -77,7 +77,7 @@ export default function CertificatePDFGenerator({
     const handleResize = () => {
       if (!wrapperRef.current) return;
       const containerWidth = wrapperRef.current.clientWidth || 0;
-      const newScale = Math.min(containerWidth / CERT_W, 1);
+      const newScale = Math.min(containerWidth / (CERT_W + 60), 1);
       setScale(newScale);
     };
     handleResize();
@@ -89,117 +89,133 @@ export default function CertificatePDFGenerator({
     <div
       id={isForPDF ? "certificate-content-pdf" : "certificate-content-preview"}
       ref={isForPDF ? null : pdfRef}
-      className="relative overflow-hidden border-2 border-gray-900 bg-white mx-auto"
+      className="relative overflow-visible mx-auto"
       style={{
-        width: `${CERT_W}px`,
-        height: `${CERT_H}px`,
+        width: `${CERT_W + 60}px`,
+        height: `${CERT_H + 40}px`,
+        padding: "20px 30px",
       }}
     >
-      {/* Background */}
-      <div className="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-1511497584788-876760111969?w=1200&h=800&fit=crop"
-          alt="Background"
-          className="w-full h-full object-cover"
-          crossOrigin="anonymous"
-        />
-        <div className="absolute inset-0 bg-black/20"></div>
-      </div>
-
-      {/* Content Layout */}
-      <div className="relative flex flex-row h-full">
-        {/* Left badge section */}
-        <div className="flex flex-col items-center justify-start w-[350px] px-8 p-8">
-          <div className="relative w-64 h-64 mt-12">
-            <img
-              src={badgeUrl}
-              alt="Certificate Badge"
-              className="w-full h-full object-contain"
-              crossOrigin="anonymous"
-            />
-          </div>
-        </div>
-
-        {/* Right content section*/}
-        <div className="flex flex-col justify-between flex-1 bg-white px-10 py-10">
-          {/* Header */}
-          <div className="flex flex-row items-center justify-between mb-6">
-            <div className="text-left">
-              <h1 className="text-5xl font-bold text-[#0f5132] mb-1 tracking-wide">
-                CERTIFICATE
-              </h1>
-              <h2 className="text-5xl text-gray-400 tracking-wide font-thin">
-                OF PURCHASE
-              </h2>
-            </div>
-            <div className="text-right flex items-center justify-end">
+      <div
+        className="relative overflow-visible border-2 border-gray-900 bg-white"
+        style={{
+          width: `${CERT_W}px`,
+          height: `${CERT_H}px`,
+        }}
+      >
+        {/* Content Layout */}
+        <div className="relative flex flex-row h-full">
+          {/* Left badge section */}
+          <div
+            className="absolute flex flex-col items-center justify-start w-[320px] px-8 py-8"
+            style={{
+              left: "30px",
+              top: "-20px",
+              height: "calc(100% + 40px)",
+            }}
+          >
+            {/* Background */}
+            <div className="absolute inset-0">
               <img
-                src={logoUrl}
-                alt="Company Logo"
-                className="h-12 w-auto object-contain"
+                src="https://images.unsplash.com/photo-1511497584788-876760111969?w=1200&h=800&fit=crop"
+                alt="Background"
+                className="w-full h-full object-cover"
+                crossOrigin="anonymous"
+              />
+              <div className="absolute inset-0 bg-black/20"></div>
+            </div>
+
+            <div className="relative w-64 h-64 mt-6">
+              <img
+                src={badgeUrl}
+                alt="Certificate Badge"
+                className="w-full h-full object-contain"
                 crossOrigin="anonymous"
               />
             </div>
           </div>
 
-          <div className="w-full h-px bg-gray-300 mb-10"></div>
-
-          {/* Purchaser Info */}
-          <div className="mb-10 text-left">
-            <h3 className="text-base font-bold text-gray-700 tracking-widest mb-2">
-              PROUDLY PRESENTED TO
-            </h3>
-            <p className="text-5xl text-[#0f5132] tracking-wider break-words">
-              {mapped.purchaserName}
-            </p>
-          </div>
-
-          {/* Project Info */}
-          <div className="flex-1 space-y-4 text-base text-gray-700">
-            <div className="font-bold text-gray-900 mb-4 text-left">
-              {mapped.carbonCredits} Of Carbon Credits From The{" "}
-              {mapped.projectName}
+          {/* Right content section*/}
+          <div className="flex flex-col justify-between flex-1 bg-white px-10 py-10 ml-[350px]">
+            {/* Header */}
+            <div className="flex flex-row items-center justify-between mb-6">
+              <div className="text-left">
+                <h1 className="text-5xl font-bold text-[#0f5132] mb-1 tracking-wide">
+                  CERTIFICATE
+                </h1>
+                <h2 className="text-5xl text-gray-400 tracking-wide font-thin">
+                  OF PURCHASE
+                </h2>
+              </div>
+              <div className="text-right flex items-center justify-end">
+                <img
+                  src={logoUrl}
+                  alt="Company Logo"
+                  className="h-12 w-auto object-contain"
+                  crossOrigin="anonymous"
+                />
+              </div>
             </div>
 
-            <div className="space-y-3">
-              {[
-                ["Project Type", mapped.projectType],
-                ["Project Location", mapped.projectLocation],
-                ["Project Identification Number", mapped.projectId],
-                ["Registry", mapped.registry],
-                ["Vintage Year", mapped.vintageYear],
-              ].map(([label, value]) => (
-                <div
-                  className="flex flex-row items-center space-x-2"
-                  key={label}
-                >
-                  <span className="font-bold text-gray-800">{label}:</span>
-                  <span>{value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+            <div className="w-full h-px bg-gray-300 mb-10"></div>
 
-          {/* Footer */}
-          <div className="mt-6 pt-4 border-gray-300">
-            <div className="flex justify-between items-start flex-row text-left">
-              <div className="inline-block text-center min-w-[200px]">
-                <span className="text-base font-bold text-gray-700 block mb-1">
-                  {mapped.certificateNumber}
-                </span>
-                <div className="w-full border-t-2 border-gray-400"></div>
-                <div className="text-sm text-gray-600 uppercase tracking-wider mt-1">
-                  Certificate Number
-                </div>
+            {/* Purchaser Info */}
+            <div className="mb-10 text-left">
+              <h3 className="text-base font-bold text-gray-700 tracking-widest mb-2">
+                PROUDLY PRESENTED TO
+              </h3>
+              <p className="text-5xl text-[#0f5132] tracking-wider break-words">
+                {mapped.purchaserName}
+              </p>
+            </div>
+
+            {/* Project Info */}
+            <div className="flex-1 space-y-4 text-base text-gray-700">
+              <div className="font-bold text-gray-900 mb-4 text-left">
+                {mapped.carbonCredits} Of Carbon Credits From The{" "}
+                {mapped.projectName}
               </div>
 
-              <div className="inline-block text-center min-w-[120px]">
-                <span className="text-base font-bold text-gray-700 block mb-1">
-                  {mapped.issueDate}
-                </span>
-                <div className="w-full border-t-2 border-gray-400"></div>
-                <div className="text-sm text-gray-600 uppercase tracking-wider mt-1">
-                  Date
+              <div className="space-y-3">
+                {[
+                  ["Project Type", mapped.projectType],
+                  ["Project Location", mapped.projectLocation],
+                  ["Project Identification Number", mapped.projectId],
+                  ["Registry", mapped.registry],
+                  ["Vintage Year", mapped.vintageYear],
+                ].map(([label, value]) => (
+                  <div
+                    className="flex flex-row items-center space-x-2"
+                    key={label}
+                  >
+                    <span className="font-bold text-gray-800">{label}:</span>
+                    <span>{value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="mt-6 pt-4 border-gray-300">
+              <div className="flex justify-between items-start flex-row text-left">
+                <div className="inline-block text-center min-w-[200px]">
+                  <span className="text-base font-bold text-gray-700 block mb-1">
+                    {mapped.certificateNumber}
+                  </span>
+                  <div className="w-full border-t-2 border-gray-400"></div>
+                  <div className="text-sm text-gray-600 uppercase tracking-wider mt-1">
+                    Certificate Number
+                  </div>
+                </div>
+
+                <div className="inline-block text-center min-w-[120px]">
+                  <span className="text-base font-bold text-gray-700 block mb-1">
+                    {mapped.issueDate}
+                  </span>
+                  <div className="w-full border-t-2 border-gray-400"></div>
+                  <div className="text-sm text-gray-600 uppercase tracking-wider mt-1">
+                    Date
+                  </div>
                 </div>
               </div>
             </div>
@@ -209,7 +225,7 @@ export default function CertificatePDFGenerator({
     </div>
   );
 
-  // all images within an element to be loaded OR error
+  // all images within an element to be loaded
   const waitForImagesToLoad = (el, timeout = 5000) =>
     new Promise((resolve) => {
       const imgs = Array.from(el.querySelectorAll("img"));
@@ -226,16 +242,14 @@ export default function CertificatePDFGenerator({
 
       const timer = setTimeout(() => {
         timedOut = true;
-        // resolve anyway — sometimes images may never load but we still want to try
         resolve(false);
       }, timeout);
 
       imgs.forEach((img) => {
-        // If image already loaded and has dimensions, count it as loaded
+        // If image already loaded and has dimensions, then it as loaded
         if (img.complete && img.naturalWidth && img.naturalHeight) {
           onDone();
         } else {
-          // attach handlers
           img.addEventListener(
             "load",
             function () {
@@ -253,7 +267,7 @@ export default function CertificatePDFGenerator({
         }
       });
 
-      // If there were no images to wait for
+      // there were no images to wait for
       if (imgs.length === 0) {
         clearTimeout(timer);
         resolve(true);
@@ -278,7 +292,6 @@ export default function CertificatePDFGenerator({
 
       const rect = element.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) {
-        // finding an offscreen wrapper, If not found, cloning preview node into an offscreen container.
         let offscreen = document.getElementById("certificate-pdf-offscreen");
         if (!offscreen) {
           offscreen = document.createElement("div");
@@ -294,7 +307,7 @@ export default function CertificatePDFGenerator({
         // if the PDF isnt full-size content inside offscreen, clone the preview into it
         const existingPdf = offscreen.querySelector("#certificate-content-pdf");
         if (!existingPdf) {
-          // deep clone preview content
+          // deep clone
           const preview = document.getElementById(
             "certificate-content-preview"
           );
@@ -316,7 +329,7 @@ export default function CertificatePDFGenerator({
         }
       }
 
-      // Waiting for images inside the element to load
+      // waiting for images to load
       await waitForImagesToLoad(element, 8000);
 
       // html2canvas
@@ -326,6 +339,8 @@ export default function CertificatePDFGenerator({
         allowTaint: false,
         backgroundColor: "#ffffff",
         logging: false,
+        width: CERT_W + 60,
+        height: CERT_H + 40,
       });
 
       // canvas has zero size it's a sign something went wrong
@@ -401,9 +416,9 @@ export default function CertificatePDFGenerator({
       {/* Certificate Preview */}
       <div
         ref={wrapperRef}
-        className="w-full flex justify-center overflow-hidden touch-pan-y"
+        className="w-full flex justify-center overflow-visible touch-pan-y"
         style={{
-          height: `${CERT_H * scale}px`,
+          height: `${(CERT_H + 40) * scale}px`,
         }}
       >
         <div

@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export default function PaymentCancel() {
   return (
-    <div className="flex items-center justify-center px-4">
+    <div className="flex items-center justify-center py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <Card className="shadow-lg border-orange-200 bg-white">
           <CardHeader className="text-center">

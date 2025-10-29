@@ -85,7 +85,7 @@ export default function CertificatePage() {
   }
 
   return (
-    <div className="">
+    <div className="py-12 px-4">
       <div className="max-w-6xl mx-auto p-4">
         {/* Page header */}
         <div className="mb-6 flex items-center justify-between">
