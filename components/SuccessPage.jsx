@@ -13,7 +13,13 @@ const OffsetSuccessPage = () => {
   const [successData, setSuccessData] = useState(null);
   const [error, setError] = useState(null);
 
-  const { confirmOffsetQuote } = useOffsetStore();
+  const {
+    confirmOffsetQuote,
+    create_account,
+    certification_name,
+    resetUserInputs,
+    getUserInputs,
+  } = useOffsetStore();
   const { clearEmissionData } = useEmissionsStore();
 
   const hasConfirmedRef = useRef(false);
@@ -33,11 +39,17 @@ const OffsetSuccessPage = () => {
           throw new Error("Missing required parameters");
         }
 
+        const userInputs = getUserInputs();
+
         const confirmPayload = {
           quote_id: quoteId,
           payment_method: "stripe_checkout",
           stripe_session_id: sessionId,
+          create_account: userInputs.create_account,
+          certification_name: userInputs.certification_name,
         };
+
+        console.log("Payload to confirm :: ", confirmPayload);
 
         const data = await confirmOffsetQuote(confirmPayload);
 
@@ -47,7 +59,7 @@ const OffsetSuccessPage = () => {
         }
 
         setSuccessData({
-          certification_name: data.offset_details?.certification_name || "N/A",
+          // certification_name: data.offset_details?.certification_name || "N/A",
           project_name: data.offset_details?.project_name || "N/A",
           confirmation_number:
             data.offset_details?.confirmation_number ||
@@ -81,7 +93,15 @@ const OffsetSuccessPage = () => {
     };
 
     confirmQuoteAfterPayment();
-  }, [searchParams, confirmOffsetQuote, clearEmissionData]);
+  }, [
+    searchParams,
+    confirmOffsetQuote,
+    clearEmissionData,
+    create_account,
+    certification_name,
+    resetUserInputs,
+    getUserInputs,
+  ]);
 
   const handleBackToHome = () => {
     router.push("/");
@@ -309,10 +329,10 @@ const OffsetSuccessPage = () => {
                   transition={{ delay: 0.3 }}
                   className="bg-green-50 border border-green-200 rounded-2xl p-6"
                 >
-                  <h3 className="font-bold text-xl text-[#163820] mb-4 flex items-center gap-2">
+                  {/* <h3 className="font-bold text-xl text-[#163820] mb-4 flex items-center gap-2">
                     <Info className="text-primary" size={24} />
                     Disclaimer
-                  </h3>
+                  </h3> */}
                   <p className="text-gray-600">
                     Your carbon offset certificate has been generated
                     successfully. You will receive an email confirmation with
@@ -344,4 +364,4 @@ const OffsetSuccessPage = () => {
   );
 };
 
-export default OffsetSuccessPage; 
+export default OffsetSuccessPage;
