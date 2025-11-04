@@ -113,22 +113,11 @@ const OffsetSuccessPage = () => {
       return;
     }
 
-    router.push(
-      `/certificate/${successData.certificate_number}?action=${action}`
-    );
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "N/A";
-    try {
-      return new Date(dateString).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return dateString;
-    }
+    // router.push(
+    //   `/certificate/${successData.certificate_number}?action=${action}`
+    // );
+    const url = `/certificate/${successData.certificate_number}?action=${action}`;
+    window.open(url, "_blank");
   };
 
   // Loader
