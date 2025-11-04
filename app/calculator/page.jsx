@@ -29,6 +29,8 @@ export default function Calculator() {
     class: "economy",
     aircraft: "not_sure",
     passengers: 1,
+    emission_lab_test: true,
+
   });
   const [transportDetails, setTransportDetails] = useState({
     transportType: "",

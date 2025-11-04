@@ -18,7 +18,14 @@ const DonationModal = ({
   const [activeTab, setActiveTab] = useState("info");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
-  const { createStripeCheckoutSession, setOffsetSuccess } = useOffsetStore();
+  const {
+    createStripeCheckoutSession,
+    create_account,
+    certification_name,
+    setCreateAccount,
+    setCertificationName,
+    getUserInputs,
+  } = useOffsetStore();
 
   // total amount
   const pricePerTon = parseFloat(
@@ -118,7 +125,8 @@ const DonationModal = ({
                     <div className="flex justify-between">
                       <span>CO₂e Offset:</span>
                       <span className="font-semibold text-[#163820]">
-                        {emissionValue} metric ton{emissionValue !== 1 ? "s" : ""}
+                        {emissionValue} metric ton
+                        {emissionValue !== 1 ? "s" : ""}
                       </span>
                     </div>
                     {quoteData && (
@@ -153,6 +161,46 @@ const DonationModal = ({
                     payment securely. After successful payment, you&apos;ll be
                     redirected back to see your offset certificate.
                   </p>
+                </div>
+
+                {/* Account & Certification Inputs */}
+                <div className="space-y-6 mt-8">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#163820] font-semibold">
+                      Create an Account
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setCreateAccount(!create_account)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
+                        create_account ? "bg-green-600" : "bg-gray-300"
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
+                          create_account ? "translate-x-6" : "translate-x-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Certification Name */}
+                  <div>
+                    <label
+                      htmlFor="certification_name"
+                      className="block text-sm font-semibold text-[#163820] mb-2"
+                    >
+                      Certification Name
+                    </label>
+                    <input
+                      id="certification_name"
+                      type="text"
+                      value={certification_name}
+                      onChange={(e) => setCertificationName(e.target.value)}
+                      placeholder="Enter your certificate name"
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:outline-none"
+                    />
+                  </div>
                 </div>
 
                 {/* Error Message */}

@@ -10,10 +10,9 @@ import {
   CheckCircle2,
   Lightbulb,
 } from "lucide-react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import DonationModal from "./components/DonationModal";
+import DonationModal from "../offsetPage/components/DonationModal";
 import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
