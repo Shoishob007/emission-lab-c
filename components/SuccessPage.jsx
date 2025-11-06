@@ -16,7 +16,7 @@ const OffsetSuccessPage = () => {
   const {
     confirmOffsetQuote,
     create_account,
-    certification_name,
+    certificate_name,
     resetUserInputs,
     getUserInputs,
   } = useOffsetStore();
@@ -46,7 +46,7 @@ const OffsetSuccessPage = () => {
           payment_method: "stripe_checkout",
           stripe_session_id: sessionId,
           create_account: userInputs.create_account,
-          certification_name: userInputs.certification_name,
+          certificate_name: userInputs.certificate_name,
         };
 
         console.log("Payload to confirm :: ", confirmPayload);
@@ -59,7 +59,7 @@ const OffsetSuccessPage = () => {
         }
 
         setSuccessData({
-          // certification_name: data.offset_details?.certification_name || "N/A",
+          // certificate_name: data.offset_details?.certificate_name || "N/A",
           project_name: data.offset_details?.project_name || "N/A",
           confirmation_number:
             data.offset_details?.confirmation_number ||
@@ -98,7 +98,7 @@ const OffsetSuccessPage = () => {
     confirmOffsetQuote,
     clearEmissionData,
     create_account,
-    certification_name,
+    certificate_name,
     resetUserInputs,
     getUserInputs,
   ]);
@@ -209,7 +209,7 @@ const OffsetSuccessPage = () => {
                           Certification Name:
                         </span>
                         <p className="font-semibold text-[#163820]">
-                          {successData.certification_name}
+                          {successData.certificate_name}
                         </p>
                       </div>
 
