@@ -21,7 +21,7 @@ const DonationModal = ({
   const {
     createStripeCheckoutSession,
     create_account,
-    certification_name,
+    certificate_name,
     setCreateAccount,
     setCertificationName,
   } = useOffsetStore();
@@ -187,15 +187,15 @@ const DonationModal = ({
                   {/* Certification Name Input */}
                   <div>
                     <label
-                      htmlFor="certification_name"
+                      htmlFor="certificate_name"
                       className="block text-sm font-semibold text-[#163820] mb-2"
                     >
                       Certification Name
                     </label>
                     <input
-                      id="certification_name"
+                      id="certificate_name"
                       type="text"
-                      value={certification_name}
+                      value={certificate_name}
                       onChange={(e) => setCertificationName(e.target.value)}
                       placeholder="Enter your certificate name"
                       className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:outline-none"
