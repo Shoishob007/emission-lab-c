@@ -34,6 +34,8 @@ export default function CertificatePDFGenerator({
       certificateDetails.purchaser_name ||
       certificateDetails.recipient_name ||
       "N/A",
+    certificate_name:
+      certificateDetails.certificate_name || certificateDetails.certification_name || "N/A",
     projectName:
       certificateDetails.project_name ||
       certificateDetails.product_name ||
@@ -165,7 +167,7 @@ export default function CertificatePDFGenerator({
                 PROUDLY PRESENTED TO
               </h3>
               <p className="text-5xl text-[#0f5132] tracking-wider break-words">
-                {mapped.purchaserName}
+                {mapped.certificate_name}
               </p>
             </div>
 
