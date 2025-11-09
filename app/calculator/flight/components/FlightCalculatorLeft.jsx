@@ -259,10 +259,10 @@ const FlightCalculatorLeft = ({
         </div>
       </div>
 
-      {/* Class Details */}
+      {/* Cabin Type */}
       <div>
         <label className="block text-sm font-semibold mb-2 text-muted-foreground">
-          Class Details
+          Cabin
         </label>
         <div className="flex flex-wrap gap-2 sm:gap-3">
           {[

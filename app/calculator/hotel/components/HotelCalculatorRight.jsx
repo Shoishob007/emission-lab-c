@@ -21,8 +21,8 @@ const HotelCalculatorRight = ({
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
-  console.log("emissionData :: ", emissionData);
   const [generationStage, setGenerationStage] = useState("");
+  const [cachedAiAnalysis, setCachedAiAnalysis] = useState(null);
   const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
 
   // when emission data changes
@@ -45,7 +45,10 @@ const HotelCalculatorRight = ({
     }
   }, [emissionData, calculated, setStoreEmissionData]);
 
-  // console.log("emission Data in HotelCalculatorRight: ", emissionData)
+  // reset cach if emission data changes
+  useEffect(() => {
+    setCachedAiAnalysis(null);
+  }, [emissionData]);
 
   // handle dashboard
   const handleViewDashboard = async () => {
@@ -54,12 +57,21 @@ const HotelCalculatorRight = ({
       return;
     }
 
+    // if cached data exists
+    if (cachedAiAnalysis) {
+      setAiAnalysisData(cachedAiAnalysis);
+      setShowDashboard(true);
+      setTimeout(() => {
+        scrollToDashboard();
+      }, 100);
+      return;
+    }
+
     setIsGenerating(true);
     setGenerationProgress(0);
     setGenerationStage("Analyzing flight emissions...");
 
     try {
-      // Start progress animation
       const progressInterval = setInterval(() => {
         setGenerationProgress((prev) => {
           if (prev >= 90) {
@@ -70,11 +82,17 @@ const HotelCalculatorRight = ({
         });
       }, 500);
 
-      // Update stages during generation
-      // setTimeout(() => setGenerationStage("Calculating environmental impact..."), 2000);
-      // setTimeout(() => setGenerationStage("Preparing detailed insights..."), 4000);
+      // stages during generation
+      setTimeout(
+        () => setGenerationStage("Calculating environmental impact..."),
+        2000
+      );
+      setTimeout(
+        () => setGenerationStage("Preparing detailed insights..."),
+        4000
+      );
 
-      // Make API call
+      // API call
       const aiAnalysisData = await fetchCarbonEmissionDetailsInHotel(
         emissionData
       );
@@ -84,7 +102,8 @@ const HotelCalculatorRight = ({
       setGenerationProgress(100);
       setGenerationStage("Analysis complete!");
 
-      // Set the AI analysis data in parent component
+      // Cache the data
+      setCachedAiAnalysis(aiAnalysisData);
       setAiAnalysisData(aiAnalysisData);
 
       setTimeout(() => {
@@ -103,8 +122,6 @@ const HotelCalculatorRight = ({
       }, 2000);
     }
   };
-
-  // console.log("Hello :: ", emissionData?.result?.data);
 
   const totalEmission = emissionData?.result?.data?.co2e_mt || 0;
 
@@ -246,25 +263,19 @@ const HotelCalculatorRight = ({
                   {/* View / Hide Details */}
                   <button
                     onClick={handleViewDashboard}
-                    className={`${
-                      showDashboard ? "w-full" : "w-1/2"
-                    } bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors`}
+                    className="flex-1 bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors"
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
                     {showDashboard ? "Hide Details" : "View AI Analysis"}
                   </button>
 
                   {/* Offset Now */}
-                  {!showDashboard && (
-                    <Link href={"/offset"} className="w-1/2">
-                      <button
-                        className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors"
-                      >
-                        <ArrowUp className="h-4 w-4 mr-2" />
-                        Offset Now
-                      </button>
-                    </Link>
-                  )}
+                  <Link href={"/offset"} className="flex-1">
+                    <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
+                      <ArrowUp className="h-4 w-4 mr-2" />
+                      Offset Now
+                    </button>
+                  </Link>
                 </div>
               )}
             </div>

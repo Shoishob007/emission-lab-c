@@ -22,9 +22,9 @@ const ShipCalculatorRight = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [generationStage, setGenerationStage] = useState("");
+  const [cachedAiAnalysis, setCachedAiAnalysis] = useState(null);
   const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
 
-  // when emission data changes
   useEffect(() => {
     if (emissionData && calculated) {
       setStoreEmissionData({
@@ -33,11 +33,25 @@ const ShipCalculatorRight = ({
       });
     }
   }, [emissionData, calculated, setStoreEmissionData]);
-  // console.log("emission Data in FlightCalculatorRight: ", emissionData)
+
+  // reseting cached data when emission data changes
+  useEffect(() => {
+    setCachedAiAnalysis(null);
+  }, [emissionData]);
 
   const handleViewDashboard = async () => {
     if (showDashboard) {
       setShowDashboard(false);
+      return;
+    }
+
+    // if cached data exists
+    if (cachedAiAnalysis) {
+      setAiAnalysisData(cachedAiAnalysis);
+      setShowDashboard(true);
+      setTimeout(() => {
+        scrollToDashboard();
+      }, 100);
       return;
     }
 
@@ -46,7 +60,6 @@ const ShipCalculatorRight = ({
     setGenerationStage("Analyzing flight emissions...");
 
     try {
-      // Start progress animation
       const progressInterval = setInterval(() => {
         setGenerationProgress((prev) => {
           if (prev >= 90) {
@@ -57,7 +70,7 @@ const ShipCalculatorRight = ({
         });
       }, 500);
 
-      // Update stages during generation
+      // updating stages during generation
       setTimeout(
         () => setGenerationStage("Calculating environmental impact..."),
         2000
@@ -66,18 +79,17 @@ const ShipCalculatorRight = ({
         () => setGenerationStage("Preparing detailed insights..."),
         4000
       );
-
-      // Make API call
       const aiAnalysisData = await fetchCarbonEmissionDetailsInShip(
         emissionData
       );
 
-      // Complete progress
+      // complete progress
       clearInterval(progressInterval);
       setGenerationProgress(100);
       setGenerationStage("Analysis complete!");
 
-      // Set the AI analysis data in parent component
+      // caching
+      setCachedAiAnalysis(aiAnalysisData);
       setAiAnalysisData(aiAnalysisData);
 
       setTimeout(() => {
@@ -97,8 +109,6 @@ const ShipCalculatorRight = ({
     }
   };
 
-  //   const co2e_kg = emissionData?.result?.data?.co2e_kg || 0;
-  // const co2e_mt = co2e_kg / 1000;
   console.log("Emission data :: ", emissionData);
 
   const totalEmission = emissionData?.result?.data?.co2e_kg / 1000 || 0;
@@ -187,10 +197,6 @@ const ShipCalculatorRight = ({
                   <span className="font-semibold">Distance Traveled: </span>
                   {emissionData?.result?.data?.distance_value || 0} km
                 </p>
-                {/* <p className="text-sm text-muted-foreground">
-                  <span className="font-semibold">Total Passengers:</span>{" "}
-                  {emissionData?.result?.data?.number_of_passengers}
-                </p> */}
               </div>
             </div>
 
@@ -246,25 +252,19 @@ const ShipCalculatorRight = ({
                   {/* View / Hide Details */}
                   <button
                     onClick={handleViewDashboard}
-                    className={`${
-                      showDashboard ? "w-full" : "w-1/2"
-                    } bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors`}
+                    className="flex-1 bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors"
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
                     {showDashboard ? "Hide Details" : "View AI Analysis"}
                   </button>
 
                   {/* Offset Now */}
-                  {!showDashboard && (
-                    <Link href={"/offset"} className="w-1/2">
-                      <button
-                        className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors"
-                      >
-                        <ArrowUp className="h-4 w-4 mr-2" />
-                        Offset Now
-                      </button>
-                    </Link>
-                  )}
+                  <Link href={"/offset"} className="flex-1">
+                    <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
+                      <ArrowUp className="h-4 w-4 mr-2" />
+                      Offset Now
+                    </button>
+                  </Link>
                 </div>
               )}
             </div>
