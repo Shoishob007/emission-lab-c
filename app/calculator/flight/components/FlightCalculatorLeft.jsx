@@ -103,7 +103,7 @@ const FlightCalculatorLeft = ({
         round_trip: flightDetails.tripType === "roundTrip" ? "Y" : "N",
         aircraft_type:
           flightDetails.aircraft === "not_sure" ? "" : flightDetails.aircraft,
-        emission_lab_test: flightDetails.emission_lab_test || true,
+        emission_lab_test: flightDetails.emission_lab_test,
       };
 
       console.log("requestData from flight :: ", requestData);
