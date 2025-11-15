@@ -8,7 +8,7 @@ import html2canvas from "html2canvas";
 
 export default function CertificatePDFGenerator({
   logoUrl = "/carbon-logo.png",
-  badgeUrl = "/badge.png",
+  badgeUrl = "/terrapass-badge.png",
   projectDetails = {},
   certificateDetails = {},
   autoAction = "preview",
@@ -35,7 +35,9 @@ export default function CertificatePDFGenerator({
       certificateDetails.recipient_name ||
       "N/A",
     certificate_name:
-      certificateDetails.certificate_name || certificateDetails.certification_name || "N/A",
+      certificateDetails.certificate_name ||
+      certificateDetails.certification_name ||
+      "N/A",
     projectName:
       certificateDetails.project_name ||
       certificateDetails.product_name ||
@@ -127,11 +129,14 @@ export default function CertificatePDFGenerator({
               <div className="absolute inset-0 bg-black/20"></div>
             </div>
 
-            <div className="relative w-64 h-64 mt-6">
+            <div
+              className="relative mt-6"
+              style={{ width: "256px", height: "256px" }}
+            >
               <img
                 src={badgeUrl}
                 alt="Certificate Badge"
-                className="w-full h-full object-contain"
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
                 crossOrigin="anonymous"
               />
             </div>
@@ -248,7 +253,6 @@ export default function CertificatePDFGenerator({
       }, timeout);
 
       imgs.forEach((img) => {
-        // If image already loaded and has dimensions, then it as loaded
         if (img.complete && img.naturalWidth && img.naturalHeight) {
           onDone();
         } else {
@@ -332,7 +336,7 @@ export default function CertificatePDFGenerator({
       }
 
       // waiting for images to load
-      await waitForImagesToLoad(element, 8000);
+      await waitForImagesToLoad(element, 5000);
 
       // html2canvas
       const canvas = await html2canvas(element, {

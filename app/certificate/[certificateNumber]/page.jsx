@@ -21,7 +21,7 @@ export default function CertificatePage() {
       setApiError(null);
 
       try {
-        const base = process.env.NEXT_PUBLIC_API || "";
+        const base = process.env.NEXT_PUBLIC_API;
         const res = await fetch(
           `${base}/api/offset/certificates/${certificateNumber}`
         );
