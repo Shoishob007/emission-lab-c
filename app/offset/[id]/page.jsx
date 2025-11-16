@@ -19,6 +19,7 @@ import DonationModal from "../components/DonationModal.jsx";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
 import { useSession } from "next-auth/react";
+import { renderDescription } from "../../offsetPage/components/RenderProjectDetails.jsx";
 
 export default function ProjectDetailsPage({ params }) {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
@@ -182,7 +183,7 @@ export default function ProjectDetailsPage({ params }) {
               </h2>
               <div className="prose prose-lg max-w-none">
                 <p className="text-[#767676] leading-relaxed text-lg mb-6">
-                  {project.description}
+                  {renderDescription({project})}
                 </p>
               </div>
 

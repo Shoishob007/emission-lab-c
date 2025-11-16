@@ -235,10 +235,6 @@ export default function CalcPage() {
                 <li className="flex items-center gap-2">
                   <ArrowRight className="text-btn-primary min-w-5" size={18} />
                   Track progress over time via your personal dashboard{" "}
-                  <span className="italic text-xs text-[#8b5cf6]">
-                    (coming soon)
-                  </span>
-                  .
                 </li>
               </ul>
               {/* Mobile image, after content */}
