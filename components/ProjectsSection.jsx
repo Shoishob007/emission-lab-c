@@ -16,7 +16,7 @@ export default function ProjectsSection() {
       fetchProjects();
     }, [fetchProjects]);
 
-  console.log("projects :: ", projects)
+  // console.log("projects :: ", projects)
 
   return (
     <section

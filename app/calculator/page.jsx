@@ -14,11 +14,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableTabs } from "@/components/ui/expandable-tabs";
 import useOffsetStore from "@/stores/offsetStore";
 
-/**
- * Adds a soft city image background (as in SolutionsSection) with a white gradient overlay.
- * The bg and overlay are absolutely positioned, content is relatively positioned with z-10.
- */
+
 export default function Calculator() {
+  const isUatApi = process.env.NEXT_PUBLIC_API === "https://uatapi.aiemissionlab.com";
   const dashboardRef = useRef(null);
   const [activeTab, setActiveTab] = useState("flight");
   const [calculated, setCalculated] = useState(false);
@@ -29,8 +27,7 @@ export default function Calculator() {
     class: "economy",
     aircraft: "not_sure",
     passengers: 1,
-    emission_lab_test: true,
-
+  ...(isUatApi && { emission_lab_test: true }),
   });
   const [transportDetails, setTransportDetails] = useState({
     transportType: "",
