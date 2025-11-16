@@ -22,9 +22,9 @@ const FlightCalculatorRight = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [generationStage, setGenerationStage] = useState("");
+  const [cachedAiAnalysis, setCachedAiAnalysis] = useState(null);
   const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
 
-  // when emission data changes
   useEffect(() => {
     if (emissionData && calculated) {
       setStoreEmissionData({
@@ -33,11 +33,25 @@ const FlightCalculatorRight = ({
       });
     }
   }, [emissionData, calculated, setStoreEmissionData]);
-  // console.log("emission Data in FlightCalculatorRight: ", emissionData)
+
+  // cached data reset if amission data changes
+  useEffect(() => {
+    setCachedAiAnalysis(null);
+  }, [emissionData]);
 
   const handleViewDashboard = async () => {
     if (showDashboard) {
       setShowDashboard(false);
+      return;
+    }
+
+    // using cached data if available
+    if (cachedAiAnalysis) {
+      setAiAnalysisData(cachedAiAnalysis);
+      setShowDashboard(true);
+      setTimeout(() => {
+        scrollToDashboard();
+      }, 100);
       return;
     }
 
@@ -46,7 +60,7 @@ const FlightCalculatorRight = ({
     setGenerationStage("Analyzing flight emissions...");
 
     try {
-      // Start progress animation
+      // progress animation
       const progressInterval = setInterval(() => {
         setGenerationProgress((prev) => {
           if (prev >= 90) {
@@ -57,7 +71,7 @@ const FlightCalculatorRight = ({
         });
       }, 500);
 
-      // Update stages during generation
+      // updating stages during generation
       setTimeout(
         () => setGenerationStage("Calculating environmental impact..."),
         2000
@@ -76,6 +90,9 @@ const FlightCalculatorRight = ({
       clearInterval(progressInterval);
       setGenerationProgress(100);
       setGenerationStage("Analysis complete!");
+
+      // Cache the data for future use
+      setCachedAiAnalysis(aiAnalysisData);
 
       // Set the AI analysis data in parent component
       setAiAnalysisData(aiAnalysisData);
@@ -159,9 +176,8 @@ const FlightCalculatorRight = ({
             <EmissionDisplay totalEmission={totalEmission} />
 
             {/* Flight Details */}
-            <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-2 justify-center sm:items-center">
-              {/* Flight details content remains the same */}
-            </div>
+            {/* <div className="flex flex-col space-y-4 sm:space-y-0 sm:space-x-2 justify-center sm:items-center">
+            </div> */}
 
             {/* Emission Details */}
             <div className="mt-6 sm:mt-0">
@@ -214,7 +230,7 @@ const FlightCalculatorRight = ({
 
               {isGenerating ? (
                 <div className="w-full mt-4">
-                  {/* AI Generation Loading State */}
+                  {/* Generation Loading State */}
                   <div className="w-full bg-primary/10 rounded-lg p-4 flex flex-col items-center">
                     <div className="flex items-center space-x-3 mb-3">
                       <div className="relative">
@@ -244,26 +260,23 @@ const FlightCalculatorRight = ({
                   {/* View / Hide Details */}
                   <button
                     onClick={handleViewDashboard}
-                    className={`${
-                      showDashboard ? "w-full" : "w-1/2"
-                    } bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors`}
+                    className="flex-1 bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors"
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
-                    {showDashboard ? "Hide Details" : "View AI Analysis"}
+                    {showDashboard
+                      ? "Hide Details"
+                      : cachedAiAnalysis
+                      ? "View AI Analysis"
+                      : "View AI Analysis"}
                   </button>
 
                   {/* Offset Now */}
-                  {!showDashboard && (
-                    <Link href={"/offset"} className="w-1/2">
-                      <button
-                        disabled
-                        className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors cursor-not-allowed"
-                      >
-                        <ArrowUp className="h-4 w-4 mr-2" />
-                        Offset Now
-                      </button>
-                    </Link>
-                  )}
+                  <Link href={"/offset"} className="flex-1">
+                    <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
+                      <ArrowUp className="h-4 w-4 mr-2" />
+                      Offset Now
+                    </button>
+                  </Link>
                 </div>
               )}
             </div>

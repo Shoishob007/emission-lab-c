@@ -24,7 +24,7 @@ const TransportCalculatorRight = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [generationStage, setGenerationStage] = useState("");
-  // console.log("emissionData :: ", emissionData);
+  const [cachedAiAnalysis, setCachedAiAnalysis] = useState(null);
   const { setEmissionData: setStoreEmissionData } = useEmissionsStore();
   const { data: session } = useSession();
 
@@ -52,7 +52,10 @@ const TransportCalculatorRight = ({
     }
   }, [emissionData, calculated, setStoreEmissionData]);
 
-  // console.log("Emission data in transport :: ", emissionData)
+  // reset when emission data changes
+  useEffect(() => {
+    setCachedAiAnalysis(null);
+  }, [emissionData]);
 
   const getVehicleImage = () => {
     const transportType = transportDetails?.transportType || "";
@@ -73,6 +76,16 @@ const TransportCalculatorRight = ({
   const handleViewDashboard = async () => {
     if (showDashboard) {
       setShowDashboard(false);
+      return;
+    }
+
+    // for cached data
+    if (cachedAiAnalysis) {
+      setAiAnalysisData(cachedAiAnalysis);
+      setShowDashboard(true);
+      setTimeout(() => {
+        scrollToDashboard();
+      }, 100);
       return;
     }
 
@@ -118,7 +131,8 @@ const TransportCalculatorRight = ({
       setGenerationProgress(100);
       setGenerationStage("Analysis complete!");
 
-      // Set the AI analysis data in parent component
+      // caching
+      setCachedAiAnalysis(aiAnalysisData);
       setAiAnalysisData(aiAnalysisData);
 
       setTimeout(() => {
@@ -280,27 +294,19 @@ const TransportCalculatorRight = ({
                   {/* View / Hide Details */}
                   <button
                     onClick={handleViewDashboard}
-                    className={`${
-                      showDashboard ? "w-full" : "w-1/2"
-                    } bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors`}
+                    className="flex-1 bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors"
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
                     {showDashboard ? "Hide Details" : "View Details"}
                   </button>
 
                   {/* Offset Now */}
-                  {!showDashboard && (
-                    <Link href={"/offset"} className="w-1/2">
-                      <button
-                        disabled
-                        className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-not-allowed"
-                      >
-                        {" "}
-                        <ArrowUp className="h-4 w-4 mr-2" />
-                        Offset Now
-                      </button>
-                    </Link>
-                  )}
+                  <Link href={"/offset"} className="flex-1">
+                    <button className="w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors">
+                      <ArrowUp className="h-4 w-4 mr-2" />
+                      Offset Now
+                    </button>
+                  </Link>
                 </div>
               )}
             </div>

@@ -1,35 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
+"use client"
 import { ArrowRight, Leaf, LeafIcon, Settings } from "lucide-react";
 import Link from "next/link";
+import useOffsetStore from "@/stores/offsetStore";
+import {renderDescription} from "@/app/offsetPage/components/RenderProjectDetails"
+import { useEffect } from "react";
 
-const projects = [
-  {
-    title: "Renewable Energy Implementation",
-    image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538667/emisison-lab/renewable-energy-project_tsusjo.jpg",
-    description:
-      "Our renewable energy solutions harness the power of natural resources like solar.",
-    cta: { text: "Read More", href: "/projects/1" },
-  },
-  {
-    title: "Reforestation to Restore Natural",
-    image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538665/emisison-lab/reforestration-project_zmzv6v.jpg",
-    description:
-      "Our renewable energy solutions harness the power of natural resources like solar.",
-    cta: { text: "Read More", href: "/projects/2" },
-  },
-  {
-    title: "Climate Action for a Greener Planet",
-    image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538668/emisison-lab/climate-awarness_u7qsp5.jpg",
-    description:
-      "Our renewable energy solutions harness the power of natural resources like solar.",
-    cta: { text: "Read More", href: "/projects/3" },
-  },
-];
 
 export default function ProjectsSection() {
+    const {
+    projects, fetchProjects
+  } = useOffsetStore();
+
+    useEffect(() => {
+      fetchProjects();
+    }, [fetchProjects]);
+
+  // console.log("projects :: ", projects)
+
   return (
     <section
       id="projects"
@@ -52,7 +40,7 @@ export default function ProjectsSection() {
             </h2>
           </div>
           <Link
-            href="/projectsPage"
+            href="/offsetPage"
             className="mt-6 md:mt-0 px-7 py-3 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition whitespace-nowrap w-fit"
           >
             View All Projects <ArrowRight className="w-5 h-5" />
@@ -60,7 +48,7 @@ export default function ProjectsSection() {
         </div>
 
         <div className="w-full flex flex-col md:flex-row md:flex-wrap justify-center gap-10 mb-10">
-          {projects.map((project, i) => (
+          {projects.slice(0, 3).map((project, i) => (
             <div
               key={i}
               className="relative rounded-2xl overflow-hidden flex-1 min-w-[90vw] max-w-[410px] h-[410px] group cursor-pointer transition-shadow duration-400 mx-auto md:min-w-[340px] md:mx-0"
@@ -71,7 +59,7 @@ export default function ProjectsSection() {
             >
               {/* Badge */}
               <span className="absolute top-3 left-3 z-20 px-3 py-1 rounded-full text-xs font-semibold bg-btn-primary text-white shadow shadow-[#FFA72655] select-none">
-                Coming Soon
+                {project.standard}
               </span>
 
               <img
@@ -91,14 +79,14 @@ export default function ProjectsSection() {
                       fontFamily: "'Montserrat', Arial, Helvetica, sans-serif",
                     }}
                   >
-                    {project.title}
+                    {project.name}
                   </div>
-                  <div className="text-white/90 text-sm mt-2">
-                    {project.description}
+                  <div className="text-white/90 text-sm mt-2 line-clamp-2">
+                    {renderDescription({project})}
                   </div>
                 </div>
                 <Link
-                  href={project.cta.href}
+                  href={`/offsetPage/${project.id}`}
                   className={`
                     inline-flex items-center gap-1 font-semibold text-btn-primary hover:underline text-base
                     opacity-0 translate-y-4
@@ -106,12 +94,11 @@ export default function ProjectsSection() {
                     transition-all duration-400
                   `}
                 >
-                  {project.cta.text} <ArrowRight className="w-4 h-4" />
+                  View More <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-
               {/* Overlay */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-400 pointer-events-none" />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-400 pointer-events-none" />
             </div>
           ))}
         </div>

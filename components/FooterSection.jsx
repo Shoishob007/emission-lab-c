@@ -19,56 +19,60 @@ const FooterSection = () => {
           backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.12,
+          opacity: 0.08,
           zIndex: 1,
         }}
       />
       <div className="relative z-10 w-full max-w-[1300px] mx-auto px-6">
-        {/* Top bar with logo and contact */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-8">
-          {/* Brand */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link href={"/"}>
-              <img
-                src="/carbon-logo.png"
-                alt="EmissionLab Logo"
-                className="h-12 w-auto cursor-pointer"
-              />
-            </Link>
-          </div>
-          {/* Address */}
-          <div className="flex items-center gap-3">
-            <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
-              <MapPin className="w-6 h-6 text-white" />
-            </span>
-            <div>
-              <div className="font-bold text-white">Address</div>
-              <div className="text-green-100 text-sm">Miami, FL 33172</div>
-            </div>
-          </div>
-          {/* Contact */}
-          {/* <div className="flex items-center gap-3">
-            <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
-              <Phone className="w-6 h-6 text-white" />
-            </span>
-            <div>
-              <div className="font-bold text-white">Contact</div>
-              <div className="text-green-100 text-sm">+(91) - 123 456 789</div>
-            </div>
-          </div> */}
-          {/* Email */}
-          <div className="flex items-center gap-3">
-            <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
-              <Mail className="w-6 h-6 text-white" />
-            </span>
-            <div>
-              <div className="font-bold text-white">E-Mail</div>
-              <div className="text-green-100 text-sm">
-                info@aiemissionlab.com
-              </div>
-            </div>
-          </div>
-        </div>
+{/* Top section with logo, partner, address, and email */}
+<div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start mb-8">
+  {/* Brand */}
+  <div className="flex flex-col items-start">
+    <Link href={"/"}>
+      <img
+        src="/carbon-logo.png"
+        alt="EmissionLab Logo"
+        className="h-12 w-auto cursor-pointer"
+      />
+    </Link>
+    {/* <span className="text-sm text-green-100 mt-2">Emission Lab</span> */}
+  </div>
+
+  {/* Partnered With */}
+  <div className="flex flex-col items-start">
+    <div className="font-bold text-white mb-1">Partnered With</div>
+    <div className="flex items-center">
+      <img
+        src="/partner-logo-1.png"
+        alt="Partner Logo"
+        className="h-8 w-auto"
+      />
+    </div>
+  </div>
+
+  {/* Address */}
+  <div className="flex items-center gap-3">
+    <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
+      <MapPin className="w-6 h-6 text-white" />
+    </span>
+    <div>
+      <div className="font-bold text-white">Address</div>
+      <div className="text-green-100 text-sm">Miami, FL 33172</div>
+    </div>
+  </div>
+
+  {/* Email */}
+  <div className="flex items-center gap-3">
+    <span className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
+      <Mail className="w-6 h-6 text-white" />
+    </span>
+    <div>
+      <div className="font-bold text-white">E-Mail</div>
+      <div className="text-green-100 text-sm">info@aiemissionlab.com</div>
+    </div>
+  </div>
+</div>
+
 
         <hr className="border-green-900 mb-8" />
 
@@ -134,7 +138,7 @@ const FooterSection = () => {
               </li>
               <li>
                 <a
-                  href="/coming-soon"
+                  href="/offsetPage"
                   className="hover:text-[#3BBF4A] transition "
                 >
                   Want to Offset?

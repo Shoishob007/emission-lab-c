@@ -639,8 +639,7 @@ const CarbonImpactDashboard = ({
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href={"/offset"}>
                 <button
-                  disabled
-                  className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-not-allowed"
+                  className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors flex items-center justify-center"
                 >
                   <ArrowUp className="h-5 w-5 mr-2" />
                   Offset Now

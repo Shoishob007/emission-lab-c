@@ -18,7 +18,13 @@ const DonationModal = ({
   const [activeTab, setActiveTab] = useState("info");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
-  const { createStripeCheckoutSession, setOffsetSuccess } = useOffsetStore();
+  const {
+    createStripeCheckoutSession,
+    create_account,
+    certificate_name,
+    setCreateAccount,
+    setCertificationName,
+  } = useOffsetStore();
 
   // total amount
   const pricePerTon = parseFloat(
@@ -118,7 +124,8 @@ const DonationModal = ({
                     <div className="flex justify-between">
                       <span>CO₂e Offset:</span>
                       <span className="font-semibold text-[#163820]">
-                        {emissionValue} metric ton{emissionValue !== 1 ? "s" : ""}
+                        {emissionValue} metric ton
+                        {emissionValue !== 1 ? "s" : ""}
                       </span>
                     </div>
                     {quoteData && (
@@ -155,6 +162,47 @@ const DonationModal = ({
                   </p>
                 </div>
 
+                {/* Account & Certification Inputs */}
+                <div className="space-y-6 mt-8">
+                  {/* Create Account Toggle */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#163820] font-semibold">
+                      Create an Account
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setCreateAccount(!create_account)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
+                        create_account ? "bg-green-600" : "bg-gray-300"
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
+                          create_account ? "translate-x-6" : "translate-x-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Certification Name Input */}
+                  <div>
+                    <label
+                      htmlFor="certificate_name"
+                      className="block text-sm font-semibold text-[#163820] mb-2"
+                    >
+                      Certification Name
+                    </label>
+                    <input
+                      id="certificate_name"
+                      type="text"
+                      value={certificate_name}
+                      onChange={(e) => setCertificationName(e.target.value)}
+                      placeholder="Enter your certificate name"
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:outline-none"
+                    />
+                  </div>
+                </div>
+
                 {/* Error Message */}
                 {errors.submit && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -169,8 +217,12 @@ const DonationModal = ({
           <div className="border-t border-gray-100 p-6 flex items-center justify-end flex-shrink-0">
             <button
               onClick={handleStripeCheckout}
-              disabled={isSubmitting}
-              className="px-8 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg disabled:opacity-70"
+              disabled={isSubmitting || !certificate_name.trim()}
+              className={`px-8 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg ${
+                isSubmitting || !certificate_name.trim()
+                  ? "opacity-80 cursor-not-allowed"
+                  : ""
+              }`}
             >
               {isSubmitting ? (
                 <>

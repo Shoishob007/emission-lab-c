@@ -1,11 +1,5 @@
 "use client";
-import {
-  Award,
-  DollarSign,
-  Calendar,
-  BadgeCheck,
-  FileText,
-} from "lucide-react";
+import { Award, DollarSign, BadgeCheck, FileText, Info } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -19,7 +13,13 @@ const OffsetSuccessPage = () => {
   const [successData, setSuccessData] = useState(null);
   const [error, setError] = useState(null);
 
-  const { confirmOffsetQuote } = useOffsetStore();
+  const {
+    confirmOffsetQuote,
+    create_account,
+    certificate_name,
+    resetUserInputs,
+    getUserInputs,
+  } = useOffsetStore();
   const { clearEmissionData } = useEmissionsStore();
 
   const hasConfirmedRef = useRef(false);
@@ -39,14 +39,20 @@ const OffsetSuccessPage = () => {
           throw new Error("Missing required parameters");
         }
 
+        const userInputs = getUserInputs();
+
         const confirmPayload = {
           quote_id: quoteId,
           payment_method: "stripe_checkout",
           stripe_session_id: sessionId,
+          create_account: userInputs.create_account,
+          certificate_name: userInputs.certificate_name,
         };
 
+        // console.log("Payload to confirm :: ", confirmPayload);
+
         const data = await confirmOffsetQuote(confirmPayload);
-        // console.log("Quote Success :: ", data)
+        console.log("Confirmed offset response :: ", data)
 
         // clearing emission data after confirmation
         if (clearEmissionData) {
@@ -54,12 +60,13 @@ const OffsetSuccessPage = () => {
         }
 
         setSuccessData({
-          certification_name: data.offset_details?.certification_name || "N/A",
           project_name: data.offset_details?.project_name || "N/A",
           confirmation_number:
             data.offset_details?.confirmation_number ||
             data.carbon_offset_purchase_id,
           certificate_number: data.offset_details?.certificate_number,
+                    certificate_name: data.offset_details?.certification_name,
+
           carbon_expiration_date: data.offset_details?.carbon_expiration_date,
           gold_standard_confirmation:
             data.offset_details?.gold_standard_confirmation,
@@ -71,9 +78,9 @@ const OffsetSuccessPage = () => {
               data.offset_details?.pricing?.total_cost_usd || 0
             ),
           },
-          tonnes_offset: parseFloat(
-            data.offset_details?.pricing?.total_cost_usd /
-              data.offset_details?.pricing?.price_per_metric_ton_usd || 0
+          tonnes_offset: (
+            (data.offset_details?.pricing?.total_cost_usd || 0) /
+            (data.offset_details?.pricing?.price_per_metric_ton_usd || 1)
           ).toFixed(2),
         });
       } catch (err) {
@@ -88,23 +95,31 @@ const OffsetSuccessPage = () => {
     };
 
     confirmQuoteAfterPayment();
-  }, [searchParams, confirmOffsetQuote, clearEmissionData]);
+  }, [
+    searchParams,
+    confirmOffsetQuote,
+    clearEmissionData,
+    create_account,
+    certificate_name,
+    resetUserInputs,
+    getUserInputs,
+  ]);
 
   const handleBackToHome = () => {
     router.push("/");
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "N/A";
-    try {
-      return new Date(dateString).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return dateString;
+  const goToCertificate = (action = "preview") => {
+    if (!successData?.certificate_number) {
+      setError("Certificate number not available yet.");
+      return;
     }
+
+    // router.push(
+    //   `/certificate/${successData.certificate_number}?action=${action}`
+    // );
+    const url = `/certificate/${successData.certificate_number}?action=${action}`;
+    window.open(url, "_blank");
   };
 
   // Loader
@@ -135,7 +150,7 @@ const OffsetSuccessPage = () => {
             <p className="text-red-600 mb-4">{error}</p>
             <button
               onClick={handleBackToHome}
-              className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors"
+              className="px-6 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white rounded-lg transition-colors font-semibold"
             >
               Back to Home
             </button>
@@ -146,7 +161,7 @@ const OffsetSuccessPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
+    <div className="min-h-screen py-12 px-4">
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -162,7 +177,7 @@ const OffsetSuccessPage = () => {
             </p>
           </div>
 
-          <div className="p-8 space-y-6">
+          <div className="p-4 sm:p-8 space-y-6">
             {loadingData ? (
               <>
                 <SkeletonCard />
@@ -172,66 +187,86 @@ const OffsetSuccessPage = () => {
             ) : successData ? (
               <>
                 {/* Certification Details */}
-                {/* Certification Details */}
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: 0.1 }}
-  className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6"
->
-  <h3 className="font-bold text-xl text-[#163820] flex items-center gap-2">
-    <Award className="text-primary" size={24} />
-    Your Carbon Offset Certificate
-  </h3>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6"
+                >
+                  <h3 className="font-bold text-xl text-[#163820] flex items-center gap-2">
+                    <Award className="text-primary" size={24} />
+                    Your Carbon Offset Certificate
+                  </h3>
 
-    {/* Disclaimer */}
-  <p className="mt-2 text-sm text-blue-500 italic mb-4 ">
-    Disclaimer: Currently we are issuing only test certificates, not the official ones.
-  </p>
+                  {/* Disclaimer */}
+                  <p className="mt-2 text-sm text-blue-500 italic mb-4 ">
+                    Disclaimer: Currently we are issuing only test certificates,
+                    not the official ones.
+                  </p>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-    <div className="space-y-4">
-      <div>
-        <span className="text-gray-600">Certification Name:</span>
-        <p className="font-semibold text-[#163820]">
-          {successData.certification_name}
-        </p>
-      </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div className="space-y-4">
+                      <div>
+                        <span className="text-gray-600">
+                          Certification Name:
+                        </span>
+                        <p className="font-semibold text-[#163820]">
+                          {successData.certificate_name}
+                        </p>
+                      </div>
 
-      <div>
-        <span className="text-gray-600">Project:</span>
-        <p className="font-semibold text-[#163820]">
-          {successData.project_name}
-        </p>
-      </div>
+                      <div>
+                        <span className="text-gray-600">Project:</span>
+                        <p className="font-semibold text-[#163820]">
+                          {successData.project_name}
+                        </p>
+                      </div>
 
-      <div>
-        <span className="text-gray-600">Gold Standard:</span>
-        <p className="font-semibold text-primary flex items-center gap-1">
-          <BadgeCheck size={16} />
-          {successData.gold_standard_confirmation}
-        </p>
-      </div>
-    </div>
+                      {/* <div>
+                        <span className="text-gray-600">Certified By:</span>
+                        <p className="font-semibold text-primary flex items-center gap-1">
+                          <BadgeCheck size={16} />
+                          {successData?.gold_standard_confirmation}
+                        </p>
+                      </div> */}
+                    </div>
 
-    <div className="space-y-4">
-      <div>
-        <span className="text-gray-600">Confirmation #:</span>
-        <p className="font-semibold text-[#163820]">
-          {successData.confirmation_number}
-        </p>
-      </div>
+                    <div className="space-y-4">
+                      <div>
+                        <span className="text-gray-600">Purchase ID #:</span>
+                        <p className="font-semibold text-[#163820]">
+                          {successData.confirmation_number}
+                        </p>
+                      </div>
 
-      <div>
-        <span className="text-gray-600">Certificate #:</span>
-        <p className="font-semibold text-[#163820]">
-          {successData.certificate_number}
-        </p>
-      </div>
-    </div>
-  </div>
-</motion.div>
+                      <div>
+                        <span className="text-gray-600">Certificate #:</span>
+                        <p className="font-semibold text-[#163820]">
+                          {successData.certificate_number}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
+                  {/* Link-styled buttons for Preview and Download */}
+                  <div className="mt-4 flex items-center gap-4">
+                    <button
+                      onClick={() => goToCertificate("preview")}
+                      className="text-secondary hover:underline font-semibold text-sm"
+                    >
+                      Preview Certificate
+                    </button>
+
+                    <span className="text-gray-400">|</span>
+
+                    <button
+                      onClick={() => goToCertificate("download")}
+                      className="text-secondary hover:underline font-semibold text-sm"
+                    >
+                      Download Certificate
+                    </button>
+                  </div>
+                </motion.div>
 
                 {/* Pricing Summary */}
                 <motion.div
@@ -259,7 +294,9 @@ const OffsetSuccessPage = () => {
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Total Offset Amount:</span>
+                      <span className="text-gray-600">
+                        Total Offset Amount:
+                      </span>
                       <span className="font-semibold text-[#163820]">
                         {successData.tonnes_offset} metric tons
                       </span>
@@ -283,10 +320,10 @@ const OffsetSuccessPage = () => {
                   transition={{ delay: 0.3 }}
                   className="bg-green-50 border border-green-200 rounded-2xl p-6"
                 >
-                  <h3 className="font-bold text-xl text-[#163820] mb-4 flex items-center gap-2">
-                    <FileText className="text-primary" size={24} />
-                    Next Steps
-                  </h3>
+                  {/* <h3 className="font-bold text-xl text-[#163820] mb-4 flex items-center gap-2">
+                    <Info className="text-primary" size={24} />
+                    Disclaimer
+                  </h3> */}
                   <p className="text-gray-600">
                     Your carbon offset certificate has been generated
                     successfully. You will receive an email confirmation with
@@ -306,7 +343,7 @@ const OffsetSuccessPage = () => {
             >
               <button
                 onClick={handleBackToHome}
-                className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors font-semibold"
+                className="px-6 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white rounded-lg transition-colors font-semibold"
               >
                 Back to Home
               </button>

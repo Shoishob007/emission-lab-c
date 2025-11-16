@@ -26,6 +26,10 @@ const FlightCalculatorLeft = ({
   const [loading, setLoading] = useState({ from: false, to: false });
   const [error, setError] = useState({ from: null, to: null });
   const { data: session } = useSession();
+  const isUAT = () =>
+    process.env.NEXT_PUBLIC_API?.includes("uatapi.aiemissionlab.com");
+  const isUATApi =
+    process.env.NEXT_PUBLIC_API === "https://uatapi.aiemissionlab.com";
 
   const fetchAirports = async (keyword = "", fieldType = "from") => {
     setLoading((prev) => ({ ...prev, [fieldType]: true }));
@@ -39,7 +43,7 @@ const FlightCalculatorLeft = ({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Data :: ", data);
+      // console.log("Data :: ", data);
       const formattedData = data.result.map((airport) => ({
         value: airport.iataCode,
         label: `${airport.locationName} (${airport.iataCode})`,
@@ -93,7 +97,7 @@ const FlightCalculatorLeft = ({
         session?.user?.id?.toString() ??
         `guest-${Math.floor(100000 + Math.random() * 900000)}`;
 
-      console.log("User ID :: ", userId);
+      // console.log("User ID :: ", userId);
       const requestData = {
         user_id: userId,
         iata_airport_from: flightDetails.from,
@@ -103,6 +107,9 @@ const FlightCalculatorLeft = ({
         round_trip: flightDetails.tripType === "roundTrip" ? "Y" : "N",
         aircraft_type:
           flightDetails.aircraft === "not_sure" ? "" : flightDetails.aircraft,
+        ...(isUAT() && {
+          emission_lab_test: flightDetails.emission_lab_test,
+        }),
       };
 
       console.log("requestData from flight :: ", requestData);
@@ -227,10 +234,50 @@ const FlightCalculatorLeft = ({
         </div>
       </div>
 
-      {/* Class Details */}
+      {/* Emission Lab Test */}
+      {isUATApi && (
+        <div>
+          <label className="block text-sm font-semibold mb-2 text-muted-foreground">
+            Emission Lab Test
+          </label>
+          <div className="flex space-x-4">
+            <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
+              <input
+                type="radio"
+                className="h-4 w-4 border-gray-300 text-primary focus:ring-primary cursor-pointer rounded-full border checked:border-primary checked:after:content-[''] checked:after:block checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:bg-primary checked:after:m-1"
+                checked={flightDetails.emission_lab_test === true}
+                onChange={() =>
+                  setFlightDetails({
+                    ...flightDetails,
+                    emission_lab_test: true,
+                  })
+                }
+              />
+              <span className="ml-2 text-sm font-medium">On</span>
+            </label>
+
+            <label className="flex items-center px-4 py-2 rounded-md cursor-pointer">
+              <input
+                type="radio"
+                className="h-4 w-4 border-gray-300 text-primary focus:ring-primary cursor-pointer rounded-full border checked:border-primary checked:after:content-[''] checked:after:block checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:bg-primary checked:after:m-1"
+                checked={flightDetails.emission_lab_test === false}
+                onChange={() =>
+                  setFlightDetails({
+                    ...flightDetails,
+                    emission_lab_test: false,
+                  })
+                }
+              />
+              <span className="ml-2 text-sm font-medium">Off</span>
+            </label>
+          </div>
+        </div>
+      )}
+
+      {/* Cabin Type */}
       <div>
         <label className="block text-sm font-semibold mb-2 text-muted-foreground">
-          Class Details
+          Cabin
         </label>
         <div className="flex flex-wrap gap-2 sm:gap-3">
           {[
