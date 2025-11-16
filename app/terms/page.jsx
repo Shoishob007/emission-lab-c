@@ -5,16 +5,11 @@ import {
   FileText,
   Info,
   AlertCircle,
-  ShieldCheck,
-  UserCheck,
   Globe,
   RefreshCw,
   Mail,
-  Lock,
-  Cookie,
   Copyright,
   Landmark,
-  BadgeCheck,
 } from "lucide-react";
 
 export default function TermsAndConditions() {
@@ -23,8 +18,8 @@ export default function TermsAndConditions() {
       className="relative py-20 flex justify-center items-center min-h-screen overflow-x-hidden bg-white"
       style={{
         backgroundImage: "url('/bg_1.jpg')",
-        backgroundRepeat: "repeat",
-        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
@@ -179,6 +174,20 @@ export default function TermsAndConditions() {
               </p>
             </div>
 
+            {/* Minimum Age */}
+<div>
+  <div className="flex items-center gap-3 mb-2">
+    <Info className="w-6 h-6 text-secondary" />
+    <span className="font-semibold text-lg text-[#163820]">
+      Minimum Age
+    </span>
+  </div>
+  <p className="text-[#767676]">
+    By agreeing to these Terms, you represent that you are at least 13 years of age.
+  </p>
+</div>
+
+
             {/* Contact Information */}
             <div>
               <div className="flex items-center gap-3 mb-2">
@@ -189,7 +198,7 @@ export default function TermsAndConditions() {
               </div>
               <p className="text-[#767676]">
                 For questions or concerns regarding these terms and conditions
-                or our privacy practices, please contact us at:
+                or our privacy practices, please contact us at
                 <br />
                 <span className="font-semibold text-primary">Email:</span>{" "}
                 <a href="mailto:info@aiemissionlab.com" className="underline">
@@ -197,9 +206,6 @@ export default function TermsAndConditions() {
                 </a>
               </p>
             </div>
-          </div>
-          <div className="mt-12 text-sm text-gray-500 text-center">
-            <p>Last updated: {new Date().toLocaleDateString()}</p>
           </div>
         </div>
       </motion.div>

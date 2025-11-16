@@ -189,7 +189,6 @@ export default function CertificatePDFGenerator({
                   ["Project Location", mapped.projectLocation],
                   ["Project Identification Number", mapped.projectId],
                   ["Registry", mapped.registry],
-                  ["Vintage Year", mapped.vintageYear],
                 ].map(([label, value]) => (
                   <div
                     className="flex flex-row items-center space-x-2"

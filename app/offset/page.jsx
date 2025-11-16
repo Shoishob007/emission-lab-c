@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
 import { useSession } from "next-auth/react";
+import {renderDescription} from "./../offsetPage/components/RenderProjectDetails"
+
 
 const flow = [
   {
@@ -294,28 +296,13 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
                       per ton CO₂ emission
                     </p>
                   </div>
-                  {/* <div className="flex items-center gap-1">
-                    <p className="text-[#767676] text-sm">
-                      <span className="text-base sm:text-lg text-primary">
-                        {project.available_amount}
-                      </span>{" "}
-                      {project.available_amount > 1 ? "tons" : "ton"} of CO
-                      <sub>2</sub>e to offset
-                    </p>
-                  </div> */}
+
                 </div>
-                {/* {hasValidEmission && (
-                  <div className="flex justify-center items-center px-2">
-                    <p>
-                      <span className="text-base sm:text-lg text-primary">
-                        ${(project.price_per_ton * currentEmission).toFixed(2)}
-                      </span>
-                    </p>
-                  </div>
-                )} */}
+
               </div>
               <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
-                {project.description}
+                                  {renderDescription({project})}
+
               </p>
             </div>
           </div>
@@ -590,13 +577,13 @@ export default function OffsetPage() {
                 {/* "explore additional" section if there are regular projects */}
                 {displayedRegularProjects.length > 0 && (
                   <div className="max-w-4xl mx-auto mt-10 mb-6 text-center">
-                    <h4 className="text-lg text-[#163820] font-medium">
+                    <h4 className="text-xl text-[#163820] font-medium">
                       Or explore additional projects to find your perfect match
                     </h4>
-                    <p className="text-[#767676] text-sm mt-2">
+                    {/* <p className="text-[#767676] text-sm mt-2">
                       Browse our full portfolio of verified carbon offset
                       initiatives
-                    </p>
+                    </p> */}
                   </div>
                 )}
               </div>
@@ -690,25 +677,6 @@ export default function OffsetPage() {
             </p>
           </div>
         </div>
-        {/* CTA SECTION */}
-        {/* <div className="w-full flex flex-col items-center justify-center mb-2">
-          <div className="bg-primary/20 border border-[#e2f0e4] rounded-3xl py-10 px-6 shadow flex flex-col items-center w-full max-w-2xl mx-auto">
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 text-center capitalize">
-              Take Responsibility. Make a Difference.
-            </h3>
-            <p className="text-[#767676] text-lg text-center mb-6">
-              👉 Browse verified climate projects &amp; offset your footprint
-              today.
-            </p>
-            <Link
-              href="/calculator"
-              className="inline-flex items-center gap-3 bg-[#FFA726] hover:bg-[#ffb84d] transition text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg shadow-[#FFA72633] focus:ring-4 focus:ring-[#FFA72644] animate-bounce"
-              style={{ letterSpacing: "0.02em" }}
-            >
-              Calculate to Offset <ArrowRight className="w-5 h-5 text-white" />
-            </Link>
-          </div>
-        </div> */}
       </div>
       {/* Donation Modal */}
       {selectedProject && (

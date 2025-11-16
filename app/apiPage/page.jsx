@@ -72,11 +72,9 @@ const handleClick = (e) => {
   if (!session?.user) {
     e.preventDefault();
     setShowLoginModal(true);
-  } else if (session.user.role === "business") {
+  } else {
     e.preventDefault();
     window.open("https://documenter.getpostman.com/view/22788049/2sB2xBEVzP", "_blank");
-  } else {
-    router.push("/documentationPage");
   }
 };
 

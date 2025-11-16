@@ -216,19 +216,3 @@ export default function PrivacyPolicy() {
     </section>
   );
 }
-
-// import ComingSoon from "../../components/coming-soon";
-
-// export default function PrivacyPolicy() {
-//   return (
-//     <>
-//     <ComingSoon text="Coming Soon" subtext={
-//         <>
-//           Please check back soon for updates! <br />
-//           For more info, email us at <br />
-//           <span className="font-semibold">info@aiemissionlab.om</span>
-//         </>
-//       }  />
-//     </>
-//   );
-// }
