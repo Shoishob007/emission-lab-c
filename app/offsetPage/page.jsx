@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
 import { useSession } from "next-auth/react";
-
+import {renderDescription} from "./components/RenderProjectDetails"
 const flow = [
   {
     icon: <Settings className="w-7 h-7 text-secondary" />,
@@ -56,18 +56,6 @@ function WhyMattersItem({ children }) {
   return (
     <div className="flex items-center gap-2 text-[#767676] text-base sm:text-lg">
       <ArrowRight className="text-btn-primary min-w-5" size={18} />
-      <span>{children}</span>
-    </div>
-  );
-}
-
-function ProjectFeatureItem({ children }) {
-  return (
-    <div className="flex items-center gap-3 text-[#767676] text-base">
-      <ArrowRight
-        className="text-btn-primary min-w-5 flex-shrink-0"
-        size={18}
-      />
       <span>{children}</span>
     </div>
   );
@@ -150,7 +138,7 @@ function FeaturedProjectCard({
     router.push(`/offsetPage/${project.id}`);
   };
 
-  console.log("Project in the card :: ", project);
+  // console.log("Project in the card :: ", project);
 
   return (
     <motion.div
@@ -197,47 +185,14 @@ function FeaturedProjectCard({
                       per ton CO₂ emission
                     </p>
                   </div>
-                  {/* <div className="flex items-center gap-1">
-                    <p className="text-[#767676] text-sm">
-                      <span className="text-base sm:text-lg text-primary">
-                        {project.available_amount}
-                      </span>{" "}
-                      {project.available_amount > 1 ? "tons" : "ton"} of CO
-                      <sub>2</sub>e to offset
-                    </p>
-                  </div> */}
                 </div>
-                {/* {hasValidEmission && (
-                  <div className="flex justify-center items-center px-2">
-                    <p>
-                      <span className="text-base sm:text-lg text-primary">
-                        ${(project.price_per_ton * currentEmission).toFixed(2)}
-                      </span>
-                    </p>
-                  </div>
-                )} */}
               </div>
               <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
-                {project.description}
+                {renderDescription({project})}
               </p>
             </div>
           </div>
         </div>
-        {/* Action Buttons */}
-        {/* <div className="flex justify-center">
-          <motion.button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onDonate();
-            }}
-            className="px-10 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Offset Now
-          </motion.button>
-        </div> */}
       </div>
     </motion.div>
   );
@@ -295,45 +250,15 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
                       per ton CO₂ emission
                     </p>
                   </div>
-                  {/* <div className="flex items-center gap-1">
-                    <p className="text-[#767676] text-sm">
-                      <span className="text-base sm:text-lg text-primary">
-                        {project.available_amount}
-                      </span>{" "}
-                      {project.available_amount > 1 ? "tons" : "ton"} of CO
-                      <sub>2</sub>e to offset
-                    </p>
-                  </div> */}
                 </div>
-                {/* {hasValidEmission && (
-                  <div className="flex justify-center items-center px-2">
-                    <p>
-                      <span className="text-base sm:text-lg text-primary">
-                        ${(project.price_per_ton * currentEmission).toFixed(2)}
-                      </span>
-                    </p>
-                  </div>
-                )} */}
               </div>
-              <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
-                {project.description}
+              <p className="!text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
+                                  {renderDescription({project})}
+
               </p>
             </div>
           </div>
         </div>
-        {/* Action Buttons */}
-        {/* <div className="flex gap-3">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onDonate();
-            }}
-            className="w-full py-2 px-4 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold text-sm rounded-lg transition-all duration-200"
-          >
-            Offset Now
-          </button>
-        </div> */}
       </div>
     </motion.div>
   );
@@ -518,32 +443,8 @@ export default function OffsetPage() {
                   Our Projects
                 </span>
               </div>
-              {/* <h2 className="font-bold text-[#163820] text-2xl sm:text-3xl mb-4 capitalize">
-                Verified.{" "}
-                <span className="text-[#37c048]">Transparent. Impactful</span>
-              </h2> */}
             </div>
-            {/* Project Features - Centered */}
-            {/* <div className="bg-green-50/50 border border-green-100 rounded-2xl px-2 py-4 sm:p-6 mb-8 sm:mb-12 max-w-4xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <ProjectFeatureItem>
-                  Verified by internationally recognized global climate
-                  standards and certifications
-                </ProjectFeatureItem>
-                <ProjectFeatureItem>
-                  Fully traceable with detailed impact certificates and
-                  transparent progress reporting
-                </ProjectFeatureItem>
-                <ProjectFeatureItem>
-                  Option to select specific project types that align with your
-                  values
-                </ProjectFeatureItem>
-                <ProjectFeatureItem>
-                  Offered in flexible units — you choose exactly how much to
-                  offset
-                </ProjectFeatureItem>
-              </div>
-            </div> */}
+
             {/* Default Projects Section */}
             {defaultProjects.length > 0 && (
               <div className="w-full mb-6">
@@ -591,13 +492,9 @@ export default function OffsetPage() {
                 {/* "explore additional" section if there are regular projects */}
                 {displayedRegularProjects.length > 0 && (
                   <div className="max-w-4xl mx-auto mt-10 mb-6 text-center">
-                    <h4 className="text-lg text-[#163820] font-medium">
+                    <h4 className="text-xl text-[#163820] font-medium">
                       Or explore additional projects to find your perfect match
                     </h4>
-                    <p className="text-[#767676] text-sm mt-2">
-                      Browse our full portfolio of verified carbon offset
-                      initiatives
-                    </p>
                   </div>
                 )}
               </div>

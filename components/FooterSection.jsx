@@ -138,7 +138,7 @@ const FooterSection = () => {
               </li>
               <li>
                 <a
-                  href="/coming-soon"
+                  href="/offsetPage"
                   className="hover:text-[#3BBF4A] transition "
                 >
                   Want to Offset?

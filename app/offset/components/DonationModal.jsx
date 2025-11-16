@@ -217,8 +217,12 @@ const DonationModal = ({
           <div className="border-t border-gray-100 p-6 flex items-center justify-end flex-shrink-0">
             <button
               onClick={handleStripeCheckout}
-              disabled={isSubmitting}
-              className="px-8 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg disabled:opacity-70"
+              disabled={isSubmitting || !certification_name.trim()}
+              className={`px-8 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg ${
+                isSubmitting || !certification_name.trim()
+                  ? "opacity-80 cursor-not-allowed"
+                  : ""
+              }`}
             >
               {isSubmitting ? (
                 <>
