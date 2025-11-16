@@ -219,7 +219,7 @@ function FeaturedProjectCard({
                 )} */}
               </div>
               <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
-                {project.description}
+                {renderDescription({project})}
               </p>
             </div>
           </div>
