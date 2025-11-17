@@ -71,7 +71,7 @@ const slides = [
   },
   {
     image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1763369150/emisison-lab/hero-carousel/hero_announcement_uok7yx.png",
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1763375145/emisison-lab/hero-carousel/new-hero-5_xbp8am.jpg",
     primary: { text: "Learn More", href: "/blog/6" },
   },
 ];
@@ -136,7 +136,7 @@ const HeroSection = () => {
             src={slide.image}
             alt=""
             className={`w-full h-full ${
-              idx === slides.length - 1 ? "object-fit" : "object-cover"
+              idx === slides.length - 1 ? "object-cover" : "object-cover"
             }`}
             draggable={false}
           />
@@ -194,7 +194,7 @@ const HeroSection = () => {
             {currentSlide === slides.length - 1 ? (
               <Link
                 href={slides[currentSlide]?.primary?.href}
-                className="inline-flex items-center px-7 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
+                className="inline-flex items-center px-7 py-3 mb-8 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
               >
                 {slides[currentSlide]?.primary?.text}
                 <ArrowRight className="ml-2 w-5 h-5" />
