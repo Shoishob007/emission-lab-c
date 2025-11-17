@@ -29,7 +29,7 @@ export default function BlogSection() {
   // function to get image URL with fallback
   const getImageUrl = (post) => {
     if (!post) return null;
-    
+
     if (post.image_url) return post.image_url;
     if (post.image) {
       if (post.image.startsWith("http")) return post.image;
@@ -61,7 +61,7 @@ export default function BlogSection() {
     );
   }
 
-  console.log("blogPosts :: ", blogPosts)
+  // console.log("blogPosts :: ", blogPosts)
 
   return (
     <section className="relative py-20 bg-white">
@@ -160,9 +160,6 @@ export default function BlogSection() {
                   alt={blogPosts[0].title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                  {blogPosts[0].sub_category || ""}
-                </span>
               </div>
               <div className="p-8 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-2">
@@ -193,7 +190,7 @@ export default function BlogSection() {
               </div>
             </div>
           </div>
-          
+
           {/* Right: Two stacked smaller cards - only render if posts exist */}
           <div className="flex flex-col gap-10 md:col-span-6">
             {blogPosts.slice(1, 3).map((post) => (
@@ -211,9 +208,6 @@ export default function BlogSection() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     style={{ height: "100%" }}
                   />
-                  <span className="absolute top-2 left-2 bg-btn-primary text-white rounded-full px-3 py-1 text-xs font-bold uppercase shadow z-10">
-                    {post.sub_category || ""}
-                  </span>
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   <div className="flex items-center justify-between mb-2">
