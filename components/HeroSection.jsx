@@ -69,6 +69,11 @@ const slides = [
     primary: { text: "Explore Our APIs", href: "/apiPage" },
     secondary: { text: "View AI Features", href: "/aiPage" },
   },
+  {
+    image:
+      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1763369150/emisison-lab/hero-carousel/hero_announcement_uok7yx.png",
+    primary: { text: "Learn More", href: "/blog/6" },
+  },
 ];
 
 const HeroSection = () => {
@@ -130,9 +135,12 @@ const HeroSection = () => {
           <img
             src={slide.image}
             alt=""
-            className="w-full h-full object-cover"
+            className={`w-full h-full ${
+              idx === slides.length - 1 ? "object-fit" : "object-cover"
+            }`}
             draggable={false}
           />
+
           {/* gradient overlay */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="w-full h-full bg-gradient-to-r from-black/50 to-black/50" />
@@ -176,26 +184,40 @@ const HeroSection = () => {
 
           {/* Buttons */}
           <div
-            className={`
-              flex flex-col sm:flex-row items-center justify-center gap-4 w-full
-              ${isVisible ? "animate-fadeInUp" : "opacity-0"}
-              transition-opacity duration-400
-            `}
+            className={`flex flex-col sm:flex-row items-center justify-center gap-4 w-full
+    ${
+      isVisible ? "animate-fadeInUp" : "opacity-0"
+    } transition-opacity duration-400`}
             key={currentSlide + "-cta"}
           >
-            <Link
-              href={slides[currentSlide].primary.href}
-              className="inline-flex items-center px-7 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
-            >
-              {slides[currentSlide].primary.text}
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
-            <Link
-              href={slides[currentSlide].secondary.href}
-              className="inline-flex items-center px-7 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
-            >
-              {slides[currentSlide].secondary.text}
-            </Link>
+            {/* For LAST SLIDE → only ONE CTA */}
+            {currentSlide === slides.length - 1 ? (
+              <Link
+                href={slides[currentSlide]?.primary?.href}
+                className="inline-flex items-center px-7 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
+              >
+                {slides[currentSlide]?.primary?.text}
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Link>
+            ) : (
+              <>
+                {/* For OTHER SLIDES → two CTAs */}
+                <Link
+                  href={slides[currentSlide]?.primary?.href}
+                  className="inline-flex items-center px-7 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
+                >
+                  {slides[currentSlide]?.primary?.text}
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+
+                <Link
+                  href={slides[currentSlide]?.secondary?.href}
+                  className="inline-flex items-center px-7 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
+                >
+                  {slides[currentSlide]?.secondary?.text}
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

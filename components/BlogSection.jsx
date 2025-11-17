@@ -28,6 +28,8 @@ export default function BlogSection() {
 
   // function to get image URL with fallback
   const getImageUrl = (post) => {
+    if (!post) return null;
+    
     if (post.image_url) return post.image_url;
     if (post.image) {
       if (post.image.startsWith("http")) return post.image;
@@ -58,6 +60,8 @@ export default function BlogSection() {
       </section>
     );
   }
+
+  console.log("blogPosts :: ", blogPosts)
 
   return (
     <section className="relative py-20 bg-white">
@@ -189,9 +193,10 @@ export default function BlogSection() {
               </div>
             </div>
           </div>
-          {/* Right: Two stacked smaller cards */}
+          
+          {/* Right: Two stacked smaller cards - only render if posts exist */}
           <div className="flex flex-col gap-10 md:col-span-6">
-            {[blogPosts[1], blogPosts[2]].map((post) => (
+            {blogPosts.slice(1, 3).map((post) => (
               <div
                 key={post.id}
                 className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow group flex flex-row min-h-[170px] h-1/2"
