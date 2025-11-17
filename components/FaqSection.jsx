@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getFaqs } from "@/utils/api/getFaqs";
 
 export default function FaqSection() {
@@ -41,7 +42,7 @@ export default function FaqSection() {
         minHeight: "650px",
       }}
     >
-      {/* Background */}
+      {/* Background overlay */}
       <div
         className="absolute inset-0"
         style={{
@@ -64,9 +65,11 @@ export default function FaqSection() {
         <div className="max-w-4xl mx-auto">
           <div className="space-y-4">
             {loading ? (
-              <div className="text-center py-12 text-muted-foreground">
-                Loading FAQs...
-              </div>
+              <>
+                {[...Array(5)].map((_, i) => (
+                  <SkeletonFaqCard key={i} />
+                ))}
+              </>
             ) : faqs.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 No FAQs found.
@@ -114,3 +117,27 @@ export default function FaqSection() {
     </section>
   );
 }
+
+
+function SkeletonFaqCard() {
+  return (
+    <Card className="bg-white/90 border-border/50 backdrop-blur-sm">
+      <CardContent className="p-0">
+        <div className="w-full p-6 flex items-center justify-between gap-3">
+          {/* Question skeleton */}
+          <Skeleton className="h-5 w-[70%] sm:w-[80%] rounded-md" />
+
+          {/* Icon skeleton */}
+          <Skeleton className="h-5 w-5 rounded-md flex-shrink-0" />
+        </div>
+
+        {/* Answer skeleton */}
+        <div className="px-6 pb-4 space-y-2">
+          <Skeleton className="h-4 w-full rounded-md" />
+          <Skeleton className="h-4 w-[75%] rounded-md" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
