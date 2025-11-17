@@ -5,6 +5,7 @@ import { ArrowRight, File, FileText, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getBlogs } from "@/utils/api/getBlogs";
+import { BlogSkeleton } from "@/components/BlogSkeleton";
 
 export default function BlogSection() {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -41,15 +42,10 @@ export default function BlogSection() {
     return null;
   };
 
-  if (loading) {
-    return (
-      <section className="relative py-20 bg-white flex items-center justify-center">
-        <span className="text-lg text-muted-foreground">
-          Loading articles...
-        </span>
-      </section>
-    );
-  }
+if (loading) {
+  return <BlogSkeleton />;
+}
+
 
   if (!blogPosts.length) {
     return (
