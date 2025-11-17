@@ -32,8 +32,8 @@ function getExcerpt(html, wordLimit) {
 const getImageUrl = (post) => {
   if (post.image_url) return post.image_url;
   if (post.image) {
-    if (post.image.startsWith('http')) return post.image;
-    if (post.image.startsWith('/media/')) {
+    if (post.image.startsWith("http")) return post.image;
+    if (post.image.startsWith("/media/")) {
       return `${process.env.NEXT_PUBLIC_API}${post.image}`;
     }
     return post.image;
@@ -77,11 +77,11 @@ export default function BlogPage() {
     [blogPosts]
   );
 
-  // Filtering logic
   let filtered = blogPosts;
   if (activeCategory !== "all") {
     filtered = filtered.filter(
-      (b) => (b.category || "").toLowerCase() === activeCategory.toLowerCase()
+      (b) =>
+        (b.category || "").toLowerCase() === activeCategory.toLowerCase()
     );
   }
   if (activeSub !== "all") {
@@ -127,7 +127,8 @@ export default function BlogPage() {
               date to discover what matters to you.
             </p>
           </div>
-          {/* Filter bar */}
+
+          {/* FILTER BAR */}
           <div className="w-full md:w-auto">
             <div className="flex gap-4 items-center justify-end flex-wrap">
               {/* Category Tabs */}
@@ -146,6 +147,7 @@ export default function BlogPage() {
                   </button>
                 ))}
               </div>
+
               {/* Sub-category filter */}
               <div className="relative">
                 <select
@@ -164,13 +166,13 @@ export default function BlogPage() {
                   <ChevronDown size={16} />
                 </span>
               </div>
+
               {/* Date sort */}
               <button
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#f4f7ec] text-[#163820] border border-[#eaeaea] font-semibold text-sm transition hover:bg-btn-primary/10"
                 onClick={() =>
                   setSortDate(sortDate === "desc" ? "asc" : "desc")
                 }
-                aria-label="Sort by date"
               >
                 <Calendar size={18} className="text-btn-primary" />
                 {sortDate === "desc" ? (
@@ -189,12 +191,33 @@ export default function BlogPage() {
           </div>
         </div>
 
-        {/* Blog grid */}
+        {/* BLOG GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {loading ? (
-            <div className="col-span-full text-center text-lg text-muted-foreground py-24">
-              Loading articles...
-            </div>
+            Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="rounded-3xl overflow-hidden bg-white border border-[#EAEAEA] shadow-sm animate-pulse flex flex-col"
+              >
+                <div className="h-[220px] w-full bg-gray-200" />
+
+                <div className="p-7 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="w-24 h-3 bg-gray-200 rounded" />
+                    <div className="w-12 h-3 bg-gray-200 rounded" />
+                  </div>
+
+                  <div className="w-3/4 h-5 bg-gray-200 rounded" />
+                  <div className="w-1/2 h-5 bg-gray-200 rounded" />
+
+                  <div className="w-full h-3 bg-gray-200 rounded" />
+                  <div className="w-5/6 h-3 bg-gray-200 rounded" />
+                  <div className="w-2/3 h-3 bg-gray-200 rounded" />
+
+                  <div className="w-20 h-3 bg-gray-200 rounded mt-4" />
+                </div>
+              </div>
+            ))
           ) : filtered.length === 0 ? (
             <div className="col-span-full text-center text-lg text-muted-foreground py-24">
               No articles found.
@@ -212,23 +235,29 @@ export default function BlogPage() {
                     className="w-full h-full object-fit transition-transform duration-500 group-hover:scale-105"
                     onError={(e) => {
                       const target = e.target;
-                      target.src = '/placeholder-blog.jpg';
+                      target.src = "/placeholder-blog.jpg";
                     }}
                   />
                 </div>
+
                 <div className="p-7 flex-1 flex flex-col">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[#767676] text-xs">{post.date}</span>
+                    <span className="text-[#767676] text-xs">
+                      {post.date}
+                    </span>
                     <span className="text-primary text-xs font-bold uppercase">
                       {post.category}
                     </span>
                   </div>
+
                   <h3 className="text-lg font-bold text-[#163820] mb-2 mt-1">
                     {post.title}
                   </h3>
+
                   <div className="text-[#767676] text-sm mb-3 flex-1 prose prose-sm max-w-none line-clamp-4">
                     {getExcerpt(post.excerpt, WORD_LIMIT)}
                   </div>
+
                   <Link
                     href={`/blog/${post.id}`}
                     className="mt-auto font-semibold text-btn-secondary flex items-center gap-2 hover:underline text-sm w-fit"
@@ -241,7 +270,7 @@ export default function BlogPage() {
           )}
         </div>
 
-        {/* Pagination Placeholder */}
+        {/* PAGINATION */}
         <div className="mt-14 flex justify-center">
           <nav className="inline-flex gap-1">
             <button className="px-4 py-2 rounded-l-full bg-[#f4f7ec] text-[#163820] font-semibold transition hover:bg-btn-primary/10 flex items-center gap-1">
