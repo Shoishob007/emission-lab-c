@@ -28,7 +28,6 @@ export default function BlogSection() {
 
   // function to get image URL with fallback
   const getImageUrl = (post) => {
-    // safety check
     if (!post) return null;
     
     if (post.image_url) return post.image_url;
