@@ -3,9 +3,9 @@
 import { ArrowRight, LeafIcon } from "lucide-react";
 import Link from "next/link";
 import useOffsetStore from "@/stores/offsetStore";
-import { renderDescription } from "@/app/offsetPage/components/RenderProjectDetails";
 import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getPlainTextDescription } from "@/components/GetPlainText"
 
 export default function ProjectsSection() {
   const { projects, fetchProjects } = useOffsetStore();
@@ -83,8 +83,9 @@ export default function ProjectsSection() {
                         {project.name}
                       </div>
 
+                      {/* Use plain text with line-clamp */}
                       <div className="text-white/90 text-sm mt-2 line-clamp-2">
-                        {renderDescription({ project })}
+                        {getPlainTextDescription(project)}
                       </div>
                     </div>
 
@@ -150,4 +151,3 @@ function SkeletonCard() {
     </div>
   );
 }
-

@@ -447,12 +447,23 @@ const TransportCalculatorLeft = ({
       {error && <div className="text-sm text-red-500">{error}</div>}
 
       {/* Calculate Button */}
+      {/* Calculate Button */}
       <button
         onClick={handleCalculate}
-        disabled={!transportDetails.distance || loading}
+        disabled={
+          !transportDetails.distance ||
+          !selectedMake ||
+          !selectedModel ||
+          loading ||
+          transportDetails.distance <= 0
+        }
         className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium !mt-6 ${
-          !transportDetails.distance || loading
-            ? "opacity-80 cursor-not-allowed"
+          !transportDetails.distance ||
+          !selectedMake ||
+          !selectedModel ||
+          transportDetails.distance <= 0 ||
+          loading
+            ? "opacity-50 cursor-not-allowed"
             : "hover:bg-primary/90"
         }`}
       >
