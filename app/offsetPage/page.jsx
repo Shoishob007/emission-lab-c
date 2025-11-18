@@ -18,7 +18,9 @@ import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
 import { useSession } from "next-auth/react";
-import {renderDescription} from "./components/RenderProjectDetails"
+import { renderDescription } from "./components/RenderProjectDetails";
+import { getPlainTextDescription } from "@/components/GetPlainText";
+
 const flow = [
   {
     icon: <Settings className="w-7 h-7 text-secondary" />,
@@ -188,7 +190,7 @@ function FeaturedProjectCard({
                 </div>
               </div>
               <p className="text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
-                {renderDescription({project})}
+                {getPlainTextDescription(project)}
               </p>
             </div>
           </div>
@@ -199,7 +201,7 @@ function FeaturedProjectCard({
 }
 
 function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
-  console.log("Current Emission in ProjectCard: ", currentEmission);
+  // console.log("Current Emission in ProjectCard: ", currentEmission);
   const router = useRouter();
   const handleClick = () => {
     router.push(`/offsetPage/${project.id}`);
@@ -242,7 +244,6 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
               <div className="flex items-center gap-2 justify-between">
                 <div>
                   <div className="flex items-center gap-2 text-sm text-[#767676]">
-                    {/* <DollarSign size={14} className="text-primary flex-shrink-0" /> */}
                     <p>
                       <span className="text-base sm:text-lg text-primary">
                         ${project.price_per_ton}
@@ -253,8 +254,7 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
                 </div>
               </div>
               <p className="!text-[#767676] text-base sm:text-lg leading-relaxed mb-4 line-clamp-3 min-h-[1rem]">
-                                  {renderDescription({project})}
-
+                {getPlainTextDescription(project)}
               </p>
             </div>
           </div>
