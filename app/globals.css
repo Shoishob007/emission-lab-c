@@ -61,8 +61,8 @@
   }
 
   html {
-  scroll-behavior: smooth;
-}
+    scroll-behavior: smooth;
+  }
 
   body {
     @apply text-foreground;
@@ -237,7 +237,8 @@
   background: hsl(var(--primary) / 0.8);
 }
 
-pre, code {
+pre,
+code {
   white-space: pre-wrap !important;
   word-break: break-word;
   /* optional: for better wrapping of long words/lines */
@@ -398,18 +399,18 @@ body {
 
 /* offset page */
 .offset-timeline {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: flex-end;
-          width: 100%;
-          position: relative;
-          gap: 0;
-        }
-        @media (max-width: 900px) {
-          .offset-timeline {
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-          }
-        }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  position: relative;
+  gap: 0;
+}
+@media (max-width: 900px) {
+  .offset-timeline {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+}
