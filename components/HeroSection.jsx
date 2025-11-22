@@ -62,12 +62,15 @@ const slides = [
   },
 ];
 
+// Optimized video URL - balanced quality and loading speed
 const videoUrl =
-  "https://res.cloudinary.com/dmazsiqdy/video/upload/q_auto:low,vc_h264,f_mp4,br_500k,ac_none,w_1280,c_limit,so_0,du_10/v1763811305/emisison-lab/Join_us_on_the_Journey_toregeneratethe_Earth_Powered_by_purpose_driven_by_Data_1_ebzzsj.mp4";
+  "https://res.cloudinary.com/dmazsiqdy/video/upload/q_auto:good,vc_h264,f_mp4,br_1000k,ac_none,w_1920,c_limit/v1763811305/emisison-lab/Join_us_on_the_Journey_toregeneratethe_Earth_Powered_by_purpose_driven_by_Data_1_ebzzsj.mp4";
 
+// Mobile optimized video URL
 const mobileVideoUrl =
-  "https://res.cloudinary.com/dmazsiqdy/video/upload/q_auto:low,vc_h264,f_mp4,br_300k,ac_none,w_720,c_limit,so_0,du_10/v1763811305/emisison-lab/Join_us_on_the_Journey_toregeneratethe_Earth_Powered_by_purpose_driven_by_Data_1_ebzzsj.mp4";
+  "https://res.cloudinary.com/dmazsiqdy/video/upload/q_auto:good,vc_h264,f_mp4,br_600k,ac_none,w_1024,c_limit/v1763811305/emisison-lab/Join_us_on_the_Journey_toregeneratethe_Earth_Powered_by_purpose_driven_by_Data_1_ebzzsj.mp4";
 
+// Poster image (extract first frame from video or use custom image)
 const posterUrl =
   "https://res.cloudinary.com/dmazsiqdy/video/upload/so_0,q_auto:low,f_jpg,w_1920/v1763811305/emisison-lab/Join_us_on_the_Journey_toregeneratethe_Earth_Powered_by_purpose_driven_by_Data_1_ebzzsj.jpg";
 
@@ -75,43 +78,47 @@ const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(() => {
-    // mobile
+    // Detect mobile
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
+    
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
 
-    // loading video immediately for faster start
+    // Load video immediately for faster start
     setShouldLoadVideo(true);
 
     return () => {
-      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener('resize', checkMobile);
     };
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 7000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
     <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
-      <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center"
-        style={{
+      {/* Poster image as immediate background - fades out when video loads */}
+      <div 
+        className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${
+          videoLoaded ? 'opacity-0' : 'opacity-100'
+        }`}
+        style={{ 
           backgroundImage: `url(${posterUrl})`,
-          backgroundColor: "#1a1a1a",
+          backgroundColor: '#1a1a1a' // Fallback color
         }}
       />
 
-      {/* Background video */}
+      {/* Background video - loads immediately with balanced optimization */}
       {shouldLoadVideo && (
         <video
           src={isMobile ? mobileVideoUrl : videoUrl}
@@ -122,6 +129,8 @@ const HeroSection = () => {
           playsInline
           preload="auto"
           poster={posterUrl}
+          onLoadedData={() => setVideoLoaded(true)}
+          onCanPlay={() => setVideoLoaded(true)}
         />
       )}
 
