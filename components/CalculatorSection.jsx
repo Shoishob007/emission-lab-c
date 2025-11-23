@@ -74,7 +74,9 @@ export default function CalculatorSection() {
               No login required — calculate anytime, anywhere.
             </p>
             <p className="text-base md:text-lg text-[#767676] mb-6 leading-relaxed">
-              Take the first step towards carbon neutrality with our AI-Powered footprint calculator. Analyze your travel consumption pattern and get the most accurate carbon assessment.
+              Take the first step towards carbon neutrality with our AI-Powered
+              footprint calculator. Analyze your travel consumption pattern and
+              get the most accurate carbon assessment.
             </p>
           </div>
           <div className="items-center p-6">
@@ -109,7 +111,7 @@ export default function CalculatorSection() {
                 }}
               >
                 <img
-                  src="/landing-page/1.jpg"
+                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923112/emisison-lab/1_eyppsr.jpg"
                   alt="Carbon footprint calculation"
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -129,7 +131,7 @@ export default function CalculatorSection() {
                 }}
               >
                 <img
-                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538666/emisison-lab/3_gtg0zi.jpg"
+                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923122/emisison-lab/3_wnkdma.jpg"
                   alt="Carbon footprint calculation"
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -153,7 +155,7 @@ export default function CalculatorSection() {
               }}
             >
               <img
-                src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538683/emisison-lab/1_zehacf.jpg"
+                src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923112/emisison-lab/1_eyppsr.jpg"
                 alt="Carbon footprint calculation"
                 className="w-full h-full object-cover"
                 draggable={false}
@@ -173,7 +175,7 @@ export default function CalculatorSection() {
               }}
             >
               <img
-                src="/landing-page/3.jpg"
+                src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923122/emisison-lab/3_wnkdma.jpg"
                 alt="Carbon footprint calculation"
                 className="w-full h-full object-cover"
                 draggable={false}

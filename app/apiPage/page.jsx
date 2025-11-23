@@ -68,15 +68,18 @@ export default function ApiSection() {
 
   const router = useRouter();
 
-const handleClick = (e) => {
-  if (!session?.user) {
-    e.preventDefault();
-    setShowLoginModal(true);
-  } else {
-    e.preventDefault();
-    window.open("https://documenter.getpostman.com/view/22788049/2sB2xBEVzP", "_blank");
-  }
-};
+  const handleClick = (e) => {
+    if (!session?.user) {
+      e.preventDefault();
+      setShowLoginModal(true);
+    } else {
+      e.preventDefault();
+      window.open(
+        "https://documenter.getpostman.com/view/22788049/2sB2xBEVzP",
+        "_blank"
+      );
+    }
+  };
 
   return (
     <section className="min-h-[100vh] py-14 px-2 bg-transparent">
@@ -85,7 +88,7 @@ const handleClick = (e) => {
         <div className="grid md:grid-cols-[320px_1fr] gap-8 md:gap-16 mb-16 items-center">
           <div className="relative">
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751544262/emisison-lab/hero-carousel/2148233377_pvxjm0.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1920/v1751544262/emisison-lab/hero-carousel/2148233377_pvxjm0.jpg"
               alt="API Integration"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -156,7 +159,7 @@ const handleClick = (e) => {
           </div>
           <div className="relative">
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539585/emisison-lab/api-2_eqna3r.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923585/emisison-lab/api-2_d2uy2x.jpg"
               alt="API Integration"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -245,7 +248,7 @@ const handleClick = (e) => {
           {/* Image */}
           <div className="order-1 md:order-none">
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539587/emisison-lab/api-3_e1mx32.jpg"
+src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923585/emisison-lab/api-3_ewrkzx.jpg"
               alt="Developer Friendly"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
