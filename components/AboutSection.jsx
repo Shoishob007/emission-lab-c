@@ -76,7 +76,7 @@ const AboutSection = () => {
             }}
           >
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538669/emisison-lab/protecting-nature-1_k47mzp.jpg"
+              src="/landing-page/protecting-nature-1.jpg"
               alt="Protecting nature"
               style={{
                 width: "100%",
@@ -103,7 +103,7 @@ const AboutSection = () => {
             }}
           >
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538666/emisison-lab/protecting-nature-2_zvjsjs.jpg"
+              src="/landing-page/protecting-nature-2.jpg"
               alt="Protecting nature"
               style={{
                 width: "100%",

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
