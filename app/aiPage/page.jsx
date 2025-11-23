@@ -89,7 +89,6 @@ export default function AiPage() {
       className="min-h-[100vh] py-14 px-2 font-['Montserrat','Arial','Helvetica',sans-serif] bg-white"
     >
       <div className="max-w-6xl mx-auto px-4">
-        {/* HERO SECTION */}
         <div className="w-full max-w-5xl mx-auto mb-16">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
             {/* Left Content */}
@@ -159,8 +158,7 @@ export default function AiPage() {
             <div className="w-full flex flex-col-reverse sm:flex-col gap-10 order-2 sm:order-1">
               <div className="relative flex items-center justify-center">
                 <img
-                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751539519/emisison-lab/2147717388_cupqx6.jpg"
-                  alt="API Integration"
+src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1751539519/emisison-lab/2147717388_cupqx6.jpg"                  alt="API Integration"
                   className="rounded-full w-full max-w-[350px] object-cover aspect-square bg-white shadow"
                 />
               </div>
