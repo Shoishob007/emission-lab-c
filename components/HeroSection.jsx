@@ -66,91 +66,32 @@ const posterUrl =
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [videoState, setVideoState] = useState({
-    loaded: false,
-    canPlay: false,
-    error: false,
-  });
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef(null);
 
   useEffect(() => {
-    const preloadVideo = () => {
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "video";
-      link.href = "/landing-page/video-1-compressed.mp4";
-      link.fetchPriority = "high";
-      document.head.appendChild(link);
-
-      const hiddenVideo = document.createElement("video");
-      hiddenVideo.preload = "auto";
-      hiddenVideo.src = "/landing-page/video-1-compressed.mp4";
-      hiddenVideo.load();
-
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", "/landing-page/video-1-compressed.mp4", true);
-      xhr.responseType = "blob";
-      xhr.send();
-
-      return () => {
-        document.head.removeChild(link);
-      };
-    };
-
-    const cleanup = preloadVideo();
-
-    // Auto-slide interval
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 7000);
 
-    return () => {
-      cleanup();
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, []);
 
-  const handleVideoLoaded = () => {
-    setVideoState((prev) => ({ ...prev, loaded: true }));
-  };
-
-  const handleVideoCanPlay = () => {
-    setVideoState((prev) => ({ ...prev, canPlay: true }));
+  const handleCanPlay = () => {
+    setVideoLoaded(true);
     if (videoRef.current) {
-      videoRef.current.play().catch((e) => {
+      videoRef.current.play().catch(() => {
         console.log("Autoplay blocked, waiting for user interaction");
       });
     }
   };
 
-  const handleVideoWaiting = () => {
-    setVideoState((prev) => ({ ...prev, canPlay: false }));
-  };
-
-  const handleVideoError = () => {
-    setVideoState((prev) => ({ ...prev, error: true }));
-  };
-
-  const handleVideoProgress = () => {
-    if (videoRef.current) {
-      const video = videoRef.current;
-      if (video.buffered.length > 0) {
-        const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-        const duration = video.duration;
-        const bufferedPercent = (bufferedEnd / duration) * 100;
-
-        if (bufferedPercent > 10 && !videoState.canPlay) {
-          setVideoState((prev) => ({ ...prev, canPlay: true }));
-        }
-      }
-    }
-  };
-
   return (
     <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
+      {/* Poster image fallback */}
       <div
         className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-500 ${
-          videoState.canPlay ? "opacity-0" : "opacity-100"
+          videoLoaded ? "opacity-0" : "opacity-100"
         }`}
         style={{
           backgroundImage: `url(${posterUrl})`,
@@ -158,38 +99,20 @@ const HeroSection = () => {
         }}
       />
 
-      {videoState.loaded && !videoState.canPlay && !videoState.error && (
-        <div className="absolute inset-0 flex items-center justify-center z-5">
-          <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-        </div>
-      )}
-
+      {/* Video background */}
       <video
         ref={videoRef}
-        src="/landing-page/video-1-compressed.mp4"
+        src="https://res.cloudinary.com/dmazsiqdy/video/upload/v1763925164/emisison-lab/video-1-compressed_vfxio9.mp4"
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-          videoState.canPlay ? "opacity-100" : "opacity-0"
+          videoLoaded ? "opacity-100" : "opacity-0"
         }`}
         autoPlay
         loop
         muted
         playsInline
         preload="auto"
-        loading="eager"
-        fetchpriority="high"
-        width="1920"
-        height="1080"
         poster={posterUrl}
-        media="(prefers-reduced-motion: no-preference)"
-        crossOrigin="anonymous"
-        onLoadStart={handleVideoLoaded}
-        onLoadedMetadata={handleVideoLoaded}
-        onCanPlay={handleVideoCanPlay}
-        onCanPlayThrough={handleVideoCanPlay}
-        onWaiting={handleVideoWaiting}
-        onError={handleVideoError}
-        onProgress={handleVideoProgress}
-        onPlaying={() => setVideoState((prev) => ({ ...prev, canPlay: true }))}
+        onCanPlay={handleCanPlay}
       />
 
       {/* Gradient overlay */}

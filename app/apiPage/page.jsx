@@ -156,7 +156,7 @@ const handleClick = (e) => {
           </div>
           <div className="relative">
             <img
-              src="/api-2.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923585/emisison-lab/api-2_d2uy2x.jpg"
               alt="API Integration"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
@@ -245,7 +245,7 @@ const handleClick = (e) => {
           {/* Image */}
           <div className="order-1 md:order-none">
             <img
-              src="/api-3.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923585/emisison-lab/api-3_ewrkzx.jpg"
               alt="Developer Friendly"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />

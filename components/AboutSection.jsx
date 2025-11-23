@@ -1,5 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import { ArrowRight, BadgeCheck, CheckCircle, Settings, Target } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  CheckCircle,
+  Settings,
+  Target,
+} from "lucide-react";
 
 function YearsBadge() {
   return (
@@ -76,7 +82,7 @@ const AboutSection = () => {
             }}
           >
             <img
-              src="/landing-page/protecting-nature-1.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923111/emisison-lab/protecting-nature-1_mpsmph.jpg"
               alt="Protecting nature"
               style={{
                 width: "100%",
@@ -103,7 +109,7 @@ const AboutSection = () => {
             }}
           >
             <img
-              src="/landing-page/protecting-nature-2.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923119/emisison-lab/protecting-nature-2_tlhuyx.jpg"
               alt="Protecting nature"
               style={{
                 width: "100%",
