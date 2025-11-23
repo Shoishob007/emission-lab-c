@@ -84,29 +84,33 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
-      <div 
+      <div
         className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${
-          videoLoaded ? 'opacity-0' : 'opacity-100'
+          videoLoaded ? "opacity-0" : "opacity-100"
         }`}
-        style={{ 
+        style={{
           backgroundImage: `url(${posterUrl})`,
-          backgroundColor: '#1a1a1a'
+          backgroundColor: "#1a1a1a",
         }}
       />
 
       {/* Background video */}
       {shouldLoadVideo && (
         <video
-          src={videoUrl}
+          src="/landing-page/video-1.mp4"
           className="absolute inset-0 w-full h-full object-cover"
           autoPlay
           loop
           muted
           playsInline
+          disableRemotePlayback
+          decoding="async"
           preload="auto"
+          loading="eager"
+          width="1920"
+          height="1080"
           poster={posterUrl}
-          onLoadedData={() => setVideoLoaded(true)}
-          onCanPlay={() => setVideoLoaded(true)}
+          onLoadedMetadata={() => setVideoLoaded(true)}
         />
       )}
 
