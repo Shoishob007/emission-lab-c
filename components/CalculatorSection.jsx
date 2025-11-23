@@ -111,7 +111,7 @@ export default function CalculatorSection() {
                 }}
               >
                 <img
-                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923112/emisison-lab/1_eyppsr.jpg"
+                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923112/emisison-lab/1_eyppsr.jpg"
                   alt="Carbon footprint calculation"
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -131,7 +131,7 @@ export default function CalculatorSection() {
                 }}
               >
                 <img
-                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923122/emisison-lab/3_wnkdma.jpg"
+                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923122/emisison-lab/3_wnkdma.jpg"
                   alt="Carbon footprint calculation"
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -155,7 +155,7 @@ export default function CalculatorSection() {
               }}
             >
               <img
-                src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923112/emisison-lab/1_eyppsr.jpg"
+                src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923112/emisison-lab/1_eyppsr.jpg"
                 alt="Carbon footprint calculation"
                 className="w-full h-full object-cover"
                 draggable={false}
@@ -175,7 +175,7 @@ export default function CalculatorSection() {
               }}
             >
               <img
-                src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923122/emisison-lab/3_wnkdma.jpg"
+                src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1763923122/emisison-lab/3_wnkdma.jpg"
                 alt="Carbon footprint calculation"
                 className="w-full h-full object-cover"
                 draggable={false}

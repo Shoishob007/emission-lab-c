@@ -74,35 +74,32 @@ const WhyChooseUsSection = () => {
             <div className="flex flex-col gap-4 sm:gap-7">
               <div className="rounded-2xl overflow-hidden aspect-square w-full min-w-0 max-w-[250px] mx-auto">
                 <img
-                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923112/emisison-lab/sus-1_taaztz.jpg"
+                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_500/v1763923112/emisison-lab/sus-1_taaztz.jpg"
                   alt="Sustainable Solutions"
                   className="w-full h-full object-cover"
                   draggable={false}
+                  loading="lazy"
                 />
               </div>
               <div className="rounded-2xl overflow-hidden aspect-square w-full min-w-0 max-w-[250px] mx-auto">
                 <img
-                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1763923120/emisison-lab/sus-3_aacuuo.jpg"
+                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_500/v1763923120/emisison-lab/sus-3_aacuuo.jpg"
                   alt="Sustainable Solutions"
                   className="w-full h-full object-cover"
                   draggable={false}
+                  loading="lazy"
                 />
               </div>
             </div>
 
             {/* Right column */}
-            <div
-              className="
-        rounded-2xl overflow-hidden
-        aspect-square w-full min-w-0 max-w-[320px] mx-auto
-        sm:aspect-auto sm:max-w-[250px] sm:max-h-[528px] sm:h-full
-      "
-            >
+            <div className="rounded-2xl overflow-hidden aspect-square w-full min-w-0 max-w-[320px] mx-auto sm:aspect-auto sm:max-w-[250px] sm:max-h-[528px] sm:h-full">
               <img
-                src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538687/emisison-lab/sus-6_vvnrn7.jpg"
+                src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_500/v1751538687/emisison-lab/sus-6_vvnrn7.jpg"
                 alt="Sustainable Solutions"
                 className="w-full h-full object-cover"
                 draggable={false}
+                loading="lazy"
                 style={{
                   minHeight: 0,
                   maxHeight: "528px",

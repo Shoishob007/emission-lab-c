@@ -79,12 +79,15 @@ const HeroSection = () => {
 
   const handleCanPlay = () => {
     setVideoLoaded(true);
+  };
+
+  useEffect(() => {
     if (videoRef.current) {
       videoRef.current.play().catch(() => {
         console.log("Autoplay blocked, waiting for user interaction");
       });
     }
-  };
+  }, []);
 
   return (
     <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
@@ -102,7 +105,7 @@ const HeroSection = () => {
       {/* Video background */}
       <video
         ref={videoRef}
-        src="https://res.cloudinary.com/dmazsiqdy/video/upload/v1763925164/emisison-lab/video-1-compressed_vfxio9.mp4"
+        src="/landing-page/video-1-compressed.mp4"
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
           videoLoaded ? "opacity-100" : "opacity-0"
         }`}
