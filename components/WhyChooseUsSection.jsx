@@ -73,7 +73,7 @@ const WhyChooseUsSection = () => {
             <div className="flex flex-col gap-4 sm:gap-7">
               <div className="rounded-2xl overflow-hidden aspect-square w-full min-w-0 max-w-[250px] mx-auto">
                 <img
-                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538666/emisison-lab/sus-1_jupdd7.jpg"
+                  src="/landing-page/sus-1.jpg"
                   alt="Sustainable Solutions"
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -81,7 +81,7 @@ const WhyChooseUsSection = () => {
               </div>
               <div className="rounded-2xl overflow-hidden aspect-square w-full min-w-0 max-w-[250px] mx-auto">
                 <img
-                  src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538669/emisison-lab/sus-3_kwhwm7.jpg"
+                  src="/landing-page/sus-3.jpg"
                   alt="Sustainable Solutions"
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -98,7 +98,7 @@ const WhyChooseUsSection = () => {
       "
             >
               <img
-                src="https://res.cloudinary.com/dmazsiqdy/image/upload/v1751538687/emisison-lab/sus-6_vvnrn7.jpg"
+                src="/landing-page/sus-6.jpg"
                 alt="Sustainable Solutions"
                 className="w-full h-full object-cover"
                 draggable={false}
