@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -62,31 +62,96 @@ const slides = [
   },
 ];
 
-const videoUrl = "/landing-page/video-1.mp4";
-
 const posterUrl =
   "https://res.cloudinary.com/dmazsiqdy/video/upload/so_0,q_auto:low,f_jpg,w_1920/v1763811305/emisison-lab/Join_us_on_the_Journey_toregeneratethe_Earth_Powered_by_purpose_driven_by_Data_1_ebzzsj.jpg";
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
-  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoState, setVideoState] = useState({
+    loaded: false,
+    canPlay: false,
+    error: false,
+  });
+  const videoRef = useRef(null);
 
   useEffect(() => {
-    setShouldLoadVideo(true);
+    const preloadVideo = () => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "video";
+      link.href = "/landing-page/video-1-compressed.mp4";
+      link.fetchPriority = "high";
+      document.head.appendChild(link);
 
+      const hiddenVideo = document.createElement("video");
+      hiddenVideo.preload = "auto";
+      hiddenVideo.src = "/landing-page/video-1-compressed.mp4";
+      hiddenVideo.load();
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "/landing-page/video-1-compressed.mp4", true);
+      xhr.responseType = "blob";
+      xhr.send();
+
+      return () => {
+        document.head.removeChild(link);
+      };
+    };
+
+    const cleanup = preloadVideo();
+
+    // Auto-slide interval
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 7000);
 
-    return () => clearInterval(interval);
+    return () => {
+      cleanup();
+      clearInterval(interval);
+    };
   }, []);
+
+  const handleVideoLoaded = () => {
+    setVideoState((prev) => ({ ...prev, loaded: true }));
+  };
+
+  const handleVideoCanPlay = () => {
+    setVideoState((prev) => ({ ...prev, canPlay: true }));
+    if (videoRef.current) {
+      videoRef.current.play().catch((e) => {
+        console.log("Autoplay blocked, waiting for user interaction");
+      });
+    }
+  };
+
+  const handleVideoWaiting = () => {
+    setVideoState((prev) => ({ ...prev, canPlay: false }));
+  };
+
+  const handleVideoError = () => {
+    setVideoState((prev) => ({ ...prev, error: true }));
+  };
+
+  const handleVideoProgress = () => {
+    if (videoRef.current) {
+      const video = videoRef.current;
+      if (video.buffered.length > 0) {
+        const bufferedEnd = video.buffered.end(video.buffered.length - 1);
+        const duration = video.duration;
+        const bufferedPercent = (bufferedEnd / duration) * 100;
+
+        if (bufferedPercent > 10 && !videoState.canPlay) {
+          setVideoState((prev) => ({ ...prev, canPlay: true }));
+        }
+      }
+    }
+  };
 
   return (
     <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
       <div
-        className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${
-          videoLoaded ? "opacity-0" : "opacity-100"
+        className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-500 ${
+          videoState.canPlay ? "opacity-0" : "opacity-100"
         }`}
         style={{
           backgroundImage: `url(${posterUrl})`,
@@ -94,25 +159,39 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Background video */}
-      {shouldLoadVideo && (
-        <video
-          src="/landing-page/video-1.mp4"
-          className="absolute inset-0 w-full h-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          disableRemotePlayback
-          decoding="async"
-          preload="auto"
-          loading="eager"
-          width="1920"
-          height="1080"
-          poster={posterUrl}
-          onLoadedMetadata={() => setVideoLoaded(true)}
-        />
+      {videoState.loaded && !videoState.canPlay && !videoState.error && (
+        <div className="absolute inset-0 flex items-center justify-center z-5">
+          <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+        </div>
       )}
+
+      <video
+        ref={videoRef}
+        src="/landing-page/video-1-compressed.mp4"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+          videoState.canPlay ? "opacity-100" : "opacity-0"
+        }`}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        loading="eager"
+        fetchpriority="high"
+        width="1920"
+        height="1080"
+        poster={posterUrl}
+        media="(prefers-reduced-motion: no-preference)"
+        crossOrigin="anonymous"
+        onLoadStart={handleVideoLoaded}
+        onLoadedMetadata={handleVideoLoaded}
+        onCanPlay={handleVideoCanPlay}
+        onCanPlayThrough={handleVideoCanPlay}
+        onWaiting={handleVideoWaiting}
+        onError={handleVideoError}
+        onProgress={handleVideoProgress}
+        onPlaying={() => setVideoState((prev) => ({ ...prev, canPlay: true }))}
+      />
 
       {/* Gradient overlay */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/50 to-black/50" />
