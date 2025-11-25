@@ -34,6 +34,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="preload"
+          as="video"
+          href="https://res.cloudinary.com/dmazsiqdy/video/upload/f_webm,vc_vp9,q_auto:eco,br_1600k,w_1920,h_1080,c_fill,ac_none/emisison-lab/video-1-compressed_dimlm8"
+          fetchPriority="high"
+        />
+      </head>
+
       <body className={`${inter.className} bg-background`}>
         <AuthProvider>
           <FacebookHashFixer />
