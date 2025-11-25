@@ -6,8 +6,7 @@ const slides = [
   {
     headline: (
       <>
-        Join us on the Journey to regenerate the Earth
-        <br />
+        Join us on the Journey to regenerate the Earth <br />
         <span className="block">—Powered by purpose, driven by Data</span>
       </>
     ),
@@ -19,10 +18,10 @@ const slides = [
   {
     headline: (
       <>
-        Measure. Reduce. Offset.
-        <br />
+        Measure. Reduce. Offset. <br />
         <span className="block">
-          Your Path to a Sustainable Future Starts Here.
+          {" "}
+          Your Path to a Sustainable Future Starts Here.{" "}
         </span>
       </>
     ),
@@ -34,10 +33,10 @@ const slides = [
   {
     headline: (
       <>
-        Unlock Your Climate Impact.
-        <br />
+        Unlock Your Climate Impact. <br />
         <span className="block">
-          Simplified Carbon Management for a Healthier World.
+          {" "}
+          Simplified Carbon Management for a Healthier World.{" "}
         </span>
       </>
     ),
@@ -49,8 +48,7 @@ const slides = [
   {
     headline: (
       <>
-        The Future of Sustainability is Integrated.
-        <br />
+        The Future of Sustainability is Integrated. <br />
         <span className="block">Power Your Platform with Our Carbon APIs.</span>
       </>
     ),
@@ -73,7 +71,6 @@ const HeroSection = () => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 7000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -104,19 +101,29 @@ const HeroSection = () => {
 
       {/* Video background */}
       <video
-        ref={videoRef}
-        src="/landing-page/video-1-compressed.mp4"
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-          videoLoaded ? "opacity-100" : "opacity-0"
-        }`}
         autoPlay
         loop
         muted
         playsInline
-        preload="auto"
-        poster={posterUrl}
-        onCanPlay={handleCanPlay}
-      />
+        preload="metadata"
+        poster="/landing-poster.webp"
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source
+          src="https://res.cloudinary.com/dmazsiqdy/video/upload/f_webm,vc_vp9,q_auto:eco,br_800k,w_720,h_1280,c_fill,ac_none/emisison-lab/video-1-compressed_dimlm8.webm"
+          type="video/webm"
+          media="(max-width: 768px)"
+        />
+        <source
+          src="https://res.cloudinary.com/dmazsiqdy/video/upload/f_webm,vc_vp9,q_auto:eco,br_1000k,w_1920,h_1080,c_fill,ac_none/emisison-lab/video-1-compressed_dimlm8.webm"
+          type="video/webm"
+          media="(min-width: 769px)"
+        />
+        <source
+          src="https://res.cloudinary.com/dmazsiqdy/video/upload/f_mp4,vc_h264,q_auto:eco,br_1200k,w_1920,h_1080,c_fill,ac_none/emisison-lab/video-1-compressed_dimlm8.webm"
+          type="video/mp4"
+        />
+      </video>
 
       {/* Gradient overlay */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/50 to-black/50" />
