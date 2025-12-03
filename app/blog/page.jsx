@@ -233,10 +233,6 @@ export default function BlogPage() {
                     src={getImageUrl(post)}
                     alt={post.title}
                     className="w-full h-full object-fit transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      const target = e.target;
-                      target.src = "/placeholder-blog.jpg";
-                    }}
                   />
                 </div>
 
@@ -245,9 +241,9 @@ export default function BlogPage() {
                     <span className="text-[#767676] text-xs">
                       {post.date}
                     </span>
-                    <span className="text-primary text-xs font-bold uppercase">
+                    {/* <span className="text-primary text-xs font-bold uppercase">
                       {post.category}
-                    </span>
+                    </span> */}
                   </div>
 
                   <h3 className="text-lg font-bold text-[#163820] mb-2 mt-1">

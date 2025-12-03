@@ -48,7 +48,6 @@ const CarbonFootprintCard = ({
           }`}
         >
           <span className="text-lg font-bold text-primary">{item.value}</span>
-          {/* <span className="text-sm text-gray-600 dark:text-gray-300">{item.unit}</span> */}
         </div>
         <p className="text-[13px] text-gray-600 dark:text-gray-300">
           {item.description}
@@ -62,12 +61,9 @@ export default function CarbonFootprintCards({ emissionData }) {
   console.log("Total emission data  :: ", emissionData);
 
   function formatDynamicDuration(value, currentUnit) {
-    // e.g. value = 0.02, currentUnit = "years"
-
     if (currentUnit === "years") {
       if (value >= 1) {
         if (value >= 2) {
-          // For 2+ years, show whole years with remaining months
           const wholeYears = Math.floor(value);
           const remainingMonths = Math.round((value - wholeYears) * 12);
           if (remainingMonths > 0) {
@@ -81,7 +77,6 @@ export default function CarbonFootprintCards({ emissionData }) {
       } else if (value >= 1 / 12) {
         const months = value * 12;
         if (months >= 2) {
-          // For 2+ months, show whole months with remaining days
           const wholeMonths = Math.floor(months);
           const remainingDays = Math.round((months - wholeMonths) * 30);
           if (remainingDays > 7) {
@@ -113,7 +108,6 @@ export default function CarbonFootprintCards({ emissionData }) {
       if (value >= 12) {
         const years = value / 12;
         if (years >= 2) {
-          // For 2+ years, show whole years with remaining months
           const wholeYears = Math.floor(years);
           const remainingMonths = Math.round((years - wholeYears) * 12);
           if (remainingMonths > 0) {
@@ -125,7 +119,6 @@ export default function CarbonFootprintCards({ emissionData }) {
           return `${years.toFixed(1)} year${years >= 2 ? "s" : ""}`;
         }
       } else if (value >= 2) {
-        // For 2+ months, show whole months with remaining days
         const wholeMonths = Math.floor(value);
         const remainingDays = Math.round((value - wholeMonths) * 30);
         if (remainingDays > 7) {
@@ -134,15 +127,13 @@ export default function CarbonFootprintCards({ emissionData }) {
           return `${wholeMonths} month${wholeMonths !== 1 ? "s" : ""}`;
         }
       } else if (value >= 1) {
-        // For 1-2 months, show as weeks for better readability
-        const weeks = Math.round(value * 4.33); // 4.33 weeks per month
+        const weeks = Math.round(value * 4.33);
         if (weeks >= 4) {
           return "1 month";
         } else {
           return `${weeks} week${weeks !== 1 ? "s" : ""}`;
         }
       } else {
-        // For less than 1 month, show as days
         const days = Math.round(value * 30);
         if (days >= 14) {
           const weeks = Math.round(days / 7);
@@ -156,16 +147,19 @@ export default function CarbonFootprintCards({ emissionData }) {
     return `${value}`;
   }
 
+  // ✅ Corrected: handles ALL possible emission formats
   const co2e_kg =
+    emissionData?.typeResult?.result?.data?.co2e_kg ??
+    emissionData?.modelResult?.result?.data?.co2e_kg ??
     emissionData?.result?.data?.co2e_kg ??
     emissionData?.result?.data?.emissions?.co2e_kg ??
-    emissionData?.modelResult?.result?.data?.co2e_kg ??
     0;
 
   const co2e_gm =
+    emissionData?.typeResult?.result?.data?.co2e_gm ??
+    emissionData?.modelResult?.result?.data?.co2e_gm ??
     emissionData?.result?.data?.co2e_gm ??
     emissionData?.result?.data?.emissions?.co2e_gm ??
-    emissionData?.modelResult?.result?.data?.co2e_gm ??
     0;
 
   // numeric equivalents

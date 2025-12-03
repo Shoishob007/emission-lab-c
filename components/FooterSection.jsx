@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Leaf, MapPin, Phone, Mail } from "lucide-react";
 import Link from "next/link";
-import { FaFacebookF, FaLinkedin, FaTwitter, FaX } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaLinkedin, FaTwitter, FaX } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
 
 const FooterSection = () => {
@@ -198,11 +198,11 @@ const FooterSection = () => {
                 <FaFacebookF className="w-4 h-4" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/aiemissionlab/"
                 className="w-8 h-8 bg-primary/90 rounded-full flex items-center justify-center hover:bg-btn-secondary-hover transition text-white"
                 title="X"
               >
-                <FaXTwitter className="w-4 h-4" />
+                <FaInstagram className="w-4 h-4" />
               </a>
             </div>
           </div>

@@ -162,9 +162,9 @@ if (loading) {
                   <span className="text-[#767676] text-sm">
                     {blogPosts[0].date}
                   </span>
-                  <span className="text-primary text-xs font-bold uppercase">
+                  {/* <span className="text-primary text-xs font-bold uppercase">
                     {blogPosts[0].category}
-                  </span>
+                  </span> */}
                 </div>
                 <h3 className="text-2xl font-bold text-[#163820] mb-3">
                   {blogPosts[0].title}
@@ -208,9 +208,9 @@ if (loading) {
                 <div className="p-6 flex flex-col flex-1">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[#767676] text-sm">{post.date}</span>
-                    <span className="text-primary text-xs font-bold uppercase">
+                    {/* <span className="text-primary text-xs font-bold uppercase">
                       {post.category}
-                    </span>
+                    </span> */}
                   </div>
                   <h3 className="text-lg font-bold text-[#163820] mb-2">
                     {post.title}

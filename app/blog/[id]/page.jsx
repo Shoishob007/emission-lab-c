@@ -10,8 +10,8 @@ import { getBlogById } from "@/utils/api/getBlogById";
 const getImageUrl = (post) => {
   if (post.image_url) return post.image_url;
   if (post.image) {
-    if (post.image.startsWith('http')) return post.image;
-    if (post.image.startsWith('/media/')) {
+    if (post.image.startsWith("http")) return post.image;
+    if (post.image.startsWith("/media/")) {
       return `${process.env.NEXT_PUBLIC_API}${post.image}`;
     }
     return post.image;
@@ -54,6 +54,37 @@ export default function BlogDetailPage() {
       </section>
     );
 
+  const parsedExcerpt = parse(post.excerpt, {
+    replace: (domNode) => {
+      if (domNode.name === "a" && domNode.attribs?.href) {
+        let href = domNode.attribs.href;
+
+        // Clean URL ONLY inside href attribute
+        href = href
+          .replace(/\\+"/g, "")
+          .replace(/%22/g, "")
+          .replace(/^"(.*)"$/, "$1")
+          .replace(/“|”/g, "");
+
+        // Auto-prepend https:// if missing
+        if (!href.startsWith("http")) {
+          href = "https://" + href.replace(/^\/+/, "");
+        }
+
+        return (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-600 underline"
+          >
+            {domNode.children?.map((child) => child.data).join("")}
+          </a>
+        );
+      }
+    },
+  });
+
   return (
     <section className="bg-white min-h-[100vh] py-14 px-2">
       <div className="max-w-4xl mx-auto px-3 sm:px-4">
@@ -74,30 +105,29 @@ export default function BlogDetailPage() {
               src={getImageUrl(post)}
               alt={post.title}
               className="w-full h-[400px] sm:h-full object-cover object-center"
-              style={{ borderTopLeftRadius: "1.5rem", borderTopRightRadius: "1.5rem" }}
+              style={{
+                borderTopLeftRadius: "1.5rem",
+                borderTopRightRadius: "1.5rem",
+              }}
               onError={(e) => {
-                const target = e.target;
-                target.src = '/placeholder-blog.jpg';
+                e.target.src = "/placeholder-blog.jpg";
               }}
             />
           </div>
 
           {/* Main Content */}
           <div className="py-6 px-4 sm:p-10 flex flex-col">
-            {/* Date & Category */}
+            {/* Date */}
             <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
               <span className="text-[#767676] text-xs">{post.date}</span>
-              <span className="text-[#179C3A] text-xs font-bold uppercase">
-                {post.category}
-              </span>
             </div>
 
-            {/* Title and Author */}
+            {/* Title */}
             <h1 className="text-2xl sm:text-3xl font-bold text-[#163820] mb-2 flex items-center gap-2">
               {post.title}
             </h1>
 
-            {/* Blog Content */}
+            {/* Blog Excerpt */}
             <div
               className="prose prose-green max-w-none text-[#444] leading-relaxed"
               style={{
@@ -105,96 +135,30 @@ export default function BlogDetailPage() {
                 lineHeight: "1.8",
               }}
             >
-              {typeof post.excerpt === "string" ? parse(post.excerpt) : post.excerpt}
+              {parsedExcerpt}
             </div>
           </div>
         </article>
       </div>
 
-      {/* Custom prose styles */}
+      {/* Custom prose styling */}
       <style jsx global>{`
-  .prose-green ul > li::marker,
-  .prose-green ol > li::marker {
-    color: #179c3a;
-    font-size: 1.1em;
-  }
-
-  .prose-green ul {
-    list-style-type: disc;
-    list-style-position: outside;
-    padding-left: 1.5em;
-    margin-left: 0;
-  }
-
-  .prose-green ol {
-    list-style-type: decimal;
-    list-style-position: outside;
-    padding-left: 1.5em;
-    margin-left: 0;
-  }
-
-  .prose-green ul li,
-  .prose-green ol li {
-    margin-bottom: 0.5em;
-    padding-left: 0.25em;
-    display: list-item;
-  }
-
-  /* Nested lists */
-  .prose-green ul ul {
-    list-style-type: circle;
-  }
-  .prose-green ul ul ul {
-    list-style-type: square;
-  }
-  .prose-green ol ol {
-    list-style-type: lower-alpha;
-  }
-  .prose-green ol ol ol {
-    list-style-type: lower-roman;
-  }
-  .prose-green ul ol {
-    list-style-type: decimal;
-  }
-  .prose-green ol ul {
-    list-style-type: disc;
-  }
-
-  /* Existing styles remain unchanged */
-  .prose-green h2,
-  .prose-green h3 {
-    color: #179c3a;
-    margin-top: 1.5rem;
-    margin-bottom: 0.7em;
-    font-weight: bold;
-  }
-  .prose-green strong {
-    color: #163820;
-    font-weight: 700;
-  }
-  .prose-green a {
-    color: #179c3a;
-    text-decoration: underline;
-  }
-  .prose-green a:hover {
-    color: #145c23;
-  }
-  .prose-green img {
-    margin: 1.5rem 0 !important;
-    border-radius: 1em;
-  }
-  .prose-green p,
-  .prose-green ul,
-  .prose-green ol,
-  .prose-green pre,
-  .prose-green blockquote,
-  .prose-green h2,
-  .prose-green h3,
-  .prose-green h4 {
-    margin-bottom: 1.4em;
-  }
-`}</style>
-
+        .prose-green ul > li::marker,
+        .prose-green ol > li::marker {
+          color: #179c3a;
+          font-size: 1.1em;
+        }
+        .prose-green strong {
+          color: #163820;
+        }
+        .prose-green a {
+          color: #179c3a;
+          text-decoration: underline;
+        }
+        .prose-green a:hover {
+          color: #145c23;
+        }
+      `}</style>
     </section>
   );
 }

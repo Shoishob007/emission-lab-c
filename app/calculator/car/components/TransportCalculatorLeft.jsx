@@ -106,6 +106,9 @@ const TransportCalculatorLeft = ({
         defaultFuelType = "Diesel";
       } else if (vehicleCategory === "cars") {
         defaultFuelType = "Petrol";
+      } else {
+                defaultFuelType = "Petrol";
+
       }
 
       setTransportDetails((prev) => ({
@@ -190,7 +193,7 @@ const TransportCalculatorLeft = ({
         session?.user?.id?.toString() ??
         `guest-${Math.floor(100000 + Math.random() * 900000)}`;
 
-      if (selectedMake && selectedModel) {
+      if (vehicleCategory === "cars" && selectedMake && selectedModel) {
         const requestDataModel = {
           user_id: userId,
           vehicle_make: selectedMake,
@@ -300,7 +303,7 @@ const TransportCalculatorLeft = ({
 
       {(vehicleCategory === "cars" ||
         vehicleCategory === "motorcycle" ||
-        vehicleCategory === "bus") && (
+        vehicleCategory === "bus" || vehicleCategory === "tr") && (
         <div className="mt-4">
           <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Fuel Type
@@ -345,30 +348,34 @@ const TransportCalculatorLeft = ({
         </div>
       )}
 
-      <VehicleComboBox
-        label="Vehicle Brand"
-        placeholder="Select Brand"
-        searchPlaceholder="Search brands..."
-        emptyText="No brands found"
-        options={vehicleMakes}
-        value={selectedMake}
-        onSelect={(val) => {
-          setSelectedMake(val);
-          setSelectedModel("");
-        }}
-      />
+      {vehicleCategory === "cars" && (
+  <>
+    <VehicleComboBox
+      label="Vehicle Brand"
+      placeholder="Select Brand"
+      searchPlaceholder="Search brands..."
+      emptyText="No brands found"
+      options={vehicleMakes}
+      value={selectedMake}
+      onSelect={(val) => {
+        setSelectedMake(val);
+        setSelectedModel("");
+      }}
+    />
 
-      {/* Vehicle Model ComboBox */}
-      <VehicleComboBox
-        label="Vehicle Model"
-        placeholder="Select Model"
-        searchPlaceholder="Search models..."
-        emptyText="No models found"
-        options={vehicleModels}
-        value={selectedModel}
-        onSelect={setSelectedModel}
-        disabled={!selectedMake}
-      />
+    <VehicleComboBox
+      label="Vehicle Model"
+      placeholder="Select Model"
+      searchPlaceholder="Search models..."
+      emptyText="No models found"
+      options={vehicleModels}
+      value={selectedModel}
+      onSelect={setSelectedModel}
+      disabled={!selectedMake}
+    />
+  </>
+)}
+
 
       {/* Distance Input */}
       <div>
@@ -427,7 +434,6 @@ const TransportCalculatorLeft = ({
                     passengers: inputValue === "" ? "" : Number(inputValue),
                   }));
                 }
-                // If 0 is entered, ignore it
               }}
               onBlur={(e) => {
                 if (e.target.value === "" || Number(e.target.value) < 1) {
@@ -447,26 +453,24 @@ const TransportCalculatorLeft = ({
       {error && <div className="text-sm text-red-500">{error}</div>}
 
       {/* Calculate Button */}
-      {/* Calculate Button */}
-      <button
-        onClick={handleCalculate}
-        disabled={
-          !transportDetails.distance ||
-          !selectedMake ||
-          !selectedModel ||
-          loading ||
-          transportDetails.distance <= 0
-        }
-        className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium !mt-6 ${
-          !transportDetails.distance ||
-          !selectedMake ||
-          !selectedModel ||
-          transportDetails.distance <= 0 ||
-          loading
-            ? "opacity-50 cursor-not-allowed"
-            : "hover:bg-primary/90"
-        }`}
-      >
+<button
+  onClick={handleCalculate}
+  disabled={
+    !transportDetails.distance ||
+    transportDetails.distance <= 0 ||
+    loading ||
+    (vehicleCategory === "cars" && (!selectedMake || !selectedModel))
+  }
+  className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium !mt-6 ${
+    !transportDetails.distance ||
+    transportDetails.distance <= 0 ||
+    loading ||
+    (vehicleCategory === "cars" && (!selectedMake || !selectedModel))
+      ? "opacity-50 cursor-not-allowed"
+      : "hover:bg-primary/90"
+  }`}
+>
+
         {loading ? (
           <span className="flex items-center">
             <svg
