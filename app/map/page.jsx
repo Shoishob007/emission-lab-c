@@ -341,7 +341,7 @@ const CarbonEmissionWorldMap = () => {
   }
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-900 dark:to-gray-800 p-4">
+    <div className="w-full min-h-screen p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 text-center">
@@ -400,7 +400,7 @@ const CarbonEmissionWorldMap = () => {
           <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                Interactive World Map
+                World Map
               </h3>
               <button
                 onClick={handleResetView}
@@ -410,7 +410,7 @@ const CarbonEmissionWorldMap = () => {
               </button>
             </div>
 
-            <div className="h-[600px] rounded-lg overflow-hidden border-2 border-gray-200 dark:border-gray-700">
+            <div className="h-[500px] rounded-lg overflow-hidden border-2 border-gray-200 dark:border-gray-700">
               <ComposableMap
                 projection="geoMercator"
                 projectionConfig={{
@@ -689,10 +689,10 @@ const CarbonEmissionWorldMap = () => {
               </div>
             ) : (
               <div className="bg-gradient-to-br from-blue-500 to-green-500 rounded-lg shadow-2xl p-6 text-white h-full flex flex-col justify-center">
-                <div className="text-center">
-                  <div className="mb-6">
+                <div className="">
+                  <div className="mb-6 text-center">
                     <h3 className="text-3xl font-bold mb-4">
-                      Interactive Map Guide
+                     Map Guide
                     </h3>
                     <p className="text-blue-100 mb-8">
                       Select a country or project to view details
@@ -704,7 +704,7 @@ const CarbonEmissionWorldMap = () => {
                       <div className="bg-white/20 p-3 rounded-full">
                         <TrendingUp size={24} />
                       </div>
-                      <div>
+                      <div className="items-start">
                         <h4 className="font-bold text-lg mb-1">
                           Explore Countries
                         </h4>
@@ -759,7 +759,7 @@ const CarbonEmissionWorldMap = () => {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -805,7 +805,7 @@ const CarbonEmissionWorldMap = () => {
               <Info className="text-orange-500" size={40} />
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Footer Info */}
         <div className="text-center text-gray-600 dark:text-gray-400 text-sm">
