@@ -106,7 +106,7 @@ const FooterSection = () => {
               </li>
               <li>
                 <a
-                  href="/projectsPage"
+                  href="/offsetPage"
                   className="hover:text-[#3BBF4A] transition"
                 >
                   Projects
