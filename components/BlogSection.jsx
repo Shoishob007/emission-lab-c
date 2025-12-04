@@ -90,7 +90,7 @@ if (loading) {
               </span>
             </h2>
           </div>
-          <div className="flex-1 flex justify-end w-full">
+          <div className="flex-1 flex justify-center sm:justify-end w-full">
             <Link href="/blog">
               <Button
                 size="lg"
@@ -104,7 +104,7 @@ if (loading) {
         </div>
 
         {/* Blog grid */}
-        {/* Mobile: all three as large cards. Desktop: grid with large + two small cards */}
+        {/* Mobile: all three as large cards. */}
         <div className="md:hidden flex flex-col gap-8 mt-12">
           {blogPosts.map((post) => (
             <div
@@ -121,9 +121,9 @@ if (loading) {
               <div className="p-8 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[#767676] text-sm">{post.date}</span>
-                  <span className="text-primary text-xs font-bold uppercase">
+                  {/* <span className="text-primary text-xs font-bold uppercase">
                     {post.category}
-                  </span>
+                  </span> */}
                 </div>
                 <h3 className="text-2xl font-bold text-[#163820] mb-3">
                   {post.title}

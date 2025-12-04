@@ -308,7 +308,7 @@ export default function NewBusinessPage() {
           </div>
           <div className="relative">
             <img
-              src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto:good,w_1200/v1752139077/emisison-lab/24608_inb9mx.jpg"
+              src="https://res.cloudinary.com/dmazsiqdy/image/upload/f_auto,q_auto,w_auto,dpr_auto/emisison-lab/hero-carousel/business-1-min_ym3wcm.jpg"
               alt="Business Benefits"
               className="rounded-full w-full object-cover aspect-square bg-white shadow"
             />
