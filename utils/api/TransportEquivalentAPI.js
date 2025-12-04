@@ -1,17 +1,37 @@
 export const fetchCarbonEmissionDetailsInTransport = async (emissionData, userId) => {
-  // console.log("Emission Data :: ", emissionData);
-
   try {
     const typeData = emissionData?.typeResult?.result?.data || {};
+    console.log("typeData :: ", typeData)
     const modelData = emissionData?.modelResult?.result?.data || {};
 
-    const vehicleData = modelData;
+    let vehicleMake, vehicleModel;
 
-    // transport details
+    if (modelData.vehicle_make && modelData.vehicle_model) {
+      // For cars with specific make/model
+      vehicleMake = modelData.vehicle_make;
+      vehicleModel = modelData.vehicle_model;
+    } else {
+      const vehicleType = typeData.vehicle_type || '';
+
+      if (vehicleType.startsWith('Motorbike')) {
+        vehicleMake = 'Motorbike';
+        vehicleModel = 'Average';
+      } else if (vehicleType.startsWith('Bus')) {
+        vehicleMake = 'Bus';
+        vehicleModel = 'Average';
+      } else if (vehicleType.startsWith('Train')) {
+        vehicleMake = 'Train';
+        vehicleModel = 'Average';
+      } else {
+        vehicleMake = 'Unknown';
+        vehicleModel = 'Average';
+      }
+    }
+
     const transportDetails = {
       user_id: userId,
-      vehicle_make: vehicleData.vehicle_make,
-      vehicle_model: vehicleData.vehicle_model,
+      vehicle_make: vehicleMake,
+      vehicle_model: vehicleModel,
       distance_value: String(typeData.distance_value || modelData.distance_value || 0),
       distance_unit: typeData.distance_unit || modelData.distance_unit || "km"
     };
