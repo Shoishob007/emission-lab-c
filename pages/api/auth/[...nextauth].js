@@ -15,8 +15,6 @@ async function getSocialTokens({ email, name, provider, provider_id }) {
     });
     if (!res.ok) throw new Error("Social auth failed");
     const data = await res.json();
-    // console.log("Access token:", data.token?.access),
-    // console.log("Refresh token:", data.token?.refresh);
     return {
       accessToken: data.token?.access,
       refreshToken: data.token?.refresh,
@@ -62,6 +60,13 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
     }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
@@ -105,7 +110,10 @@ export default NextAuth({
       },
     }),
   ],
-  pages: { signIn: "/login", signOut: "/", },
+  pages: { 
+    signIn: "/login",
+    error: "/login",
+  },
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user, account, profile }) {
@@ -156,4 +164,5 @@ export default NextAuth({
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
 });

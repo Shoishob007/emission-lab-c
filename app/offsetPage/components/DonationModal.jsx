@@ -1,6 +1,6 @@
 import { Heart, X, FileText, CreditCard, CheckCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
 import { useSession } from "next-auth/react";
@@ -15,6 +15,7 @@ const DonationModal = ({
   const router = useRouter();
   const { data: session } = useSession();
   const userId = session?.user?.id;
+  const isLoggedIn = !!session?.user?.id;
   const [activeTab, setActiveTab] = useState("info");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -25,6 +26,12 @@ const DonationModal = ({
     setCreateAccount,
     setCertificationName,
   } = useOffsetStore();
+
+  useEffect(() => {
+  if (isLoggedIn) {
+    setCreateAccount(false);
+  }
+}, [isLoggedIn, setCreateAccount]);
 
   // total amount
   const pricePerTon = parseFloat(
@@ -49,6 +56,7 @@ const DonationModal = ({
         quote_id: quoteData.quote_id,
         success_url: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}&quote_id=${quoteData.quote_id}`,
         cancel_url: `${window.location.origin}/cancel`,
+        email: session?.user?.email || null,
       };
 
       console.log("Creating Stripe checkout with payload:", checkoutPayload);
@@ -165,24 +173,27 @@ const DonationModal = ({
                 {/* Account & Certification Inputs */}
                 <div className="space-y-6 mt-8">
                   {/* Create Account Toggle */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#163820] font-semibold">
-                      Create an Account
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setCreateAccount(!create_account)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
-                        create_account ? "bg-green-600" : "bg-gray-300"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
-                          create_account ? "translate-x-6" : "translate-x-1"
-                        }`}
-                      />
-                    </button>
-                  </div>
+                  {!isLoggedIn && (
+  <div className="flex items-center justify-between">
+    <span className="text-[#163820] font-semibold">
+      Create an Account
+    </span>
+    <button
+      type="button"
+      onClick={() => setCreateAccount(!create_account)}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
+        create_account ? "bg-green-600" : "bg-gray-300"
+      }`}
+    >
+      <span
+        className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
+          create_account ? "translate-x-6" : "translate-x-1"
+        }`}
+      />
+    </button>
+  </div>
+)}
+
 
                   {/* Certification Name Input */}
                   <div>

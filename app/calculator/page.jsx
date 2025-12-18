@@ -13,11 +13,14 @@ import CarbonImpactDashboard from "./components/CarbonEmissionDash";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableTabs } from "@/components/ui/expandable-tabs";
 import useOffsetStore from "@/stores/offsetStore";
+import { useSearchParams } from "next/navigation";
 
 
 export default function Calculator() {
   const isUatApi = process.env.NEXT_PUBLIC_API === "https://uatapi.aiemissionlab.com";
   const dashboardRef = useRef(null);
+  const searchParams = useSearchParams();
+const refreshToken = searchParams.get("refresh");
   const [activeTab, setActiveTab] = useState("flight");
   const [calculated, setCalculated] = useState(false);
   const [flightDetails, setFlightDetails] = useState({
@@ -68,6 +71,35 @@ export default function Calculator() {
   useEffect(() => {
     setActiveTab(tabs[0]?.value);
   }, [tabs]);
+
+  useEffect(() => {
+  if (!refreshToken) return;
+
+  const verifyWithRefresh = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/refresh/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          refresh: refreshToken,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Invalid refresh token");
+
+      const data = await res.json();
+      setAuthTokens(data);
+
+    } catch (err) {
+      console.error("Auto login failed", err);
+    }
+  };
+
+  verifyWithRefresh();
+}, [refreshToken]);
+
 
   useEffect(() => {
     fetchProjects();
