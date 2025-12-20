@@ -14,13 +14,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableTabs } from "@/components/ui/expandable-tabs";
 import useOffsetStore from "@/stores/offsetStore";
 import { useSearchParams } from "next/navigation";
-
+import { signIn } from "next-auth/react";
 
 export default function Calculator() {
-  const isUatApi = process.env.NEXT_PUBLIC_API === "https://uatapi.aiemissionlab.com";
+  const isUatApi =
+    process.env.NEXT_PUBLIC_API === "https://uatapi.aiemissionlab.com";
   const dashboardRef = useRef(null);
   const searchParams = useSearchParams();
-const refreshToken = searchParams.get("refresh");
+  const refreshToken = searchParams.get("refresh");
   const [activeTab, setActiveTab] = useState("flight");
   const [calculated, setCalculated] = useState(false);
   const [flightDetails, setFlightDetails] = useState({
@@ -30,7 +31,7 @@ const refreshToken = searchParams.get("refresh");
     class: "economy",
     aircraft: "not_sure",
     passengers: 1,
-  ...(isUatApi && { emission_lab_test: true }),
+    ...(isUatApi && { emission_lab_test: true }),
   });
   const [transportDetails, setTransportDetails] = useState({
     transportType: "",
@@ -63,7 +64,6 @@ const refreshToken = searchParams.get("refresh");
       { title: "Transport", icon: Car, value: "transport" },
       { title: "Hotel", icon: Hotel, value: "hotel" },
       { title: "Ship", icon: Ship, value: "DeepSea" },
-
     ],
     []
   );
@@ -73,33 +73,44 @@ const refreshToken = searchParams.get("refresh");
   }, [tabs]);
 
   useEffect(() => {
-  if (!refreshToken) return;
+    if (!refreshToken) return;
 
-  const verifyWithRefresh = async () => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/refresh/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          refresh: refreshToken,
-        }),
-      });
+    const verifyWithRefresh = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/api/users/refresh/`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              refresh: refreshToken,
+            }),
+          }
+        );
 
-      if (!res.ok) throw new Error("Invalid refresh token");
+        if (!res.ok) throw new Error("Invalid refresh token");
 
-      const data = await res.json();
-      setAuthTokens(data);
+        const data = await res.json();
 
-    } catch (err) {
-      console.error("Auto login failed", err);
-    }
-  };
+        await signIn("credentials", {
+          email: data.user?.email,
+          password: "dummy-password-for-refresh",
+          redirect: false,
+          callbackUrl: window.location.pathname,
+        });
 
-  verifyWithRefresh();
-}, [refreshToken]);
+        const url = new URL(window.location.href);
+        url.searchParams.delete("refresh");
+        window.history.replaceState({}, "", url.toString());
+      } catch (err) {
+        console.error("Auto login failed", err);
+      }
+    };
 
+    verifyWithRefresh();
+  }, [refreshToken]);
 
   useEffect(() => {
     fetchProjects();
@@ -221,7 +232,7 @@ const refreshToken = searchParams.get("refresh");
             setAiAnalysisData={setAiAnalysisData}
           />
         );
-        case "DeepSea":
+      case "DeepSea":
         return (
           <ShipCalculatorRight
             calculated={calculated}
@@ -230,7 +241,6 @@ const refreshToken = searchParams.get("refresh");
             showDashboard={showDashboard}
             setShowDashboard={setShowDashboard}
             scrollToDashboard={scrollToDashboard}
-            // setCalculating={setCalculating}
             calculating={calculating}
             pricePerTon={pricePerTon}
             setAiAnalysisData={setAiAnalysisData}
