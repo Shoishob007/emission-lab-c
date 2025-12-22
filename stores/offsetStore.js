@@ -15,7 +15,7 @@ const useOffsetStore = create(
             certificate_name: "",
 
             setCreateAccount: (value) => set({ create_account: value }),
-            setCertificationName: (value) => set({ certificate_name: value }),
+            setCertificateName: (value) => set({ certificate_name: value }),
             resetUserInputs: () =>
                 set({ create_account: false, certificate_name: "" }),
             // Get current user inputs for confirmation

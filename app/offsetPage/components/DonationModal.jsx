@@ -25,15 +25,15 @@ const DonationModal = ({
     create_account,
     certificate_name,
     setCreateAccount,
-    setCertificationName,
+    setCertificateName,
   } = useOffsetStore();
 
   useEffect(() => {
     if (isLoggedIn) {
       setCreateAccount(false);
-      setAcceptTerms(true); // Logged-in users already accepted terms when creating account
+      setAcceptTerms(true);
     } else {
-      setAcceptTerms(false); // Reset for non-logged in users
+      setAcceptTerms(false);
     }
   }, [isLoggedIn, setCreateAccount]);
 
@@ -99,7 +99,7 @@ const DonationModal = ({
 
   const handleTermsLinkClick = (e) => {
     e.preventDefault();
-    window.open("/terms-and-conditions", "_blank");
+    window.open("/terms", "_blank");
   };
 
   if (!isOpen) return null;
@@ -272,14 +272,14 @@ const DonationModal = ({
                       htmlFor="certificate_name"
                       className="block font-semibold text-[#163820] mb-2"
                     >
-                      Certification Name
+                      Certificate Name
                       <span className="text-red-500 ml-1">*</span>
                     </label>
                     <input
                       id="certificate_name"
                       type="text"
                       value={certificate_name}
-                      onChange={(e) => setCertificationName(e.target.value)}
+                      onChange={(e) => setCertificateName(e.target.value)}
                       placeholder="Enter your certificate name"
                       className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:outline-none"
                     />

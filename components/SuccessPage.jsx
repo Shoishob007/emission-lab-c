@@ -49,8 +49,7 @@ const OffsetSuccessPage = () => {
           certificate_name: userInputs.certificate_name,
         };
 
-        // console.log("Payload to confirm :: ", confirmPayload);
-
+        console.log("Payload to confirm :: ", confirmPayload);
         const data = await confirmOffsetQuote(confirmPayload);
         console.log("Confirmed offset response :: ", data)
 
@@ -65,7 +64,7 @@ const OffsetSuccessPage = () => {
             data.offset_details?.confirmation_number ||
             data.carbon_offset_purchase_id,
           certificate_number: data.offset_details?.certificate_number,
-                    certificate_name: data.offset_details?.certification_name,
+                    certificate_name: data.offset_details?.certificate_name,
 
           carbon_expiration_date: data.offset_details?.carbon_expiration_date,
           gold_standard_confirmation:
