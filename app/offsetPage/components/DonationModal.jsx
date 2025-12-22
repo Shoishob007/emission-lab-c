@@ -23,9 +23,9 @@ const DonationModal = ({
   const {
     createStripeCheckoutSession,
     create_account,
-    certificate_name,
+    certification_name,
     setCreateAccount,
-    setCertificateName,
+    setCertificationName,
   } = useOffsetStore();
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const DonationModal = ({
   // Check if proceed button should be disabled
   const isProceedDisabled = () => {
     // Always need certificate name
-    if (!certificate_name.trim()) return true;
+    if (!certification_name.trim()) return true;
 
     // If user is logged in, they already accepted terms
     if (isLoggedIn) return false;
@@ -269,17 +269,17 @@ const DonationModal = ({
                   {/* Certification Name */}
                   <div>
                     <label
-                      htmlFor="certificate_name"
+                      htmlFor="certification_name"
                       className="block font-semibold text-[#163820] mb-2"
                     >
                       Certificate Name
                       <span className="text-red-500 ml-1">*</span>
                     </label>
                     <input
-                      id="certificate_name"
+                      id="certification_name"
                       type="text"
-                      value={certificate_name}
-                      onChange={(e) => setCertificateName(e.target.value)}
+                      value={certification_name}
+                      onChange={(e) => setCertificationName(e.target.value)}
                       placeholder="Enter your certificate name"
                       className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:outline-none"
                     />
