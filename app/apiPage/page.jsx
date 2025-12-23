@@ -69,7 +69,7 @@ export default function ApiSection() {
   const router = useRouter();
 
   const handleClick = (e) => {
-    if (!session?.user) {
+    if (!session?.user || !session?.user?.business_profile) {
       e.preventDefault();
       setShowLoginModal(true);
     } else {

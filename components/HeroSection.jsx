@@ -1,193 +1,12 @@
-// import { useState, useEffect, useRef } from "react";
-// import { ArrowRight } from "lucide-react";
-// import Link from "next/link";
-
-// const slides = [
-//   {
-//     headline: (
-//       <>
-//         Join us on the Journey to regenerate the Earth
-//         <br />
-//         <span className="block">—Powered by purpose, driven by Data</span>
-//       </>
-//     ),
-//     subheading:
-//       "The all-in-one platform led you to a mission to drive the Erach Renewal Initiatives, restoring the balance between people, purpose, and the planet",
-//     primary: { text: "Learn How We Help", href: "#about" },
-//     secondary: { text: "Question In Mind?", href: "#faq" },
-//   },
-//   {
-//     headline: (
-//       <>
-//         Measure. Reduce. Offset.
-//         <br />
-//         <span className="block">
-//           Your Path to a Sustainable Future Starts Here.
-//         </span>
-//       </>
-//     ),
-//     subheading:
-//       "Empowering individuals, businesses, and organizations to easily understand and manage their carbon footprint for a greener planet.",
-//     primary: { text: "Calculate Your Footprint Now", href: "/calculator" },
-//     secondary: { text: "Learn More", href: "/calculatorPage" },
-//   },
-//   {
-//     headline: (
-//       <>
-//         Unlock Your Climate Impact.
-//         <br />
-//         <span className="block">
-//           Simplified Carbon Management for a Healthier World.
-//         </span>
-//       </>
-//     ),
-//     subheading:
-//       "Discover precisely where your emissions come from, gain actionable insights to reduce them, and contribute to verified climate protection projects.",
-//     primary: { text: "Start Your Journey", href: "/login" },
-//     secondary: { text: "See Our Solutions", href: "#solutions" },
-//   },
-//   {
-//     headline: (
-//       <>
-//         The Future of Sustainability is Integrated.
-//         <br />
-//         <span className="block">Power Your Platform with Our Carbon APIs.</span>
-//       </>
-//     ),
-//     subheading:
-//       "Empower your applications with our robust API suite and drive measurable climate action and fostering a greener digital ecosystem.",
-//     primary: { text: "Explore Our APIs", href: "/apiPage" },
-//     secondary: { text: "View AI Features", href: "/aiPage" },
-//   },
-// ];
-
-// const posterUrl =
-//   "https://res.cloudinary.com/dmazsiqdy/video/upload/so_0,q_auto:low,f_jpg,w_1920/v1763811305/emisison-lab/Join_us_on_the_Journey_toregeneratethe_Earth_Powered_by_purpose_driven_by_Data_1_ebzzsj.jpg";
-
-// const HeroSection = () => {
-//   const [currentSlide, setCurrentSlide] = useState(0);
-//   const [videoLoaded, setVideoLoaded] = useState(false);
-//   const videoRef = useRef(null);
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setCurrentSlide((prev) => (prev + 1) % slides.length);
-//     }, 7000);
-
-//     return () => clearInterval(interval);
-//   }, []);
-
-//   const handleCanPlay = () => {
-//     setVideoLoaded(true);
-//   };
-
-//   useEffect(() => {
-//     if (videoRef.current) {
-//       videoRef.current.play().catch(() => {
-//         console.log("Autoplay blocked, waiting for user interaction");
-//       });
-//     }
-//   }, []);
-
-//   return (
-//     <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
-//       {/* Poster image fallback */}
-//       <div
-//         className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-500 ${
-//           videoLoaded ? "opacity-0" : "opacity-100"
-//         }`}
-//         style={{
-//           backgroundImage: `url(${posterUrl})`,
-//           backgroundColor: "#1a1a1a",
-//         }}
-//       />
-
-//       {/* Video background */}
-//       <video
-//         ref={videoRef}
-//         src="/landing-page/video-1-compressed.mp4"
-//         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-//           videoLoaded ? "opacity-100" : "opacity-0"
-//         }`}
-//         autoPlay
-//         loop
-//         muted
-//         playsInline
-//         preload="auto"
-//         poster={posterUrl}
-//         onCanPlay={handleCanPlay}
-//       />
-
-//       {/* Gradient overlay */}
-//       <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/50 to-black/50" />
-
-//       {/* Text content */}
-//       <div className="relative z-10 flex flex-1 justify-center items-center w-full min-h-screen">
-//         <div className="max-w-5xl w-full px-4 py-12 bg-transparent rounded-xl flex flex-col items-center">
-//           {/* Headline */}
-//           <h1
-//             className="font-extrabold text-white drop-shadow-lg leading-tight text-3xl md:text-4xl lg:text-5xl mb-4 tracking-tight text-center transition-all duration-500"
-//             style={{
-//               textTransform: "uppercase",
-//               letterSpacing: "0.02em",
-//               lineHeight: 1.2,
-//               minHeight: "110px",
-//             }}
-//             key={currentSlide + "-headline"}
-//           >
-//             {slides[currentSlide].headline}
-//           </h1>
-
-//           {/* Subheading */}
-//           <p
-//             className="text-base md:text-lg text-gray-200 max-w-2xl mb-8 font-medium text-center transition-all duration-500"
-//             style={{ minHeight: "56px" }}
-//             key={currentSlide + "-subheading"}
-//           >
-//             {slides[currentSlide].subheading}
-//           </p>
-
-//           {/* CTA Buttons */}
-//           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full transition-opacity duration-400">
-//             <Link
-//               href={slides[currentSlide].primary.href}
-//               className="inline-flex items-center px-7 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
-//             >
-//               {slides[currentSlide].primary.text}
-//               <ArrowRight className="ml-2 w-5 h-5" />
-//             </Link>
-
-//             {slides[currentSlide].secondary && (
-//               <Link
-//                 href={slides[currentSlide].secondary.href}
-//                 className="inline-flex items-center px-7 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
-//               >
-//                 {slides[currentSlide].secondary.text}
-//               </Link>
-//             )}
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default HeroSection;
-
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @next/next/no-img-element */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const slides = [
   {
-    image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481357/emisison-lab/hero-carousel/78_nbf1ye.jpg",
     headline: (
       <>
-        Join us on the Journey to regenerate the Earth
-        <br />
+        Join us on the Journey to regenerate the Earth <br />
         <span className="block">—Powered by purpose, driven by Data</span>
       </>
     ),
@@ -197,14 +16,12 @@ const slides = [
     secondary: { text: "Question In Mind?", href: "#faq" },
   },
   {
-    image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481892/emisison-lab/hero-carousel/2150196692_p3csru.jpg",
     headline: (
       <>
-        Measure. Reduce. Offset.
-        <br />
+        Measure. Reduce. Offset. <br />
         <span className="block">
-          Your Path to a Sustainable Future Starts Here.
+          {" "}
+          Your Path to a Sustainable Future Starts Here.{" "}
         </span>
       </>
     ),
@@ -214,14 +31,12 @@ const slides = [
     secondary: { text: "Learn More", href: "/calculatorPage" },
   },
   {
-    image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481358/emisison-lab/hero-carousel/Green_Simple_Natural_Outdoor_Travel_Vlog_YouTube_Intro_Video_1_pa72rd.jpg",
     headline: (
       <>
-        Unlock Your Climate Impact.
-        <br />
+        Unlock Your Climate Impact. <br />
         <span className="block">
-          Simplified Carbon Management for a Healthier World.
+          {" "}
+          Simplified Carbon Management for a Healthier World.{" "}
         </span>
       </>
     ),
@@ -231,12 +46,9 @@ const slides = [
     secondary: { text: "See Our Solutions", href: "#solutions" },
   },
   {
-    image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1751481357/emisison-lab/hero-carousel/8_u6ih0l.png",
     headline: (
       <>
-        The Future of Sustainability is Integrated.
-        <br />
+        The Future of Sustainability is Integrated. <br />
         <span className="block">Power Your Platform with Our Carbon APIs.</span>
       </>
     ),
@@ -245,94 +57,83 @@ const slides = [
     primary: { text: "Explore Our APIs", href: "/apiPage" },
     secondary: { text: "View AI Features", href: "/aiPage" },
   },
-  {
-    image:
-      "https://res.cloudinary.com/dmazsiqdy/image/upload/v1763375145/emisison-lab/hero-carousel/new-hero-5_xbp8am.jpg",
-    primary: { text: "Learn More", href: "/blog/6" },
-  },
 ];
 
+const posterUrl =
+  "https://res.cloudinary.com/dmazsiqdy/video/upload/so_0,q_auto:low,f_jpg,w_1920/v1763811305/emisison-lab/Join_us_on_the_Journey_toregeneratethe_Earth_Powered_by_purpose_driven_by_Data_1_ebzzsj.jpg";
+
 const HeroSection = () => {
-  const [isVisible, setIsVisible] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const videoRef = useRef(null);
 
-  // transition handler
-  const goToNextSlide = () => {
-    if (isTransitioning) return;
-
-    setIsTransitioning(true);
-
-    setTimeout(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-      setIsTransitioning(false);
-    }, 1000);
-  };
-
-  // Auto-advance both slide and text together
   useEffect(() => {
-    const interval = setInterval(goToNextSlide, 10000);
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 7000);
     return () => clearInterval(interval);
-  }, [isTransitioning]);
+  }, []);
 
-  const getSlideClass = (idx) => {
-    if (currentSlide !== idx) return "opacity-0";
-
-    return "opacity-100";
+  const handleCanPlay = () => {
+    setVideoLoaded(true);
   };
 
-  const getTransitionClass = (idx) => {
-    if (currentSlide === idx) {
-      return "translate-x-0";
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {
+        console.log("Autoplay blocked, waiting for user interaction");
+      });
     }
-
-    if (idx === (currentSlide + 1) % slides.length) {
-      // entering slide from right
-      return "translate-x-full";
-    } else {
-      // exiting slide to left
-      return "-translate-x-full";
-    }
-  };
+  }, []);
 
   return (
     <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      {slides.map((slide, idx) => (
-        <div
-          key={`slide-${idx}`}
-          className={`
-            absolute inset-0 transition-all duration-1000 ease-in-out
-            ${getSlideClass(idx)}
-            ${getTransitionClass(idx)}
-          `}
-          aria-hidden={currentSlide !== idx}
-        >
-          <img
-            src={slide.image}
-            alt=""
-            className={`w-full h-full ${
-              idx === slides.length - 1 ? "object-cover" : "object-cover"
-            }`}
-            draggable={false}
-          />
+      {/* Poster image fallback */}
+      <div
+        className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-500 ${
+          videoLoaded ? "opacity-0" : "opacity-100"
+        }`}
+        style={{
+          backgroundImage: `url(${posterUrl})`,
+          backgroundColor: "#1a1a1a",
+        }}
+      />
 
-          {/* gradient overlay */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="w-full h-full bg-gradient-to-r from-black/50 to-black/50" />
-          </div>
-        </div>
-      ))}
+      {/* Video background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        poster="/landing-poster.webp"
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source
+          src="https://res.cloudinary.com/dmazsiqdy/video/upload/f_webm,vc_vp9,q_auto:eco,br_800k,w_720,h_1280,c_fill,ac_none/emisison-lab/video-1-compressed_dimlm8.webm"
+          type="video/webm"
+          media="(max-width: 768px)"
+        />
+        <source
+          src="https://res.cloudinary.com/dmazsiqdy/video/upload/f_webm,vc_vp9,q_auto:eco,br_1000k,w_1920,h_1080,c_fill,ac_none/emisison-lab/video-1-compressed_dimlm8.webm"
+          type="video/webm"
+          media="(min-width: 769px)"
+        />
+        <source
+          src="https://res.cloudinary.com/dmazsiqdy/video/upload/f_mp4,vc_h264,q_auto:eco,br_1200k,w_1920,h_1080,c_fill,ac_none/emisison-lab/video-1-compressed_dimlm8.webm"
+          type="video/mp4"
+        />
+      </video>
 
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/50 to-black/50" />
+
+      {/* Text content */}
       <div className="relative z-10 flex flex-1 justify-center items-center w-full min-h-screen">
         <div className="max-w-5xl w-full px-4 py-12 bg-transparent rounded-xl flex flex-col items-center">
-          {/* Animated Headline */}
+          {/* Headline */}
           <h1
-            className={`
-              font-extrabold text-white drop-shadow-lg leading-tight 
-              text-3xl md:text-4xl lg:text-5xl mb-4 tracking-tight text-center
-              ${isVisible ? "animate-slideUp" : "opacity-0"}
-            `}
+            className="font-extrabold text-white drop-shadow-lg leading-tight text-3xl md:text-4xl lg:text-5xl mb-4 tracking-tight text-center transition-all duration-500"
             style={{
               textTransform: "uppercase",
               letterSpacing: "0.02em",
@@ -344,55 +145,32 @@ const HeroSection = () => {
             {slides[currentSlide].headline}
           </h1>
 
-          {/* Animated Subheading */}
+          {/* Subheading */}
           <p
-            className={`
-              text-base md:text-lg text-gray-200 max-w-2xl mb-8 font-medium text-center
-              ${isVisible ? "animate-fadeInUp" : "opacity-0"}
-            `}
-            style={{
-              minHeight: "56px",
-            }}
+            className="text-base md:text-lg text-gray-200 max-w-2xl mb-8 font-medium text-center transition-all duration-500"
+            style={{ minHeight: "56px" }}
             key={currentSlide + "-subheading"}
           >
             {slides[currentSlide].subheading}
           </p>
 
-          {/* Buttons */}
-          <div
-            className={`flex flex-col sm:flex-row items-center justify-center gap-4 w-full
-    ${
-      isVisible ? "animate-fadeInUp" : "opacity-0"
-    } transition-opacity duration-400`}
-            key={currentSlide + "-cta"}
-          >
-            {/* For LAST SLIDE → only ONE CTA */}
-            {currentSlide === slides.length - 1 ? (
-              <Link
-                href={slides[currentSlide]?.primary?.href}
-                className="inline-flex items-center px-7 py-3 mb-8 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
-              >
-                {slides[currentSlide]?.primary?.text}
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
-            ) : (
-              <>
-                {/* For OTHER SLIDES → two CTAs */}
-                <Link
-                  href={slides[currentSlide]?.primary?.href}
-                  className="inline-flex items-center px-7 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
-                >
-                  {slides[currentSlide]?.primary?.text}
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full transition-opacity duration-400">
+            <Link
+              href={slides[currentSlide].primary.href}
+              className="inline-flex items-center px-7 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
+            >
+              {slides[currentSlide].primary.text}
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
 
-                <Link
-                  href={slides[currentSlide]?.secondary?.href}
-                  className="inline-flex items-center px-7 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
-                >
-                  {slides[currentSlide]?.secondary?.text}
-                </Link>
-              </>
+            {slides[currentSlide].secondary && (
+              <Link
+                href={slides[currentSlide].secondary.href}
+                className="inline-flex items-center px-7 py-3 bg-btn-secondary hover:bg-btn-secondary-hover text-white text-base font-semibold rounded-md shadow-lg transition focus:outline-none"
+              >
+                {slides[currentSlide].secondary.text}
+              </Link>
             )}
           </div>
         </div>

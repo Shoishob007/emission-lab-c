@@ -16,7 +16,7 @@ const OffsetSuccessPage = () => {
   const {
     confirmOffsetQuote,
     create_account,
-    certificate_name,
+    certification_name,
     resetUserInputs,
     getUserInputs,
   } = useOffsetStore();
@@ -46,11 +46,10 @@ const OffsetSuccessPage = () => {
           payment_method: "stripe_checkout",
           stripe_session_id: sessionId,
           create_account: userInputs.create_account,
-          certificate_name: userInputs.certificate_name,
+          certification_name: userInputs.certification_name,
         };
 
-        // console.log("Payload to confirm :: ", confirmPayload);
-
+        console.log("Payload to confirm :: ", confirmPayload);
         const data = await confirmOffsetQuote(confirmPayload);
         console.log("Confirmed offset response :: ", data)
 
@@ -65,7 +64,7 @@ const OffsetSuccessPage = () => {
             data.offset_details?.confirmation_number ||
             data.carbon_offset_purchase_id,
           certificate_number: data.offset_details?.certificate_number,
-                    certificate_name: data.offset_details?.certification_name,
+                    certification_name: data.offset_details?.certification_name,
 
           carbon_expiration_date: data.offset_details?.carbon_expiration_date,
           gold_standard_confirmation:
@@ -100,7 +99,7 @@ const OffsetSuccessPage = () => {
     confirmOffsetQuote,
     clearEmissionData,
     create_account,
-    certificate_name,
+    certification_name,
     resetUserInputs,
     getUserInputs,
   ]);
@@ -171,7 +170,7 @@ const OffsetSuccessPage = () => {
         >
           {/* Success Header */}
           <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-8 text-center text-white relative overflow-hidden">
-            <h1 className="text-3xl font-bold mb-2">Offset Successful!</h1>
+            <h1 className="text-3xl font-bold mb-2">Offset Successful</h1>
             <p className="text-green-100 text-lg">
               Thank you for making a positive environmental impact
             </p>
@@ -211,7 +210,7 @@ const OffsetSuccessPage = () => {
                           Certification Name:
                         </span>
                         <p className="font-semibold text-[#163820]">
-                          {successData.certificate_name}
+                          {successData.certification_name}
                         </p>
                       </div>
 

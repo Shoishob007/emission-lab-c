@@ -12,18 +12,18 @@ const useOffsetStore = create(
             offsetSuccessData: null,
 
             create_account: false,
-            certificate_name: "",
+            certification_name: "",
 
             setCreateAccount: (value) => set({ create_account: value }),
-            setCertificationName: (value) => set({ certificate_name: value }),
+            setCertificationName: (value) => set({ certification_name: value }),
             resetUserInputs: () =>
-                set({ create_account: false, certificate_name: "" }),
+                set({ create_account: false, certification_name: "" }),
             // Get current user inputs for confirmation
             getUserInputs: () => {
                 const state = get();
                 return {
                     create_account: state.create_account,
-                    certificate_name: state.certificate_name
+                    certification_name: state.certification_name
                 };
             },
 

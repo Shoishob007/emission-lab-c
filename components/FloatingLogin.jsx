@@ -177,7 +177,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                 Welcome
               </h2>
               <span className="text-white font-medium mb-8 text-base drop-shadow">
-                {showSignUp ? "Already have account?" : "Don't have account ?"}
+                {showSignUp ? "Already have account?" : "Don't have any business account?"}
               </span>
               <button
                 className="px-7 py-2 rounded-lg bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-base flex items-center gap-2 shadow-lg transition mx-auto sm:mx-0 sm:w-fit"
@@ -210,7 +210,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                       />
                       <input
                         type="email"
-                        placeholder="Enter Username / Email"
+                        placeholder="Enter Business Email"
                         className="w-full pl-12 pr-10 py-3 rounded-lg border-2 border-gray-200 bg-gray-50 text-base placeholder:text-base transition-all focus:border-green-600 focus:bg-white focus:shadow-[0_0_0_4px_rgba(76,175,80,0.1)]"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -375,7 +375,7 @@ export function FloatingLoginModal({ open, onOpenChange }) {
                       />
                       <input
                         type="email"
-                        placeholder="Email Address"
+                        placeholder="Business Email Address"
                         className="w-full pl-12 pr-10 py-3 rounded-lg border-2 border-gray-200 bg-gray-50 text-base placeholder:text-base transition-all focus:border-green-600 focus:bg-white focus:shadow-[0_0_0_4px_rgba(76,175,80,0.1)]"
                         value={regEmail}
                         onChange={(e) => setRegEmail(e.target.value)}

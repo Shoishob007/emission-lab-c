@@ -15,8 +15,6 @@ async function getSocialTokens({ email, name, provider, provider_id }) {
     });
     if (!res.ok) throw new Error("Social auth failed");
     const data = await res.json();
-    // console.log("Access token:", data.token?.access),
-    // console.log("Refresh token:", data.token?.refresh);
     return {
       accessToken: data.token?.access,
       refreshToken: data.token?.refresh,
@@ -24,6 +22,35 @@ async function getSocialTokens({ email, name, provider, provider_id }) {
   } catch (err) {
     console.error("Social token error:", err);
     return {};
+  }
+}
+
+async function refreshAccessToken(refreshToken) {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/refresh/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        refresh: refreshToken,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Token refresh failed");
+    }
+
+    const data = await response.json();
+
+    return {
+      accessToken: data.token?.access,
+      refreshToken: data.token?.refresh || refreshToken,
+      user: data.user || {},
+    };
+  } catch (error) {
+    console.error("Error refreshing access token:", error);
+    return null;
   }
 }
 
@@ -36,6 +63,26 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        // Handle refresh token flow - when user comes with just email from refresh
+        if (credentials.email && credentials.password === "dummy-password-for-refresh") {
+          try {
+            return {
+              id: "temp-refresh-id",
+              email: credentials.email,
+              name: "Refreshed User",
+              accessToken: credentials.accessToken,
+              refreshToken: credentials.refreshToken,
+              provider: "credentials",
+              provider_id: "temp-refresh-id",
+              isRefreshFlow: true,
+            };
+          } catch (error) {
+            console.error("Refresh flow error:", error);
+            return null;
+          }
+        }
+
+        // login logic
         const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/users/login/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -62,6 +109,13 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
     }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
@@ -105,16 +159,24 @@ export default NextAuth({
       },
     }),
   ],
-  pages: { signIn: "/login", signOut: "/", },
+  pages: {
+    signIn: "/login",
+    error: "/login",
+  },
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user, account, profile }) {
-      // Credentials login
       if (account?.provider === "credentials" && user?.accessToken) {
-        token.user = { ...user, provider: "credentials" };
+        token.user = {
+          ...user,
+          provider: "credentials",
+          provider_id: user.provider_id || user.id
+        };
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
+        token.accessTokenExpires = Date.now() + (23 * 60 * 60 * 1000);
       }
+
       // Social logins
       if (account && ["google", "facebook", "linkedin"].includes(account.provider)) {
         let socialUser = {};
@@ -144,16 +206,42 @@ export default NextAuth({
         token.user = { ...socialUser, image: profile?.picture };
         token.accessToken = accessToken;
         token.refreshToken = refreshToken;
+        token.accessTokenExpires = Date.now() + (23 * 60 * 60 * 1000);
       }
+
+      // Refresh logic
+      if (token.accessTokenExpires && Date.now() > token.accessTokenExpires) {
+        if (token.refreshToken) {
+          const refreshedTokens = await refreshAccessToken(token.refreshToken);
+
+          if (refreshedTokens) {
+            // Updating tokens
+            token.accessToken = refreshedTokens.accessToken;
+            token.refreshToken = refreshedTokens.refreshToken;
+            token.accessTokenExpires = Date.now() + (23 * 60 * 60 * 1000);
+
+            if (refreshedTokens.user && Object.keys(refreshedTokens.user).length > 0) {
+              token.user = { ...token.user, ...refreshedTokens.user };
+            }
+          } else {
+            token.error = "RefreshAccessTokenError";
+          }
+        }
+      }
+
       return token;
     },
     async session({ session, token }) {
       if (token?.user) session.user = token.user;
       if (token?.accessToken) session.accessToken = token.accessToken;
       if (token?.refreshToken) session.refreshToken = token.refreshToken;
+      if (token?.error) {
+        session.error = token.error;
+      }
       console.log("Session :: ", session);
       return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
 });

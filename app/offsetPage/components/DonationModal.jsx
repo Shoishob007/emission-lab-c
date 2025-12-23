@@ -1,6 +1,6 @@
 import { Heart, X, FileText, CreditCard, CheckCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
 import { useSession } from "next-auth/react";
@@ -15,16 +15,27 @@ const DonationModal = ({
   const router = useRouter();
   const { data: session } = useSession();
   const userId = session?.user?.id;
-  const [activeTab, setActiveTab] = useState("info");
+  const isLoggedIn = !!session?.user?.id;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+  const [acceptTerms, setAcceptTerms] = useState(false);
+
   const {
     createStripeCheckoutSession,
     create_account,
-    certificate_name,
+    certification_name,
     setCreateAccount,
     setCertificationName,
   } = useOffsetStore();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setCreateAccount(false);
+      setAcceptTerms(true);
+    } else {
+      setAcceptTerms(false);
+    }
+  }, [isLoggedIn, setCreateAccount]);
 
   // total amount
   const pricePerTon = parseFloat(
@@ -40,7 +51,7 @@ const DonationModal = ({
     setErrors({});
 
     try {
-      // Stripe Checkout session
+      // Checkout session
       const checkoutPayload = {
         amount: totalAmount,
         currency: "usd",
@@ -49,6 +60,7 @@ const DonationModal = ({
         quote_id: quoteData.quote_id,
         success_url: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}&quote_id=${quoteData.quote_id}`,
         cancel_url: `${window.location.origin}/cancel`,
+        email: session?.user?.email || null,
       };
 
       console.log("Creating Stripe checkout with payload:", checkoutPayload);
@@ -69,6 +81,25 @@ const DonationModal = ({
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Check if proceed button should be disabled
+  const isProceedDisabled = () => {
+    // Always need certificate name
+    if (!certification_name.trim()) return true;
+
+    // If user is logged in, they already accepted terms
+    if (isLoggedIn) return false;
+
+    // If creating account, need to accept terms
+    if (create_account && !acceptTerms) return true;
+
+    return isSubmitting;
+  };
+
+  const handleTermsLinkClick = (e) => {
+    e.preventDefault();
+    window.open("/terms", "_blank");
   };
 
   if (!isOpen) return null;
@@ -165,41 +196,96 @@ const DonationModal = ({
                 {/* Account & Certification Inputs */}
                 <div className="space-y-6 mt-8">
                   {/* Create Account Toggle */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#163820] font-semibold">
-                      Create an Account
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setCreateAccount(!create_account)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
-                        create_account ? "bg-green-600" : "bg-gray-300"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
-                          create_account ? "translate-x-6" : "translate-x-1"
-                        }`}
-                      />
-                    </button>
-                  </div>
+                  {!isLoggedIn && (
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#163820] font-semibold">
+                          Create an Account
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setCreateAccount(!create_account)}
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
+                            create_account ? "bg-primary" : "bg-gray-300"
+                          }`}
+                        >
+                          <span
+                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
+                              create_account ? "translate-x-6" : "translate-x-1"
+                            }`}
+                          />
+                        </button>
+                      </div>
 
-                  {/* Certification Name Input */}
+                      {/* Terms & Conditions Checkbox - Only show when creating account */}
+                      {create_account && (
+                        <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                          <label className="flex items-start space-x-3 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={acceptTerms}
+                              onChange={(e) => setAcceptTerms(e.target.checked)}
+                              className="mt-1 h-4 w-4 text-primary rounded focus:ring-primary"
+                            />
+                            <div className="text-sm">
+                              <span className="text-[#163820] font-medium">
+                                I agree to the{" "}
+                                <a
+                                  href="#"
+                                  onClick={handleTermsLinkClick}
+                                  className="text-primary hover:underline font-semibold"
+                                >
+                                  Terms and Conditions
+                                </a>{" "}
+                                and{" "}
+                                <a
+                                  href="#"
+                                  onClick={handleTermsLinkClick}
+                                  className="text-primary hover:underline font-semibold"
+                                >
+                                  Privacy Policy
+                                </a>
+                              </span>
+                              <p className="text-[#767676] text-xs mt-1">
+                                By creating an account, you agree to our terms
+                                of service and privacy policy.
+                              </p>
+                            </div>
+                          </label>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* User info if logged in */}
+                  {isLoggedIn && (
+                    <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-100 rounded-lg p-3">
+                      <p className="text-sm text-muted-foreground">
+                        Your payment will be linked to your account.
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Certification Name */}
                   <div>
                     <label
-                      htmlFor="certificate_name"
-                      className="block text-sm font-semibold text-[#163820] mb-2"
+                      htmlFor="certification_name"
+                      className="block font-semibold text-[#163820] mb-2"
                     >
-                      Certification Name
+                      Certificate Name
+                      <span className="text-red-500 ml-1">*</span>
                     </label>
                     <input
-                      id="certificate_name"
+                      id="certification_name"
                       type="text"
-                      value={certificate_name}
+                      value={certification_name}
                       onChange={(e) => setCertificationName(e.target.value)}
                       placeholder="Enter your certificate name"
                       className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:outline-none"
                     />
+                    <p className="text-[#767676] text-xs mt-2">
+                      This name will appear on your carbon offset certificate
+                    </p>
                   </div>
                 </div>
 
@@ -217,11 +303,11 @@ const DonationModal = ({
           <div className="border-t border-gray-100 p-6 flex items-center justify-end flex-shrink-0">
             <button
               onClick={handleStripeCheckout}
-              disabled={isSubmitting || !certificate_name.trim()}
+              disabled={isProceedDisabled()}
               className={`px-8 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg ${
-                isSubmitting || !certificate_name.trim()
+                isProceedDisabled()
                   ? "opacity-80 cursor-not-allowed"
-                  : ""
+                  : "hover:scale-[1.02] transition-transform"
               }`}
             >
               {isSubmitting ? (

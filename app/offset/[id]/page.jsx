@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import DonationModal from "../components/DonationModal.jsx";
+import DonationModal from "../../offsetPage/components/DonationModal.jsx";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
 import { useSession } from "next-auth/react";
