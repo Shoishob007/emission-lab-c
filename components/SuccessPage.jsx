@@ -198,10 +198,10 @@ const OffsetSuccessPage = () => {
                   </h3>
 
                   {/* Disclaimer */}
-                  <p className="mt-2 text-sm text-blue-500 italic mb-4 ">
+                  {/* <p className="mt-2 text-sm text-blue-500 italic mb-4 ">
                     Disclaimer: Currently we are issuing only test certificates,
                     not the official ones.
-                  </p>
+                  </p> */}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                     <div className="space-y-4">
