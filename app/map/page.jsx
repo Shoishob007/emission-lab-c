@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -10,13 +11,16 @@ import {
 import { Loader } from "lucide-react";
 import {
   geoUrl,
-  countryPopulation,
   fixedNameToISO,
   countryNameToCode,
-  offsetProjects,
+  countryPopulation,
 } from "./data";
 import InfoPanel from "./components/InfoPanel";
 import Legend from "./components/Legend";
+import useOffsetStore from "@/stores/offsetStore";
+
+// Cache for country data
+const countryDataCache = {};
 
 const CarbonEmissionWorldMap = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -32,34 +36,180 @@ const CarbonEmissionWorldMap = () => {
     latestYear: 0,
     topEmitters: [],
   });
+  const [selectedYear, setSelectedYear] = useState("latest");
+  const [projectsWithCoords, setProjectsWithCoords] = useState([]);
+  const [isGeocoding, setIsGeocoding] = useState(false);
 
-  // Fetch Climate Watch API data on component mount
+  const {
+    projects,
+    loading: projectsLoading,
+    fetchProjects,
+  } = useOffsetStore();
+
   useEffect(() => {
     fetchCarbonData();
+    fetchProjects();
   }, []);
 
-  const fetchCarbonData = async () => {
+  const getCountryData = useCallback(async (countryName) => {
+    if (!countryName) return null;
+
+    if (countryDataCache[countryName]) {
+      return countryDataCache[countryName];
+    }
+
+    try {
+      const response = await fetch(
+        `/api/country-info?name=${encodeURIComponent(countryName)}`
+      );
+
+      if (!response.ok) {
+        console.warn(`Country data not found for: ${countryName}`);
+        return null;
+      }
+
+      const data = await response.json();
+      countryDataCache[countryName] = data;
+      return data;
+    } catch (error) {
+      console.error(`Error fetching country data for ${countryName}:`, error);
+      return null;
+    }
+  }, []);
+
+  // Function to extract country name from location string
+  const extractCountryName = useCallback((location) => {
+    if (!location) return null;
+
+    // Extract the last part (usually the country)
+    const parts = location.split(",").map((part) => part.trim());
+    let countryName = parts[parts.length - 1];
+
+    // Handle common abbreviations
+    const countryMap = {
+      USA: "United States",
+      US: "United States",
+      "U.S.A.": "United States",
+      "U.K.": "United Kingdom",
+      UK: "United Kingdom",
+      "U.A.E.": "United Arab Emirates",
+      UAE: "United Arab Emirates",
+      TX: "United States",
+      PER: "Peru",
+      TUR: "Turkey",
+      COL: "Colombia",
+    };
+
+    if (countryMap[countryName]) {
+      return countryMap[countryName];
+    }
+
+    return countryName;
+  }, []);
+
+  useEffect(() => {
+    const processProjects = async () => {
+      if (!projects || projects.length === 0 || projectsLoading) return;
+
+      setIsGeocoding(true);
+
+      try {
+        const processedProjects = [];
+
+        for (const project of projects) {
+          if (!project.location) continue;
+
+          const countryName = extractCountryName(project.location);
+          if (!countryName) continue;
+
+          const countryData = await getCountryData(countryName);
+
+          if (countryData) {
+            const coords = countryData.capitalCoords;
+
+            if (coords && coords.length === 2) {
+              processedProjects.push({
+                id: project.id,
+                name: project.name,
+                description: project.description,
+                type: project.project_type,
+                standard: project.standard,
+                vintage: project.vintage,
+                location: project.location,
+                offsetAmount: `${project.available_amount || 0} tons available`,
+                price: `$${project.price_per_ton || 0} per ton`,
+                image: project.image_url,
+                validationReport: project.validation_report_url,
+                monitoringReport: project.monitoring_report_url,
+                infoLink: project.info_link,
+                projectIdDisplay: project.project_id_display,
+                lat: coords[0],
+                lng: coords[1],
+                countryCode: countryData.cca3,
+                countryName: countryData.name,
+                capital: countryData.capital,
+                originalData: project,
+              });
+            }
+          }
+        }
+
+        setProjectsWithCoords(processedProjects);
+      } catch (error) {
+        console.error("Error processing projects:", error);
+        setError("Failed to geocode project locations");
+      } finally {
+        setIsGeocoding(false);
+      }
+    };
+
+    processProjects();
+  }, [projects, projectsLoading, extractCountryName, getCountryData]);
+
+  // Get country population from imported dummy data
+  const getCountryPopulation = useCallback((countryCode) => {
+    // Directly return from imported countryPopulation object
+    return countryPopulation[countryCode] || "N/A";
+  }, []);
+
+  // Get population as number for calculations
+  const getPopulationAsNumber = useCallback((countryCode) => {
+    const populationStr = countryPopulation[countryCode];
+    if (!populationStr || populationStr === "N/A") return null;
+
+    // Convert "40.1M" to 40.1 (in millions)
+    const match = populationStr.match(/([\d,.]+)M/);
+    if (match) {
+      return parseFloat(match[1].replace(/,/g, ""));
+    }
+    return null;
+  }, []);
+
+  const fetchCarbonData = async (year = selectedYear) => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const res = await fetch("/api/carbon-data/api", {
+      const query = year && year !== "latest" ? `?year=${year}` : "";
+
+      const res = await fetch(`/api/carbon-data/api${query}`, {
         cache: "no-store",
       });
 
       if (!res.ok) throw new Error("Failed fetching data");
 
       const json = await res.json();
-
-      console.log("json data :: ", json);
-
       processCarbonData(json.data || []);
     } catch (error) {
-      console.error("Carbon Fetch Error:", error);
       setError("Failed to load CO₂ emissions data");
       setIsLoading(false);
     }
   };
+
+  const availableYears = [
+    "latest",
+    ...Array.from({ length: 2024 - 1960 + 1 }, (_, i) => 2024 - i),
+  ];
 
   const processCarbonData = (apiData) => {
     try {
@@ -174,27 +324,68 @@ const CarbonEmissionWorldMap = () => {
     if (code && carbonData && carbonData[code]) {
       const countryData = carbonData[code];
       const emission = countryData.latestEmission;
+      const emissionData = countryData.data;
+
+      // Get population from dummy data
+      const population = getCountryPopulation(code);
+      const populationNum = getPopulationAsNumber(code);
 
       // Calculate per capita if population data exists
       let perCapita = null;
-      if (countryPopulation[code]) {
-        const popNum = parseFloat(
-          countryPopulation[code].replace(/[^\d.]/g, "")
-        );
-        if (popNum > 0) {
-          perCapita = countryData.latestEmission / popNum;
-        }
+      if (populationNum && populationNum > 0) {
+        perCapita = countryData.latestEmission / populationNum;
       }
+
+      // Calculate historical metrics from existing data
+      const historicalMetrics = calculateHistoricalMetrics(emissionData);
+
+      // Calculate relative to world average
+      const worldAverage = stats.totalEmissions / stats.countryCount;
+      const relativeToWorld =
+        worldAverage > 0 ? ((emission / worldAverage) * 100).toFixed(0) : null;
+
+      // Calculate percentile (how this country ranks)
+      const percentile =
+        stats.maxEmission > 0
+          ? ((emission / stats.maxEmission) * 100).toFixed(1)
+          : null;
+
+      // Calculate if emission is above/below average
+      const aboveWorldAverage = worldAverage > 0 && emission > worldAverage;
 
       setSelectedCountry({
         code: code,
         name: name,
         emission: emission,
         year: countryData.latestYear,
-        population: countryPopulation[code] || "N/A",
+        population: population,
         data: countryData.data,
         perCapita: perCapita,
         trend: getTrendForCountry(countryData),
+
+        // NEW: Additional calculated metrics
+        // 1. Historical performance
+        peakEmission: historicalMetrics.peakEmission,
+        peakYear: historicalMetrics.peakYear,
+        historicalChange: historicalMetrics.historicalChange,
+
+        // 2. Relative metrics
+        relativeToWorld: relativeToWorld,
+        percentile: percentile,
+        aboveWorldAverage: aboveWorldAverage,
+
+        // 3. Recent performance
+        recentGrowthRate: historicalMetrics.recentGrowthRate,
+        emissionAcceleration: historicalMetrics.emissionAcceleration,
+
+        // 4. Ranking info
+        rankInWorld: getCountryRank(code),
+
+        // 5. Comparison with top emitters
+        vsTopEmitter:
+          stats.topEmitters.length > 0
+            ? ((emission / stats.topEmitters[0].emission) * 100).toFixed(1)
+            : null,
       });
       setSelectedProject(null);
     }
@@ -202,7 +393,14 @@ const CarbonEmissionWorldMap = () => {
 
   // Handle project click
   const handleProjectClick = (project) => {
-    setSelectedProject(project);
+    setSelectedProject({
+      ...project,
+      // Ensure project has the right structure for InfoPanel
+      country: project.countryName || project.location,
+      offsetAmount: project.offsetAmount,
+      type: project.type,
+      description: project.description,
+    });
     setSelectedCountry(null);
   };
 
@@ -236,6 +434,86 @@ const CarbonEmissionWorldMap = () => {
     setSelectedProject(null);
   };
 
+  // Helper function to calculate historical metrics
+  const calculateHistoricalMetrics = (data) => {
+    if (!data || data.length === 0)
+      return {
+        peakEmission: null,
+        peakYear: null,
+        historicalChange: null,
+        recentGrowthRate: null,
+        emissionAcceleration: null,
+      };
+
+    const sortedData = [...data].sort((a, b) => a.year - b.year);
+
+    // Find peak emissions
+    let peakEmission = sortedData[0].emission;
+    let peakYear = sortedData[0].year;
+    sortedData.forEach((item) => {
+      if (item.emission > peakEmission) {
+        peakEmission = item.emission;
+        peakYear = item.year;
+      }
+    });
+
+    // Calculate historical change (first to last)
+    const firstEmission = sortedData[0].emission;
+    const latestEmission = sortedData[sortedData.length - 1].emission;
+    const historicalChange =
+      firstEmission > 0
+        ? (((latestEmission - firstEmission) / firstEmission) * 100).toFixed(1)
+        : null;
+
+    // Calculate recent growth rate
+    let recentGrowthRate = null;
+    if (sortedData.length >= 5) {
+      const last5 = sortedData.slice(-5);
+      const first5 = last5[0].emission;
+      const last5Latest = last5[last5.length - 1].emission;
+      if (first5 > 0) {
+        recentGrowthRate = (((last5Latest - first5) / first5) * 100).toFixed(1);
+      }
+    }
+
+    // Calculate emission acceleration
+    let emissionAcceleration = null;
+    if (sortedData.length >= 10) {
+      const firstHalf = sortedData.slice(0, 5);
+      const secondHalf = sortedData.slice(-5);
+
+      const firstHalfGrowth =
+        firstHalf[firstHalf.length - 1].emission / firstHalf[0].emission;
+      const secondHalfGrowth =
+        secondHalf[secondHalf.length - 1].emission / secondHalf[0].emission;
+
+      emissionAcceleration = (
+        ((secondHalfGrowth - firstHalfGrowth) / firstHalfGrowth) *
+        100
+      ).toFixed(1);
+    }
+
+    return {
+      peakEmission,
+      peakYear,
+      historicalChange,
+      recentGrowthRate,
+      emissionAcceleration,
+    };
+  };
+
+  // Helper function to get country rank
+  const getCountryRank = (countryCode) => {
+    if (!stats.topEmitters || stats.topEmitters.length === 0) return null;
+
+    const sortedEmissions = stats.topEmitters.sort(
+      (a, b) => b.emission - a.emission
+    );
+
+    const rank = sortedEmissions.findIndex((item) => item.code === countryCode);
+    return rank !== -1 ? rank + 1 : null;
+  };
+
   if (isLoading) {
     return (
       <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-900 dark:to-gray-800 p-4 flex items-center justify-center">
@@ -253,7 +531,7 @@ const CarbonEmissionWorldMap = () => {
   }
 
   return (
-    <div className="w-full min-h-screen p-4 bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="w-full min-h-screen p-4">
       <div className="max-w-7xl mx-auto">
         <Legend error={error} />
 
@@ -262,19 +540,54 @@ const CarbonEmissionWorldMap = () => {
           {/* Map */}
           <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-xl font-bold">
                 Interactive Emissions Map
+                <span className="text-sm text-gray-500 ml-2">
+                  ({selectedYear === "latest" ? "Latest Year" : selectedYear})
+                </span>
+                {projectsLoading && (
+                  <span className="text-xs text-yellow-500 ml-2">
+                    (Loading projects...)
+                  </span>
+                )}
+                {isGeocoding && (
+                  <span className="text-xs text-blue-500 ml-2">
+                    (Geocoding project locations...)
+                  </span>
+                )}
               </h3>
-              <div className="flex gap-2">
+
+              <div className="flex gap-2 items-center">
+                {/* Year Selector */}
+                <select
+                  value={selectedYear}
+                  onChange={(e) => {
+                    const year = e.target.value;
+                    setSelectedYear(year);
+                    fetchCarbonData(year);
+                  }}
+                  className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-sm rounded-lg px-3 py-2"
+                >
+                  {availableYears.map((year) => (
+                    <option key={year} value={year}>
+                      {year === "latest" ? "Latest" : year}
+                    </option>
+                  ))}
+                </select>
+
                 <button
                   onClick={handleResetView}
-                  className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all text-sm font-medium"
+                  className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-4 py-2 rounded-lg text-sm"
                 >
                   Reset View
                 </button>
+
                 <button
-                  onClick={fetchCarbonData}
-                  className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all text-sm font-medium"
+                  onClick={() => {
+                    fetchCarbonData();
+                    fetchProjects();
+                  }}
+                  className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-4 py-2 rounded-lg text-sm"
                 >
                   Refresh Data
                 </button>
@@ -300,6 +613,7 @@ const CarbonEmissionWorldMap = () => {
                         const { code, name } = extractCountryCode(geo);
                         const emission = getEmissionForCountry(code);
                         const fillColor = getColorForEmission(emission);
+                        const population = getCountryPopulation(code);
 
                         return (
                           <Geography
@@ -344,11 +658,7 @@ const CarbonEmissionWorldMap = () => {
                                             })
                                           : "No data"
                                       } MtCO₂e</span>
-                                      ${
-                                        countryPopulation[code]
-                                          ? `<br/><span class="text-xs">Population: ${countryPopulation[code]}</span>`
-                                          : ""
-                                      }
+                                      <br/><span class="text-xs">Population: ${population}</span>
                                     </div>
                                   `;
                                 } else {
@@ -384,8 +694,8 @@ const CarbonEmissionWorldMap = () => {
                     }
                   </Geographies>
 
-                  {/* Project Markers */}
-                  {offsetProjects.map((project) => (
+                  {/* Project Markers - USING REAL PROJECTS */}
+                  {projectsWithCoords.map((project) => (
                     <Marker
                       key={project.id}
                       coordinates={[project.lng, project.lat]}
@@ -407,7 +717,8 @@ const CarbonEmissionWorldMap = () => {
                                 <div class="p-2">
                                   <strong class="text-sm">${project.name}</strong><br/>
                                   <span class="text-xs"><em>${project.type}</em></span><br/>
-                                  <span class="text-xs">${project.offsetAmount}</span>
+                                  <span class="text-xs">${project.offsetAmount}</span><br/>
+                                  <span class="text-xs">${project.location}</span>
                                 </div>
                               `;
                             }
@@ -428,7 +739,7 @@ const CarbonEmissionWorldMap = () => {
                             }
                           }}
                         />
-                        {position.zoom > 2 && (
+                        {position.zoom > 2 && project.countryCode && (
                           <text
                             textAnchor="middle"
                             y={15}
@@ -464,6 +775,11 @@ const CarbonEmissionWorldMap = () => {
               {/* Zoom Instructions */}
               <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs p-2 rounded backdrop-blur-sm">
                 Scroll to zoom • Drag to pan
+                {projectsWithCoords.length > 0 && (
+                  <span className="block mt-1">
+                    {projectsWithCoords.length} projects loaded
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -478,8 +794,14 @@ const CarbonEmissionWorldMap = () => {
         {/* Footer */}
         <div className="text-center text-gray-600 dark:text-gray-400 text-sm">
           <p>
-            Data sourced from OWID CSV. Hover over countries for quick info,
-            click for detailed statistics.
+            Hover over countries for quick info, click for detailed statistics.
+            {projectsWithCoords.length === 0 &&
+              !projectsLoading &&
+              !isGeocoding && (
+                <span className="text-yellow-500 ml-2">
+                  (No projects with location data found)
+                </span>
+              )}
           </p>
         </div>
       </div>

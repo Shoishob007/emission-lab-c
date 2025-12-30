@@ -1,4 +1,16 @@
-import { Info, Leaf, MapPin, TrendingUp } from "lucide-react";
+import {
+  Info,
+  Leaf,
+  MapPin,
+  TrendingUp,
+  DollarSign,
+  Calendar,
+  Award,
+  FileText,
+  Globe,
+  Shield,
+  Users,
+} from "lucide-react";
 import React from "react";
 
 const InfoPanel = ({ selectedCountry, selectedProject }) => {
@@ -6,44 +18,125 @@ const InfoPanel = ({ selectedCountry, selectedProject }) => {
     <div className="lg:col-span-1">
       {/* Selected Country Info */}
       {selectedCountry ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 border-l-4 border-orange-500 h-full">
-          <div className="flex items-start justify-between mb-6">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {selectedCountry.name}
-            </h3>
-            <Info className="text-orange-500" size={28} />
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-5 border-l-4 border-orange-500 h-full">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white truncate">
+                {selectedCountry.name}
+              </h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Latest data: {selectedCountry.year}
+              </p>
+            </div>
+            <Info className="text-orange-500 flex-shrink-0" size={24} />
           </div>
-          <div className="space-y-6">
-            <div className="bg-orange-50 dark:bg-gray-900 p-4 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                Annual CO₂ Emissions
-              </p>
-              <p className="text-2xl font-bold text-orange-600">
-                {selectedCountry.emission.toLocaleString()} MtCO₂e
-              </p>
+
+          <div className="space-y-4">
+            {/* Compact Emission Stats */}
+            <div className="grid grid-cols-1 gap-3">
+              <div className="bg-orange-50 dark:bg-gray-900 p-3 rounded-lg">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                  CO₂ Emissions
+                </p>
+                <p
+                  className="text-lg font-bold text-orange-600 truncate"
+                  title={selectedCountry.emission?.toLocaleString()}
+                >
+                  {selectedCountry.emission
+                    ? selectedCountry.emission > 1000
+                      ? `${(selectedCountry.emission / 1000).toFixed(1)}B`
+                      : `${selectedCountry.emission.toFixed(0)}M`
+                    : "N/A"}{" "}
+                  t
+                </p>
+              </div>
+
+              <div className="bg-blue-50 dark:bg-gray-900 p-3 rounded-lg">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                  Population
+                </p>
+                <p className="text-lg font-bold text-blue-600 truncate">
+                  {selectedCountry.population}
+                </p>
+              </div>
+
+              <div className="bg-green-50 dark:bg-gray-900 p-3 rounded-lg">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                  Per Capita
+                </p>
+                <p className="text-lg font-bold text-green-600 truncate">
+                  {selectedCountry.perCapita
+                    ? selectedCountry.perCapita.toFixed(1)
+                    : "N/A"}{" "}
+                  t
+                </p>
+              </div>
+
+              {/* World Comparison */}
+              {selectedCountry.relativeToWorld && (
+                <div className="bg-indigo-50 dark:bg-gray-900 p-3 rounded-lg">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    vs World Average
+                  </p>
+                  <p className="text-sm font-bold text-indigo-600">
+                    {selectedCountry.relativeToWorld}%
+                    <span className="text-xs ml-2">
+                      ({selectedCountry.aboveWorldAverage ? "Above" : "Below"}{" "}
+                      avg)
+                    </span>
+                  </p>
+                </div>
+              )}
+
+              {/* Global Rank */}
+              {selectedCountry.rankInWorld && (
+                <div className="bg-amber-50 dark:bg-gray-900 p-3 rounded-lg">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    Global Rank
+                  </p>
+                  <p className="text-lg font-bold text-amber-600">
+                    #{selectedCountry.rankInWorld}
+                  </p>
+                </div>
+              )}
             </div>
-            <div className="bg-blue-50 dark:bg-gray-900 p-4 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                Population
-              </p>
-              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                {selectedCountry.population}
-              </p>
-            </div>
-            <div className="bg-green-50 dark:bg-gray-900 p-4 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                Per Capita Emission
-              </p>
-              <p className="text-2xl font-bold text-green-600">
-                {(
-                  selectedCountry.emission /
-                  parseFloat(selectedCountry.population.replace(/[^\d.]/g, ""))
-                ).toFixed(2)}{" "}
-                tCO₂e/person
-              </p>
-            </div>
-            <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+
+            {/* Trend Info */}
+            {selectedCountry.trend &&
+              selectedCountry.trend.status !== "No data" && (
+                <div
+                  className={`p-3 rounded-lg ${
+                    selectedCountry.trend.status === "Increasing"
+                      ? "bg-red-50 dark:bg-red-900/20"
+                      : selectedCountry.trend.status === "Decreasing"
+                      ? "bg-green-50 dark:bg-green-900/20"
+                      : "bg-yellow-50 dark:bg-yellow-900/20"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <TrendingUp
+                      size={16}
+                      className={
+                        selectedCountry.trend.status === "Increasing"
+                          ? "text-red-600"
+                          : selectedCountry.trend.status === "Decreasing"
+                          ? "text-green-600"
+                          : "text-yellow-600"
+                      }
+                    />
+                    <p className="text-sm font-medium">
+                      Trend: {selectedCountry.trend.status}
+                      {selectedCountry.trend.change !== 0 &&
+                        ` (${Math.abs(selectedCountry.trend.change).toFixed(
+                          1
+                        )}%)`}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+            <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 Click on other countries or project markers to view different
                 data
               </p>
@@ -51,55 +144,196 @@ const InfoPanel = ({ selectedCountry, selectedProject }) => {
           </div>
         </div>
       ) : selectedProject ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 border-l-4 border-green-500 h-full">
-          <div className="flex items-start justify-between mb-6">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {selectedProject.name}
-            </h3>
-            <MapPin className="text-green-500" size={28} />
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-5 border-l-4 border-green-500 h-full">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1 min-w-0">
+              <h3
+                className="text-xl font-bold text-gray-900 dark:text-white truncate"
+                title={selectedProject.name}
+              >
+                {selectedProject.name}
+              </h3>
+              <p className="text-xs text-gray-500 mt-1 truncate">
+                {selectedProject.projectIdDisplay || selectedProject.standard}
+              </p>
+            </div>
+            <MapPin className="text-green-500 flex-shrink-0" size={24} />
           </div>
-          <div className="space-y-4">
-            <div className="bg-green-50 dark:bg-gray-900 p-4 rounded-lg">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Project Location
+
+          <div className="space-y-3">
+            {/* Type & Location in one row */}
+            <div className="grid grid-cols-1 gap-3">
+              <div className="bg-green-50 dark:bg-gray-900 p-3 rounded-lg">
+                <div className="flex items-center gap-2 mb-1">
+                  <Leaf className="text-green-600" size={14} />
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+                    Type
+                  </p>
+                </div>
+                <p
+                  className="text-sm font-semibold text-gray-900 dark:text-white truncate"
+                  title={selectedProject.type || selectedProject.project_type}
+                >
+                  {selectedProject.type || selectedProject.project_type}
                 </p>
               </div>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">
-                {selectedProject.country}
-              </p>
+
+              <div className="bg-blue-50 dark:bg-gray-900 p-3 rounded-lg">
+                <div className="flex items-center gap-2 mb-1">
+                  <Globe className="text-blue-600" size={14} />
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+                    Location
+                  </p>
+                </div>
+                <p
+                  className="text-sm font-semibold text-gray-900 dark:text-white truncate"
+                  title={selectedProject.location}
+                >
+                  {selectedProject.location.split(",")[0]}
+                </p>
+              </div>
             </div>
 
-            <div className="bg-blue-50 dark:bg-gray-900 p-4 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                Project Type
-              </p>
-              <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
-                {selectedProject.type}
-              </p>
+            {/* Carbon & Price in one row */}
+            <div className="grid grid-cols-1 gap-3">
+              <div className="bg-amber-50 dark:bg-gray-900 p-3 rounded-lg">
+                <div className="flex items-center gap-2 mb-1">
+                  <Shield className="text-amber-600" size={14} />
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+                    Standard
+                  </p>
+                </div>
+                <p
+                  className="text-sm font-semibold text-amber-600 truncate"
+                  title={selectedProject.standard}
+                >
+                  {selectedProject.standard}
+                </p>
+              </div>
+
+              <div className="bg-purple-50 dark:bg-gray-900 p-3 rounded-lg">
+                <div className="flex items-center gap-2 mb-1">
+                  <DollarSign className="text-purple-600" size={14} />
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+                    Price/Ton
+                  </p>
+                </div>
+                <p className="text-lg font-bold text-purple-600">
+                  $
+                  {selectedProject.price_per_ton ||
+                    selectedProject.price
+                      ?.replace("$", "")
+                      .replace(" per ton", "")}
+                </p>
+                <p className="text-xs text-gray-500">USD</p>
+              </div>
             </div>
 
-            <div className="bg-emerald-50 dark:bg-gray-900 p-4 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                Annual Carbon Offset
-              </p>
-              <p className="text-2xl font-bold text-emerald-600">
-                {selectedProject.offsetAmount}
-              </p>
+            {/* Standard & Vintage in one row */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-emerald-50 dark:bg-gray-900 p-3 rounded-lg">
+                <div className="flex items-center gap-2 mb-1">
+                  <Award className="text-emerald-600" size={14} />
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+                    Available
+                  </p>
+                </div>
+                <p className="text-lg font-bold text-emerald-600 truncate">
+                  {selectedProject.available_amount?.toLocaleString() ||
+                    selectedProject.offsetAmount?.replace(
+                      " tons available",
+                      ""
+                    )}
+                </p>
+                <p className="text-xs text-gray-500">tons CO₂</p>
+              </div>
+
+              <div className="bg-cyan-50 dark:bg-gray-900 p-3 rounded-lg">
+                <div className="flex items-center gap-2 mb-1">
+                  <Calendar className="text-cyan-600" size={14} />
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+                    Year
+                  </p>
+                </div>
+                <p className="text-sm font-semibold text-cyan-600">
+                  {selectedProject.vintage}
+                </p>
+              </div>
             </div>
 
-            <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                Project Description
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
-                {selectedProject.description}
-              </p>
-            </div>
+            {/* Capacity Progress Bar */}
+            {selectedProject.allocated_amount && (
+              <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded-lg">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex items-center gap-2">
+                    <Users className="text-indigo-600" size={14} />
+                    <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                      Capacity
+                    </p>
+                  </div>
+                  <span className="text-xs font-semibold text-green-600">
+                    {selectedProject.available_amount &&
+                      Math.round(
+                        (selectedProject.available_amount /
+                          selectedProject.allocated_amount) *
+                          100
+                      )}
+                    % available
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-2 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-green-500 rounded-full"
+                      style={{
+                        width: `${Math.min(
+                          100,
+                          selectedProject.available_amount
+                            ? (selectedProject.available_amount /
+                                selectedProject.allocated_amount) *
+                                100
+                            : 0
+                        )}%`,
+                      }}
+                    />
+                  </div>
+                  <span className="text-xs text-gray-500 whitespace-nowrap">
+                    {selectedProject.allocated_amount?.toLocaleString()} tons
+                  </span>
+                </div>
+              </div>
+            )}
 
-            <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+            {/* Project Links */}
+            {(selectedProject.infoLink || selectedProject.validationReport) && (
+              <div className="grid grid-cols-2 gap-2">
+                {selectedProject.infoLink && (
+                  <a
+                    href={selectedProject.infoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 text-xs text-blue-600 hover:text-blue-700 font-medium bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                  >
+                    <Globe size={12} />
+                    Website
+                  </a>
+                )}
+                {selectedProject.validationReport && (
+                  <a
+                    href={selectedProject.validationReport}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 text-xs text-gray-600 hover:text-gray-700 font-medium bg-gray-50 dark:bg-gray-900 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <FileText size={12} />
+                    Report
+                  </a>
+                )}
+              </div>
+            )}
+
+            <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 Click on other countries or project markers to view different
                 data
               </p>
@@ -107,60 +341,56 @@ const InfoPanel = ({ selectedCountry, selectedProject }) => {
           </div>
         </div>
       ) : (
-        <div className="bg-gradient-to-br from-blue-500 to-green-500 rounded-lg shadow-2xl p-6 text-white h-full flex flex-col justify-center">
-          <div className="">
-            <div className="mb-6 text-center">
-              <h3 className="text-3xl font-bold mb-4">Map Guide</h3>
-              <p className="text-blue-100 mb-8">
-                Select a country or project to view details
-              </p>
-            </div>
+        <div className="bg-gradient-to-br from-blue-500 to-green-500 rounded-lg shadow-2xl p-5 text-white h-full">
+          <div className="mb-4 text-center">
+            <h3 className="text-xl font-bold mb-2">Map Guide</h3>
+            <p className="text-blue-100 text-sm opacity-90">
+              Select a country or project to view details
+            </p>
+          </div>
 
-            <div className="space-y-6">
-              <div className="flex items-start gap-3">
-                <div className="bg-white/20 p-3 rounded-full">
-                  <TrendingUp size={24} />
-                </div>
-                <div className="items-start">
-                  <h4 className="font-bold text-lg mb-1">Explore Countries</h4>
-                  <p className="text-sm opacity-90">
-                    Click on any colored country to view carbon emission
-                    statistics
-                  </p>
-                </div>
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="bg-white/20 p-2 rounded-full flex-shrink-0">
+                <TrendingUp size={16} />
               </div>
-
-              <div className="flex items-start gap-3">
-                <div className="bg-white/20 p-3 rounded-full">
-                  <Leaf size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg mb-1">Discover Projects</h4>
-                  <p className="text-sm opacity-90">
-                    Click on green markers to learn about carbon offset projects
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="bg-white/20 p-3 rounded-full">
-                  <MapPin size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg mb-1">Hover for Info</h4>
-                  <p className="text-sm opacity-90">
-                    Hover over countries or project markers for quick
-                    information
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-white/20">
-                <p className="text-sm opacity-80">
-                  <span className="font-bold">Tip:</span> Use mouse wheel to
-                  zoom and drag to pan around the map
+              <div className="flex-1">
+                <h4 className="font-bold text-sm mb-1">Explore Countries</h4>
+                <p className="text-xs opacity-90">
+                  Click on colored countries for emission statistics
                 </p>
               </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="bg-white/20 p-2 rounded-full flex-shrink-0">
+                <Leaf size={16} />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-bold text-sm mb-1">Discover Projects</h4>
+                <p className="text-xs opacity-90">
+                  Click on green markers for project details
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="bg-white/20 p-2 rounded-full flex-shrink-0">
+                <MapPin size={16} />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-bold text-sm mb-1">Hover for Info</h4>
+                <p className="text-xs opacity-90">
+                  Hover over elements for quick information
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-white/20">
+              <p className="text-xs opacity-80">
+                <span className="font-bold">Tip:</span> Scroll to zoom • Drag to
+                pan
+              </p>
             </div>
           </div>
         </div>

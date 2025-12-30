@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import Papa from "papaparse";
 
-export async function GET() {
+export async function GET(req) {
   try {
+    const { searchParams } = new URL(req.url);
+    const yearParam = searchParams.get("year");
+    const selectedYear = yearParam ? parseInt(yearParam, 10) : null;
+
     const csvUrl =
       "https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv";
     const res = await fetch(csvUrl);
@@ -13,14 +17,12 @@ export async function GET() {
 
     const csvText = await res.text();
 
-    // parse CSV
     const { data } = Papa.parse(csvText, {
       header: true,
       skipEmptyLines: true,
     });
 
-    // group by ISO code => pick latest year per country
-    const latestByCountry = {};
+    const resultByCountry = {};
 
     data.forEach((row) => {
       const iso = row.iso_code;
@@ -29,9 +31,16 @@ export async function GET() {
 
       if (!iso || isNaN(co2) || co2 <= 0) return;
 
-      const existing = latestByCountry[iso];
-      if (!existing || year > existing.year) {
-        latestByCountry[iso] = {
+      // 👉 If year selected, only include that year
+      if (selectedYear && year !== selectedYear) return;
+
+      // 👉 If no year selected, keep latest
+      const existing = resultByCountry[iso];
+      if (
+        !existing ||
+        (!selectedYear && year > existing.year)
+      ) {
+        resultByCountry[iso] = {
           iso_code: iso,
           country: row.country,
           year,
@@ -40,15 +49,12 @@ export async function GET() {
       }
     });
 
-    // convert to array
-    const result = Object.values(latestByCountry);
-
     return NextResponse.json({
       success: true,
-      data: result,
+      year: selectedYear,
+      data: Object.values(resultByCountry),
     });
   } catch (err) {
-    console.error("API route error:", err);
     return NextResponse.json(
       { success: false, data: [], error: err.message },
       { status: 500 }
