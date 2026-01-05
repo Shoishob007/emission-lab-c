@@ -12,8 +12,9 @@ import {
   Users,
 } from "lucide-react";
 import React from "react";
+import { DefaultInfoPanel } from "./DefaultPanel";
 
-const InfoPanel = ({ selectedCountry, selectedProject }) => {
+const InfoPanel = ({ selectedCountry, selectedProject, stats }) => {
   return (
     <div className="lg:col-span-1">
       {/* Selected Country Info */}
@@ -341,59 +342,7 @@ const InfoPanel = ({ selectedCountry, selectedProject }) => {
           </div>
         </div>
       ) : (
-        <div className="bg-gradient-to-br from-blue-500 to-green-500 rounded-lg shadow-2xl p-5 text-white h-full">
-          <div className="mb-4 text-center">
-            <h3 className="text-xl font-bold mb-2">Map Guide</h3>
-            <p className="text-blue-100 text-sm opacity-90">
-              Select a country or project to view details
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <div className="bg-white/20 p-2 rounded-full flex-shrink-0">
-                <TrendingUp size={16} />
-              </div>
-              <div className="flex-1">
-                <h4 className="font-bold text-sm mb-1">Explore Countries</h4>
-                <p className="text-xs opacity-90">
-                  Click on colored countries for emission statistics
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <div className="bg-white/20 p-2 rounded-full flex-shrink-0">
-                <Leaf size={16} />
-              </div>
-              <div className="flex-1">
-                <h4 className="font-bold text-sm mb-1">Discover Projects</h4>
-                <p className="text-xs opacity-90">
-                  Click on green markers for project details
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <div className="bg-white/20 p-2 rounded-full flex-shrink-0">
-                <MapPin size={16} />
-              </div>
-              <div className="flex-1">
-                <h4 className="font-bold text-sm mb-1">Hover for Info</h4>
-                <p className="text-xs opacity-90">
-                  Hover over elements for quick information
-                </p>
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-white/20">
-              <p className="text-xs opacity-80">
-                <span className="font-bold">Tip:</span> Scroll to zoom • Drag to
-                pan
-              </p>
-            </div>
-          </div>
-        </div>
+        <DefaultInfoPanel />
       )}
     </div>
   );

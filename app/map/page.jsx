@@ -200,6 +200,10 @@ const CarbonEmissionWorldMap = () => {
 
       const json = await res.json();
       processCarbonData(json.data || []);
+
+      // Clear selections when year changes to show default panel
+      setSelectedCountry(null);
+      setSelectedProject(null);
     } catch (error) {
       setError("Failed to load CO₂ emissions data");
       setIsLoading(false);
@@ -516,7 +520,7 @@ const CarbonEmissionWorldMap = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-900 dark:to-gray-800 p-4 flex items-center justify-center">
+      <div className="w-full min-h-screen p-4 flex items-center justify-center">
         <div className="text-center">
           <Loader className="w-12 h-12 animate-spin text-blue-500 mx-auto mb-4" />
           <p className="text-gray-600">
@@ -540,23 +544,7 @@ const CarbonEmissionWorldMap = () => {
           {/* Map */}
           <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold">
-                Interactive Emissions Map
-                <span className="text-sm text-gray-500 ml-2">
-                  ({selectedYear === "latest" ? "Latest Year" : selectedYear})
-                </span>
-                {projectsLoading && (
-                  <span className="text-xs text-yellow-500 ml-2">
-                    (Loading projects...)
-                  </span>
-                )}
-                {isGeocoding && (
-                  <span className="text-xs text-blue-500 ml-2">
-                    (Geocoding project locations...)
-                  </span>
-                )}
-              </h3>
-
+              <h3 className="text-xl font-bold">Emissions Map</h3>
               <div className="flex gap-2 items-center">
                 {/* Year Selector */}
                 <select
@@ -594,7 +582,7 @@ const CarbonEmissionWorldMap = () => {
               </div>
             </div>
 
-            <div className="h-[500px] rounded-xl overflow-hidden border-2 border-gray-200 dark:border-gray-700 relative">
+            <div className="h-[520px] rounded-xl overflow-hidden border-2 border-gray-200 dark:border-gray-700 relative">
               <ComposableMap
                 projection="geoMercator"
                 projectionConfig={{
@@ -788,6 +776,7 @@ const CarbonEmissionWorldMap = () => {
           <InfoPanel
             selectedCountry={selectedCountry}
             selectedProject={selectedProject}
+            stats={stats}
           />
         </div>
 
