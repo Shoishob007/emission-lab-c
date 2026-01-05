@@ -214,14 +214,14 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats, selectedYear }) =>
             )}
 
             {/* Historical Metrics */}
-            {(selectedCountry.peakEmission || selectedCountry.historicalChange) && (
-              <div className="bg-gray-50 dark:bg-gray-900/30 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-3">
+            {/* {(selectedCountry.peakEmission || selectedCountry.historicalChange) && ( */}
+              {/* // <div className="bg-gray-50 dark:bg-gray-900/30 rounded-lg p-4"> */}
+                {/* <div className="flex items-center gap-2 mb-3">
                   <Flame className="text-orange-600 dark:text-orange-400" size={16} />
                   <h4 className="text-xs font-semibold text-gray-800 dark:text-gray-200">
                     Historical Performance
                   </h4>
-                </div>
+                </div> */}
                 
                 <div className="grid grid-cols-1 gap-3">
                   {selectedCountry.peakEmission && (
@@ -267,11 +267,11 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats, selectedYear }) =>
                     </div>
                   )}
                 </div>
-              </div>
-            )}
+              {/* </div> */}
+            {/* )} */}
 
             {/* Global Context */}
-            {stats && (
+            {/* {stats && (
               <div className="bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/50 dark:to-slate-900/50 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
                 <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-3">
                   GLOBAL CONTEXT
@@ -293,7 +293,7 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats, selectedYear }) =>
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Footer Note */}
             <div className="pt-4 border-t-2 border-dashed border-gray-300 dark:border-gray-600">

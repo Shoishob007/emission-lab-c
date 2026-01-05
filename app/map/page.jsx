@@ -139,7 +139,7 @@ const CarbonEmissionWorldMap = () => {
                 <BarChart2 size={18} />
                 Bar Chart
               </button>
-              {regionalData && (
+              {(
                  <button
                   onClick={() => handleTabChange("line")}
                   className={`flex items-center gap-2 px-4 py-3 font-medium text-sm transition-colors ${
