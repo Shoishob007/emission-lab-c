@@ -24,66 +24,28 @@ const MapVisualization = ({
   fetchProjects,
   setSelectedYear,
   getCountryPopulation,
-  getPopulationAsNumber, // Add this prop
+  getPopulationAsNumber,
   onCountrySelect,
-  onProjectSelect,
+  onProjectSelect
 }) => {
   const {
     combinedMapping,
     extractCountryCode,
     getEmissionForCountry,
     getColorForEmission,
-    handleRegionClick,
+    handleRegionClick
   } = useMapLogic(
-    carbonData,
-    stats,
-    onCountrySelect,
+    carbonData, 
+    stats, 
+    onCountrySelect, 
     getCountryPopulation,
-    getPopulationAsNumber // Pass it here
+    getPopulationAsNumber
   );
 
   return (
     <>
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-bold">Emissions Map</h3>
-        <div className="flex gap-2 items-center">
-          {/* Year Selector */}
-          <select
-            value={selectedYear}
-            onChange={(e) => {
-              const year = e.target.value;
-              setSelectedYear(year);
-              fetchCarbonData(year);
-            }}
-            className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-sm rounded-lg px-3 py-2"
-          >
-            {availableYears.map((year) => (
-              <option key={year} value={year}>
-                {year === "latest" ? "Latest" : year}
-              </option>
-            ))}
-          </select>
-
-          <button
-            onClick={handleResetView}
-            className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-4 py-2 rounded-lg text-sm"
-          >
-            Reset View
-          </button>
-
-          <button
-            onClick={() => {
-              fetchCarbonData();
-              fetchProjects();
-            }}
-            className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-4 py-2 rounded-lg text-sm"
-          >
-            Refresh Data
-          </button>
-        </div>
-      </div>
-
-      <div className="h-[520px] rounded-xl overflow-hidden border-2 border-gray-200 dark:border-gray-700 relative">
+      {/* Map Container */}
+      <div className="h-[450px] rounded-xl overflow-hidden border-2 border-gray-200 dark:border-gray-700 relative">
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{
@@ -130,12 +92,9 @@ const MapVisualization = ({
                           outline: "none",
                         },
                       }}
-                      onClick={() =>
-                        emission !== null && handleRegionClick(geo)
-                      }
+                      onClick={() => emission !== null && handleRegionClick(geo)}
                       onMouseEnter={() => {
-                        const tooltip =
-                          document.getElementById("country-tooltip");
+                        const tooltip = document.getElementById("country-tooltip");
                         if (tooltip) {
                           tooltip.style.display = "block";
                           if (emission !== null) {
@@ -165,15 +124,13 @@ const MapVisualization = ({
                         }
                       }}
                       onMouseLeave={() => {
-                        const tooltip =
-                          document.getElementById("country-tooltip");
+                        const tooltip = document.getElementById("country-tooltip");
                         if (tooltip) {
                           tooltip.style.display = "none";
                         }
                       }}
                       onMouseMove={(event) => {
-                        const tooltip =
-                          document.getElementById("country-tooltip");
+                        const tooltip = document.getElementById("country-tooltip");
                         if (tooltip) {
                           tooltip.style.left = `${event.clientX + 10}px`;
                           tooltip.style.top = `${event.clientY + 10}px`;
@@ -200,8 +157,7 @@ const MapVisualization = ({
                     strokeWidth={2}
                     style={{ cursor: "pointer" }}
                     onMouseEnter={(event) => {
-                      const tooltip =
-                        document.getElementById("project-tooltip");
+                      const tooltip = document.getElementById("project-tooltip");
                       if (tooltip) {
                         tooltip.style.display = "block";
                         tooltip.innerHTML = `
@@ -215,15 +171,13 @@ const MapVisualization = ({
                       }
                     }}
                     onMouseLeave={() => {
-                      const tooltip =
-                        document.getElementById("project-tooltip");
+                      const tooltip = document.getElementById("project-tooltip");
                       if (tooltip) {
                         tooltip.style.display = "none";
                       }
                     }}
                     onMouseMove={(event) => {
-                      const tooltip =
-                        document.getElementById("project-tooltip");
+                      const tooltip = document.getElementById("project-tooltip");
                       if (tooltip) {
                         tooltip.style.left = `${event.clientX + 10}px`;
                         tooltip.style.top = `${event.clientY + 10}px`;
@@ -268,7 +222,7 @@ const MapVisualization = ({
           Scroll to zoom • Drag to pan
         </div>
       </div>
-
+      
       {/* Footer */}
       <div className="text-center text-gray-600 dark:text-gray-400 text-sm">
         <p>
