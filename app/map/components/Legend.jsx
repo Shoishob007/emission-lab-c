@@ -7,7 +7,7 @@ const Legend = ({ error }) => {
         <div className="flex items-center gap-2">
           <TrendingUp className="text-orange-500" size={20} />
           <span className="font-semibold text-gray-700 dark:text-gray-300">
-            Annual CO₂ Emissions (MtCO₂e):
+            Annual CO₂ Emissions (tons):
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-2">

@@ -26,7 +26,7 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats }) => {
                 {selectedCountry.name}
               </h3>
               <p className="text-xs text-gray-500 mt-1">
-                Latest data: {selectedCountry.year}
+                Showing CO₂ Emission for: {selectedCountry.year}
               </p>
             </div>
             <Info className="text-orange-500 flex-shrink-0" size={24} />
@@ -37,7 +37,7 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats }) => {
             <div className="grid grid-cols-1 gap-3">
               <div className="bg-orange-50 dark:bg-gray-900 p-3 rounded-lg">
                 <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-                  CO₂ Emissions
+                  Total CO₂ Emissions
                 </p>
                 <p
                   className="text-lg font-bold text-orange-600 truncate"
@@ -63,11 +63,11 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats }) => {
 
               <div className="bg-green-50 dark:bg-gray-900 p-3 rounded-lg">
                 <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-                  Per Capita
+                  Emission Per Capita
                 </p>
                 <p className="text-lg font-bold text-green-600 truncate">
                   {selectedCountry.perCapita
-                    ? selectedCountry.perCapita.toFixed(1)
+                    ? parseFloat(selectedCountry.perCapita).toFixed(1)
                     : "N/A"}{" "}
                   t
                 </p>
