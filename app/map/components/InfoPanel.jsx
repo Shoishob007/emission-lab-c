@@ -7,7 +7,7 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats, selectedYear }) =>
     <div className="lg:col-span-1">
       {/* Selected Country Info */}
       {selectedCountry ? (
-        <div className="bg-white dark:bg-gray-800 shadow-lg p-5 border border-gray-200 dark:border-gray-700 h-full overflow-y-auto max-h-[800px]">
+        <div className="bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700 h-full overflow-y-auto max-h-[800px]">
           {/* Header */}
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
             <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
@@ -241,7 +241,7 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats, selectedYear }) =>
                     </div>
                   )}
                   
-                  {selectedCountry.historicalChange && (
+                  {/* {selectedCountry.historicalChange && (
                     <div className={`rounded-lg p-3 border ${
                       parseFloat(selectedCountry.historicalChange) > 0
                         ? "bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800"
@@ -265,7 +265,7 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats, selectedYear }) =>
                         </p>
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
               {/* </div> */}
             {/* )} */}
