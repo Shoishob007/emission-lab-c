@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Loader, MapIcon, TrendingUp, ChartBarIncreasing } from "lucide-react";
+import { Loader, Map, TrendingUp, BarChart2 } from "lucide-react";
 import useOffsetStore from "@/stores/offsetStore";
 import MapVisualization from "./components/MapVisualization";
 import LineChart from "./components/LineChart";
@@ -28,7 +28,7 @@ const CarbonEmissionWorldMap = () => {
     isLoading,
     error,
     fetchCarbonData,
-    fetchHistoricalData, // New function
+    fetchHistoricalData,
     availableYears,
   } = useCarbonData();
 
@@ -55,6 +55,8 @@ const CarbonEmissionWorldMap = () => {
     if(selectedYear === 'latest'){
       fetchProjects();
     }
+    // Clear selected country when year changes to force re-selection with new data
+    setSelectedCountry(null);
   }, [selectedYear]);
 
   useEffect(() => {
@@ -87,7 +89,7 @@ const CarbonEmissionWorldMap = () => {
     setSelectedYear("latest");
     fetchCarbonData("latest");
     fetchProjects();
-  }, [setSelectedYear, fetchCarbonData, fetchProjects]);
+  }, [fetchCarbonData, fetchProjects]);
 
   const handleResetViewOnly = useCallback(() => {
     handleResetView();
@@ -97,7 +99,7 @@ const CarbonEmissionWorldMap = () => {
     setActiveTab(tab);
   };
 
-  if (isLoading && !regionalData) { // Show loader only on initial load
+  if (isLoading && !regionalData) {
     return (
       <div className="w-full min-h-screen p-4 flex items-center justify-center">
         <div className="text-center">
@@ -123,7 +125,7 @@ const CarbonEmissionWorldMap = () => {
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
                 }`}
               >
-                <MapIcon size={18} />
+                <Map size={18} />
                 Map View
               </button>
               <button
@@ -134,7 +136,7 @@ const CarbonEmissionWorldMap = () => {
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
                 }`}
               >
-                <ChartBarIncreasing size={18} />
+                <BarChart2 size={18} />
                 Bar Chart
               </button>
               {regionalData && (
@@ -238,6 +240,7 @@ const CarbonEmissionWorldMap = () => {
             selectedCountry={selectedCountry}
             selectedProject={selectedProject}
             stats={stats}
+            selectedYear={selectedYear}
           />
         </div>
       </div>

@@ -1,13 +1,29 @@
-export const DefaultInfoPanel = () => {
-  const emissionData = [
-    { country: "China", emissions: 12.67, percentage: 33.98 },
-    { country: "United States", emissions: 4.85, percentage: 12.0 },
-    { country: "India", emissions: 2.69, percentage: 7.57 },
-    { country: "Russia", emissions: 1.91, percentage: 5.3 },
-    { country: "Japan", emissions: 1.08, percentage: 2.42 },
-  ];
+export const DefaultInfoPanel = ({ stats }) => {
+  // Use dynamic data from stats or fallback to empty array
+  const emissionData = stats?.topEmitters?.slice(0, 5).map(emitter => ({
+    country: emitter.name,
+    emissions: emitter.emission / 1000, // Convert to billions
+    percentage: ((emitter.emission / stats.totalEmissions) * 100).toFixed(2)
+  })) || [];
 
   const colors = ["#2563EB", "#F59E0B", "#EF4444", "#8B5CF6", "#10B981"];
+
+  // Calculate max emission for bar chart scaling
+  const maxEmission = emissionData.length > 0 
+    ? Math.max(...emissionData.map(d => d.emissions)) 
+    : 15;
+  const chartMax = Math.ceil(maxEmission * 1.2); // Add 20% headroom
+
+  if (!stats || !stats.topEmitters || stats.topEmitters.length === 0) {
+    return (
+      <div className="bg-[#0A2D23] shadow-2xl p-4 text-white h-full overflow-y-auto flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-400">No emission data available</p>
+          <p className="text-xs text-gray-500 mt-2">Select a country to view details</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#0A2D23] shadow-2xl p-4 text-white h-full overflow-y-auto">
@@ -45,8 +61,8 @@ export const DefaultInfoPanel = () => {
             {emissionData.map((item, index) => {
               const startAngle = emissionData
                 .slice(0, index)
-                .reduce((sum, e) => sum + e.percentage * 3.6, 0);
-              const angle = item.percentage * 3.6;
+                .reduce((sum, e) => sum + parseFloat(e.percentage) * 3.6, 0);
+              const angle = parseFloat(item.percentage) * 3.6;
 
               const startRad = (startAngle - 90) * (Math.PI / 180);
               const endRad = (startAngle + angle - 90) * (Math.PI / 180);
@@ -109,8 +125,7 @@ export const DefaultInfoPanel = () => {
               );
             })}
 
-            {/* Center hole for donut effect with 3D */}
-            {/* <ellipse cx="120" cy="110" rx="35" ry="8" fill="#000000" opacity="0.3" /> */}
+            {/* Center hole for donut effect */}
             <circle cx="120" cy="95" r="35" fill="#0A2D23" />
           </svg>
 
@@ -133,7 +148,7 @@ export const DefaultInfoPanel = () => {
         {/* 3D Bar Chart */}
         <div className="bg-[#0F3A2E] rounded-lg p-4">
           <h4 className="text-sm font-semibold mb-4 text-center">
-            Top 5 CO₂ emissions (b tons)
+            Top 5 CO₂ emissions (billion tons)
           </h4>
 
           <div className="relative h-48">
@@ -156,9 +171,10 @@ export const DefaultInfoPanel = () => {
                 strokeWidth="2"
               />
 
-              {/* Grid lines */}
-              {[0, 2.5, 5, 7.5, 10, 12.5, 15].map((val, idx) => {
-                const y = 180 - (val / 15) * 160;
+              {/* Grid lines - dynamic based on max value */}
+              {Array.from({ length: 6 }, (_, i) => {
+                const val = (chartMax / 5) * i;
+                const y = 180 - (val / chartMax) * 160;
                 return (
                   <g key={val}>
                     <line
@@ -177,7 +193,7 @@ export const DefaultInfoPanel = () => {
                       fontSize="10"
                       textAnchor="end"
                     >
-                      {val.toFixed(2)}
+                      {val.toFixed(1)}
                     </text>
                   </g>
                 );
@@ -189,7 +205,7 @@ export const DefaultInfoPanel = () => {
                 const spacing = 60;
                 const x = 60 + index * spacing;
                 const maxHeight = 160;
-                const barHeight = (item.emissions / 15) * maxHeight;
+                const barHeight = (item.emissions / chartMax) * maxHeight;
                 const y = 180 - barHeight;
 
                 return (
@@ -265,6 +281,8 @@ export const DefaultInfoPanel = () => {
                     >
                       {item.country === "United States"
                         ? "United"
+                        : item.country.length > 8
+                        ? item.country.substring(0, 7) + "."
                         : item.country}
                     </text>
                     {item.country === "United States" && (
@@ -284,6 +302,33 @@ export const DefaultInfoPanel = () => {
             </svg>
           </div>
         </div>
+
+        {/* Stats Summary */}
+        {/* <div className="bg-[#0F3A2E] rounded-lg p-4">
+          <h4 className="text-sm font-semibold mb-3 text-center">
+            Global Statistics ({stats.latestYear})
+          </h4>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-gray-400">Total Emissions</span>
+              <span className="text-sm font-bold text-white">
+                {(stats.totalEmissions / 1000).toFixed(2)} billion tons
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-gray-400">Countries Tracked</span>
+              <span className="text-sm font-bold text-white">
+                {stats.countryCount}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-gray-400">Highest Emitter</span>
+              <span className="text-sm font-bold text-white">
+                {stats.topEmitters[0].name}
+              </span>
+            </div>
+          </div>
+        </div> */}
       </div>
 
       <div className="mt-4 pt-4 border-t border-gray-600">
