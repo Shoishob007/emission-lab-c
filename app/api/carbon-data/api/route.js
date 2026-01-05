@@ -5,6 +5,7 @@ export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
     const yearParam = searchParams.get("year");
+    const historical = searchParams.get("historical");
     const selectedYear = yearParam ? parseInt(yearParam, 10) : null;
 
     const csvUrl =
@@ -22,7 +23,19 @@ export async function GET(req) {
       skipEmptyLines: true,
     });
 
+    if (historical) {
+      const allData = data.filter(row => {
+        const year = parseInt(row.year, 10);
+        return year >= 1960;
+      });
+      return NextResponse.json({
+        success: true,
+        data: allData,
+      });
+    }
+
     const resultByCountry = {};
+    const latestYearData = {};
 
     data.forEach((row) => {
       const iso = row.iso_code;
@@ -31,28 +44,34 @@ export async function GET(req) {
 
       if (!iso || isNaN(co2) || co2 <= 0) return;
 
-      // 👉 If year selected, only include that year
-      if (selectedYear && year !== selectedYear) return;
-
-      // 👉 If no year selected, keep latest
-      const existing = resultByCountry[iso];
-      if (
-        !existing ||
-        (!selectedYear && year > existing.year)
-      ) {
-        resultByCountry[iso] = {
-          iso_code: iso,
-          country: row.country,
-          year,
-          co2,
-        };
+      if (selectedYear) {
+        if (year === selectedYear) {
+          resultByCountry[iso] = {
+            iso_code: iso,
+            country: row.country,
+            year,
+            co2,
+          };
+        }
+      } else {
+        const existing = latestYearData[iso];
+        if (!existing || year > existing.year) {
+          latestYearData[iso] = {
+            iso_code: iso,
+            country: row.country,
+            year,
+            co2,
+          };
+        }
       }
     });
+    
+    const responseData = selectedYear ? Object.values(resultByCountry) : Object.values(latestYearData);
 
     return NextResponse.json({
       success: true,
       year: selectedYear,
-      data: Object.values(resultByCountry),
+      data: responseData,
     });
   } catch (err) {
     return NextResponse.json(

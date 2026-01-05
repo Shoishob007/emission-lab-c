@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { countryPopulation } from "../data";
+import { countryPopulation } from "../../data";
 
 // Cache for country data
 const countryDataCache = {};

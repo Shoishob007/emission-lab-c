@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback } from "react";
-import { fixedNameToISO, countryNameToCode } from "../data";
+import { fixedNameToISO, countryNameToCode } from "../../data";
 
 export const useMapLogic = (carbonData, stats, onCountrySelect, getCountryPopulation, getPopulationAsNumber) => {
     const combinedMapping = { ...countryNameToCode, ...fixedNameToISO };

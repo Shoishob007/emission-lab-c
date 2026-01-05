@@ -7,7 +7,7 @@ const InfoPanel = ({ selectedCountry, selectedProject, stats }) => {
     <div className="lg:col-span-1">
       {/* Selected Country Info */}
       {selectedCountry ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-200 dark:border-gray-700 h-full">
+        <div className="bg-white dark:bg-gray-800 shadow-lg p-4 border border-gray-200 dark:border-gray-700 h-full">
           {/* Header */}
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
             <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">

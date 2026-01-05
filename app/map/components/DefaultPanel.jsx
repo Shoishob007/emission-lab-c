@@ -10,7 +10,7 @@ export const DefaultInfoPanel = () => {
   const colors = ["#2563EB", "#F59E0B", "#EF4444", "#8B5CF6", "#10B981"];
 
   return (
-    <div className="bg-[#0A2D23] rounded-lg shadow-2xl p-4 text-white h-full overflow-y-auto">
+    <div className="bg-[#0A2D23] shadow-2xl p-4 text-white h-full overflow-y-auto">
       <div className="space-y-4">
         {/* 3D Pie Chart */}
         <div className="bg-[#0F3A2E] rounded-lg p-4">

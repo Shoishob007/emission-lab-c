@@ -6,7 +6,7 @@ import {
   Marker,
   ZoomableGroup,
 } from "react-simple-maps";
-import { geoUrl } from "../data";
+import { geoUrl } from "../../data";
 import { useMapLogic } from "../hooks/useMapLogic";
 
 const MapVisualization = ({
