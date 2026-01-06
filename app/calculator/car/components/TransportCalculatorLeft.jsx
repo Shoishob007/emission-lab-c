@@ -107,8 +107,7 @@ const TransportCalculatorLeft = ({
       } else if (vehicleCategory === "cars") {
         defaultFuelType = "Petrol";
       } else {
-                defaultFuelType = "Petrol";
-
+        defaultFuelType = "Petrol";
       }
 
       setTransportDetails((prev) => ({
@@ -303,7 +302,8 @@ const TransportCalculatorLeft = ({
 
       {(vehicleCategory === "cars" ||
         vehicleCategory === "motorcycle" ||
-        vehicleCategory === "bus" || vehicleCategory === "tr") && (
+        vehicleCategory === "bus" ||
+        vehicleCategory === "tr") && (
         <div className="mt-4">
           <label className="block text-sm font-semibold mb-2 text-muted-foreground">
             Fuel Type
@@ -349,33 +349,32 @@ const TransportCalculatorLeft = ({
       )}
 
       {vehicleCategory === "cars" && (
-  <>
-    <VehicleComboBox
-      label="Vehicle Brand"
-      placeholder="Select Brand"
-      searchPlaceholder="Search brands..."
-      emptyText="No brands found"
-      options={vehicleMakes}
-      value={selectedMake}
-      onSelect={(val) => {
-        setSelectedMake(val);
-        setSelectedModel("");
-      }}
-    />
+        <>
+          <VehicleComboBox
+            label="Vehicle Brand"
+            placeholder="Select Brand"
+            searchPlaceholder="Search brands..."
+            emptyText="No brands found"
+            options={vehicleMakes}
+            value={selectedMake}
+            onSelect={(val) => {
+              setSelectedMake(val);
+              setSelectedModel("");
+            }}
+          />
 
-    <VehicleComboBox
-      label="Vehicle Model"
-      placeholder="Select Model"
-      searchPlaceholder="Search models..."
-      emptyText="No models found"
-      options={vehicleModels}
-      value={selectedModel}
-      onSelect={setSelectedModel}
-      disabled={!selectedMake}
-    />
-  </>
-)}
-
+          <VehicleComboBox
+            label="Vehicle Model"
+            placeholder="Select Model"
+            searchPlaceholder="Search models..."
+            emptyText="No models found"
+            options={vehicleModels}
+            value={selectedModel}
+            onSelect={setSelectedModel}
+            disabled={!selectedMake}
+          />
+        </>
+      )}
 
       {/* Distance Input */}
       <div>
@@ -453,24 +452,23 @@ const TransportCalculatorLeft = ({
       {error && <div className="text-sm text-red-500">{error}</div>}
 
       {/* Calculate Button */}
-<button
-  onClick={handleCalculate}
-  disabled={
-    !transportDetails.distance ||
-    transportDetails.distance <= 0 ||
-    loading ||
-    (vehicleCategory === "cars" && (!selectedMake || !selectedModel))
-  }
-  className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium !mt-6 ${
-    !transportDetails.distance ||
-    transportDetails.distance <= 0 ||
-    loading ||
-    (vehicleCategory === "cars" && (!selectedMake || !selectedModel))
-      ? "opacity-50 cursor-not-allowed"
-      : "hover:bg-primary/90"
-  }`}
->
-
+      <button
+        onClick={handleCalculate}
+        disabled={
+          !transportDetails.distance ||
+          transportDetails.distance <= 0 ||
+          loading ||
+          (vehicleCategory === "cars" && (!selectedMake || !selectedModel))
+        }
+        className={`w-full bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium !mt-6 ${
+          !transportDetails.distance ||
+          transportDetails.distance <= 0 ||
+          loading ||
+          (vehicleCategory === "cars" && (!selectedMake || !selectedModel))
+            ? "opacity-80 cursor-not-allowed"
+            : "hover:bg-primary/90"
+        }`}
+      >
         {loading ? (
           <span className="flex items-center">
             <svg

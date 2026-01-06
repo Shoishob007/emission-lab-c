@@ -17,8 +17,6 @@ import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 export default function Calculator() {
-  const isUatApi =
-    process.env.NEXT_PUBLIC_API === "https://uatapi.aiemissionlab.com";
   const dashboardRef = useRef(null);
   const searchParams = useSearchParams();
   const refreshToken = searchParams.get("refresh");
@@ -31,7 +29,7 @@ export default function Calculator() {
     class: "economy",
     aircraft: "not_sure",
     passengers: 1,
-    ...(isUatApi && { emission_lab_test: true }),
+    emission_lab_test: true,
   });
   const [transportDetails, setTransportDetails] = useState({
     transportType: "",
