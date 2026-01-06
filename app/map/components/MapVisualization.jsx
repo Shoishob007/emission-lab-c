@@ -35,7 +35,7 @@ const MapVisualization = ({
   // State for active filter
   const [activeFilter, setActiveFilter] = useState(null);
 
-  // Format population for tooltip
+  // population for tooltip
   const formatPopulation = (rawData) => {
     if (!rawData || !rawData.population) return "N/A";
     const pop = parseFloat(rawData.population);
@@ -45,52 +45,52 @@ const MapVisualization = ({
     return `${pop.toFixed(0)}`;
   };
 
-  // Define emission levels based on share_global_co2 percentage
+  // emission levels based on share_global_co2 percentage
   const emissionLevels = [
     { 
       id: 'low', 
       label: 'Low', 
       color: '#fef3c7',
       minShare: 0.0001,
-      maxShare: 0.03, // 0% to 0.001%
+      maxShare: 0.03,
     },
     { 
       id: 'moderate', 
       label: 'Moderate', 
       color: '#fbbf24',
       minShare: 0.0300001,
-      maxShare: 0.3, // 0.001% to 0.01%
+      maxShare: 0.3,
     },
     { 
       id: 'high', 
       label: 'High', 
       color: '#f59e0b',
       minShare: 0.300001,
-      maxShare: 3, // 0.01% to 0.1%
+      maxShare: 3,
     },
     { 
       id: 'very-high', 
       label: 'Very High', 
       color: '#dc2626',
-      minShare: 3.1,
-      maxShare: 10, // 0.1% to 1%
+      minShare: 3.00001,
+      maxShare: 10,
     },
     { 
       id: 'extreme', 
       label: 'Extreme', 
       color: '#7f1d1d',
       minShare: 10,
-      maxShare: 100, // 10% and above
+      maxShare: 100,
     },
     { 
       id: 'no-data', 
       label: 'No data', 
       color: '#e5e7eb',
-      borderColor: '#000000', // Blue border for no data countries
+      borderColor: '#000000',
     }
   ];
 
-  // Calculate global share for each country
+  //  global share for each country
   const globalShares = useMemo(() => {
     if (!carbonData) return {};
 

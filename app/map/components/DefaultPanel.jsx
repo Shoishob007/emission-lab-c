@@ -1,3 +1,6 @@
+import ReactCountryFlag from "react-country-flag";
+import { Globe, Award, TrendingUp } from "lucide-react";
+
 export const DefaultInfoPanel = ({ stats }) => {
   // Use dynamic data from stats or fallback to empty array
   const emissionData = stats?.topEmitters?.slice(0, 5).map(emitter => ({
@@ -6,13 +9,13 @@ export const DefaultInfoPanel = ({ stats }) => {
     percentage: ((emitter.emission / stats.totalEmissions) * 100).toFixed(2)
   })) || [];
 
-  const colors = ["#2563EB", "#F59E0B", "#EF4444", "#8B5CF6", "#10B981"];
+  const colors = ["#EF4444", "#F59E0B", "#2563EB", "#8B5CF6", "#10B981"];
 
   // Calculate max emission for bar chart scaling
   const maxEmission = emissionData.length > 0 
     ? Math.max(...emissionData.map(d => d.emissions)) 
     : 15;
-  const chartMax = Math.ceil(maxEmission * 1.2); // Add 20% headroom
+  const chartMax = Math.ceil(maxEmission * 1.2);
 
   if (!stats || !stats.topEmitters || stats.topEmitters.length === 0) {
     return (
@@ -29,13 +32,12 @@ export const DefaultInfoPanel = ({ stats }) => {
     <div className="bg-[#0A2D23] shadow-2xl p-4 text-white h-full overflow-y-auto">
       <div className="space-y-4">
         {/* 3D Pie Chart */}
-        <div className="bg-[#0F3A2E] rounded-lg p-4">
+        {/* <div className="bg-[#0F3A2E] rounded-lg p-4">
           <h4 className="text-sm font-semibold mb-4 text-center">
             Top 5 CO₂ emissions (by country)
           </h4>
           <svg viewBox="0 0 240 200" className="w-full h-48">
             <defs>
-              {/* Gradients for 3D effect */}
               {colors.map((color, idx) => (
                 <linearGradient
                   key={`grad-${idx}`}
@@ -57,7 +59,6 @@ export const DefaultInfoPanel = ({ stats }) => {
               ))}
             </defs>
 
-            {/* 3D pie slices with depth */}
             {emissionData.map((item, index) => {
               const startAngle = emissionData
                 .slice(0, index)
@@ -74,7 +75,6 @@ export const DefaultInfoPanel = ({ stats }) => {
 
               const largeArc = angle > 180 ? 1 : 0;
 
-              // Calculate label position
               const midAngle = startAngle + angle / 2;
               const midRad = (midAngle - 90) * (Math.PI / 180);
               const labelX = 120 + 55 * Math.cos(midRad);
@@ -82,7 +82,6 @@ export const DefaultInfoPanel = ({ stats }) => {
 
               return (
                 <g key={item.country}>
-                  {/* 3D depth side */}
                   <path
                     d={`M 120 95 L ${x1} ${y1} L ${x1} ${y1 + 15} L 120 110 Z`}
                     fill={colors[index]}
@@ -101,7 +100,6 @@ export const DefaultInfoPanel = ({ stats }) => {
                     opacity="0.5"
                   />
 
-                  {/* Top surface */}
                   <path
                     d={`M 120 95 L ${x1} ${y1} A 80 80 0 ${largeArc} 1 ${x2} ${y2} Z`}
                     fill={`url(#gradient-${index})`}
@@ -109,7 +107,6 @@ export const DefaultInfoPanel = ({ stats }) => {
                     strokeWidth="2"
                   />
 
-                  {/* Percentage label */}
                   <text
                     x={labelX}
                     y={labelY}
@@ -125,11 +122,9 @@ export const DefaultInfoPanel = ({ stats }) => {
               );
             })}
 
-            {/* Center hole for donut effect */}
             <circle cx="120" cy="95" r="35" fill="#0A2D23" />
           </svg>
 
-          {/* Legend */}
           <div className="mt-4 grid grid-cols-3 gap-2">
             {emissionData.map((item, index) => (
               <div key={item.country} className="flex items-center gap-2">
@@ -143,7 +138,70 @@ export const DefaultInfoPanel = ({ stats }) => {
               </div>
             ))}
           </div>
+        </div> */}
+
+        {/* Global Emission Share – Compact Infographic */}
+<div className="bg-[#0F3A2E] rounded-lg p-3 flex flex-col">
+          <h4 className="text-sm font-semibold mb-4 text-center">
+    Global CO₂ Emission Share
+  </h4>
+
+  <div className="flex-1 space-y-3">
+    {emissionData.map((item, index) => (
+      <div
+        key={item.country}
+        className="flex items-center gap-2 bg-[#0A2D23] rounded-md px-2 py-2 border border-[#145A46]"
+      >
+        {/* Flag */}
+        <ReactCountryFlag
+          svg
+          style={{ width: "1.5em", height: "1.2em" }}
+          countryCode={
+            item.country === "United States"
+              ? "US"
+              : item.country === "China"
+              ? "CN"
+              : item.country === "India"
+              ? "IN"
+              : item.country === "Russia"
+              ? "RU"
+              : item.country === "Japan"
+              ? "JP"
+              : "UN"
+          }
+        />
+
+        {/* Country name */}
+        <span className="text-sm text-gray-200 truncate w-20">
+          {item.country}
+        </span>
+
+        {/* Progress bar */}
+        <div className="flex-1 h-1.5 bg-[#123F32] rounded-full overflow-hidden">
+          <div
+            className="h-full rounded-full"
+            style={{
+              width: `${item.percentage}%`,
+              backgroundColor: colors[index],
+            }}
+          />
         </div>
+
+        {/* Percentage */}
+        <span className="text-sm font-semibold text-white text-right">
+          {item.percentage}%
+        </span>
+      </div>
+    ))}
+      <div className="mt-1 text-[10px] text-gray-400 text-center">
+    Share of global emissions (Top 5)
+  </div>
+  </div>
+
+  {/* Footer */}
+
+</div>
+
 
         {/* 3D Bar Chart */}
         <div className="bg-[#0F3A2E] rounded-lg p-4">
@@ -330,12 +388,6 @@ export const DefaultInfoPanel = ({ stats }) => {
           </div>
         </div>
       </div>
-
-      {/* <div className="mt-4 pt-4 border-t border-gray-600">
-        <p className="text-xs text-gray-400 text-center">
-          Hover over countries for quick info, click for detailed statistics.
-        </p>
-      </div> */}
     </div>
   );
 };
