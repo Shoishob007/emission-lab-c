@@ -331,11 +331,11 @@ export const DefaultInfoPanel = ({ stats }) => {
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-gray-600">
+      {/* <div className="mt-4 pt-4 border-t border-gray-600">
         <p className="text-xs text-gray-400 text-center">
           Hover over countries for quick info, click for detailed statistics.
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };

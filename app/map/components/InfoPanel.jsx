@@ -487,7 +487,7 @@ const InfoPanel = ({
                       </p>
                     </div>
                     <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                      {selectedCountry.shareGlobalCo2.toFixed(2)}%
+                      {selectedCountry.shareGlobalCo2.toFixed(3)}%
                     </p>
                   </div>
                 </div>
