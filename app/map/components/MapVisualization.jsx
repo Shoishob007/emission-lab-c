@@ -224,7 +224,7 @@ const MapVisualization = ({
       </div>
       
       {/* Footer */}
-      <div className="text-center text-gray-600 dark:text-gray-400 text-sm">
+      <div className="text-center text-gray-600 dark:text-gray-400 text-sm mt-4 space-y-2">
         <p>
           Hover over countries for quick info, click for detailed statistics.
           {projectsWithCoords.length === 0 &&
@@ -235,6 +235,47 @@ const MapVisualization = ({
               </span>
             )}
         </p>
+        
+        {/* Data Source Information */}
+        <div className="text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
+          <p>
+            <span className="font-medium">Carbon Emissions Data Source:</span>{" "}
+            <a 
+              href="https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              Our World in Data (OWID) CO₂ Dataset
+            </a>
+          </p>
+          <p className="mt-1">
+            This dataset provides comprehensive CO₂ and greenhouse gas emissions data, covering population, GDP, energy consumption, 
+            and emissions by fuel type for all countries.
+          </p>
+          <div className="mt-2 flex flex-wrap justify-center gap-4 text-[11px]">
+            <span className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded-full bg-[#fef3c7]"></div>
+              Low emissions
+            </span>
+            <span className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded-full bg-[#fbbf24]"></div>
+              Moderate emissions
+            </span>
+            <span className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded-full bg-[#f59e0b]"></div>
+              High emissions
+            </span>
+            <span className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded-full bg-[#dc2626]"></div>
+              Very high emissions
+            </span>
+            <span className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded-full bg-[#991b1b]"></div>
+              Extreme emissions
+            </span>
+          </div>
+        </div>
       </div>
     </>
   );

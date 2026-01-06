@@ -104,7 +104,7 @@ const CarbonEmissionWorldMap = () => {
   return (
     <div className="w-full min-h-screen p-4">
       <div className="max-w-7xl mx-auto">
-        <Legend error={error} />
+        {/* <Legend error={error} /> */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 mb-8">
           <div className="lg:col-span-2 bg-white dark:bg-gray-800 p-6 border border-gray-100 dark:border-gray-700 space-y-6">
             <div className="flex border-b border-gray-200 dark:border-gray-700">

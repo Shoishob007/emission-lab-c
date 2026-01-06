@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { countryPopulation } from "../../data";
 
 // Cache for country data
 const countryDataCache = {};
@@ -31,24 +30,7 @@ export const useCountryData = () => {
         }
     }, []);
 
-    const getCountryPopulation = useCallback((countryCode) => {
-        return countryPopulation[countryCode] || "N/A";
-    }, []);
-
-    const getPopulationAsNumber = useCallback((countryCode) => {
-        const populationStr = countryPopulation[countryCode];
-        if (!populationStr || populationStr === "N/A") return null;
-
-        const match = populationStr.match(/([\d,.]+)M/);
-        if (match) {
-            return parseFloat(match[1].replace(/,/g, ""));
-        }
-        return null;
-    }, []);
-
     return {
         getCountryData,
-        getCountryPopulation,
-        getPopulationAsNumber,
     };
 };

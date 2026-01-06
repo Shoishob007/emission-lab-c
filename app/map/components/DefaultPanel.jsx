@@ -304,7 +304,7 @@ export const DefaultInfoPanel = ({ stats }) => {
         </div>
 
         {/* Stats Summary */}
-        {/* <div className="bg-[#0F3A2E] rounded-lg p-4">
+        <div className="bg-[#0F3A2E] rounded-lg p-4">
           <h4 className="text-sm font-semibold mb-3 text-center">
             Global Statistics ({stats.latestYear})
           </h4>
@@ -328,7 +328,7 @@ export const DefaultInfoPanel = ({ stats }) => {
               </span>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
 
       <div className="mt-4 pt-4 border-t border-gray-600">
