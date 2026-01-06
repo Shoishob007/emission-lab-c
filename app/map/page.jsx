@@ -9,7 +9,6 @@ import InfoPanel from "./components/InfoPanel";
 import Legend from "./components/Legend";
 import { useCarbonData } from "./hooks/useCarbonData";
 import { useProjectsData } from "./hooks/useProjectsData";
-import { useCountryData } from "./hooks/useCountryData";
 import { useMapInteractions } from "./hooks/useMapInteractions";
 import normalizeCarbonData from "./utils/normalizedCarbonData";
 import TopEmittersBarChart from "./components/TopEmitterBarChart";
@@ -17,7 +16,7 @@ import TopEmittersBarChart from "./components/TopEmitterBarChart";
 const CarbonEmissionWorldMap = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [activeTab, setActiveTab] = useState("map"); // "map", "bar", "line"
+  const [activeTab, setActiveTab] = useState("map");
 
   const {
     carbonData,
@@ -32,14 +31,8 @@ const CarbonEmissionWorldMap = () => {
     availableYears,
   } = useCarbonData();
 
-  const {
-    projectsWithCoords,
-    isGeocoding,
-    projectsLoading,
-  } = useProjectsData();
-
-  const { getCountryPopulation, getPopulationAsNumber } =
-    useCountryData();
+  const { projectsWithCoords, isGeocoding, projectsLoading } =
+    useProjectsData();
 
   const { position, handleMoveEnd, handleResetView } = useMapInteractions();
 
@@ -52,15 +45,13 @@ const CarbonEmissionWorldMap = () => {
 
   useEffect(() => {
     fetchCarbonData(selectedYear);
-    if(selectedYear === 'latest'){
+    if (selectedYear === "latest") {
       fetchProjects();
     }
-    // Clear selected country when year changes to force re-selection with new data
     setSelectedCountry(null);
   }, [selectedYear]);
 
   useEffect(() => {
-    // Fetch historical data once for the line chart
     fetchHistoricalData();
   }, []);
 
@@ -139,19 +130,17 @@ const CarbonEmissionWorldMap = () => {
                 <BarChart2 size={18} />
                 Bar Chart
               </button>
-              {(
-                 <button
-                  onClick={() => handleTabChange("line")}
-                  className={`flex items-center gap-2 px-4 py-3 font-medium text-sm transition-colors ${
-                    activeTab === "line"
-                      ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
-                  }`}
-                >
-                  <TrendingUp size={18} />
-                  Line Chart
-                </button>
-              )}
+              <button
+                onClick={() => handleTabChange("line")}
+                className={`flex items-center gap-2 px-4 py-3 font-medium text-sm transition-colors ${
+                  activeTab === "line"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
+                }`}
+              >
+                <TrendingUp size={18} />
+                Line Chart
+              </button>
             </div>
 
             <div className="space-y-6">
@@ -159,12 +148,14 @@ const CarbonEmissionWorldMap = () => {
                 <h3 className="text-xl font-bold">
                   {activeTab === "map"
                     ? "Emissions Map"
-                    : activeTab === 'bar'
-                    ? `Top 10 Emitters (${selectedYear === "latest" ? "Latest Data" : selectedYear})`
-                    : 'Historical Emissions by Region'}
+                    : activeTab === "bar"
+                    ? `Top 10 Emitters (${
+                        selectedYear === "latest" ? "Latest Data" : selectedYear
+                      })`
+                    : "Historical Emissions by Region"}
                 </h3>
                 <div className="flex gap-2 items-center">
-                  {activeTab !== 'line' && (
+                  {activeTab !== "line" && (
                     <select
                       value={selectedYear}
                       onChange={(e) => handleYearChange(e.target.value)}
@@ -196,13 +187,13 @@ const CarbonEmissionWorldMap = () => {
                 </div>
               </div>
 
-              {isLoading && activeTab !== 'line' ? (
-                 <div className="w-full h-96 flex items-center justify-center">
-                    <div className="text-center">
-                      <Loader className="w-12 h-12 animate-spin text-blue-500 mx-auto mb-4" />
-                      <p className="text-gray-600">Loading emission data...</p>
-                    </div>
+              {isLoading && activeTab !== "line" ? (
+                <div className="w-full h-96 flex items-center justify-center">
+                  <div className="text-center">
+                    <Loader className="w-12 h-12 animate-spin text-blue-500 mx-auto mb-4" />
+                    <p className="text-gray-600">Loading emission data...</p>
                   </div>
+                </div>
               ) : activeTab === "map" ? (
                 <MapVisualization
                   position={position}
@@ -214,10 +205,8 @@ const CarbonEmissionWorldMap = () => {
                   handleMoveEnd={handleMoveEnd}
                   onCountrySelect={handleCountrySelect}
                   onProjectSelect={handleProjectSelect}
-                  getCountryPopulation={getCountryPopulation}
-                  getPopulationAsNumber={getPopulationAsNumber}
                 />
-              ) : activeTab === 'bar' ? (
+              ) : activeTab === "bar" ? (
                 <TopEmittersBarChart
                   carbonData={normalizedCarbonData}
                   stats={stats}

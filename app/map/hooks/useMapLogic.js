@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import { fixedNameToISO, countryNameToCode } from "../../data";
 
-export const useMapLogic = (carbonData, stats, onCountrySelect, getCountryPopulation, getPopulationAsNumber) => {
+export const useMapLogic = (carbonData, stats, onCountrySelect) => {
     const combinedMapping = { ...countryNameToCode, ...fixedNameToISO };
 
     const extractCountryCode = useCallback((geo) => {
@@ -38,10 +38,23 @@ export const useMapLogic = (carbonData, stats, onCountrySelect, getCountryPopula
         return "#991b1b";
     }, [stats.maxEmission]);
 
+    const formatPopulation = useCallback((populationStr) => {
+        if (!populationStr || populationStr === "N/A") return "N/A";
+
+        const population = parseFloat(populationStr);
+        if (isNaN(population)) return "N/A";
+
+        if (population >= 1000) {
+            return `${(population / 1000).toFixed(2)}B`;
+        } else {
+            return `${population.toFixed(2)}M`;
+        }
+    }, []);
+
     const calculatePerCapitaEmission = useCallback((emission, populationNum) => {
         if (!emission || !populationNum || populationNum <= 0) return null;
 
-        // Convert emission from million tons to tons (since population is in millions)
+        // Convert emission from million tons to tons
         const emissionInTons = emission * 1000000;
         const populationInMillions = populationNum;
 
@@ -55,40 +68,95 @@ export const useMapLogic = (carbonData, stats, onCountrySelect, getCountryPopula
 
         if (code && carbonData && carbonData[code]) {
             const countryData = carbonData[code];
+            const rawData = countryData.rawData || {};
+
+            // Helper function to parse string to number
+            const parseNumber = (value) => {
+                if (!value || value === '') return null;
+                const num = parseFloat(value);
+                return isNaN(num) ? null : num;
+            };
+
             const emission = countryData.latestEmission;
             const emissionData = countryData.data;
 
-            // Get population from dummy data
-            const population = getCountryPopulation(code);
-            const populationNum = getPopulationAsNumber(code);
+            // Parse all numeric values
+            const population = parseNumber(rawData.population);
+            const formattedPopulation = population ?
+                `${(population / 1000000).toFixed(2)}M` : "N/A";
 
-            // Calculate per capita if population data exists
-            const perCapita = calculatePerCapitaEmission(emission, populationNum);
+            const perCapita = parseNumber(rawData.co2_per_capita) ||
+                calculatePerCapitaEmission(emission, population ? population / 1000000 : null);
 
-            // Calculate historical metrics
+            const gdp = rawData.gdp ?
+                `$${(parseNumber(rawData.gdp) / 1000000000).toFixed(2)}B` : null;
+            const co2PerGdp = parseNumber(rawData.co2_per_gdp);
+
+            const growthAbs = parseNumber(rawData.co2_growth_abs);
+            const growthPrct = parseNumber(rawData.co2_growth_prct);
+
+            const cumulativeCo2 = parseNumber(rawData.cumulative_co2);
+            const shareGlobalCo2 = parseNumber(rawData.share_global_co2);
+            const energyPerCapita = parseNumber(rawData.energy_per_capita);
+            const primaryEnergyConsumption = parseNumber(rawData.primary_energy_consumption);
+
+            const coalCo2 = parseNumber(rawData.coal_co2);
+            const oilCo2 = parseNumber(rawData.oil_co2);
+            const gasCo2 = parseNumber(rawData.gas_co2);
+            const cementCo2 = parseNumber(rawData.cement_co2);
+            const flaringCo2 = parseNumber(rawData.flaring_co2);
+
+            const methane = parseNumber(rawData.methane);
+            const nitrousOxide = parseNumber(rawData.nitrous_oxide);
+            const totalGHG = parseNumber(rawData.total_ghg);
+            const totalGHGExcludingLUC = parseNumber(rawData.total_ghg_excluding_lucf);
+
             const historicalMetrics = calculateHistoricalMetrics(emissionData);
 
-            // Calculate relative to world average
             const worldAverage = stats.totalEmissions / stats.countryCount;
-            const relativeToWorld =
-                worldAverage > 0 ? ((emission / worldAverage) * 100).toFixed(0) : null;
+            const relativeToWorld = worldAverage > 0 ?
+                ((emission / worldAverage) * 100).toFixed(0) : null;
 
-            // Calculate percentile
-            const percentile =
-                stats.maxEmission > 0
-                    ? ((emission / stats.maxEmission) * 100).toFixed(1)
-                    : null;
+            const percentile = stats.maxEmission > 0 ?
+                ((emission / stats.maxEmission) * 100).toFixed(1) : null;
 
             const aboveWorldAverage = worldAverage > 0 && emission > worldAverage;
+
+            const totalEmissionSources = (coalCo2 || 0) + (oilCo2 || 0) +
+                (gasCo2 || 0) + (cementCo2 || 0) + (flaringCo2 || 0);
 
             const selectedCountryData = {
                 code: code,
                 name: name,
                 emission: emission,
                 year: countryData.latestYear,
-                population: population,
+                population: formattedPopulation,
+                populationNum: population ? population / 1000000 : null,
                 data: countryData.data,
                 perCapita: perCapita,
+                gdp: gdp,
+                co2PerGdp: co2PerGdp,
+                growthAbs: growthAbs,
+                growthPrct: growthPrct,
+                cumulativeCo2: cumulativeCo2,
+                shareGlobalCo2: shareGlobalCo2,
+                energyPerCapita: energyPerCapita,
+                primaryEnergyConsumption: primaryEnergyConsumption,
+                coalCo2: coalCo2,
+                oilCo2: oilCo2,
+                gasCo2: gasCo2,
+                cementCo2: cementCo2,
+                flaringCo2: flaringCo2,
+                methane: methane,
+                nitrousOxide: nitrousOxide,
+                totalGHG: totalGHG,
+                totalGHGExcludingLUC: totalGHGExcludingLUC,
+                coalShare: totalEmissionSources > 0 && coalCo2 ?
+                    ((coalCo2 / totalEmissionSources) * 100).toFixed(0) : null,
+                oilShare: totalEmissionSources > 0 && oilCo2 ?
+                    ((oilCo2 / totalEmissionSources) * 100).toFixed(0) : null,
+                gasShare: totalEmissionSources > 0 && gasCo2 ?
+                    ((gasCo2 / totalEmissionSources) * 100).toFixed(0) : null,
                 trend: getTrendForCountry(countryData),
                 peakEmission: historicalMetrics.peakEmission,
                 peakYear: historicalMetrics.peakYear,
@@ -99,15 +167,13 @@ export const useMapLogic = (carbonData, stats, onCountrySelect, getCountryPopula
                 recentGrowthRate: historicalMetrics.recentGrowthRate,
                 emissionAcceleration: historicalMetrics.emissionAcceleration,
                 rankInWorld: getCountryRank(code, stats.topEmitters),
-                vsTopEmitter:
-                    stats.topEmitters.length > 0
-                        ? ((emission / stats.topEmitters[0].emission) * 100).toFixed(1)
-                        : null,
+                vsTopEmitter: stats.topEmitters.length > 0 ?
+                    ((emission / stats.topEmitters[0].emission) * 100).toFixed(1) : null,
             };
 
             onCountrySelect(selectedCountryData);
         }
-    }, [carbonData, stats, extractCountryCode, getCountryPopulation, getPopulationAsNumber, calculatePerCapitaEmission, onCountrySelect]);
+    }, [carbonData, stats, extractCountryCode, calculatePerCapitaEmission, onCountrySelect]);
 
     return {
         combinedMapping,
@@ -119,7 +185,7 @@ export const useMapLogic = (carbonData, stats, onCountrySelect, getCountryPopula
     };
 };
 
-// Helper functions remain the same...
+// Helper functions
 const getTrendForCountry = (countryData) => {
     if (!countryData || countryData.data.length < 2)
         return { status: "No data", change: 0 };

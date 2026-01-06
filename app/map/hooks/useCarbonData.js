@@ -68,7 +68,7 @@ export const useCarbonData = () => {
       const json = await res.json();
       processHistoricalData(json.data || []);
     } catch (error) {
-        console.error("Failed to load historical CO₂ emissions data for line chart", error);
+      console.error("Failed to load historical CO₂ emissions data for line chart", error);
     }
   }, []);
 
@@ -97,7 +97,7 @@ export const useCarbonData = () => {
           "China": 0,
         };
       }
-      if(region) {
+      if (region) {
         yearlyData[year][region] += co2;
       }
     });
@@ -117,23 +117,77 @@ export const useCarbonData = () => {
       apiData.forEach((item) => {
         const iso = item.iso_code;
         const name = item.country;
-        const year = item.year;
-        const emission = Number(item.co2);
+        const year = parseInt(item.year, 10);
+        const emission = parseFloat(item.co2);
 
         if (!iso || emission == null || isNaN(emission) || emission < 0) return;
 
-        processedData[iso] = {
+        // Process all numeric fields from the API
+        const processedItem = {
           name,
           latestEmission: emission,
           latestYear: year,
+          rawData: { // Store ALL the data from API
+            // Basic info
+            country: item.country,
+            year: item.year,
+            iso_code: item.iso_code,
+            co2: item.co2,
+
+            // Population and GDP
+            population: item.population,
+            gdp: item.gdp,
+
+            // Per capita metrics
+            co2_per_capita: item.co2_per_capita,
+            co2_per_gdp: item.co2_per_gdp,
+            energy_per_capita: item.energy_per_capita,
+
+            // Growth metrics
+            co2_growth_abs: item.co2_growth_abs,
+            co2_growth_prct: item.co2_growth_prct,
+
+            // Cumulative data
+            cumulative_co2: item.cumulative_co2,
+            cumulative_cement_co2: item.cumulative_cement_co2,
+            cumulative_coal_co2: item.cumulative_coal_co2,
+            cumulative_gas_co2: item.cumulative_gas_co2,
+            cumulative_oil_co2: item.cumulative_oil_co2,
+            cumulative_flaring_co2: item.cumulative_flaring_co2,
+
+            // Global shares
+            share_global_co2: item.share_global_co2,
+
+            // Energy data
+            primary_energy_consumption: item.primary_energy_consumption,
+
+            // Emission sources
+            coal_co2: item.coal_co2,
+            oil_co2: item.oil_co2,
+            gas_co2: item.gas_co2,
+            cement_co2: item.cement_co2,
+            flaring_co2: item.flaring_co2,
+
+            // Greenhouse gases
+            methane: item.methane,
+            nitrous_oxide: item.nitrous_oxide,
+            total_ghg: item.total_ghg,
+            total_ghg_excluding_lucf: item.total_ghg_excluding_lucf,
+
+            // Other metrics (if needed)
+            co2_including_luc: item.co2_including_luc,
+            land_use_change_co2: item.land_use_change_co2,
+          },
           data: [
             {
-              year,
-              emission,
+              year: year,
+              emission: emission,
               emissionInMillionTons: emission,
             },
           ],
         };
+
+        processedData[iso] = processedItem;
 
         globalTotal += emission;
         if (emission > max) max = emission;

@@ -28,6 +28,7 @@ export async function GET(req) {
         const year = parseInt(row.year, 10);
         return year >= 1960;
       });
+
       return NextResponse.json({
         success: true,
         data: allData,
@@ -46,26 +47,30 @@ export async function GET(req) {
 
       if (selectedYear) {
         if (year === selectedYear) {
+          // Return ALL fields from the row, not just iso_code, country, year, co2
           resultByCountry[iso] = {
+            ...row, // Spread all properties from the row
             iso_code: iso,
             country: row.country,
-            year,
-            co2,
+            year: year,
+            co2: co2,
           };
         }
       } else {
         const existing = latestYearData[iso];
         if (!existing || year > existing.year) {
+          // Return ALL fields from the row for latest year data too
           latestYearData[iso] = {
+            ...row, // Spread all properties from the row
             iso_code: iso,
             country: row.country,
-            year,
-            co2,
+            year: year,
+            co2: co2,
           };
         }
       }
     });
-    
+
     const responseData = selectedYear ? Object.values(resultByCountry) : Object.values(latestYearData);
 
     return NextResponse.json({

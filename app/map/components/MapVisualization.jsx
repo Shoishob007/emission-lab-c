@@ -13,23 +13,14 @@ const MapVisualization = ({
   position,
   carbonData,
   stats,
-  selectedYear,
-  availableYears,
   projectsWithCoords,
   isGeocoding,
   projectsLoading,
   handleMoveEnd,
-  handleResetView,
-  fetchCarbonData,
-  fetchProjects,
-  setSelectedYear,
-  getCountryPopulation,
-  getPopulationAsNumber,
   onCountrySelect,
   onProjectSelect
 }) => {
   const {
-    combinedMapping,
     extractCountryCode,
     getEmissionForCountry,
     getColorForEmission,
@@ -37,10 +28,18 @@ const MapVisualization = ({
   } = useMapLogic(
     carbonData, 
     stats, 
-    onCountrySelect, 
-    getCountryPopulation,
-    getPopulationAsNumber
+    onCountrySelect
   );
+
+  // Format population for tooltip - CORRECT PLACEMENT INSIDE COMPONENT
+  const formatPopulation = (rawData) => {
+    if (!rawData || !rawData.population) return "N/A";
+    const pop = parseFloat(rawData.population);
+    if (pop >= 1000000) {
+      return `${(pop / 1000000).toFixed(2)}M`;
+    }
+    return `${pop.toFixed(0)}`;
+  };
 
   return (
     <>
@@ -64,7 +63,8 @@ const MapVisualization = ({
                   const { code, name } = extractCountryCode(geo);
                   const emission = getEmissionForCountry(code);
                   const fillColor = getColorForEmission(emission);
-                  const population = getCountryPopulation(code);
+                  const countryData = carbonData?.[code]; // This is defined here
+                  const population = countryData?.rawData ? formatPopulation(countryData.rawData) : "N/A";
 
                   return (
                     <Geography
