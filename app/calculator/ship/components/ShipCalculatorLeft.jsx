@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import portsData from "sea-ports"; // sea-ports library
+import portsData from "sea-ports";
 import { ShipCombobox } from "@/components/ui/portlist-combobox.tsx";
 
 function haversineDistance(coord1, coord2) {
@@ -42,20 +42,19 @@ const ShipCalculatorLeft = ({
   const { data: session } = useSession();
   const [error, setError] = useState(null);
 
-  console.log("port data :: ", portsData)
+  console.log("port data :: ", portsData);
 
   // Convert portsData to ComboBox list
-const portsList = Object.values(portsData.JSON)
-  .filter((port) => port.coordinates && port.coordinates.length === 2)
-  .map((port) => ({
-    value: port.unlocs?.[0] || port.code || port.name, // UNLOCODE preferred
-    label: port.name,
-    lat: port.coordinates[1], // latitude is second element
-    lon: port.coordinates[0], // longitude is first element
-  }));
+  const portsList = Object.values(portsData.JSON)
+    .filter((port) => port.coordinates && port.coordinates.length === 2)
+    .map((port) => ({
+      value: port.unlocs?.[0] || port.code || port.name, // UNLOCODE preferred
+      label: port.name,
+      lat: port.coordinates[1], // latitude is second element
+      lon: port.coordinates[0], // longitude is first element
+    }));
 
-
-    console.log("Port List : ", portsList)
+  console.log("Port List : ", portsList);
 
   // Auto-calculate distance using haversineDistance when ports change
   useEffect(() => {
@@ -236,7 +235,8 @@ const portsList = Object.values(portsData.JSON)
               placeholder="Enter distance"
               className="bg-transparent focus:outline-none w-full placeholder:text-muted-foreground"
               disabled={
-                freightDetails.port_of_loading && freightDetails.destination_port
+                freightDetails.port_of_loading &&
+                freightDetails.destination_port
               }
             />
           </div>

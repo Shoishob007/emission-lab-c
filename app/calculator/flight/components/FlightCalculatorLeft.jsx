@@ -229,7 +229,7 @@ const FlightCalculatorLeft = ({
       </div>
 
       {/* Emission Lab Test */}
-      <div>
+      {/* <div>
         <label className="block text-sm font-semibold mb-2 text-muted-foreground">
           Emission Lab Test
         </label>
@@ -264,7 +264,7 @@ const FlightCalculatorLeft = ({
             <span className="ml-2 text-sm font-medium">Off</span>
           </label>
         </div>
-      </div>
+      </div> */}
 
       {/* Cabin Type */}
       <div>
