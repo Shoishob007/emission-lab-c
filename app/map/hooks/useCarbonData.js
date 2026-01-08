@@ -183,11 +183,14 @@ export const useCarbonData = () => {
               year: year,
               emission: emission,
               emissionInMillionTons: emission,
+              share_global_co2: item.share_global_co2,
             },
           ],
         };
 
         processedData[iso] = processedItem;
+
+        // console.log("Processed Data :: ", processedData)
 
         globalTotal += emission;
         if (emission > max) max = emission;
@@ -198,6 +201,9 @@ export const useCarbonData = () => {
           name,
           emission,
           year,
+          share_global_co2: item.share_global_co2 != null
+            ? Number(item.share_global_co2)
+            : 0,
         });
 
         countriesProcessed++;

@@ -1,215 +1,95 @@
 import ReactCountryFlag from "react-country-flag";
-import { Globe, Award, TrendingUp } from "lucide-react";
+import { iso3ToIso2 } from "../utils/iso3_To_iso2";
 
 export const DefaultInfoPanel = ({ stats }) => {
-  // Use dynamic data from stats or fallback to empty array
-  const emissionData = stats?.topEmitters?.slice(0, 5).map(emitter => ({
-    country: emitter.name,
-    emissions: emitter.emission / 1000, // Convert to billions
-    percentage: ((emitter.emission / stats.totalEmissions) * 100).toFixed(2)
-  })) || [];
+  // using dynamic data from stats or fallback to empty array
+  // console.log(stats.topEmitters)
+  const emissionData =
+    stats?.topEmitters?.slice(0, 5).map((emitter) => ({
+      country: emitter.name,
+      code: emitter.code,
+      emissions: emitter.emission / 1000,
+      percentage: emitter.share_global_co2.toFixed(2),
+    })) || [];
 
   const colors = ["#EF4444", "#F59E0B", "#2563EB", "#8B5CF6", "#10B981"];
 
   // Calculate max emission for bar chart scaling
-  const maxEmission = emissionData.length > 0 
-    ? Math.max(...emissionData.map(d => d.emissions)) 
-    : 15;
+  const maxEmission =
+    emissionData.length > 0
+      ? Math.max(...emissionData.map((d) => d.emissions))
+      : 15;
   const chartMax = Math.ceil(maxEmission * 1.2);
 
   if (!stats || !stats.topEmitters || stats.topEmitters.length === 0) {
     return (
-      <div className="bg-[#0A2D23] shadow-2xl p-4 text-white h-full overflow-y-auto flex items-center justify-center">
+      <div className="p-4 h-full overflow-y-auto flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-400">No emission data available</p>
-          <p className="text-xs text-gray-500 mt-2">Select a country to view details</p>
+          <p className="text-gray-700">No emission data available</p>
+          <p className="text-xs text-gray-700 mt-2">
+            Select a country to view details
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#0A2D23] shadow-2xl p-4 text-white h-full overflow-y-auto">
+    <div className="p-4 text-white h-full overflow-y-auto bg-white">
       <div className="space-y-4">
-        {/* 3D Pie Chart */}
-        {/* <div className="bg-[#0F3A2E] rounded-lg p-4">
-          <h4 className="text-sm font-semibold mb-4 text-center">
-            Top 5 CO₂ emissions (by country)
+        {/* Global Emission Share – Compact Infographic */}
+        <div className=" rounded-lg p-3 flex flex-col">
+          <h4 className="text-sm font-semibold mb-4 text-center text-gray-700">
+            Global CO₂ Emission Share
           </h4>
-          <svg viewBox="0 0 240 200" className="w-full h-48">
-            <defs>
-              {colors.map((color, idx) => (
-                <linearGradient
-                  key={`grad-${idx}`}
-                  id={`gradient-${idx}`}
-                  x1="0%"
-                  y1="0%"
-                  x2="0%"
-                  y2="100%"
-                >
-                  <stop
-                    offset="0%"
-                    style={{ stopColor: color, stopOpacity: 1 }}
-                  />
-                  <stop
-                    offset="100%"
-                    style={{ stopColor: color, stopOpacity: 0.6 }}
-                  />
-                </linearGradient>
-              ))}
-            </defs>
 
-            {emissionData.map((item, index) => {
-              const startAngle = emissionData
-                .slice(0, index)
-                .reduce((sum, e) => sum + parseFloat(e.percentage) * 3.6, 0);
-              const angle = parseFloat(item.percentage) * 3.6;
-
-              const startRad = (startAngle - 90) * (Math.PI / 180);
-              const endRad = (startAngle + angle - 90) * (Math.PI / 180);
-
-              const x1 = 120 + 80 * Math.cos(startRad);
-              const y1 = 95 + 80 * Math.sin(startRad);
-              const x2 = 120 + 80 * Math.cos(endRad);
-              const y2 = 95 + 80 * Math.sin(endRad);
-
-              const largeArc = angle > 180 ? 1 : 0;
-
-              const midAngle = startAngle + angle / 2;
-              const midRad = (midAngle - 90) * (Math.PI / 180);
-              const labelX = 120 + 55 * Math.cos(midRad);
-              const labelY = 95 + 55 * Math.sin(midRad);
-
-              return (
-                <g key={item.country}>
-                  <path
-                    d={`M 120 95 L ${x1} ${y1} L ${x1} ${y1 + 15} L 120 110 Z`}
-                    fill={colors[index]}
-                    opacity="0.4"
-                  />
-                  <path
-                    d={`M 120 95 L ${x2} ${y2} L ${x2} ${y2 + 15} L 120 110 Z`}
-                    fill={colors[index]}
-                    opacity="0.4"
-                  />
-                  <path
-                    d={`M ${x1} ${y1} A 80 80 0 ${largeArc} 1 ${x2} ${y2} L ${x2} ${
-                      y2 + 15
-                    } A 80 80 0 ${largeArc} 0 ${x1} ${y1 + 15} Z`}
-                    fill={colors[index]}
-                    opacity="0.5"
-                  />
-
-                  <path
-                    d={`M 120 95 L ${x1} ${y1} A 80 80 0 ${largeArc} 1 ${x2} ${y2} Z`}
-                    fill={`url(#gradient-${index})`}
-                    stroke="#0A2D23"
-                    strokeWidth="2"
-                  />
-
-                  <text
-                    x={labelX}
-                    y={labelY}
-                    fill="white"
-                    fontSize="12"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                  >
-                    {item.percentage}%
-                  </text>
-                </g>
-              );
-            })}
-
-            <circle cx="120" cy="95" r="35" fill="#0A2D23" />
-          </svg>
-
-          <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="flex-1 space-y-3">
             {emissionData.map((item, index) => (
-              <div key={item.country} className="flex items-center gap-2">
-                <div
-                  className="w-3 h-3 rounded-sm flex-shrink-0"
-                  style={{ backgroundColor: colors[index] }}
+              <div
+                key={item.country}
+                className="flex items-center gap-2 rounded-md px-2 py-2 border border-[#145A46]"
+              >
+                {/* Flag */}
+                <ReactCountryFlag
+                  svg
+                  style={{ width: "1.5em", height: "1.2em" }}
+                  countryCode={iso3ToIso2(item.code)}
                 />
-                <span className="text-xs text-gray-300 truncate">
+
+                {/* Country name */}
+                <span className="text-sm text-gray-700 truncate w-20">
                   {item.country}
+                </span>
+
+                {/* Progress bar */}
+                <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${item.percentage}%`,
+                      backgroundColor: colors[index],
+                    }}
+                  />
+                </div>
+
+                {/* Percentage */}
+                <span className="text-sm font-semibold text-gray-700 text-right">
+                  {item.percentage}%
                 </span>
               </div>
             ))}
           </div>
-        </div> */}
 
-        {/* Global Emission Share – Compact Infographic */}
-<div className="bg-[#0F3A2E] rounded-lg p-3 flex flex-col">
-          <h4 className="text-sm font-semibold mb-4 text-center">
-    Global CO₂ Emission Share
-  </h4>
-
-  <div className="flex-1 space-y-3">
-    {emissionData.map((item, index) => (
-      <div
-        key={item.country}
-        className="flex items-center gap-2 bg-[#0A2D23] rounded-md px-2 py-2 border border-[#145A46]"
-      >
-        {/* Flag */}
-        <ReactCountryFlag
-          svg
-          style={{ width: "1.5em", height: "1.2em" }}
-          countryCode={
-            item.country === "United States"
-              ? "US"
-              : item.country === "China"
-              ? "CN"
-              : item.country === "India"
-              ? "IN"
-              : item.country === "Russia"
-              ? "RU"
-              : item.country === "Japan"
-              ? "JP"
-              : "UN"
-          }
-        />
-
-        {/* Country name */}
-        <span className="text-sm text-gray-200 truncate w-20">
-          {item.country}
-        </span>
-
-        {/* Progress bar */}
-        <div className="flex-1 h-1.5 bg-[#123F32] rounded-full overflow-hidden">
-          <div
-            className="h-full rounded-full"
-            style={{
-              width: `${item.percentage}%`,
-              backgroundColor: colors[index],
-            }}
-          />
+          {/* Footer */}
         </div>
 
-        {/* Percentage */}
-        <span className="text-sm font-semibold text-white text-right">
-          {item.percentage}%
-        </span>
-      </div>
-    ))}
-      <div className="mt-1 text-[10px] text-gray-400 text-center">
-    Share of global emissions (Top 5)
-  </div>
-  </div>
-
-  {/* Footer */}
-
-</div>
-
-
         {/* 3D Bar Chart */}
-        <div className="bg-[#0F3A2E] rounded-lg p-4">
-          <h4 className="text-sm font-semibold mb-4 text-center">
+        <div className="rounded-lg p-4">
+          <h4 className="text-sm font-semibold mb-4 text-center text-gray-700">
             Top 5 CO₂ emissions (billion tons)
           </h4>
 
-          <div className="relative h-48">
+          <div className="relative">
             <svg viewBox="0 0 400 220" className="w-full h-full">
               {/* Y-axis labels and grid lines */}
               <line
@@ -362,26 +242,26 @@ export const DefaultInfoPanel = ({ stats }) => {
         </div>
 
         {/* Stats Summary */}
-        <div className="bg-[#0F3A2E] rounded-lg p-4">
-          <h4 className="text-sm font-semibold mb-3 text-center">
+        <div className="rounded-lg p-4">
+          <h4 className="text-sm font-semibold mb-3 text-center text-gray-700">
             Global Statistics ({stats.latestYear})
           </h4>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-xs text-gray-400">Total Emissions</span>
-              <span className="text-sm font-bold text-white">
+              <span className="text-xs text-gray-700">Total Emissions</span>
+              <span className="text-sm font-bold text-gray-700">
                 {(stats.totalEmissions / 1000).toFixed(2)} billion tons
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-gray-400">Countries Tracked</span>
-              <span className="text-sm font-bold text-white">
+              <span className="text-xs text-gray-700">Countries Tracked</span>
+              <span className="text-sm font-bold text-gray-700">
                 {stats.countryCount}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-gray-400">Highest Emitter</span>
-              <span className="text-sm font-bold text-white">
+              <span className="text-xs text-gray-700">Highest Emitter</span>
+              <span className="text-sm font-bold text-gray-700">
                 {stats.topEmitters[0].name}
               </span>
             </div>

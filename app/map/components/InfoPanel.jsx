@@ -34,7 +34,7 @@ const InfoPanel = ({
     <div className="lg:col-span-1">
       {/* Selected Country Info */}
       {selectedCountry ? (
-        <div className="bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700 h-full overflow-y-auto max-h-[800px]">
+        <div className="bg-white dark:bg-gray-800 p-5 border-l border-gray-200 dark:border-gray-700 h-full overflow-y-auto max-h-[800px]">
           {/* Header */}
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
             <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
@@ -593,27 +593,6 @@ const InfoPanel = ({
               </div>
             )}
 
-            {/* Peak Year */}
-            {selectedCountry.peakEmission && (
-              <div className="bg-purple-50 dark:bg-purple-900/10 rounded-lg p-3">
-                <div className="flex items-center gap-2 mb-1">
-                  <Flame
-                    className="text-purple-600 dark:text-purple-400"
-                    size={14}
-                  />
-                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                    Peak Emission Year
-                  </p>
-                </div>
-                <p className="text-lg font-bold text-gray-900 dark:text-white">
-                  {selectedCountry.peakYear}
-                </p>
-                <p className="text-sm font-semibold text-purple-600 dark:text-purple-400">
-                  {selectedCountry.peakEmission.toFixed(0)} M tonnes
-                </p>
-              </div>
-            )}
-
             {/* Footer Note */}
             <div className="pt-4 border-t-2 border-dashed border-gray-300 dark:border-gray-600">
               <p className="text-xs text-gray-500 dark:text-gray-400 text-center italic">
@@ -624,7 +603,7 @@ const InfoPanel = ({
           </div>
         </div>
       ) : selectedProject ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-200 dark:border-gray-700 h-full">
+        <div className="bg-white dark:bg-gray-800 p-4 border-l border-gray-200 dark:border-gray-700 h-full">
           {/* Project Header */}
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
             <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg">
