@@ -266,8 +266,8 @@ const FlightCalculatorRight = ({
                     {showDashboard
                       ? "Hide Details"
                       : cachedAiAnalysis
-                      ? "View AI Analysis"
-                      : "View AI Analysis"}
+                      ? "AI Analysis"
+                      : "AI Analysis"}
                   </button>
 
                   {/* Offset Now */}

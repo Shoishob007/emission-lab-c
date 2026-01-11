@@ -266,7 +266,7 @@ const HotelCalculatorRight = ({
                     className="flex-1 bg-primary text-primary-foreground py-3 rounded-md flex items-center justify-center text-sm font-medium hover:bg-primary/90 transition-colors"
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
-                    {showDashboard ? "Hide Details" : "View AI Analysis"}
+                    {showDashboard ? "Hide Details" : "AI Analysis"}
                   </button>
 
                   {/* Offset Now */}

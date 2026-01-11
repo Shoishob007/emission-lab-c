@@ -90,7 +90,7 @@ if (loading) {
               </span>
             </h2>
           </div>
-          <div className="flex-1 flex justify-end w-full">
+          <div className="flex-1 flex sm:justify-end w-full">
             <Link href="/blog">
               <Button
                 size="lg"
