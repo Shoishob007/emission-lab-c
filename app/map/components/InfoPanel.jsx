@@ -784,7 +784,7 @@ const InfoPanel = ({
           </div>
         </div>
       ) : (
-        <DefaultInfoPanel stats={stats} />
+        <DefaultInfoPanel />
       )}
     </div>
   );

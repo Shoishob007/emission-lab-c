@@ -73,14 +73,6 @@ const TopEmittersBarChart = ({ carbonData, stats, selectedYear }) => {
               tick={{ fill: '#9CA3AF' }}
               tickFormatter={(value) => value.toLocaleString()}
               fontSize={12}
-
-            //   label={{ 
-            //     value: 'Emissions', 
-            //     angle: -90, 
-            //     position: 'insideLeft',
-            //     offset: 0,
-            //     fill: '#9CA3AF'
-            //   }}
             />
             <Tooltip 
               formatter={(value) => [`${value.toLocaleString()} MtCO₂e`, "Emissions"]}
