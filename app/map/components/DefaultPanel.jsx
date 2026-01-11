@@ -4,8 +4,10 @@ import { iso3ToIso2 } from "../utils/iso3_To_iso2";
 import { useState, useEffect } from "react";
 
 export const DefaultInfoPanel = () => {
-  const [animatedPercentages, setAnimatedPercentages] = useState([0, 0, 0, 0, 0]);
-  
+  const [animatedPercentages, setAnimatedPercentages] = useState([
+    0, 0, 0, 0, 0,
+  ]);
+
   // Static data for carbon capture
   const carbonCaptureData = [
     { country: "United States", code: "USA", percentage: 40 },
@@ -29,12 +31,12 @@ export const DefaultInfoPanel = () => {
     { country: "Mauritania", code: "MRT", wind: 26, solar: 11, total: 37 },
   ];
 
-  const captureColor = "#22c55e";
+  const captureColor = "#2EB82E";
   const windColor = "#2563EB";
   const solarColor = "#F59E0B";
 
   useEffect(() => {
-    const duration = 1000; // 1.5 seconds
+    const duration = 1000;
     const steps = 40;
     const stepDuration = duration / steps;
     let currentStep = 0;
@@ -42,14 +44,16 @@ export const DefaultInfoPanel = () => {
     const interval = setInterval(() => {
       currentStep++;
       const progress = currentStep / steps;
-      
+
       setAnimatedPercentages(
-        carbonCaptureData.map(item => item.percentage * progress)
+        carbonCaptureData.map((item) => item.percentage * progress)
       );
 
       if (currentStep >= steps) {
         clearInterval(interval);
-        setAnimatedPercentages(carbonCaptureData.map(item => item.percentage));
+        setAnimatedPercentages(
+          carbonCaptureData.map((item) => item.percentage)
+        );
       }
     }, stepDuration);
 
@@ -114,28 +118,44 @@ export const DefaultInfoPanel = () => {
           </h4>
 
           <div className="relative">
-            <svg viewBox="0 0 420 300" className="w-full h-full">
-              {/* Y-axis */}
+            <svg viewBox="0 0 420 390" className="w-full h-full">
+              {/* Constants */}
+              {/*
+        baseline: bottom of chart
+        chartTop: top padding
+        chartHeight: drawable height (~15% taller than before)
+      */}
+              {(() => {
+                const baseline = 280;
+                const chartTop = 20;
+                const chartHeight = 265;
+                return null;
+              })()}
+
+              {/* Axes */}
               <line
                 x1="40"
                 y1="20"
                 x2="40"
-                y2="220"
+                y2="280"
                 stroke="#4B5563"
                 strokeWidth="2"
               />
               <line
                 x1="40"
-                y1="220"
+                y1="280"
                 x2="400"
-                y2="220"
+                y2="280"
                 stroke="#4B5563"
                 strokeWidth="2"
               />
 
-              {/* Y-axis labels and grid lines */}
+              {/* Grid + Y labels */}
               {[0, 10, 20, 30, 40, 50, 60, 70, 80].map((val) => {
-                const y = 220 - (val / 80) * 200;
+                const baseline = 280;
+                const chartHeight = 265;
+                const y = baseline - (val / 80) * chartHeight;
+
                 return (
                   <g key={val}>
                     <line
@@ -150,7 +170,7 @@ export const DefaultInfoPanel = () => {
                       x="30"
                       y={y + 4}
                       fill="#374151"
-                      fontSize="10"
+                      fontSize="12"
                       textAnchor="end"
                     >
                       {val}%
@@ -159,22 +179,24 @@ export const DefaultInfoPanel = () => {
                 );
               })}
 
-              {/* Stacked Bars with animation */}
+              {/* Bars */}
               {renewableEnergyData.map((item, index) => {
                 const barWidth = 28;
                 const spacing = 36;
                 const x = 55 + index * spacing;
-                const maxHeight = 200;
-                
-                const windHeight = (item.wind / 80) * maxHeight;
-                const solarHeight = (item.solar / 80) * maxHeight;
-                
-                const windY = 220 - windHeight;
+
+                const baseline = 280;
+                const chartHeight = 265;
+
+                const windHeight = (item.wind / 80) * chartHeight;
+                const solarHeight = (item.solar / 80) * chartHeight;
+
+                const windY = baseline - windHeight;
                 const solarY = windY - solarHeight;
 
                 return (
                   <g key={item.country}>
-                    {/* Wind bar (bottom, blue) */}
+                    {/* Wind bar */}
                     <rect
                       x={x}
                       y={windY}
@@ -182,24 +204,57 @@ export const DefaultInfoPanel = () => {
                       height={windHeight}
                       fill={windColor}
                       className="cursor-pointer hover:opacity-80 transition-opacity"
+                      onMouseEnter={(e) => {
+                        const tooltip =
+                          document.getElementById("country-tooltip");
+                        if (!tooltip) return;
+                        const rect = e.target.getBoundingClientRect();
+                        tooltip.innerHTML = `
+                  <div class="p-2">
+                    <div class="font-semibold mb-1">${item.country}</div>
+                    <div class="flex items-center mb-1">
+                      <div class="w-3 h-3 rounded-sm mr-2" style="background:${windColor}"></div>
+                      <span>Wind: ${item.wind}%</span>
+                    </div>
+                    <div class="flex items-center mb-1">
+                      <div class="w-3 h-3 rounded-sm mr-2" style="background:${solarColor}"></div>
+                      <span>Solar: ${item.solar}%</span>
+                    </div>
+                    <div class="pt-1 border-t border-gray-700 mt-1">
+                      Total: <span class="font-semibold">${item.total}%</span>
+                    </div>
+                  </div>
+                `;
+                        tooltip.style.left = `${rect.left + rect.width / 2}px`;
+                        tooltip.style.top = `${
+                          rect.top - tooltip.offsetHeight - 10
+                        }px`;
+                        tooltip.style.transform = "translateX(-50%)";
+                        tooltip.style.display = "block";
+                      }}
+                      onMouseLeave={() => {
+                        const tooltip =
+                          document.getElementById("country-tooltip");
+                        if (tooltip) tooltip.style.display = "none";
+                      }}
                     >
                       <animate
                         attributeName="height"
                         from="0"
                         to={windHeight}
-                        dur="1s"
+                        dur="0.8s"
                         fill="freeze"
                       />
                       <animate
                         attributeName="y"
-                        from="220"
+                        from={baseline}
                         to={windY}
-                        dur="1s"
+                        dur="0.8s"
                         fill="freeze"
                       />
                     </rect>
 
-                    {/* Solar bar (top, orange) */}
+                    {/* Solar bar */}
                     {item.solar > 0 && (
                       <rect
                         x={x}
@@ -208,51 +263,69 @@ export const DefaultInfoPanel = () => {
                         height={solarHeight}
                         fill={solarColor}
                         className="cursor-pointer hover:opacity-80 transition-opacity"
+                        onMouseEnter={(e) => {
+                          const tooltip =
+                            document.getElementById("country-tooltip");
+                          if (!tooltip) return;
+                          const rect = e.target.getBoundingClientRect();
+                          tooltip.innerHTML = `
+                    <div class="p-2">
+                      <div class="font-semibold mb-1">${item.country}</div>
+                      <div class="flex items-center mb-1">
+                        <div class="w-3 h-3 rounded-sm mr-2" style="background:${windColor}"></div>
+                        <span>Wind: ${item.wind}%</span>
+                      </div>
+                      <div class="flex items-center mb-1">
+                        <div class="w-3 h-3 rounded-sm mr-2" style="background:${solarColor}"></div>
+                        <span>Solar: ${item.solar}%</span>
+                      </div>
+                      <div class="pt-1 border-t border-gray-700 mt-1">
+                        Total: <span class="font-semibold">${item.total}%</span>
+                      </div>
+                    </div>
+                  `;
+                          tooltip.style.left = `${
+                            rect.left + rect.width / 2
+                          }px`;
+                          tooltip.style.top = `${
+                            rect.top - tooltip.offsetHeight - 10
+                          }px`;
+                          tooltip.style.transform = "translateX(-50%)";
+                          tooltip.style.display = "block";
+                        }}
+                        onMouseLeave={() => {
+                          const tooltip =
+                            document.getElementById("country-tooltip");
+                          if (tooltip) tooltip.style.display = "none";
+                        }}
                       >
                         <animate
                           attributeName="height"
                           from="0"
                           to={solarHeight}
-                          dur="1s"
-                          begin="0.3s"
+                          dur="0.6s"
+                          begin="0.8s"
                           fill="freeze"
                         />
                         <animate
                           attributeName="y"
                           from={windY}
                           to={solarY}
-                          dur="1s"
-                          begin="0.3s"
+                          dur="0.6s"
+                          begin="0.8s"
                           fill="freeze"
                         />
                       </rect>
                     )}
 
-                    {/* Tooltip trigger area */}
-                    <rect
-                      x={x}
-                      y={solarY}
-                      width={barWidth}
-                      height={windHeight + solarHeight}
-                      fill="transparent"
-                      className="cursor-pointer"
-                    >
-                      <title>
-                        {item.country}
-                        {'\n'}Wind: {item.wind}%
-                        {'\n'}Solar: {item.solar}%
-                        {'\n'}Total: {item.total}%
-                      </title>
-                    </rect>
-
                     {/* Country label */}
                     <text
                       x={x + barWidth / 2}
-                      y="245"
+                      y="305"
                       fill="#374151"
                       fontSize="10"
                       textAnchor="middle"
-                      transform={`rotate(45, ${x + barWidth / 2}, 245)`}
+                      transform={`rotate(45, ${x + barWidth / 2}, 305)`}
                     >
                       {item.country}
                     </text>
@@ -260,15 +333,41 @@ export const DefaultInfoPanel = () => {
                 );
               })}
 
-              {/* Legend - centered and larger */}
-              <g transform="translate(140, 270)">
-                <rect x="0" y="0" width="16" height="16" fill={windColor} rx="2" />
-                <text x="20" y="13" fill="#374151" fontSize="12" fontWeight="500">
+              {/* Legend */}
+              <g transform="translate(140, 330)">
+                <rect
+                  x="0"
+                  y="0"
+                  width="16"
+                  height="16"
+                  fill={windColor}
+                  rx="2"
+                />
+                <text
+                  x="20"
+                  y="13"
+                  fill="#374151"
+                  fontSize="12"
+                  fontWeight="500"
+                >
                   Wind (%)
                 </text>
-                
-                <rect x="90" y="0" width="16" height="16" fill={solarColor} rx="2" />
-                <text x="110" y="13" fill="#374151" fontSize="12" fontWeight="500">
+
+                <rect
+                  x="90"
+                  y="0"
+                  width="16"
+                  height="16"
+                  fill={solarColor}
+                  rx="2"
+                />
+                <text
+                  x="110"
+                  y="13"
+                  fill="#374151"
+                  fontSize="12"
+                  fontWeight="500"
+                >
                   Solar (%)
                 </text>
               </g>
