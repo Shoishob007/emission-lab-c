@@ -33,7 +33,7 @@ export const DefaultInfoPanel = () => {
 
   const captureColor = "#2EB82E";
   const windColor = "#2563EB";
-  const solarColor = "#F59E0B";
+  const solarColor = "#C6D8C6";
 
   useEffect(() => {
     const duration = 1000;
@@ -66,7 +66,7 @@ export const DefaultInfoPanel = () => {
         {/* Carbon Capture Share – Compact Infographic */}
         <div className="rounded-lg p-3 flex flex-col">
           <h4 className="text-sm font-semibold mb-4 text-center text-gray-700">
-            Countries that are actively removing CO₂ from the atmosphere
+            Countries that are actively removing <br /> CO₂ from the atmosphere
           </h4>
 
           <div className="flex-1 space-y-3">
@@ -107,14 +107,14 @@ export const DefaultInfoPanel = () => {
           </div>
 
           <p className="text-xs text-center text-gray-600 mt-3">
-            % of Carbon capture Share
+            % of Carbon capture share
           </p>
         </div>
 
         {/* Renewable Energy Bar Chart */}
         <div className="rounded-lg p-4">
           <h4 className="text-sm font-semibold mb-4 text-center text-gray-700">
-            Countries powering electricity Wind & Solar energy
+            Countries powering Electricity by <br /> Wind & Solar energy
           </h4>
 
           <div className="relative">
