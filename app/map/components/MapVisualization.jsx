@@ -234,7 +234,7 @@ const MapVisualization = ({
   return (
     <>
       {/* Map Container */}
-      <div className="h-[450px] rounded-xl overflow-hidden border-2 border-gray-200 dark:border-gray-700 relative">
+      <div className="lg:h-[450px] rounded-xl overflow-hidden border-2 border-gray-200 dark:border-gray-700 relative">
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{

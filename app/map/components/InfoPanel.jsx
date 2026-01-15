@@ -27,7 +27,6 @@ import { DefaultInfoPanel } from "./DefaultPanel";
 const InfoPanel = ({
   selectedCountry,
   selectedProject,
-  stats,
   selectedYear,
 }) => {
   return (

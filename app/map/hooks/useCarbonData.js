@@ -32,21 +32,18 @@ export const useCarbonData = () => {
     topEmitters: [],
   });
   const [regionalData, setRegionalData] = useState(null);
-  const [selectedYear, setSelectedYear] = useState("latest");
+  const [selectedYear, setSelectedYear] = useState("2024");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const availableYears = [
-    "latest",
-    ...Array.from({ length: 2024 - 1960 + 1 }, (_, i) => 2024 - i),
-  ];
+const availableYears = Array.from({ length: 2024 - 1960 + 1 }, (_, i) => 2024 - i);
 
-  const fetchCarbonData = useCallback(async (year = "latest") => {
+  const fetchCarbonData = useCallback(async (year = "2024") => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const query = year && year !== "latest" ? `?year=${year}` : "";
+    const query = `?year=${year}`;
       const res = await fetch(`/api/carbon-data/api${query}`, {
         cache: "no-store",
       });

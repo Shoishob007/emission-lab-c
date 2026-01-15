@@ -66,7 +66,7 @@ export const DefaultInfoPanel = () => {
         {/* Carbon Capture Share – Compact Infographic */}
         <div className="rounded-lg p-3 flex flex-col">
           <h4 className="text-sm font-semibold mb-4 text-center text-gray-700">
-            Countries are actively removing CO₂ from the atmosphere
+            Countries that are actively removing CO₂ from the atmosphere
           </h4>
 
           <div className="flex-1 space-y-3">
@@ -114,17 +114,11 @@ export const DefaultInfoPanel = () => {
         {/* Renewable Energy Bar Chart */}
         <div className="rounded-lg p-4">
           <h4 className="text-sm font-semibold mb-4 text-center text-gray-700">
-            Countries that generate electricity with wind & solar
+            Countries powering electricity Wind & Solar energy
           </h4>
 
           <div className="relative">
             <svg viewBox="0 0 420 390" className="w-full h-full">
-              {/* Constants */}
-              {/*
-        baseline: bottom of chart
-        chartTop: top padding
-        chartHeight: drawable height (~15% taller than before)
-      */}
               {(() => {
                 const baseline = 280;
                 const chartTop = 20;

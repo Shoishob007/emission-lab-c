@@ -14,6 +14,7 @@ import HowItWorksSection from "@/components/HowItWorksSection";
 import DonateSection from "@/components/DonateSection";
 import FaqSection from "@/components/FaqSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import CarbonEmissionWorldMap from "@/app/map/page";
 import BlogSection from "@/components/BlogSection";
 import AiSection from "@/components/AiSection";
 import ContactSection from "@/components/ContactSection";
@@ -51,9 +52,11 @@ const HomeSection = () => {
       <ProjectsSection />
       <BlogSection />
       <FaqSection />
-      <AboutSection />
       {/* <ServicesSection /> */}
       <FactsAndEnvironmentSection />
+      <CarbonEmissionWorldMap />
+
+      <AboutSection />
       {/* <FactsSection /> */}
       {/* <DonateSection /> */}
       {/* <TestimonialsSection /> */}

@@ -6,7 +6,6 @@ import useOffsetStore from "@/stores/offsetStore";
 import MapVisualization from "./components/MapVisualization";
 import LineChart from "./components/LineChart";
 import InfoPanel from "./components/InfoPanel";
-import Legend from "./components/Legend";
 import { useCarbonData } from "./hooks/useCarbonData";
 import { useProjectsData } from "./hooks/useProjectsData";
 import { useMapInteractions } from "./hooks/useMapInteractions";
@@ -17,6 +16,7 @@ const CarbonEmissionWorldMap = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeTab, setActiveTab] = useState("map");
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const {
     carbonData,
@@ -43,13 +43,23 @@ const CarbonEmissionWorldMap = () => {
     [carbonData]
   );
 
+useEffect(() => {
+  if (!isInitialized && availableYears.length > 0) {
+    const defaultYear = "2024";
+    setSelectedYear(defaultYear);
+    setIsInitialized(true);
+  }
+}, [availableYears, isInitialized, setSelectedYear]);
+
   useEffect(() => {
-    fetchCarbonData(selectedYear);
-    if (selectedYear === "latest") {
-      fetchProjects();
+    if (isInitialized) {
+      fetchCarbonData(selectedYear);
+      if (selectedYear === "latest" || selectedYear === "2024") {
+        fetchProjects();
+      }
+      setSelectedCountry(null);
     }
-    setSelectedCountry(null);
-  }, [selectedYear]);
+  }, [selectedYear, isInitialized]);
 
   useEffect(() => {
     fetchHistoricalData();
@@ -74,13 +84,14 @@ const CarbonEmissionWorldMap = () => {
     [setSelectedYear]
   );
 
-  const handleRefreshData = useCallback(() => {
-    setSelectedCountry(null);
-    setSelectedProject(null);
-    setSelectedYear("latest");
-    fetchCarbonData("latest");
-    fetchProjects();
-  }, [fetchCarbonData, fetchProjects]);
+const handleRefreshData = useCallback(() => {
+  setSelectedCountry(null);
+  setSelectedProject(null);
+  const defaultYear = "2024";
+  setSelectedYear(defaultYear);
+  fetchCarbonData(defaultYear);
+  fetchProjects();
+}, [fetchCarbonData, fetchProjects, setSelectedYear]);
 
   const handleResetViewOnly = useCallback(() => {
     handleResetView();
@@ -102,11 +113,31 @@ const CarbonEmissionWorldMap = () => {
   }
 
   return (
-    <div className="w-full min-h-screen p-4">
-      <div className="max-w-7xl mx-auto">
-        {/* <Legend error={error} /> */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 mb-8">
-          <div className="lg:col-span-2 bg-white dark:bg-gray-800 p-6 border border-gray-100 dark:border-gray-700 space-y-6">
+    <section
+      id="carbon-map"
+      className="relative py-8 md:py-20 bg-white overflow-x-hidden flex justify-center items-center"
+      style={{
+        backgroundImage: "url('/city1.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "650px",
+      }}
+    >
+      {/* BG overlay - same as about section */}
+      <div
+        className="absolute inset-0"
+        style={{
+          pointerEvents: "none",
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.8) 100%)",
+        }}
+      />
+
+      {/* Content container */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-2 sm:px-4 bg-white">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2 bg-white dark:bg-gray-800 px-4 border border-gray-100 dark:border-gray-700 space-y-6 rounded-l-lg">
             <div className="flex border-b border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => handleTabChange("map")}
@@ -144,26 +175,24 @@ const CarbonEmissionWorldMap = () => {
             </div>
 
             <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h3 className="text-xl font-bold">
-                  {activeTab === "map"
-                    ? "Emissions Map"
-                    : activeTab === "bar"
-                    ? `Top 10 Emitters (${
-                        selectedYear === "latest" ? "Latest Data" : selectedYear
-                      })`
-                    : "Historical Emissions by Region"}
-                </h3>
-                <div className="flex gap-2 items-center">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+<h3 className="text-lg sm:text-xl font-bold">
+  {activeTab === "map"
+    ? "Emissions Map"
+    : activeTab === "bar"
+    ? `Top 10 Emitters (${selectedYear})`
+    : "Historical Emissions by Region"}
+</h3>
+                <div className="flex flex-wrap gap-2 items-center w-fit sm:w-auto">
                   {activeTab !== "line" && (
                     <select
                       value={selectedYear}
                       onChange={(e) => handleYearChange(e.target.value)}
-                      className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-sm rounded-lg px-3 py-2"
+                      className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-xs sm:text-sm rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 flex-1 sm:flex-none min-w-[100px]"
                     >
                       {availableYears.map((year) => (
                         <option key={year} value={year}>
-                          {year === "latest" ? "Latest" : year}
+                          {year}
                         </option>
                       ))}
                     </select>
@@ -172,7 +201,7 @@ const CarbonEmissionWorldMap = () => {
                   {activeTab === "map" && (
                     <button
                       onClick={handleResetViewOnly}
-                      className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-4 py-2 rounded-lg text-sm"
+                      className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm whitespace-nowrap"
                     >
                       Reset View
                     </button>
@@ -180,7 +209,7 @@ const CarbonEmissionWorldMap = () => {
 
                   <button
                     onClick={handleRefreshData}
-                    className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-4 py-2 rounded-lg text-sm"
+                    className="bg-btn-secondary hover:bg-btn-secondary-hover text-white px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm whitespace-nowrap"
                   >
                     Refresh Data
                   </button>
@@ -233,7 +262,7 @@ const CarbonEmissionWorldMap = () => {
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
