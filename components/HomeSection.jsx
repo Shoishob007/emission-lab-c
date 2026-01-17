@@ -14,7 +14,7 @@ import HowItWorksSection from "@/components/HowItWorksSection";
 import DonateSection from "@/components/DonateSection";
 import FaqSection from "@/components/FaqSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import CarbonEmissionWorldMap from "@/app/map/page";
+import CarbonEmissionWorldMap from "@/components/map/page";
 import BlogSection from "@/components/BlogSection";
 import AiSection from "@/components/AiSection";
 import ContactSection from "@/components/ContactSection";

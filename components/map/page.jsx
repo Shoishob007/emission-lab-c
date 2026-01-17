@@ -135,13 +135,13 @@ const handleRefreshData = useCallback(() => {
       />
 
       {/* Content container */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-2 sm:px-4 bg-white">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-2 sm:px-0 bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 bg-white dark:bg-gray-800 px-4 border border-gray-100 dark:border-gray-700 space-y-6 rounded-l-lg">
-            <div className="flex border-b border-gray-200 dark:border-gray-700">
+            <div className="flex justify-center sm:justify-start border-b border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => handleTabChange("map")}
-                className={`flex items-center gap-2 px-4 py-3 font-medium text-sm transition-colors ${
+                className={`flex items-center gap-2 px-2 sm:px-4 py-2 sm:py-3 font-medium text-sm transition-colors ${
                   activeTab === "map"
                     ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
