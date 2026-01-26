@@ -156,11 +156,11 @@ export default function FactsAndEnvironmentSection() {
         {/* RIGHT: Large Impact Counter - 3 columns */}
         <div className="lg:col-span-3 flex flex-col justify-center items-center lg:items-end text-white py-8 sm:py-10 px-4 order-2 lg:order-3">
           <div className="text-center lg:text-right">
-            <p className="text-white text-base sm:text-lg mb-3 font-medium">
+            <p className="text-white text-lg sm:text-xl mb-3 font-medium">
               Our Collective Climate Impact
             </p>
             <div className="flex items-baseline justify-center lg:justify-end gap-2 mb-2">
-              <span className="text-white text-base sm:text-lg font-medium">
+              <span className="text-white text-lg sm:text-xl font-medium">
                 Over
               </span>
               <div className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-none">
@@ -173,13 +173,10 @@ export default function FactsAndEnvironmentSection() {
             </div>
             <div className="flex items-baseline justify-center lg:justify-end gap-2 flex-wrap">
               <span className="text-white text-lg sm:text-xl font-medium">
-                kgCO<sub className="text-sm">2</sub>e
+                kg CO<sub className="text-sm">2</sub>e
               </span>
-              <i className="text-primary text-lg sm:text-xl md:text-3xl font-bold">
+              <span className="text-primary text-lg sm:text-xl md:text-3xl font-bold">
                 offset
-              </i>
-              <span className="text-white text-lg sm:text-xl font-medium">
-                so far
               </span>
             </div>
           </div>

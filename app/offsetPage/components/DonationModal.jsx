@@ -42,7 +42,7 @@ const DonationModal = ({
     quoteData?.price_per_metric_ton_usd ||
       project.price_per_ton ||
       project.donationValue ||
-      0
+      0,
   );
   const totalAmount = emissionValue * pricePerTon;
 
@@ -166,7 +166,7 @@ const DonationModal = ({
                           <span className="font-semibold text-[#163820]">
                             $
                             {parseFloat(
-                              quoteData.price_per_metric_ton_usd
+                              quoteData.price_per_metric_ton_usd,
                             ).toFixed(2)}
                           </span>
                         </div>

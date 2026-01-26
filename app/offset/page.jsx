@@ -243,7 +243,7 @@ export default function OffsetPage() {
 
   const regularProjects = projects.filter(
     (project) =>
-      !defaultProjects.some((defaultProj) => defaultProj.id === project.id)
+      !defaultProjects.some((defaultProj) => defaultProj.id === project.id),
   );
 
   const loadMoreProjects = () => {
@@ -401,8 +401,8 @@ export default function OffsetPage() {
                     displayedRegularProjects.length === 1
                       ? "grid grid-cols-1 max-w-4xl"
                       : displayedRegularProjects.length === 2
-                      ? "grid grid-cols-1 md:grid-cols-2 max-w-7xl gap-4"
-                      : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl gap-4"
+                        ? "grid grid-cols-1 md:grid-cols-2 max-w-7xl gap-4"
+                        : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl gap-4"
                   }
                 >
                   {displayedRegularProjects.map((project) => (
