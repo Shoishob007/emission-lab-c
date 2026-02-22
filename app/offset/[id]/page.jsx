@@ -16,6 +16,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import DonationModal from "../../offsetPage/components/DonationModal.jsx";
+import ContributionModal from "../../offsetPage/components/ContributionModal.jsx";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
 import { useSession } from "next-auth/react";
@@ -23,6 +24,7 @@ import { renderDescription } from "../../offsetPage/components/RenderProjectDeta
 
 export default function ProjectDetailsPage({ params }) {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+  const [isContributionModalOpen, setIsContributionModalOpen] = useState(false);
   const [quoteData, setQuoteData] = useState(null);
   const { data: session } = useSession();
   const userId = session?.user?.id;
@@ -57,6 +59,10 @@ export default function ProjectDetailsPage({ params }) {
     } catch (err) {
       console.error("Error getting offset quote:", err);
     }
+  };
+
+  const handleContribution = () => {
+    setIsContributionModalOpen(true);
   };
 
   // loading and error states
@@ -375,13 +381,21 @@ export default function ProjectDetailsPage({ params }) {
                 )}
 
                 {hasValidEmissionData ? (
-                  <button
-                    onClick={handleOffset}
-                    className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
-                  >
-                    <CheckCircle size={24} />
-                    Offset
-                  </button>
+                  <div className="space-y-3">
+                    <button
+                      onClick={handleOffset}
+                      className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
+                    >
+                      <CheckCircle size={24} />
+                      Offset
+                    </button>
+                    <button
+                      onClick={handleContribution}
+                      className="w-full py-2 px-4 bg-btn-secondary hover:bg-btn-secondary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-secondary/20 hover:shadow-xl hover:shadow-btn-secondary/30"
+                    >
+                      Individual Contribution
+                    </button>
+                  </div>
                 ) : (
                   <Link
                     href="/calculator"
@@ -403,6 +417,13 @@ export default function ProjectDetailsPage({ params }) {
         project={project}
         emissionValue={currentEmission}
         quoteData={quoteData}
+      />
+
+      <ContributionModal
+        isOpen={isContributionModalOpen}
+        onClose={() => setIsContributionModalOpen(false)}
+        project={project}
+        emissionValue={currentEmission}
       />
     </div>
   );

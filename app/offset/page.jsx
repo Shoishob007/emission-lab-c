@@ -122,7 +122,7 @@ function FeaturedProjectCard({ project, onDonate }) {
               e.stopPropagation();
               onDonate();
             }}
-            className="px-10 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+            className="w-full sm:w-fit px-24 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -235,7 +235,6 @@ export default function OffsetPage() {
     createOffsetQuote,
   } = useOffsetStore();
 
-  // console.log("defaultProjects :: ", defaultProjects);
 
   useEffect(() => {
     fetchProjects();
