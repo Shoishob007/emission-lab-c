@@ -54,6 +54,8 @@ export default function ProjectDetailsPage({ params }) {
       const data = await createOffsetQuote({
         project_id: projectId,
         carbon_emission_metric_tons: parseFloat(currentEmission),
+        offset_type: "calculation",
+        payment_type: "one_time"
       });
       setQuoteData(data);
       setIsDonationModalOpen(true);

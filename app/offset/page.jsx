@@ -267,6 +267,8 @@ export default function OffsetPage() {
       const data = await createOffsetQuote({
         project_id: project.id,
         carbon_emission_metric_tons: currentEmission,
+        offset_type: "calculation",
+        payment_type: "one_time"
       });
       console.log("data response :: ", data);
       setQuoteData(data);
