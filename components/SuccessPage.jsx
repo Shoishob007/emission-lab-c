@@ -12,6 +12,7 @@ const OffsetSuccessPage = () => {
   const [loadingData, setLoadingData] = useState(true);
   const [successData, setSuccessData] = useState(null);
   const [error, setError] = useState(null);
+  const [loadingStep, setLoadingStep] = useState(0);
 
   const {
     confirmOffsetQuote,
@@ -23,6 +24,16 @@ const OffsetSuccessPage = () => {
   const { clearEmissionData } = useEmissionsStore();
 
   const hasConfirmedRef = useRef(false);
+
+  useEffect(() => {
+    if (!loadingData) return;
+
+    const interval = setInterval(() => {
+      setLoadingStep((prev) => (prev + 1) % 3);
+    }, 1200);
+
+    return () => clearInterval(interval);
+  }, [loadingData]);
 
   useEffect(() => {
     const confirmQuoteAfterPayment = async () => {
@@ -121,24 +132,11 @@ const OffsetSuccessPage = () => {
     window.open(url, "_blank");
   };
 
-  // Loader
-  const SkeletonText = ({ className = "" }) => (
-    <div className={`bg-gray-200 animate-pulse rounded h-4 ${className}`}></div>
-  );
-
-  const SkeletonCard = () => (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
-      <div className="flex items-center gap-2">
-        <div className="bg-gray-200 animate-pulse rounded-full h-6 w-6"></div>
-        <SkeletonText className="w-32 h-6" />
-      </div>
-      <div className="space-y-3">
-        <SkeletonText className="w-3/4" />
-        <SkeletonText className="w-1/2" />
-        <SkeletonText className="w-2/3" />
-      </div>
-    </div>
-  );
+  const processingSteps = [
+    "Confirming your offset payment",
+    "Registering your carbon reduction",
+    "Generating your certificate",
+  ];
 
   if (error) {
     return (
@@ -178,11 +176,73 @@ const OffsetSuccessPage = () => {
 
           <div className="p-4 sm:p-8 space-y-6">
             {loadingData ? (
-              <>
-                <SkeletonCard />
-                <SkeletonCard />
-                <SkeletonCard />
-              </>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-2xl p-6 sm:p-8"
+              >
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white border border-emerald-200 shadow-sm mb-4">
+                    <FileText className="text-primary animate-pulse" size={28} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-[#163820]">
+                    Preparing Your Certificate
+                  </h3>
+                  <p className="text-[#767676] mt-2">
+                    Your payment is successful. We are now verifying your offset
+                    and generating your certificate.
+                  </p>
+                </div>
+
+                <div className="mt-8 grid gap-3">
+                  {processingSteps.map((step, index) => {
+                    const isCompleted = index < loadingStep;
+                    const isActive = index === loadingStep;
+
+                    return (
+                      <motion.div
+                        key={step}
+                        initial={{ opacity: 0.6 }}
+                        animate={{
+                          opacity: isActive || isCompleted ? 1 : 0.6,
+                          scale: isActive ? 1.01 : 1,
+                        }}
+                        className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${
+                          isCompleted || isActive
+                            ? "bg-white border-emerald-200"
+                            : "bg-emerald-50/40 border-emerald-100"
+                        }`}
+                      >
+                        <div
+                          className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                            isCompleted
+                              ? "bg-emerald-500"
+                              : isActive
+                              ? "bg-primary animate-pulse"
+                              : "bg-emerald-200"
+                          }`}
+                        >
+                          {isCompleted ? (
+                            <BadgeCheck size={13} className="text-white" />
+                          ) : (
+                            <span className="w-2 h-2 rounded-full bg-white" />
+                          )}
+                        </div>
+                        <p className="text-sm sm:text-base font-medium text-[#163820]">
+                          {step}
+                        </p>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-6 flex justify-center items-center gap-2 text-sm text-[#767676]">
+                  <span className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.2s]" />
+                  <span className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.1s]" />
+                  <span className="w-2 h-2 bg-primary rounded-full animate-bounce" />
+                  <span className="ml-2">This usually takes only a few seconds</span>
+                </div>
+              </motion.div>
             ) : successData ? (
               <>
                 {/* Certification Details */}
