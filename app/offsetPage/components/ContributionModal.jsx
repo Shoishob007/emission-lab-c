@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import useOffsetStore from "@/stores/offsetStore";
 
 const ContributionModal = ({ isOpen, onClose, project, emissionValue }) => {
-  const [contributionType, setContributionType] = useState("subscription");
+  // const [contributionType, setContributionType] = useState("subscription");
   const [metricTons, setMetricTons] = useState("");
   const [usdAmount, setUsdAmount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -91,7 +91,7 @@ const ContributionModal = ({ isOpen, onClose, project, emissionValue }) => {
 
     setErrors({});
     setIsSubmitting(false);
-    setContributionType("subscription");
+    // setContributionType("subscription");
   }, [isOpen, project, emissionValue, pricePerTon]);
 
   useEffect(() => {
@@ -220,7 +220,7 @@ const ContributionModal = ({ isOpen, onClose, project, emissionValue }) => {
           </div>
 
           <div className="flex-1 overflow-y-auto p-5 space-y-5 bg-[radial-gradient(circle_at_top,_#f6fff8,_#ffffff_55%)]">
-            <div>
+            {/* <div>
               <p className="text-xs font-semibold text-[#163820] mb-2">
                 Contribution type
               </p>
@@ -248,7 +248,7 @@ const ContributionModal = ({ isOpen, onClose, project, emissionValue }) => {
                   One-time
                 </button>
               </div>
-            </div>
+            </div> */}
 
             <h3 className="text-2xl font-bold text-center text-[#163820]">
               Enter an amount to give
@@ -417,7 +417,7 @@ const ContributionModal = ({ isOpen, onClose, project, emissionValue }) => {
                 isProceedDisabled() ? "opacity-80 cursor-not-allowed" : ""
               }`}
             >
-              {isSubmitting ? "PROCESSING..." : "MAKE AN IMPACT"}
+              {isSubmitting ? "Processing..." : "Make an Impact"}
             </button>
           </div>
         </motion.div>
