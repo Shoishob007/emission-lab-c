@@ -28,6 +28,21 @@ const DonationModal = ({
     setCertificationName,
   } = useOffsetStore();
 
+  const certificateNamePattern = /^[A-Za-z0-9 ]+$/;
+
+  const handleCertificateNameChange = (value) => {
+    const sanitized = value.replace(/[^A-Za-z0-9 ]/g, "");
+    setCertificationName(sanitized);
+    setErrors((prev) => ({
+      ...prev,
+      submit: undefined,
+      certificate:
+        sanitized !== value
+          ? "Certificate name can only contain letters, numbers, and spaces."
+          : undefined,
+    }));
+  };
+
   useEffect(() => {
     if (isLoggedIn) {
       setCreateAccount(false);
@@ -47,6 +62,21 @@ const DonationModal = ({
   const totalAmount = emissionValue * pricePerTon;
 
   const handleStripeCheckout = async () => {
+    const normalizedName = certification_name.trim();
+
+    if (!normalizedName) {
+      setErrors({ submit: "Certificate name is required." });
+      return;
+    }
+
+    if (!certificateNamePattern.test(normalizedName)) {
+      setErrors({
+        submit:
+          "Certificate name can only contain letters, numbers, and spaces.",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     setErrors({});
 
@@ -86,7 +116,9 @@ const DonationModal = ({
   // Check if proceed button should be disabled
   const isProceedDisabled = () => {
     // Always need certificate name
-    if (!certification_name.trim()) return true;
+    const normalizedName = certification_name.trim();
+    if (!normalizedName) return true;
+    if (!certificateNamePattern.test(normalizedName)) return true;
 
     // If user is logged in, they already accepted terms
     if (isLoggedIn) return false;
@@ -279,10 +311,17 @@ const DonationModal = ({
                       id="certification_name"
                       type="text"
                       value={certification_name}
-                      onChange={(e) => setCertificationName(e.target.value)}
+                      onChange={(e) =>
+                        handleCertificateNameChange(e.target.value)
+                      }
                       placeholder="Enter your certificate name"
                       className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:outline-none"
                     />
+                    {errors.certificate && (
+                      <p className="text-red-600 text-xs mt-2">
+                        {errors.certificate}
+                      </p>
+                    )}
                     <p className="text-[#767676] text-xs mt-2">
                       This name will appear on your carbon offset certificate
                     </p>
