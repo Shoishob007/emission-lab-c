@@ -1,13 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-  Award,
-  Users,
-  Globe,
-  ChevronRight,
-  Settings,
-  ArrowRight,
-  Info,
-} from "lucide-react";
+import { Award, Users, Globe, ArrowRight, Info } from "lucide-react";
 import CountUp from "react-countup";
 import { useRef, useEffect, useState } from "react";
 
@@ -71,9 +63,9 @@ export default function FactsAndEnvironmentSection() {
           opacity: 0.08,
         }}
       />
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-8 md:gap-10 items-center justify-center px-2 sm:px-4 py-0">
-        {/* LEFT: Content */}
-        <div className="flex-1 flex flex-col justify-center items-start text-white py-8 sm:py-10 px-4 w-full max-w-2xl">
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-center px-2 sm:px-4 py-0">
+        {/* LEFT: Content - 5 columns */}
+        <div className="lg:col-span-5 flex flex-col justify-center items-start text-white sm:py-10 px-4">
           <div className="flex items-center gap-3 mb-6">
             <span className="inline-flex items-center justify-center bg-primary/20 rounded-full p-2">
               <Info size={22} strokeWidth={2} className="text-primary" />
@@ -84,22 +76,22 @@ export default function FactsAndEnvironmentSection() {
           </div>
 
           <h2 className="font-bold text-white text-3xl sm:text-4xl leading-tight mb-4 capitalize">
-            Key <span className="text-primary">environmental facts</span> for{" "}
-            <br className="hidden sm:block" />a sustainable future
+            Key <span className="text-primary">environmental facts</span> for a
+            sustainable future
           </h2>
 
-          <p className="text-green-100 text-base sm:text-lg mb-6 leading-relaxed max-w-xl">
+          <p className="text-white text-base sm:text-lg mb-6 leading-relaxed">
             Discover essential facts about our planet&apos;s health, climate
             change, and sustainability efforts. Understanding these facts
             empowers us to take action.
           </p>
 
           {/* Arrow List  */}
-          <div className="mb-10 grid grid-cols-1 gap-y-2 w-full max-w-2xl">
+          <div className="mb-10 grid grid-cols-1 gap-y-2 w-full">
             {reasons.map((reason, i) => (
               <div key={i} className="flex items-center gap-2 mb-1">
                 <ArrowRight className="w-5 h-5 text-btn-primary flex-shrink-0" />
-                <span className="text-green-50 text-base font-medium">
+                <span className="text-white text-base font-medium">
                   {reason}
                 </span>
               </div>
@@ -107,10 +99,10 @@ export default function FactsAndEnvironmentSection() {
           </div>
 
           {/* Divider */}
-          <div className="w-full h-px bg-green-700/50 mb-10 max-w-xl" />
+          <div className="w-full h-px bg-green-700/50 mb-10" />
 
           {/* Animated Numbers */}
-          <div className="grid grid-cols-3 gap-x-2 sm:gap-x-0 gap-y-6 w-full max-w-xl">
+          <div className="grid grid-cols-3 gap-x-2 sm:gap-x-0 gap-y-6 w-full">
             {facts.map((fact, idx) => (
               <div
                 key={idx}
@@ -129,7 +121,7 @@ export default function FactsAndEnvironmentSection() {
                     `0${fact.suffix}`
                   )}
                 </div>
-                <div className="text-green-200 font-medium text-xs sm:text-sm uppercase tracking-wide px-2">
+                <div className="text-green-100 font-medium text-xs sm:text-sm uppercase tracking-wide px-2">
                   {fact.label}
                 </div>
               </div>
@@ -137,17 +129,13 @@ export default function FactsAndEnvironmentSection() {
           </div>
         </div>
 
-        {/* Illustration */}
-        <div className="flex-1 min-w-0 w-full h-full flex items-center justify-center relative">
+        {/* CENTER: Illustration - 4 columns */}
+        <div className="lg:col-span-4 flex items-center justify-center relative order-3 lg:order-2">
           <div
-            className="relative flex items-center justify-center w-full h-full"
+            className="relative flex items-center justify-center w-full"
             style={{
-              minWidth: "0",
-              minHeight: "0",
               maxWidth: 500,
-              maxHeight: 950,
-              width: "100%",
-              height: "100%",
+              maxHeight: 900,
             }}
           >
             <img
@@ -156,7 +144,7 @@ export default function FactsAndEnvironmentSection() {
               className="w-full h-auto object-contain rounded-b-3xl drop-shadow-2xl mx-auto"
               draggable={false}
               style={{
-                maxHeight: 950,
+                maxHeight: 900,
                 minHeight: 280,
                 marginTop: 0,
                 display: "block",
@@ -164,20 +152,44 @@ export default function FactsAndEnvironmentSection() {
             />
           </div>
         </div>
+
+        {/* RIGHT: Large Impact Counter - 3 columns */}
+        <div className="lg:col-span-3 flex flex-col justify-center items-center lg:items-end text-white py-8 sm:py-10 px-4 order-2 lg:order-3">
+          <div className="text-center lg:text-right">
+            <p className="text-white text-lg sm:text-xl mb-3 font-medium">
+              Our Collective Climate Impact
+            </p>
+            <div className="flex items-baseline justify-center lg:justify-end gap-2 mb-2">
+              <span className="text-white text-lg sm:text-xl font-medium">
+                Over
+              </span>
+              <div className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-none">
+                {startCount ? (
+                  <CountUp end={50000} duration={3} separator="," />
+                ) : (
+                  "0"
+                )}
+              </div>
+            </div>
+            <div className="flex items-baseline justify-center lg:justify-end gap-2 flex-wrap">
+              <span className="text-white text-lg sm:text-xl font-medium">
+                kg CO<sub className="text-sm">2</sub>e
+              </span>
+              <span className="text-primary text-lg sm:text-xl md:text-3xl font-bold">
+                offset
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
       {/* Prevent section from shrinking too much on mobile */}
-      <style>{`
+      {/* <style>{`
         @media (max-width: 1024px) {
           .min-h-\\[700px\\] {
             min-height: 0 !important;
           }
         }
-        @media (max-width: 640px) {
-          section {
-            padding-bottom: 1.5rem !important;
-          }
-        }
-      `}</style>
+      `}</style> */}
     </section>
   );
 }

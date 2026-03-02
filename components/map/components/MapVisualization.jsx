@@ -158,7 +158,7 @@ const MapVisualization = ({
     return "no-data";
   };
 
-  // legend item click
+  // Handle legend item click
   const handleLegendClick = (levelId) => {
     if (activeFilter === levelId) {
       setActiveFilter(null);
@@ -320,7 +320,7 @@ const MapVisualization = ({
                           tooltip.style.display = "block";
                           if (emission !== null && !isDisabled) {
                             const level = emissionLevels.find(
-                              (l) => l.id === getEmissionLevel(share)
+                              (l) => l.id === getEmissionLevel(share),
                             );
                             tooltip.innerHTML = `
                               <div class="p-2">
@@ -475,7 +475,7 @@ const MapVisualization = ({
                 className="w-3 h-3 rounded-full"
                 style={{
                   backgroundColor: emissionLevels.find(
-                    (l) => l.id === activeFilter
+                    (l) => l.id === activeFilter,
                   )?.color,
                 }}
               />

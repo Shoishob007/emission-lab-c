@@ -1,6 +1,51 @@
 // World map GeoJSON URL
 export const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
+// Country population data
+export const countryPopulation = {
+  'AFG': '40.1M', 'ALB': '2.8M', 'DZA': '45.4M', 'AND': '0.08M', 'AGO': '36.7M',
+  'AIA': '0.02M', 'ARG': '45.8M', 'ARM': '2.9M', 'ABW': '0.11M', 'AUS': '26.0M',
+  'AUT': '9.1M', 'AZE': '10.3M', 'BHS': '0.4M', 'BHR': '1.5M', 'BGD': '169.4M',
+  'BRB': '0.3M', 'BLR': '9.3M', 'BEL': '11.7M', 'BLZ': '0.4M', 'BEN': '13.0M',
+  'BMU': '0.06M', 'BTN': '0.8M', 'BOL': '12.1M', 'BIH': '3.3M', 'BWA': '2.6M',
+  'BRA': '214.3M', 'VGB': '0.03M', 'BRN': '0.4M', 'BGR': '6.5M', 'BFA': '22.5M',
+  'BDI': '12.9M', 'KHM': '17.1M', 'CMR': '27.9M', 'CAN': '38.9M', 'CPV': '0.6M',
+  'CYM': '0.07M', 'CAF': '5.5M', 'TCD': '17.4M', 'CHL': '19.6M', 'CHN': '1,411.8M',
+  'COL': '51.9M', 'COM': '0.9M', 'COD': '95.9M', 'COG': '5.8M', 'CRI': '5.2M',
+  'CIV': '27.5M', 'HRV': '4.0M', 'CUB': '11.3M', 'CYP': '1.2M', 'CZE': '10.7M',
+  'DNK': '5.9M', 'DJI': '1.0M', 'DMA': '0.07M', 'DOM': '11.1M', 'ECU': '18.0M',
+  'EGY': '109.3M', 'SLV': '6.3M', 'GNQ': '1.5M', 'ERI': '3.6M', 'EST': '1.3M',
+  'SWZ': '1.2M', 'ETH': '123.4M', 'FJI': '0.9M', 'FIN': '5.6M', 'FRA': '65.6M',
+  'DEU': '84.3M', 'GHA': '32.8M', 'GRC': '10.4M', 'GRL': '0.06M', 'GRD': '0.1M',
+  'GTM': '17.6M', 'GIN': '13.9M', 'GNB': '2.1M', 'GUY': '0.8M', 'HTI': '11.5M',
+  'HND': '10.4M', 'HUN': '9.6M', 'ISL': '0.4M', 'IND': '1,417.2M', 'IDN': '277.5M',
+  'IRN': '88.6M', 'IRQ': '44.5M', 'IRL': '5.1M', 'ISR': '9.4M', 'ITA': '59.0M',
+  'JAM': '3.0M', 'JPN': '125.1M', 'JOR': '11.3M', 'KAZ': '19.6M', 'KEN': '55.1M',
+  'KIR': '0.1M', 'PRK': '26.0M', 'KOR': '51.8M', 'KWT': '4.4M', 'KGZ': '6.8M',
+  'LAO': '7.5M', 'LVA': '1.8M', 'LBN': '5.6M', 'LSO': '2.3M', 'LBR': '5.4M',
+  'LBY': '7.0M', 'LIE': '0.04M', 'LTU': '2.7M', 'LUX': '0.6M', 'MDG': '29.6M',
+  'MWI': '20.4M', 'MYS': '33.6M', 'MDV': '0.5M', 'MLI': '22.6M', 'MLT': '0.5M',
+  'MHL': '0.06M', 'MRT': '4.9M', 'MUS': '1.3M', 'MEX': '131.6M', 'FSM': '0.1M',
+  'MDA': '2.6M', 'MCO': '0.04M', 'MNG': '3.4M', 'MNE': '0.6M', 'MAR': '37.8M',
+  'MOZ': '33.1M', 'MMR': '54.8M', 'NAM': '2.6M', 'NRU': '0.01M', 'NPL': '30.5M',
+  'NLD': '17.7M', 'NZL': '5.1M', 'NIC': '6.9M', 'NER': '26.2M', 'NGA': '218.5M',
+  'MKD': '2.1M', 'NOR': '5.5M', 'OMN': '4.6M', 'PAK': '235.8M', 'PLW': '0.02M',
+  'PSE': '5.3M', 'PAN': '4.4M', 'PNG': '9.9M', 'PRY': '7.3M', 'PER': '34.0M',
+  'PHL': '115.6M', 'POL': '37.7M', 'PRT': '10.3M', 'PRI': '3.2M', 'QAT': '2.9M',
+  'ROU': '19.0M', 'RUS': '144.4M', 'RWA': '13.8M', 'KNA': '0.05M', 'LCA': '0.2M',
+  'VCT': '0.1M', 'WSM': '0.2M', 'SMR': '0.03M', 'STP': '0.2M', 'SAU': '36.4M',
+  'SEN': '17.5M', 'SRB': '6.7M', 'SYC': '0.1M', 'SLE': '8.6M', 'SGP': '5.9M',
+  'SVK': '5.5M', 'SVN': '2.1M', 'SLB': '0.7M', 'SOM': '17.6M', 'ZAF': '60.4M',
+  'SSD': '11.4M', 'ESP': '47.6M', 'LKA': '22.2M', 'SDN': '46.9M', 'SUR': '0.6M',
+  'SWE': '10.5M', 'CHE': '8.8M', 'SYR': '22.1M', 'TWN': '23.9M', 'TJK': '10.0M',
+  'TZA': '63.6M', 'THA': '70.0M', 'TLS': '1.3M', 'TGO': '8.8M', 'TON': '0.1M',
+  'TTO': '1.5M', 'TUN': '12.3M', 'TUR': '85.3M', 'TKM': '6.3M', 'TCA': '0.05M',
+  'TUV': '0.01M', 'UGA': '48.4M', 'UKR': '43.2M', 'ARE': '10.1M', 'GBR': '68.5M',
+  'USA': '331.9M', 'VIR': '0.1M', 'URY': '3.5M', 'UZB': '35.2M', 'VUT': '0.3M',
+  'VEN': '28.2M', 'VNM': '98.6M', 'ESH': '0.6M', 'YEM': '31.0M', 'ZMB': '19.5M',
+  'ZWE': '15.2M'
+};
+
 // Country name to code mappings
 export const countryNameToCode = {
   "Afghanistan": "AFG", "Albania": "ALB", "Algeria": "DZA", "Andorra": "AND",

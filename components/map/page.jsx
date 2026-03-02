@@ -138,15 +138,14 @@ const CarbonEmissionWorldMap = () => {
       <div className="relative z-10 w-full max-w-[1200px] mx-auto px-2 sm:px-0 bg-white">
         <div className="text-center mb-16">
           <h2 className="font-bold text-[#163820] text-3xl sm:text-4xl leading-tight capitalize">
-            Global Carbon{" "}
-            <span className="text-primary">Footprint</span>
+            Global Carbon <span className="text-primary">Footprint</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             Where the world emits and where it acts{" "}
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 bg-white dark:bg-gray-800 px-4 space-y-6 rounded-l-lg">
+          <div className="lg:col-span-2 bg-white dark:bg-gray-800 px-4 border border-gray-100 dark:border-gray-700 space-y-6 rounded-l-lg">
             <div className="flex justify-center sm:justify-start border-b border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => handleTabChange("map")}

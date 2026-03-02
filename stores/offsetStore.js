@@ -56,14 +56,14 @@ const useOffsetStore = create(
                 }
             },
 
-            createOffsetQuote: async ({ project_id, carbon_emission_metric_tons }) => {
+            createOffsetQuote: async ({ project_id, carbon_emission_metric_tons, offset_type, payment_type }) => {
                 try {
                     const response = await fetch(
                         `${process.env.NEXT_PUBLIC_API}/api/offset/quote/`,
                         {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ project_id, carbon_emission_metric_tons }),
+                            body: JSON.stringify({ project_id, carbon_emission_metric_tons, offset_type, payment_type }),
                         }
                     );
                     if (!response.ok) throw new Error("Failed to get offset quote");

@@ -24,11 +24,7 @@ import {
 } from "lucide-react";
 import { DefaultInfoPanel } from "./DefaultPanel";
 
-const InfoPanel = ({
-  selectedCountry,
-  selectedProject,
-  selectedYear,
-}) => {
+const InfoPanel = ({ selectedCountry, selectedProject, selectedYear }) => {
   return (
     <div className="lg:col-span-1">
       {/* Selected Country Info */}
@@ -123,7 +119,7 @@ const InfoPanel = ({
                     <p className="text-sm font-semibold text-green-600 dark:text-green-400">
                       {selectedCountry.perCapita
                         ? `${parseFloat(selectedCountry.perCapita).toFixed(
-                            2
+                            2,
                           )} t`
                         : "N/A"}
                     </p>
@@ -165,7 +161,7 @@ const InfoPanel = ({
                           "en-US",
                           {
                             maximumFractionDigits: 0,
-                          }
+                          },
                         )}{" "}
                         kWh
                       </p>
@@ -485,7 +481,7 @@ const InfoPanel = ({
                         Contribution to world total
                       </p>
                     </div>
-                    <p className="text-2xl font-bold text-[#3b82f6]">
+                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                       {selectedCountry.shareGlobalCo2.toFixed(3)}%
                     </p>
                   </div>
@@ -675,7 +671,7 @@ const InfoPanel = ({
                     {selectedProject.available_amount?.toLocaleString() ||
                       selectedProject.offsetAmount?.replace(
                         " tons available",
-                        ""
+                        "",
                       )}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -710,7 +706,7 @@ const InfoPanel = ({
                         Math.round(
                           (selectedProject.available_amount /
                             selectedProject.allocated_amount) *
-                            100
+                            100,
                         )}
                       % available
                     </span>
@@ -725,7 +721,7 @@ const InfoPanel = ({
                             ? (selectedProject.available_amount /
                                 selectedProject.allocated_amount) *
                                 100
-                            : 0
+                            : 0,
                         )}%`,
                       }}
                     />

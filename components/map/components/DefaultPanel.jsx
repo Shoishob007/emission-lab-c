@@ -46,13 +46,13 @@ export const DefaultInfoPanel = () => {
       const progress = currentStep / steps;
 
       setAnimatedPercentages(
-        carbonCaptureData.map((item) => item.percentage * progress)
+        carbonCaptureData.map((item) => item.percentage * progress),
       );
 
       if (currentStep >= steps) {
         clearInterval(interval);
         setAnimatedPercentages(
-          carbonCaptureData.map((item) => item.percentage)
+          carbonCaptureData.map((item) => item.percentage),
         );
       }
     }, stepDuration);

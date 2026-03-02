@@ -42,10 +42,9 @@ export default function BlogSection() {
     return null;
   };
 
-if (loading) {
-  return <BlogSkeleton />;
-}
-
+  if (loading) {
+    return <BlogSkeleton />;
+  }
 
   if (!blogPosts.length) {
     return (

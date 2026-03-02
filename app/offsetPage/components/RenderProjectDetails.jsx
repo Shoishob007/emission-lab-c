@@ -12,16 +12,18 @@ export const renderDescription = ({ project }) => {
     );
   } else {
     const formattedText = project.description
-      .split('\\n')
-      .filter(line => line.trim())
+      .split("\\n")
+      .filter((line) => line.trim())
       .map((line, index) => {
         const trimmedLine = line.trim();
 
-        if (trimmedLine.startsWith('•')) {
+        if (trimmedLine.startsWith("•")) {
           return (
             <div key={`bullet-${index}`} className="flex gap-2 mb-3">
               <span className="text-lg leading-relaxed shrink-0">•</span>
-              <span className="flex-1 leading-relaxed break-words">{trimmedLine.substring(1).trim()}</span>
+              <span className="flex-1 leading-relaxed break-words">
+                {trimmedLine.substring(1).trim()}
+              </span>
             </div>
           );
         }
@@ -31,8 +33,12 @@ export const renderDescription = ({ project }) => {
           const [, number, content] = numberedMatch;
           return (
             <div key={`numbered-${index}`} className="flex gap-2 mb-3">
-              <span className="font-semibold leading-relaxed shrink-0">{number}.</span>
-              <span className="flex-1 leading-relaxed break-words">{content}</span>
+              <span className="font-semibold leading-relaxed shrink-0">
+                {number}.
+              </span>
+              <span className="flex-1 leading-relaxed break-words">
+                {content}
+              </span>
             </div>
           );
         }
@@ -46,9 +52,7 @@ export const renderDescription = ({ project }) => {
       });
 
     return (
-      <div className="space-y-1 overflow-hidden w-full">
-        {formattedText}
-      </div>
+      <div className="space-y-1 overflow-hidden w-full">{formattedText}</div>
     );
   }
 };

@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import ContributionModal from "../components/ContributionModal.jsx";
 import DonationModal from "../components/DonationModal.jsx";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
@@ -25,6 +26,7 @@ import { renderDescription } from "../components/RenderProjectDetails.jsx";
 
 export default function ProjectDetailsPage({ params }) {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+  const [isContributionModalOpen, setIsContributionModalOpen] = useState(false);
   const [quoteData, setQuoteData] = useState(null);
   const { data: session } = useSession();
   const userId = session?.user?.id;
@@ -52,13 +54,18 @@ export default function ProjectDetailsPage({ params }) {
       const data = await createOffsetQuote({
         project_id: projectId,
         carbon_emission_metric_tons: parseFloat(currentEmission),
+        offset_type: "calculation",
+        payment_type: "one_time"
       });
-      console.log("Offset data after creating in details page :: ", data);
       setQuoteData(data);
       setIsDonationModalOpen(true);
     } catch (err) {
       console.error("Error getting offset quote:", err);
     }
+  };
+
+  const handleContribution = () => {
+    setIsContributionModalOpen(true);
   };
 
   // loading and error states
@@ -400,20 +407,36 @@ export default function ProjectDetailsPage({ params }) {
                 )}
 
                 {hasValidEmissionData ? (
-                  <button
-                    onClick={handleOffset}
-                    className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
-                  >
-                    <CheckCircle size={24} />
-                    Offset {getFormattedEmission()} MT
-                  </button>
+                  <div className="space-y-3">
+                    <button
+                      onClick={handleOffset}
+                      className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30 flex items-center justify-center gap-3"
+                    >
+                      <CheckCircle size={24} />
+                      Offset {getFormattedEmission()} MT
+                    </button>
+                    <button
+                      onClick={handleContribution}
+                      className="w-full py-2 px-4 bg-btn-secondary hover:bg-btn-secondary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-secondary/20 hover:shadow-xl hover:shadow-btn-secondary/30"
+                    >
+                      Individual Contribution
+                    </button>
+                  </div>
                 ) : (
-                  <Link
-                    href="/calculator"
-                    className="w-full block py-2 px-4 bg-btn-secondary hover:bg-btn-secondary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-secondary/20 hover:shadow-xl hover:shadow-btn-secondary/30 text-center"
-                  >
-                    Calculate Your Footprint
-                  </Link>
+                  <div className="space-y-3">
+                    <Link
+                      href="/calculator"
+                      className="w-full block py-2 px-4 bg-btn-secondary hover:bg-btn-secondary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-secondary/20 hover:shadow-xl hover:shadow-btn-secondary/30 text-center"
+                    >
+                      Calculate Your Footprint
+                    </Link>
+                    <button
+                      onClick={handleContribution}
+                      className="w-full py-2 px-4 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-btn-primary/20 hover:shadow-xl hover:shadow-btn-primary/30"
+                    >
+                      Individual Contribution
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
@@ -428,6 +451,13 @@ export default function ProjectDetailsPage({ params }) {
         project={project}
         emissionValue={currentEmission}
         quoteData={quoteData}
+      />
+
+      <ContributionModal
+        isOpen={isContributionModalOpen}
+        onClose={() => setIsContributionModalOpen(false)}
+        project={project}
+        emissionValue={currentEmission}
       />
     </div>
   );

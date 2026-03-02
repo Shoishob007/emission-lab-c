@@ -122,7 +122,7 @@ function FeaturedProjectCard({ project, onDonate }) {
               e.stopPropagation();
               onDonate();
             }}
-            className="px-10 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+            className="w-full sm:w-fit px-24 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -235,7 +235,6 @@ export default function OffsetPage() {
     createOffsetQuote,
   } = useOffsetStore();
 
-  // console.log("defaultProjects :: ", defaultProjects);
 
   useEffect(() => {
     fetchProjects();
@@ -243,7 +242,7 @@ export default function OffsetPage() {
 
   const regularProjects = projects.filter(
     (project) =>
-      !defaultProjects.some((defaultProj) => defaultProj.id === project.id)
+      !defaultProjects.some((defaultProj) => defaultProj.id === project.id),
   );
 
   const loadMoreProjects = () => {
@@ -268,6 +267,8 @@ export default function OffsetPage() {
       const data = await createOffsetQuote({
         project_id: project.id,
         carbon_emission_metric_tons: currentEmission,
+        offset_type: "calculation",
+        payment_type: "one_time"
       });
       console.log("data response :: ", data);
       setQuoteData(data);
@@ -401,8 +402,8 @@ export default function OffsetPage() {
                     displayedRegularProjects.length === 1
                       ? "grid grid-cols-1 max-w-4xl"
                       : displayedRegularProjects.length === 2
-                      ? "grid grid-cols-1 md:grid-cols-2 max-w-7xl gap-4"
-                      : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl gap-4"
+                        ? "grid grid-cols-1 md:grid-cols-2 max-w-7xl gap-4"
+                        : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl gap-4"
                   }
                 >
                   {displayedRegularProjects.map((project) => (

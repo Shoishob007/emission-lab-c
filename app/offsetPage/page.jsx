@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import DonationModal from "./components/DonationModal";
+import ContributionModal from "./components/ContributionModal";
 import { useRouter } from "next/navigation";
 import useOffsetStore from "@/stores/offsetStore";
 import useEmissionsStore from "@/stores/emissionStore";
@@ -167,8 +167,8 @@ function FeaturedProjectCard({
       {/* Content Section */}
       <div className="p-6">
         {/* Project Name */}
-        <div className="flex justify-between items-center">
-          <h3 className="font-bold text-[#163820] text-xl mb-2 line-clamp-2">
+        <div className="flex justify-between items-start gap-3 mb-2">
+          <h3 className="font-bold text-[#163820] text-xl line-clamp-2">
             {project.name}
           </h3>
         </div>
@@ -195,12 +195,33 @@ function FeaturedProjectCard({
             </div>
           </div>
         </div>
+        {/* Action Buttons */}
+        <div className="flex justify-center">
+          <motion.button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onDonate(project);
+            }}
+            className="w-full sm:w-fit px-24 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Donate Now
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   );
 }
 
-function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
+function ProjectCard({
+  project,
+  onDonate,
+  currentEmission,
+  hasValidEmission,
+  buttonPlacement = "top",
+}) {
   // console.log("Current Emission in ProjectCard: ", currentEmission);
   const router = useRouter();
   const handleClick = () => {
@@ -232,13 +253,24 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
       {/* Content Section */}
       <div className="p-5">
         {/* Project Name */}
-        <div className="flex justify-between items-center">
-          <h3 className="font-bold text-[#163820] text-xl mb-3 line-clamp-2">
+        <div className="flex justify-between items-start gap-3 mb-3">
+          <h3 className="font-bold text-[#163820] text-xl line-clamp-2">
             {project.name}
           </h3>
+          {buttonPlacement === "top" && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDonate(project);
+              }} 
+              className="shrink-0 px-4 py-2 bg-btn-secondary hover:bg-btn-secondary-hover text-white text-sm font-bold rounded-lg transition-colors"
+            >
+              Donate Now
+            </button>
+          )}
         </div>
         {/* Project Info */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center justify-between gap-2">
             <div className="space-y-2">
               <div className="flex items-center gap-2 justify-between">
@@ -259,6 +291,20 @@ function ProjectCard({ project, onDonate, currentEmission, hasValidEmission }) {
             </div>
           </div>
         </div>
+
+        {buttonPlacement === "bottom" && (
+          <div className="mt-4">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDonate(project);
+              }}
+              className="w-full px-4 py-2 border-2 border-btn-secondary text-btn-secondary hover:bg-btn-secondary hover:text-white text-sm font-bold rounded-lg transition-colors"
+            >
+              Donate Now
+            </button>
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -268,13 +314,11 @@ export default function OffsetPage() {
   const [visibleProjects, setVisibleProjects] = useState(3);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
-  const [quoteData, setQuoteData] = useState(null);
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
   // emission data
-  const { currentEmission, isDataValid, clearEmissionData } =
-    useEmissionsStore();
+  const { currentEmission, isDataValid } = useEmissionsStore();
 
   const hasValidEmission = currentEmission && isDataValid();
 
@@ -284,10 +328,9 @@ export default function OffsetPage() {
     loading,
     error,
     fetchProjects,
-    createOffsetQuote,
   } = useOffsetStore();
 
-  // console.log("defaultProjects :: ", defaultProjects);
+  console.log("projects :: ", defaultProjects);
 
   useEffect(() => {
     fetchProjects();
@@ -295,7 +338,7 @@ export default function OffsetPage() {
 
   const regularProjects = projects.filter(
     (project) =>
-      !defaultProjects.some((defaultProj) => defaultProj.id === project.id)
+      !defaultProjects.some((defaultProj) => defaultProj.id === project.id),
   );
 
   const loadMoreProjects = () => {
@@ -308,26 +351,7 @@ export default function OffsetPage() {
 
   const handleOffset = async (project) => {
     setSelectedProject(project);
-
-    try {
-      // if emission data is valid
-      if (!isDataValid()) {
-        alert("Your emission data has expired. Please calculate again.");
-        clearEmissionData();
-        return;
-      }
-
-      const data = await createOffsetQuote({
-        project_id: project.id,
-        carbon_emission_metric_tons: currentEmission,
-      });
-      console.log("data response :: ", data);
-      setQuoteData(data);
-      setIsDonationModalOpen(true);
-    } catch (err) {
-      console.error("Error getting offset quote:", err);
-      //(toast or error message)
-    }
+    setIsDonationModalOpen(true);
   };
 
   const closeContributionModal = () => {
@@ -483,6 +507,7 @@ export default function OffsetPage() {
                           onDonate={() => handleOffset(project)}
                           currentEmission={currentEmission}
                           hasValidEmission={hasValidEmission}
+                          buttonPlacement="top"
                         />
                       ))}
                     </div>
@@ -521,8 +546,8 @@ export default function OffsetPage() {
                     displayedRegularProjects.length === 1
                       ? "grid grid-cols-1 max-w-4xl"
                       : displayedRegularProjects.length === 2
-                      ? "grid grid-cols-1 md:grid-cols-2 max-w-7xl gap-4"
-                      : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl gap-4"
+                        ? "grid grid-cols-1 md:grid-cols-2 max-w-7xl gap-4"
+                        : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl gap-4"
                   }
                 >
                   {displayedRegularProjects.map((project) => (
@@ -532,6 +557,7 @@ export default function OffsetPage() {
                       onDonate={() => handleOffset(project)}
                       currentEmission={currentEmission}
                       hasValidEmission={hasValidEmission}
+                      buttonPlacement="bottom"
                     />
                   ))}
                 </div>
@@ -542,7 +568,7 @@ export default function OffsetPage() {
               <motion.button
                 onClick={hasMoreProjects ? loadMoreProjects : showLessProjects}
                 disabled={loading}
-                className="mt-12 px-8 py-3 bg-btn-primary hover:bg-btn-primary-hover disabled:bg-btn-primary/50 text-white font-semibold rounded-lg transition-colors duration-200 flex items-center gap-2"
+                className="mt-12 px-8 py-3 bg-btn-secondary hover:bg-btn-secondary-hover disabled:bg-btn-primary/50 text-white font-semibold rounded-lg transition-colors duration-200 flex items-center gap-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -610,12 +636,11 @@ export default function OffsetPage() {
       </div>
       {/* Donation Modal */}
       {selectedProject && (
-        <DonationModal
+        <ContributionModal
           isOpen={isDonationModalOpen}
           onClose={closeContributionModal}
           project={selectedProject}
           emissionValue={currentEmission}
-          quoteData={quoteData}
         />
       )}
     </section>
