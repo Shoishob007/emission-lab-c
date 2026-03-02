@@ -231,6 +231,26 @@ const MapVisualization = ({
     return share.toFixed(3);
   };
 
+  const getProjectField = (project, ...keys) => {
+    for (const key of keys) {
+      const originalValue = project?.originalData?.[key];
+      if (
+        originalValue !== undefined &&
+        originalValue !== null &&
+        originalValue !== ""
+      ) {
+        return originalValue;
+      }
+
+      const value = project?.[key];
+      if (value !== undefined && value !== null && value !== "") {
+        return value;
+      }
+    }
+
+    return null;
+  };
+
   return (
     <>
       {/* Map Container */}
@@ -322,7 +342,7 @@ const MapVisualization = ({
                           tooltip.style.display = "block";
                           if (emission !== null && !isDisabled) {
                             const level = emissionLevels.find(
-                              (l) => l.id === getEmissionLevel(share)
+                              (l) => l.id === getEmissionLevel(share),
                             );
                             tooltip.innerHTML = `
                               <div class="p-2">
@@ -402,12 +422,46 @@ const MapVisualization = ({
                         const tooltip =
                           document.getElementById("project-tooltip");
                         if (tooltip) {
+                          const projectType =
+                            getProjectField(project, "project_type", "type") ||
+                            "Project";
+                          const projectStandard = getProjectField(
+                            project,
+
+                            "standard",
+                          );
+                          const projectVintage = getProjectField(
+                            project,
+                            "vintage",
+                          );
+                          const projectPrice = getProjectField(
+                            project,
+                            "price_per_ton",
+                          );
+                          const projectCurrency = getProjectField(
+                            project,
+                            "currency",
+                          );
+                          const fallbackPrice = getProjectField(
+                            project,
+                            "price",
+                          )
+                            ?.replace("$", "")
+                            .replace(" per ton", "");
+
                           tooltip.style.display = "block";
                           tooltip.innerHTML = `
                     <div class="p-2">
                       <strong class="text-sm">${project.name}</strong><br/>
-                      <span class="text-xs"><em>${project.type}</em></span><br/>
-                      <span class="text-xs">${project.offsetAmount}</span><br/>
+                      <span class="text-xs"><em>${projectType}</em></span><br/>
+                      ${
+                        projectStandard
+                          ? `<span class="text-xs">${projectStandard}</span><br/>`
+                          : ""
+                      }
+                      <span class="text-xs">Offset Value: ${
+                        projectPrice || fallbackPrice || "N/A"
+                      } ${projectCurrency || "USD"}/ton</span><br/>
                       <span class="text-xs">${project.location}</span>
                     </div>
                   `;
@@ -477,7 +531,7 @@ const MapVisualization = ({
                 className="w-3 h-3 rounded-full"
                 style={{
                   backgroundColor: emissionLevels.find(
-                    (l) => l.id === activeFilter
+                    (l) => l.id === activeFilter,
                   )?.color,
                 }}
               />
