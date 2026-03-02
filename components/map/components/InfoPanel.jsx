@@ -25,6 +25,37 @@ import {
 import { DefaultInfoPanel } from "./DefaultPanel";
 
 const InfoPanel = ({ selectedCountry, selectedProject, selectedYear }) => {
+  const getProjectField = (...keys) => {
+    for (const key of keys) {
+      const originalValue = selectedProject?.originalData?.[key];
+      if (
+        originalValue !== undefined &&
+        originalValue !== null &&
+        originalValue !== ""
+      ) {
+        return originalValue;
+      }
+
+      const value = selectedProject?.[key];
+      if (value !== undefined && value !== null && value !== "") {
+        return value;
+      }
+    }
+
+    return null;
+  };
+
+  const stripHtml = (html) => {
+    if (!html || typeof html !== "string") return "";
+    return html
+      .replace(/<[^>]*>/g, " ")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/\s+/g, " ")
+      .trim();
+  };
   return (
     <div className="lg:col-span-1">
       {/* Selected Country Info */}
@@ -598,8 +629,7 @@ const InfoPanel = ({ selectedCountry, selectedProject, selectedYear }) => {
           </div>
         </div>
       ) : selectedProject ? (
-        <div className="bg-white dark:bg-gray-800 p-4 border-l border-gray-200 dark:border-gray-700 h-full">
-          {/* Project Header */}
+        <div className="bg-white dark:bg-gray-800 p-4 border-l border-gray-200 dark:border-gray-700 h-full overflow-y-auto max-h-[800px]">
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
             <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg">
               <MapPin
@@ -608,17 +638,20 @@ const InfoPanel = ({ selectedCountry, selectedProject, selectedYear }) => {
               />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
-                {selectedProject.name}
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                {getProjectField("name") || "Offset Project"}
               </h3>
               <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                {selectedProject.projectIdDisplay || selectedProject.standard}
+                {getProjectField(
+                  "project_id_display",
+                  "projectIdDisplay",
+                  "standard",
+                ) || "Project Details"}
               </p>
             </div>
           </div>
 
           <div className="space-y-6">
-            {/* Project Details */}
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div className="p-3 bg-gray-50 dark:bg-gray-900/30 rounded-lg">
@@ -626,16 +659,15 @@ const InfoPanel = ({ selectedCountry, selectedProject, selectedYear }) => {
                     Project Type
                   </p>
                   <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {selectedProject.type || selectedProject.project_type}
+                    {getProjectField("project_type", "type") || "N/A"}
                   </p>
                 </div>
-
                 <div className="p-3 bg-gray-50 dark:bg-gray-900/30 rounded-lg">
                   <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
                     Location
                   </p>
                   <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {selectedProject.location.split(",")[0]}
+                    {getProjectField("location") || "N/A"}
                   </p>
                 </div>
               </div>
@@ -646,16 +678,34 @@ const InfoPanel = ({ selectedCountry, selectedProject, selectedYear }) => {
                     Standard
                   </p>
                   <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {selectedProject.standard}
+                    {getProjectField("standard") || "N/A"}
                   </p>
                 </div>
-
                 <div className="p-3 bg-gray-50 dark:bg-gray-900/30 rounded-lg">
                   <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-                    Vintage
+                    Vintage Year
                   </p>
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    {selectedProject.vintage}
+                    {getProjectField("vintage") || "N/A"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="p-3 bg-gray-50 dark:bg-gray-900/30 rounded-lg">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    Project ID
+                  </p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                    {getProjectField("identification_number", "id") || "N/A"}
+                  </p>
+                </div>
+                <div className="p-3 bg-gray-50 dark:bg-gray-900/30 rounded-lg">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    Status
+                  </p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    {getProjectField("is_active") ? "Active" : "Inactive"}
                   </p>
                 </div>
               </div>
@@ -665,105 +715,136 @@ const InfoPanel = ({ selectedCountry, selectedProject, selectedYear }) => {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Available Credits
+                    Price per Ton
                   </p>
                   <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                    {selectedProject.available_amount?.toLocaleString() ||
-                      selectedProject.offsetAmount?.replace(
-                        " tons available",
-                        "",
-                      )}
+                    $
+                    {getProjectField("price_per_ton") ||
+                      getProjectField("price")
+                        ?.replace("$", "")
+                        .replace(" per ton", "") ||
+                      "N/A"}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {getProjectField("currency") || "USD"}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Total Allocated
+                  </p>
+                  <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                    {getProjectField("allocated_amount")
+                      ? Number(
+                          getProjectField("allocated_amount"),
+                        ).toLocaleString()
+                      : "N/A"}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     tons CO₂
                   </p>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Price per Ton
-                  </p>
-                  <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                    $
-                    {selectedProject.price_per_ton ||
-                      selectedProject.price
-                        ?.replace("$", "")
-                        .replace(" per ton", "")}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    USD
-                  </p>
-                </div>
               </div>
 
-              {selectedProject.allocated_amount && (
-                <div className="mt-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
-                      Capacity Utilization
-                    </p>
-                    <span className="text-xs font-medium text-green-600 dark:text-green-400">
-                      {selectedProject.available_amount &&
-                        Math.round(
-                          (selectedProject.available_amount /
-                            selectedProject.allocated_amount) *
+              {getProjectField("allocated_amount") &&
+                getProjectField("available_amount") && (
+                  <div className="mt-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                        Credits Remaining
+                      </p>
+                      <span className="text-xs font-medium text-green-600 dark:text-green-400">
+                        {(
+                          (Number(getProjectField("available_amount")) /
+                            Number(getProjectField("allocated_amount"))) *
+                          100
+                        ).toFixed(2)}
+                        % remaining
+                      </span>
+                    </div>
+                    <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-green-500 rounded-full"
+                        style={{
+                          width: `${Math.min(
                             100,
-                        )}
-                      % available
-                    </span>
+                            (Number(getProjectField("available_amount")) /
+                              Number(getProjectField("allocated_amount"))) *
+                              100,
+                          )}%`,
+                        }}
+                      />
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Remaining:{" "}
+                      {Number(
+                        getProjectField("available_amount"),
+                      ).toLocaleString()}{" "}
+                      tons
+                    </p>
                   </div>
-                  <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-green-500 rounded-full"
-                      style={{
-                        width: `${Math.min(
-                          100,
-                          selectedProject.available_amount
-                            ? (selectedProject.available_amount /
-                                selectedProject.allocated_amount) *
-                                100
-                            : 0,
-                        )}%`,
-                      }}
-                    />
-                  </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    Total allocated:{" "}
-                    {selectedProject.allocated_amount?.toLocaleString()} tons
-                  </p>
-                </div>
-              )}
+                )}
             </div>
 
-            {(selectedProject.infoLink || selectedProject.validationReport) && (
+            {/* {getProjectField("description") && (
+              <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Description
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {stripHtml(getProjectField("description"))}
+                </p>
+              </div>
+            )} */}
+
+            {(getProjectField("info_link", "infoLink") ||
+              getProjectField("validation_report_url", "validationReport") ||
+              getProjectField("monitoring_report_url", "monitoringReport")) && (
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                 <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Project Resources
                 </p>
-                <div className="flex gap-2">
-                  {selectedProject.infoLink && (
+                <div className="grid grid-cols-1 gap-2">
+                  {getProjectField("info_link", "infoLink") && (
                     <a
-                      href={selectedProject.infoLink}
+                      href={getProjectField("info_link", "infoLink")}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 text-center py-2 text-sm font-medium text-blue-600 dark:text-blue-400 
-                               hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 
-                               dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 
-                               transition-colors"
+                      className="text-center py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                     >
-                      Website
+                      Project Website
                     </a>
                   )}
-                  {selectedProject.validationReport && (
+                  {getProjectField(
+                    "validation_report_url",
+                    "validationReport",
+                  ) && (
                     <a
-                      href={selectedProject.validationReport}
+                      href={getProjectField(
+                        "validation_report_url",
+                        "validationReport",
+                      )}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 text-center py-2 text-sm font-medium text-gray-700 dark:text-gray-300 
-                               hover:text-gray-900 dark:hover:text-white border border-gray-200 
-                               dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900/50 
-                               transition-colors"
+                      className="text-center py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
                     >
-                      Report
+                      Validation Report
+                    </a>
+                  )}
+                  {getProjectField(
+                    "monitoring_report_url",
+                    "monitoringReport",
+                  ) && (
+                    <a
+                      href={getProjectField(
+                        "monitoring_report_url",
+                        "monitoringReport",
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-center py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
+                    >
+                      Monitoring Report
                     </a>
                   )}
                 </div>
