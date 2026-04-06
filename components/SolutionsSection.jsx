@@ -5,8 +5,8 @@ import {
   Calculator,
   TreePine,
   TrendingDown,
-} from "lucide-react";
-import Link from "next/link";
+} from "lucide-react"
+import Link from "next/link"
 
 const solutions = [
   {
@@ -57,7 +57,7 @@ const solutions = [
     color: "primary",
     href: "/offsetPage",
   },
-];
+]
 
 export default function SolutionsSection() {
   return (
@@ -99,7 +99,11 @@ export default function SolutionsSection() {
               for Business & Individuals
             </h2>
             <p className="text-lg text-[#767676] mt-4 max-w-7xl">
-              A comprehensive suite of tools, from measurement to action. The application enables you to calculate carbon emissions, track their environmental impact, provide recommendations for reduction and offset their carbon footprint by supporting certified climate protection projects worldwide.
+              A comprehensive suite of tools, from measurement to action. The
+              application enables you to calculate carbon emissions, track their
+              environmental impact, provide recommendations for reduction and
+              offset their carbon footprint by supporting certified climate
+              protection projects worldwide.
             </p>
           </div>
         </div>
@@ -175,5 +179,5 @@ export default function SolutionsSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

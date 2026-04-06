@@ -27,6 +27,21 @@ const DonationModal = ({
     getUserInputs,
   } = useOffsetStore();
 
+  const certificateNamePattern = /^[A-Za-z0-9 ]+$/;
+
+  const handleCertificateNameChange = (value) => {
+    const sanitized = value.replace(/[^A-Za-z0-9 ]/g, "");
+    setCertificationName(sanitized);
+    setErrors((prev) => ({
+      ...prev,
+      submit: undefined,
+      certificate:
+        sanitized !== value
+          ? "Certificate name can only contain letters, numbers, and spaces."
+          : undefined,
+    }));
+  };
+
   // total amount
   const pricePerTon = parseFloat(
     quoteData?.price_per_metric_ton_usd ||
@@ -37,6 +52,21 @@ const DonationModal = ({
   const totalAmount = emissionValue * pricePerTon;
 
   const handleStripeCheckout = async () => {
+    const normalizedName = certification_name.trim();
+
+    if (!normalizedName) {
+      setErrors({ submit: "Certificate name is required." });
+      return;
+    }
+
+    if (!certificateNamePattern.test(normalizedName)) {
+      setErrors({
+        submit:
+          "Certificate name can only contain letters, numbers, and spaces.",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     setErrors({});
 
@@ -196,10 +226,17 @@ const DonationModal = ({
                       id="certification_name"
                       type="text"
                       value={certification_name}
-                      onChange={(e) => setCertificationName(e.target.value)}
+                      onChange={(e) =>
+                        handleCertificateNameChange(e.target.value)
+                      }
                       placeholder="Enter your certificate name"
                       className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:outline-none"
                     />
+                    {errors.certificate && (
+                      <p className="text-red-600 text-xs mt-2">
+                        {errors.certificate}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -217,9 +254,15 @@ const DonationModal = ({
           <div className="border-t border-gray-100 p-6 flex items-center justify-end flex-shrink-0">
             <button
               onClick={handleStripeCheckout}
-              disabled={isSubmitting || !certification_name.trim()}
+              disabled={
+                isSubmitting ||
+                !certification_name.trim() ||
+                !certificateNamePattern.test(certification_name.trim())
+              }
               className={`px-8 py-3 bg-btn-primary hover:bg-btn-primary-hover text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg ${
-                isSubmitting || !certification_name.trim()
+                isSubmitting ||
+                !certification_name.trim() ||
+                !certificateNamePattern.test(certification_name.trim())
                   ? "opacity-80 cursor-not-allowed"
                   : ""
               }`}
